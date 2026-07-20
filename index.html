@@ -308,24 +308,57 @@
     margin: 26px 0 4px;
   }
 
-  /* ===== フッターリンク ===== */
-  .footer-link{
-    text-align: center;
-    margin: 14px 0 4px;
+  /* ===== 宣伝カード（FQT不思議色鉛筆の世界） ===== */
+  .promo-card{
+    display: block;
+    text-decoration: none;
+    color: inherit;
+    border-color: #f0dfa0;
+    background: linear-gradient(135deg, #fffdf5, #fff8e6);
+    box-shadow: 0 10px 30px rgba(184, 134, 11, 0.18), 0 2px 8px rgba(0,0,0,0.04);
+    position: relative;
+    overflow: hidden;
+    animation: promo-glow 2.4s ease-in-out infinite;
+    cursor: pointer;
+    margin-top: 10px;
   }
-  .footer-link a{
-    display: inline-block;
+  .promo-card:hover{
+    border-color: #d4af37;
+  }
+  @keyframes promo-glow{
+    0%, 100% { box-shadow: 0 10px 30px rgba(184, 134, 11, 0.18), 0 2px 8px rgba(0,0,0,0.04); }
+    50%      { box-shadow: 0 10px 34px rgba(184, 134, 11, 0.34), 0 2px 10px rgba(0,0,0,0.05); }
+  }
+  .promo-inner{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .promo-emoji{
+    font-size: 30px;
+    line-height: 1;
+    flex-shrink: 0;
+  }
+  .promo-text{
+    flex: 1;
+    min-width: 0;
+  }
+  .promo-sub{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 2px;
+  }
+  .promo-main{
     font-size: 20px;
     font-weight: 900;
     color: #b8860b;
-    text-decoration: none;
-    border-bottom: 1.5px solid #d4af37;
-    padding-bottom: 2px;
-    transition: border-color .15s ease, color .15s ease;
   }
-  .footer-link a:hover{
-    color: #9a6f00;
-    border-bottom-color: #b8860b;
+  .promo-arrow{
+    font-size: 26px;
+    font-weight: 900;
+    color: #d4af37;
+    flex-shrink: 0;
   }
 </style>
 </head>
@@ -414,9 +447,17 @@
   <p class="footer-message">今日という日は、残りの人生の最初の日。</p>
 
   <!-- 不思議色鉛筆の世界へのリンク -->
-  <p class="footer-link">
-    <a href="https://fushigi-pencils-jtwi4o4.gamma.site/" target="_blank" rel="noopener noreferrer">FQT不思議色鉛筆の世界</a>
-  </p>
+  <a class="card promo-card" href="https://fushigi-pencils-jtwi4o4.gamma.site/" target="_blank" rel="noopener noreferrer">
+    <p class="section-title">✏️ もっと不思議な世界へ</p>
+    <div class="promo-inner">
+      <div class="promo-emoji">🎨</div>
+      <div class="promo-text">
+        <div class="promo-sub">今すぐ体験してみる</div>
+        <div class="promo-main">FQT不思議色鉛筆の世界</div>
+      </div>
+      <div class="promo-arrow">›</div>
+    </div>
+  </a>
 
 </div>
 
