@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>FQT LIFE COUNTER</title>
 
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-0N07MDG407"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-0N07MDG407');
+</script>
+
 <!-- ホーム画面に追加した際の見た目設定（PWA対応） -->
 <link rel="manifest" id="manifestLink" href="">
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
@@ -98,6 +108,24 @@
     0%   { opacity: 0.25; }
     50%  { opacity: 0.6; }
     100% { opacity: 0.35; }
+  }
+
+  /* ===== 計算時のフラッシュ演出（1回だけの柔らかい発光） ===== */
+  .flash-overlay{
+    position: fixed;
+    inset: 0;
+    background: radial-gradient(circle at 50% 40%, #fff6d8 0%, #ffd873 35%, #d4af37 100%);
+    opacity: 0;
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .flash-overlay.flash{
+    animation: flash-once 0.7s ease-out;
+  }
+  @keyframes flash-once{
+    0%   { opacity: 0; }
+    12%  { opacity: 0.85; }
+    100% { opacity: 0; }
   }
 
   /* ===== 地球のような淡い光の球体（画面下に静かに佇む演出） ===== */
@@ -216,6 +244,11 @@
     font-weight: 700;
     color: var(--text-sub);
     margin-bottom: 6px;
+  }
+  .field-note{
+    font-size: 11px;
+    color: var(--text-sub);
+    margin: 6px 0 0;
   }
   .field{
     margin-bottom: 18px;
@@ -855,6 +888,9 @@
 </head>
 <body>
 
+<!-- 「計算する」押下時に一瞬だけ光るフラッシュ演出 -->
+<div class="flash-overlay" id="flashOverlay"></div>
+
 <!-- 画面下に佇む地球のような光の球体（装飾） -->
 <div class="earth-glow"></div>
 
@@ -874,6 +910,12 @@
     <div class="field">
       <label for="birthdate">① 生年月日</label>
       <input type="date" id="birthdate" required>
+    </div>
+
+    <div class="field">
+      <label for="birthTime">生まれた時刻（任意）</label>
+      <input type="time" id="birthTime">
+      <p class="field-note">未入力の場合は0時0分0秒として計算します</p>
     </div>
 
     <div class="field">
@@ -1189,7 +1231,7 @@
     <div class="promo-inner">
       <div class="promo-emoji">🎨</div>
       <div class="promo-text">
-        <div class="promo-sub">今すぐ体験してみる</div>
+        <div class="promo-sub">先着13万人に無料プレゼント中</div>
         <div class="promo-main">FQT不思議色鉛筆の世界</div>
       </div>
       <div class="promo-arrow">›</div>
@@ -1210,6 +1252,7 @@
 
 // ----- 要素の取得 -----
 const birthdateInput = document.getElementById('birthdate');
+const birthTimeInput = document.getElementById('birthTime');
 const targetDaysInput = document.getElementById('targetDays');
 const presetsWrap = document.getElementById('presets');
 const calcBtn = document.getElementById('calcBtn');
@@ -1244,6 +1287,7 @@ setMaxDateToToday();
      エラーにならないようtry-catchで安全に処理する
    ========================================================== */
 const BIRTHDATE_STORAGE_KEY = 'fqtLifeCounter_birthdate';
+const BIRTHTIME_STORAGE_KEY = 'fqtLifeCounter_birthTime';
 
 function saveBirthdateToStorage(value){
   try{
@@ -1261,10 +1305,30 @@ function loadBirthdateFromStorage(){
   }
 }
 
-// 前回入力した生年月日があれば自動で入力欄に反映する
+function saveBirthTimeToStorage(value){
+  try{
+    window.localStorage.setItem(BIRTHTIME_STORAGE_KEY, value);
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+}
+
+function loadBirthTimeFromStorage(){
+  try{
+    return window.localStorage.getItem(BIRTHTIME_STORAGE_KEY);
+  } catch(e){
+    return null;
+  }
+}
+
+// 前回入力した生年月日・時刻があれば自動で入力欄に反映する
 const savedBirthdate = loadBirthdateFromStorage();
 if (savedBirthdate){
   birthdateInput.value = savedBirthdate;
+}
+const savedBirthTime = loadBirthTimeFromStorage();
+if (savedBirthTime){
+  birthTimeInput.value = savedBirthTime;
 }
 
 // ----- ターゲット候補ボタンを生成 -----
@@ -1325,6 +1389,14 @@ function hideError(){
 }
 
 // ----- メインの計算処理 -----
+// ----- 計算確定時のフラッシュ演出を発火 -----
+function triggerFlash(){
+  const el = document.getElementById('flashOverlay');
+  el.classList.remove('flash');
+  void el.offsetWidth; // 強制リフローでアニメーションを再始動できるようにする
+  el.classList.add('flash');
+}
+
 function calculate(){
   hideError();
 
@@ -1341,7 +1413,10 @@ function calculate(){
     return;
   }
 
-  const birthDate = new Date(birthValue + 'T00:00:00');
+  // 生まれた時刻（任意）。未入力の場合は0時0分0秒として扱う
+  const birthTimeValue = birthTimeInput.value;
+  const timeStr = birthTimeValue ? `${birthTimeValue}:00` : '00:00:00';
+  const birthDate = new Date(`${birthValue}T${timeStr}`);
   const today = new Date();
   today.setHours(0, 0, 0, 0);
 
@@ -1351,8 +1426,12 @@ function calculate(){
     return;
   }
 
+  // 入力が正しく確定したタイミングで一瞬だけ光るフラッシュ演出
+  triggerFlash();
+
   // この端末に生年月日を記憶（次回アクセス時に自動入力するため）
   saveBirthdateToStorage(birthValue);
+  saveBirthTimeToStorage(birthTimeValue);
 
   const targetDays = Math.floor(Number(targetValue));
 
@@ -1541,7 +1620,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
   const combinedShareRank = calcCombinedRank(shareMoney.seed, shareDirection.seed, shareTarot.seed, shareBio);
 
   currentShareText =
-    `🌏私は地球に降り立って${currentLabel}日目！\n\n` +
+    `🌏今日は私が地球に降り立って${currentLabel}日目！\n\n` +
     `私の今日の運勢は　${combinedShareRank}\n\n` +
     `【地球経過時間】\n` +
     `経過月数：${totalMonths.toLocaleString('ja-JP')}ヶ月\n` +
@@ -2009,11 +2088,15 @@ function calcCombinedRank(moneySeed, directionSeed, tarotSeed, bio){
     bioEmotionalNorm
   ) / 5;
 
-  // avgが高い（良い）ほどランクが上位（配列の先頭）になるよう反転してマッピング
-  let idx = Math.floor((1 - avg) * FORTUNE_RANKS.length);
-  if (idx < 0) idx = 0;
-  if (idx > FORTUNE_RANKS.length - 1) idx = FORTUNE_RANKS.length - 1;
-  return FORTUNE_RANKS[idx];
+  // 大規模シミュレーションで算出した閾値（大大大吉・末吉がそれぞれ約0.2%になるよう較正済み）
+  // 均等7分割ではなく、実際の分布（正規分布に近い形）に基づいた境界値を使用
+  if (avg >= 0.87768) return '大大大吉'; // 上位 約0.2%
+  if (avg >= 0.71877) return '大大吉';   // 次点 約6%
+  if (avg >= 0.57142) return '大吉';     // 約25%
+  if (avg >= 0.42780) return '中吉';     // 中心 約37.6%（最頻値）
+  if (avg >= 0.28028) return '吉';       // 約25%
+  if (avg >= 0.12478) return '小吉';     // 約6%
+  return '末吉';                          // 下位 約0.2%
 }
 
 // ----- 🖍️ 不思議色鉛筆占い（FQTオリジナル・12色から毎日1色） -----
@@ -2121,7 +2204,8 @@ function renderFortune(birth, today){
 
   // 🌙 今日の月齢・月相
   const moon = calcMoonPhase(today);
-  document.getElementById('fortuneMoonPhase').textContent = moon.name;
+  document.getElementById('fortuneMoonPhase').textContent =
+    `${moon.name}（月齢${moon.age.toFixed(1)}）`;
   document.getElementById('fortuneMoonMessage').textContent = moon.message;
 
   // 🎌 今日の二十四節気・七十二候
