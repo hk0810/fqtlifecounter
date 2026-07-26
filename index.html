@@ -1395,6 +1395,14 @@
     margin-top: 8px;
     cursor: pointer;
   }
+  .milestone-record-btn{
+    color: #ffffff;
+    font-weight: 800;
+    background: linear-gradient(135deg, #1b2a55, #3457d5, #74c0fc);
+    border: none;
+    box-shadow: 0 6px 16px rgba(52, 87, 213, 0.35);
+  }
+  .milestone-record-btn:active{ transform: scale(0.98); }
   .birthday-record-btn:active{ transform: scale(0.98); }
 
   .present-result-popup{
@@ -2114,7 +2122,7 @@
 
   .share-x{ background: #000000; }
   .share-line{ background: #06c755; }
-  .share-other{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
+  .share-other{ background: #1877f2; }
   .share-copy{ background: #6b7280; }
 
   .share-note{
@@ -2417,9 +2425,6 @@
 
     <p class="badge-list-title">🏅 節目限定バッジ</p>
     <div class="achievement-list" id="milestoneBadgeList"></div>
-
-    <p class="badge-list-title">🎊 節目限定実績</p>
-    <div class="achievement-list" id="milestoneAchievementList"></div>
   </div>
 </div>
 
@@ -2497,7 +2502,6 @@
     <button class="event-dex-btn" id="eventDexBtn" type="button">🎉　イベント図鑑を見る</button>
     <button class="birthday-present-btn" id="birthdayPresentBtn" type="button" style="display:none;">🎁　プレゼントBOXを開ける</button>
     <button class="birthday-record-btn" id="birthdayRecordBtn" type="button">🎂　誕生日記録を見る</button>
-    <button class="birthday-record-btn milestone-record-btn" id="milestoneHistoryBtn" type="button">🌍　人生ヒストリーを見る</button>
   </div>
 
   <!-- 入力カード -->
@@ -2542,6 +2546,8 @@
       <div class="big accent"><span id="currentDay">-</span><span class="unit">日目</span></div>
       <div class="note">生まれた日を1日目としています。</div>
     </div>
+
+    <button class="birthday-record-btn milestone-record-btn" id="milestoneHistoryBtn" type="button">🌍　人生ヒストリーを見る</button>
 
     <hr class="divider">
 
@@ -2637,6 +2643,15 @@
           <div class="label">九星気学</div>
           <div class="value" id="fortuneNineStar">-</div>
           <div class="sub" id="fortuneNineStarSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic" id="fortuneCosmicIcon">🌌</div>
+        <div class="fortune-text">
+          <div class="label">宇宙占い</div>
+          <div class="value" id="fortuneCosmicType">-</div>
+          <div class="sub" id="fortuneCosmicSub">-</div>
         </div>
       </div>
 
@@ -2827,7 +2842,7 @@
         <span class="share-icon">💬</span>LINEで送る
       </button>
       <button class="share-btn share-other" id="shareOtherBtn" type="button">
-        <span class="share-icon">📸</span>インスタなど
+        <span class="share-icon">📘</span>Facebookなど
       </button>
       <button class="share-btn share-copy" id="shareCopyBtn" type="button">
         <span class="share-icon">📋</span>コピー
@@ -3376,6 +3391,29 @@ function calcNineStar(birth){
   return star;
 }
 
+// ----- 🌌 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
+const COSMIC_TYPES = [
+  { emoji: '🌞', name: '恒星タイプ', desc: '周りを照らす光の存在。自然と人を引きつけ、希望や安心感を与えるリーダータイプ。' },
+  { emoji: '🌍', name: '惑星タイプ', desc: '安定と成長を大切にする存在。一歩ずつ積み重ねることで、大きな成果を育てるタイプ。' },
+  { emoji: '🌙', name: '月タイプ', desc: '感性と優しさを持つ存在。人の気持ちを感じ取り、癒やしや安心を届けるタイプ。' },
+  { emoji: '☄️', name: '彗星タイプ', desc: '変化を呼び込む挑戦者。新しい流れをつくり、周囲に刺激やチャンスを与えるタイプ。' },
+  { emoji: '🌌', name: '銀河タイプ', desc: '広い視野を持つ調和の存在。多くの人や出来事をつなぎ、大きな流れを生み出すタイプ。' },
+  { emoji: '⭐', name: '流れ星タイプ', desc: '願いを形にする行動派。ひらめきを大切にし、タイミングをつかむのが得意なタイプ。' },
+  { emoji: '🌠', name: '星雲タイプ', desc: '可能性を育む創造者。アイデアや夢を少しずつ形にしていくタイプ。' },
+  { emoji: '🪐', name: '土星リングタイプ', desc: '努力を積み重ねる達人。コツコツ続けることで、大きな信頼と実力を築くタイプ。' },
+  { emoji: '🕳️', name: 'ブラックホールタイプ', desc: '深い探究心を持つ研究者。物事の本質を見抜き、誰も気づかない価値を発見するタイプ。' },
+  { emoji: '🌈', name: 'オーロラタイプ', desc: '希望と癒やしを届ける存在。美しい感性で周囲の心を明るくし、前向きな気持ちを広げるタイプ。' },
+  { emoji: '💫', name: '超新星タイプ', desc: '大きな変化を起こす革命家。人生の転機を力に変え、新しい未来を切り開くタイプ。' },
+  { emoji: '🛰️', name: '人工衛星タイプ', desc: '情報とご縁をつなぐ存在。人・知識・チャンスを結びつけ、多くの人をサポートするタイプ。' },
+  { emoji: '🚀', name: '宇宙船タイプ', desc: '未知へ挑戦する冒険者。好奇心が旺盛で、新しい世界へ進み続けるタイプ。' }
+];
+
+function calcCosmicType(birth){
+  const seedStr = `cosmic_${birth.getFullYear()}-${birth.getMonth() + 1}-${birth.getDate()}`;
+  const seed = simpleHash(seedStr);
+  return COSMIC_TYPES[seed % COSMIC_TYPES.length];
+}
+
 // ----- 干支・六十干支 -----
 const KANSHI_STEMS = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
 const KANSHI_BRANCHES = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
@@ -3855,6 +3893,12 @@ function renderFortune(birth, today){
   document.getElementById('fortuneNineStar').textContent = NINE_STAR_NAMES[star];
   document.getElementById('fortuneNineStarSub').textContent = NINE_STAR_TRAITS[star];
 
+  // 宇宙占い
+  const cosmic = calcCosmicType(birth);
+  document.getElementById('fortuneCosmicIcon').textContent = cosmic.emoji;
+  document.getElementById('fortuneCosmicType').textContent = cosmic.name;
+  document.getElementById('fortuneCosmicSub').textContent = cosmic.desc;
+
   // 干支・六十干支
   const kanshi = calcKanshi(birth);
   document.getElementById('fortuneKanshi').textContent = `${kanshi.kanshi}（${kanshi.animalLabel}）`;
@@ -4005,7 +4049,7 @@ shareCopyBtn.addEventListener('click', async () => {
   }
 });
 
-// インスタグラムなど、端末にインストールされたアプリへシェア（標準の共有シートを開く）
+// Facebookなど、テキスト共有に対応したアプリへシェア（標準の共有シートを開く）
 const shareOtherBtn = document.getElementById('shareOtherBtn');
 shareOtherBtn.addEventListener('click', async () => {
   if (navigator.share){
@@ -5806,7 +5850,7 @@ window.fqtConfirm = function(message, onConfirm){
     if (isFirstMeeting){
       newBadge.textContent = '🎉 EVENT!';
       newBadge.style.display = 'block';
-      metNote.textContent = '';
+      metNote.textContent = '🎉 イベント図鑑に登録されました';
     } else {
       newBadge.style.display = 'none';
       metNote.textContent = 'このイベント限定どうぶつには会ったことがあるよ！';
@@ -6315,7 +6359,7 @@ window.fqtConfirm = function(message, onConfirm){
     if (isFirstMeeting){
       newBadge.textContent = '🎂 BIRTHDAY!';
       newBadge.style.display = 'block';
-      metNote.textContent = '';
+      metNote.textContent = '🎂 誕生日記録に登録されました';
       showBirthdayAnimalPopup(creature);
     } else {
       newBadge.style.display = 'none';
@@ -6670,22 +6714,68 @@ window.fqtConfirm = function(message, onConfirm){
     { days: 2222,  rank: 'life',  bg: '宇宙',       messages: ['2が4つ並ぶ、美しい節目です。', 'ここからは「ライフ記念」の始まりです。'] },
     { days: 3333,  rank: 'life',  bg: '宇宙',       messages: ['3,333日、また一つゾロ目の記録です。', '人生の物語が、また一章進みました。'] },
     { days: 5000,  rank: 'life',  bg: '宇宙',       messages: ['5,000日という大きな節目に到達しました。', '折り返しにも似た、大切な一日です。'] },
+{ days: 6800, rank: 'life', bg: '虹', messages: ['6,800日、着実に歩みを重ねてきましたね。'] },
     { days: 7777,  rank: 'life',  bg: '金色',       messages: ['幸運が重なる特別な一日です。', '7が4つ並ぶ、golden な記念日。'] },
     { days: 10000, rank: 'life',  bg: '宇宙花火',   messages: ['人生10,000日達成！', '5桁の大台に、心からおめでとうございます。'] },
     { days: 11111, rank: 'grand', bg: '宇宙',       messages: ['1が5つ並ぶ、美しいゾロ目の日です。', 'ここからは「グランド記念」の始まりです。'] },
     { days: 12345, rank: 'grand', bg: '宇宙',       messages: ['1,2,3,4,5と並ぶ、特別な並びの日。', '数字の階段を、ここまで登ってきました。'] },
     { days: 13000, rank: 'grand', bg: 'オーロラ',   messages: ['13,000日という素晴らしい節目です。', 'ここまでの日々に、深く感謝を。'] },
+{ days: 15000, rank: 'grand', bg: '宇宙', messages: ['15,000日、新たな旅の始まりです。'] },
+{ days: 16000, rank: 'grand', bg: '青空', messages: ['16,000日、青い地球とともに歩んできました。'] },
+{ days: 17000, rank: 'grand', bg: '銀河', messages: ['17,000日、確かな歩みがここに。'] },
+{ days: 18000, rank: 'grand', bg: '虹', messages: ['18,000日、色とりどりの日々を重ねてきました。'] },
+{ days: 19000, rank: 'grand', bg: '宇宙', messages: ['19,000日、次の大台まであと少しです。'] },
     { days: 20000, rank: 'grand', bg: '銀河',       messages: ['積み重ねてきた毎日に感謝。', '20,000日という壮大な記録です。'] },
+{ days: 21000, rank: 'grand', bg: '銀河', messages: ['21,000日、グランド記念の締めくくりに近づいています。'] },
     { days: 22222, rank: 'legend', bg: '銀河',      messages: ['2が5つ並ぶ、レジェンド級のゾロ目です。', 'ここからは「レジェンド記念」の始まりです。'] },
+{ days: 23000, rank: 'legend', bg: '宇宙', messages: ['23,000日、レジェンドの旅路が続きます。'] },
+{ days: 24000, rank: 'legend', bg: '星空', messages: ['24,000日、夜空の星のように積み重なった日々です。'] },
+{ days: 25000, rank: 'legend', bg: '月光', messages: ['25,000日、静かに輝く節目です。'] },
+{ days: 26000, rank: 'legend', bg: '陽光', messages: ['26,000日、太陽のようにあたたかな記録です。'] },
+{ days: 27000, rank: 'legend', bg: '青空', messages: ['27,000日、地球とともに歩む日々に感謝を。'] },
+{ days: 28000, rank: 'legend', bg: '宇宙', messages: ['28,000日、宇宙規模の積み重ねです。'] },
+{ days: 29000, rank: 'legend', bg: '銀河', messages: ['29,000日、王冠にふさわしい歩みです。'] },
     { days: 30000, rank: 'legend', bg: '宇宙神殿',  messages: ['人生の大きな節目を迎えました。', '30,000日、本当に見事な記録です。'] },
-    { days: 33333, rank: 'legend', bg: '伝説の銀河', messages: ['あなたは人生のレジェンドです。', 'この日を迎えたあなたを、心から称えます。'] }
+{ days: 31000, rank: 'legend', bg: '星空', messages: ['31,000日、伝説はまだ続きます。'] },
+{ days: 32000, rank: 'legend', bg: '宇宙', messages: ['32,000日、頂への道のりを着実に。'] },
+    { days: 33333, rank: 'legend', bg: '伝説の銀河', messages: ['あなたは人生のレジェンドです。', 'この日を迎えたあなたを、心から称えます。'] },
+{ days: 34000, rank: 'immortal', bg: '虹', messages: ['34,000日、伝説を超えた新しい章の始まりです。'] },
+{ days: 35000, rank: 'immortal', bg: '宇宙', messages: ['35,000日、魂に刻まれるような節目です。'] },
+{ days: 36000, rank: 'immortal', bg: '星空', messages: ['36,000日、宇宙の皇帝に近づく歩みです。'] },
+{ days: 36500, rank: 'immortal', bg: '月光', messages: ['36,500日、星々が導く節目です。'] },
+{ days: 37000, rank: 'immortal', bg: '青空', messages: ['37,000日、大地の賢者のような積み重ねです。'] },
+{ days: 37500, rank: 'immortal', bg: '星雲', messages: ['37,500日、星雲のように広がる歩みです。'] },
+{ days: 38000, rank: 'immortal', bg: '宇宙', messages: ['38,000日、宇宙の騎士に相応しい記録です。'] },
+{ days: 38500, rank: 'immortal', bg: '星空', messages: ['38,500日、宇宙の守護者としての歩みです。'] },
+{ days: 39000, rank: 'immortal', bg: '流れ星', messages: ['39,000日、彗星のように駆け抜けてきました。'] },
+{ days: 39500, rank: 'immortal', bg: '虹', messages: ['39,500日、虹色の銀河が広がります。'] },
+{ days: 40000, rank: 'immortal', bg: '宇宙神殿', messages: ['40,000日、大きな大台に到達しました。'] },
+{ days: 41000, rank: 'immortal', bg: '銀河', messages: ['41,000日、時空を超えた旅人のような歩みです。'] },
+{ days: 42000, rank: 'immortal', bg: '宇宙', messages: ['42,000日、宇宙の賢者としての節目です。'] },
+{ days: 43000, rank: 'immortal', bg: '青空', messages: ['43,000日、永遠の地球とともに。'] },
+{ days: 44000, rank: 'immortal', bg: '虹', messages: ['44,000日、オーロラのように美しい積み重ねです。'] },
+{ days: 44444, rank: 'immortal', bg: '星空', messages: ['4が4つ並ぶ、神秘的なゾロ目の日です。'] },
+{ days: 45000, rank: 'immortal', bg: '宇宙神殿', messages: ['45,000日、無限の王としての節目です。'] },
+{ days: 45500, rank: 'immortal', bg: '宇宙', messages: ['45,500日、宇宙の精神を体現する歩みです。'] },
+{ days: 46000, rank: 'immortal', bg: '銀河', messages: ['46,000日、宇宙の達人と呼べる記録です。'] },
+{ days: 46300, rank: 'immortal', bg: '星空', messages: ['46,300日、永遠の光のような節目です。'] },
+{ days: 46600, rank: 'immortal', bg: '銀河', messages: ['46,600日、銀河に刻まれる魂の記録です。'] },
+{ days: 46800, rank: 'immortal', bg: '星空', messages: ['46,800日、星々の中でもひときわ輝く節目です。'] },
+{ days: 47000, rank: 'immortal', bg: '青空', messages: ['47,000日、地球の到達点に近づいています。'] },
+{ days: 47100, rank: 'immortal', bg: '宇宙', messages: ['47,100日、宇宙規模の到達点です。'] },
+{ days: 47200, rank: 'immortal', bg: '宇宙神殿', messages: ['47,200日、人生の伝説と呼べる記録です。'] },
+{ days: 47300, rank: 'immortal', bg: '銀河', messages: ['47,300日、永遠の旅路がここに刻まれます。'] },
+{ days: 47350, rank: 'immortal', bg: '宇宙', messages: ['47,350日、無限の宇宙に到達しつつあります。'] },
+{ days: 47400, rank: 'immortal', bg: '伝説の銀河', messages: ['47,400日、人生の到達点はもうすぐです。'] },
+{ days: 47450, rank: 'immortal', bg: '伝説の銀河', messages: ['130年という、人生の大きな到達点です。', 'あなたはFQTの不滅の存在です。'] }
   ];
 
   const RANK_INFO = {
-    start:  { label: '🌱 スタート記念', color: '#8ce99a' },
-    life:   { label: '🌍 ライフ記念',   color: '#74c0fc' },
-    grand:  { label: '💎 グランド記念', color: '#ffd873' },
-    legend: { label: '👑 レジェンド記念', color: '#ff8a65' }
+    start:    { label: '🌱 スタート記念', color: '#8ce99a' },
+    life:     { label: '🌍 ライフ記念',   color: '#74c0fc' },
+    grand:    { label: '💎 グランド記念', color: '#ffd873' },
+    legend:   { label: '👑 レジェンド記念', color: '#ff8a65' },
+    immortal: { label: '👑✨ イモータル記念', color: '#b197fc' }
   };
 
   // ----- ③ 節目限定宇宙どうぶつ（30種類） -----
@@ -6700,14 +6790,74 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ④ 節目限定バッジ（8種類） -----
   const MILESTONE_BADGES = [
-    { id: 'first_milestone', emoji: '🏅', name: 'はじめての節目',  days: 13 },
-    { id: 'fqt_miracle',     emoji: '🌈', name: 'FQTミラクル',     days: 68 },
-    { id: 'earth_master',    emoji: '🌍', name: 'アースマスター',  days: 365 },
-    { id: 'millennium',      emoji: '💫', name: 'ミレニアム',      days: 1000 },
-    { id: 'ten_thousand',    emoji: '👑', name: 'テン・サウザンド', days: 10000 },
-    { id: 'fqt_grand',       emoji: '🌌', name: 'FQTグランド',     days: 20000 },
-    { id: 'life_legend',     emoji: '💎', name: 'ライフレジェンド', days: 30000 },
-    { id: 'universe_legend', emoji: '👑✨', name: 'FQTユニバースレジェンド', days: 33333 }
+    { id: 'first_milestone', emoji: '🏅', name: 'はじめての節目', days: 13 },
+    { id: 'fqt_miracle', emoji: '🌈', name: 'FQTミラクル', days: 68 },
+    { id: 'm_100', emoji: '🌱', name: 'センチュリー', days: 100 },
+    { id: 'm_130', emoji: '✨', name: 'スターシード', days: 130 },
+    { id: 'earth_master', emoji: '🌍', name: 'アースマスター', days: 365 },
+    { id: 'm_500', emoji: '✨', name: 'ハーフミレニアム', days: 500 },
+    { id: 'm_680', emoji: '🌟', name: 'コズミックライト', days: 680 },
+    { id: 'm_777', emoji: '🍀', name: 'ラッキーゲート', days: 777 },
+    { id: 'millennium', emoji: '💫', name: 'ミレニアム', days: 1000 },
+    { id: 'm_1111', emoji: '🔢', name: 'エンジェルナンバー', days: 1111 },
+    { id: 'm_1300', emoji: '⭐', name: 'スターシーカー', days: 1300 },
+    { id: 'm_2222', emoji: '👼', name: 'エンジェルゲート', days: 2222 },
+    { id: 'm_3333', emoji: '🌌', name: 'ギャラクシー', days: 3333 },
+    { id: 'm_5000', emoji: '🏆', name: 'ハーフレジェンド', days: 5000 },
+    { id: 'm_6800', emoji: '♾️', name: 'インフィニティ', days: 6800 },
+    { id: 'm_7777', emoji: '🍀', name: 'ラッキーセブン', days: 7777 },
+    { id: 'ten_thousand', emoji: '👑', name: 'テン・サウザンド', days: 10000 },
+    { id: 'm_11111', emoji: '🔱', name: 'マスターナンバー', days: 11111 },
+    { id: 'm_12345', emoji: '🔢', name: 'ステップシークエンス', days: 12345 },
+    { id: 'm_13000', emoji: '🌠', name: 'コズミックマスター', days: 13000 },
+    { id: 'm_15000', emoji: '🚀', name: 'スペースナビゲーター', days: 15000 },
+    { id: 'm_16000', emoji: '🌍', name: 'ブループラネット', days: 16000 },
+    { id: 'm_17000', emoji: '⭐', name: 'スタークラウン', days: 17000 },
+    { id: 'm_18000', emoji: '🌈', name: 'オーロラロード', days: 18000 },
+    { id: 'm_19000', emoji: '☄️', name: 'コメットランナー', days: 19000 },
+    { id: 'fqt_grand', emoji: '🌌', name: 'FQTグランド', days: 20000 },
+    { id: 'm_21000', emoji: '💎', name: 'ダブルスター', days: 21000 },
+    { id: 'm_22222', emoji: '🌟', name: 'ツインスター', days: 22222 },
+    { id: 'm_23000', emoji: '🚀', name: 'コズミックロード', days: 23000 },
+    { id: 'm_24000', emoji: '🌠', name: 'スーパーノヴァ', days: 24000 },
+    { id: 'm_25000', emoji: '🌙', name: 'ムーンレジェンド', days: 25000 },
+    { id: 'm_26000', emoji: '🌞', name: 'サンレジェンド', days: 26000 },
+    { id: 'm_27000', emoji: '🌍', name: 'アースガーディアン', days: 27000 },
+    { id: 'm_28000', emoji: '💫', name: 'スペースマスター', days: 28000 },
+    { id: 'm_29000', emoji: '👑', name: 'ギャラクシークラウン', days: 29000 },
+    { id: 'life_legend', emoji: '💎', name: 'ライフレジェンド', days: 30000 },
+    { id: 'm_31000', emoji: '🌠', name: 'スターエンペラー', days: 31000 },
+    { id: 'm_32000', emoji: '✨', name: 'コズミックキング', days: 32000 },
+    { id: 'universe_legend', emoji: '👑✨', name: 'FQTユニバースレジェンド', days: 33333 },
+    { id: 'm_34000', emoji: '🌈', name: 'エターナルスター', days: 34000 },
+    { id: 'm_35000', emoji: '🚀', name: 'インフィニティソウル', days: 35000 },
+    { id: 'm_36000', emoji: '⭐', name: 'コズミックエンペラー', days: 36000 },
+    { id: 'm_36500', emoji: '🌠', name: 'スターオラクル', days: 36500 },
+    { id: 'm_37000', emoji: '🌍', name: 'アースセージ', days: 37000 },
+    { id: 'm_37500', emoji: '💫', name: 'ネビュラマスター', days: 37500 },
+    { id: 'm_38000', emoji: '🌌', name: 'ユニバースナイト', days: 38000 },
+    { id: 'm_38500', emoji: '⭐', name: 'スペースガーディアン', days: 38500 },
+    { id: 'm_39000', emoji: '☄️', name: 'コメットマスター', days: 39000 },
+    { id: 'm_39500', emoji: '🌈', name: 'レインボーギャラクシー', days: 39500 },
+    { id: 'm_40000', emoji: '👑', name: 'コズミックソブリン', days: 40000 },
+    { id: 'm_41000', emoji: '🚀', name: '時空の旅人', days: 41000 },
+    { id: 'm_42000', emoji: '🌌', name: 'ユニバースセージ', days: 42000 },
+    { id: 'm_43000', emoji: '🌍', name: 'エターナルアース', days: 43000 },
+    { id: 'm_44000', emoji: '🌈', name: 'オーロラマスター', days: 44000 },
+    { id: 'm_44444', emoji: '🔱', name: 'ギャラクシーオラクル', days: 44444 },
+    { id: 'm_45000', emoji: '👑', name: 'インフィニティキング', days: 45000 },
+    { id: 'm_45500', emoji: '🚀', name: 'コズミックスピリット', days: 45500 },
+    { id: 'm_46000', emoji: '💎', name: 'ユニバースマスター', days: 46000 },
+    { id: 'm_46300', emoji: '🌠', name: 'エターナルライト', days: 46300 },
+    { id: 'm_46600', emoji: '🌌', name: 'ギャラクシーソウル', days: 46600 },
+    { id: 'm_46800', emoji: '⭐', name: 'スターオブスターズ', days: 46800 },
+    { id: 'm_47000', emoji: '🌍', name: 'アースアルティメット', days: 47000 },
+    { id: 'm_47100', emoji: '💫', name: 'コズミックアルティメット', days: 47100 },
+    { id: 'm_47200', emoji: '👑', name: 'レジェンドオブライフ', days: 47200 },
+    { id: 'm_47300', emoji: '🚀', name: 'エターナルジャーニー', days: 47300 },
+    { id: 'm_47350', emoji: '🌌', name: 'インフィニティユニバース', days: 47350 },
+    { id: 'm_47400', emoji: '💎', name: 'ライフアルティメット', days: 47400 },
+    { id: 'm_47450', emoji: '🌠👑', name: 'FQT IMMORTAL', days: 47450 }
   ];
 
   // ----- ⑤ 節目限定実績（10種類） -----
@@ -6782,6 +6932,61 @@ window.fqtConfirm = function(message, onConfirm){
     return MILESTONES.find(m => m.days === dayCount) || null;
   }
 
+  // ----- 生年月日から逆算して、指定の節目日数に到達した実際のカレンダー日付を求める -----
+  function computeDateForMilestone(milestoneDays){
+    const birthEl = document.getElementById('birthdate');
+    if (!birthEl || !birthEl.value) return null;
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const d = new Date(birth);
+    d.setDate(d.getDate() + (milestoneDays - 1)); // 誕生日を1日目として数える
+    return `${d.getFullYear()}/${String(d.getMonth() + 1).padStart(2, '0')}/${String(d.getDate()).padStart(2, '0')}`;
+  }
+
+  // ----- 誕生日を入力した時点で、すでに通り過ぎている節目を静かに記録する -----
+  // ・フルスクリーン演出は「今日ちょうど到達した節目」だけに残し、
+  //   過去分は演出なしで履歴・バッジ・実績にまとめて反映する
+  function backfillPastMilestones(){
+    const dayCount = getCurrentDayCount();
+    if (dayCount === null) return;
+
+    const pastMilestones = MILESTONES.filter(m => m.days < dayCount);
+    let hasChange = false;
+
+    pastMilestones.forEach(m => {
+      const alreadyRecorded = milestoneData.history.some(h => h.days === m.days);
+
+      if (!alreadyRecorded){
+        const dateLabel = computeDateForMilestone(m.days);
+        if (dateLabel){
+          milestoneData.history.push({
+            days: m.days,
+            date: dateLabel,
+            label: `${RANK_INFO[m.rank].label.split(' ')[1] || ''}${m.days.toLocaleString('ja-JP')}日達成`
+          });
+          hasChange = true;
+        }
+      }
+
+      // バッジ・実績のチェックは「履歴に記録済みかどうか」に関わらず毎回行う。
+      // （後からバッジの種類が追加された場合でも、すでに通過済みの節目まで
+      //   きちんと遡って解除されるようにするため。checkMilestoneBadgesAndAchievements
+      //   自体が「すでに獲得済みか」を内部で判定するので、二重付与にはならない）
+      const beforeBadgeCount = milestoneData.badges.length;
+      const beforeAchCount = milestoneData.achievements.length;
+      checkMilestoneBadgesAndAchievements(m, true); // 静かに解除する（通知なし）
+      if (milestoneData.badges.length !== beforeBadgeCount || milestoneData.achievements.length !== beforeAchCount){
+        hasChange = true;
+      }
+    });
+
+    if (hasChange){
+      milestoneData.lastMilestone = pastMilestones.length
+        ? pastMilestones[pastMilestones.length - 1].days
+        : milestoneData.lastMilestone;
+      saveMilestoneData(milestoneData);
+    }
+  }
+
   function getTodayDateStringForMilestone(){
     const now = new Date();
     return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
@@ -6838,7 +7043,7 @@ window.fqtConfirm = function(message, onConfirm){
   /* ==========================================================
      ⑫ 節目バッジ・実績の判定
      ========================================================== */
-  function checkMilestoneBadgesAndAchievements(milestone){
+  function checkMilestoneBadgesAndAchievements(milestone, silent){
     const newlyEarned = [];
 
     MILESTONE_BADGES.forEach(badge => {
@@ -6860,7 +7065,8 @@ window.fqtConfirm = function(message, onConfirm){
       }
     });
 
-    if (newlyEarned.length > 0){
+    // silent指定時（誕生日入力による過去分の一括記録）はポップアップを出さず、静かに記録するだけにする
+    if (newlyEarned.length > 0 && !silent){
       // 共通の実績解除ポップアップ（実績モジュールと見た目を揃えて再利用）
       newlyEarned.forEach(entry => {
         document.getElementById('achievementEarnEmoji').textContent = entry.item.emoji;
@@ -6970,31 +7176,29 @@ window.fqtConfirm = function(message, onConfirm){
     badgeList.innerHTML = '';
     MILESTONE_BADGES.forEach(badge => {
       const earned = milestoneData.badges.indexOf(badge.id) !== -1;
+      let dateText = '';
+      if (earned){
+        // 獲得済みなら、人生ヒストリーの記録から実際の達成日を探して添える
+        const historyEntry = milestoneData.history.find(h => h.days === badge.days);
+        if (historyEntry) dateText = `　${historyEntry.date}`;
+      } else {
+        // 未達成なら、生年月日から逆算した「到達予定日」を添える
+        const expectedDate = computeDateForMilestone(badge.days);
+        if (expectedDate) dateText = `　到達予定：${expectedDate}`;
+      }
       const row = document.createElement('div');
       row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
       row.innerHTML =
         `<div class="ach-emoji">${badge.emoji}</div>` +
         `<div class="ach-text">` +
           `<div class="ach-name">${badge.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
-          `<div class="ach-desc">${badge.days.toLocaleString('ja-JP')}日達成</div>` +
+          `<div class="ach-desc">${badge.days.toLocaleString('ja-JP')}日達成${dateText}</div>` +
         `</div>`;
       badgeList.appendChild(row);
     });
 
-    // 実績一覧
-    const achList = document.getElementById('milestoneAchievementList');
-    achList.innerHTML = '';
-    MILESTONE_ACHIEVEMENTS.forEach(ach => {
-      const earned = milestoneData.achievements.indexOf(ach.id) !== -1;
-      const row = document.createElement('div');
-      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
-      row.innerHTML =
-        `<div class="ach-emoji">${ach.emoji}</div>` +
-        `<div class="ach-text">` +
-          `<div class="ach-name">${ach.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
-        `</div>`;
-      achList.appendChild(row);
-    });
+    // ※ 節目限定実績の一覧表示は廃止しました（バッジと内容が重複していたため）。
+    //   判定・保存処理（milestoneData.achievements）自体は変更せず、そのまま残しています。
   }
 
   document.getElementById('milestoneHistoryBtn').addEventListener('click', () => {
@@ -7015,6 +7219,7 @@ window.fqtConfirm = function(message, onConfirm){
      ・「計算する」が押されたタイミングでも再チェックする
      ========================================================== */
   function runMilestoneCheck(){
+    backfillPastMilestones(); // 誕生日から見て、すでに通り過ぎている節目を静かに記録する
     const milestone = checkMilestoneToday();
     if (milestone){
       showMilestoneCelebration(milestone);
@@ -7454,7 +7659,7 @@ window.fqtConfirm = function(message, onConfirm){
   function collectCertificateData(){
     const dayText = document.getElementById('currentDay').textContent.trim();
     const rankText = document.getElementById('fortuneRank').textContent.trim();
-    const nineStarText = document.getElementById('fortuneNineStar').textContent.trim();
+    const cosmicTypeText = document.getElementById('fortuneCosmicType').textContent.trim();
     // どうぶつ名から「（〇〇限定）」のような補足を取り除き、名前だけにする
     const animalRaw = document.getElementById('animalName').textContent.trim();
     const animalName = animalRaw.replace(/[（(].*?[）)]/g, '').trim() || '-';
@@ -7463,7 +7668,7 @@ window.fqtConfirm = function(message, onConfirm){
       day: dayText,
       birthLabel: formatBirthDateLabel(),
       rank: rankText,
-      nineStar: nineStarText,
+      cosmicType: cosmicTypeText,
       animalName: animalName
     };
   }
@@ -7635,7 +7840,7 @@ window.fqtConfirm = function(message, onConfirm){
     drawInfoRow(ctx, rowY, '🌎 地球到着日', data.birthLabel); rowY += rowGap;
     drawInfoRow(ctx, rowY, '📅 地球滞在日数', `${data.day}日`); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🔮 今日の運勢', data.rank); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '🌌 今日の宇宙占い', `${data.nineStar}タイプ`); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌌 今日の宇宙占い', data.cosmicType); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🐾 今日出会った宇宙どうぶつ', data.animalName);
 
     // フッター
@@ -7690,7 +7895,8 @@ window.fqtConfirm = function(message, onConfirm){
             files: [file],
             title: '🌏 地球滞在証明書',
             text:
-              'FQT LIFE COUNTERで地球滞在証明書を作りました！\n\n' +
+              'FQT LIFE COUNTERで地球滞在証明書を作りました✨\n\n' +
+              '🌏あなたは地球に来て何日目？\n' +
               'https://fqtlifecounter2.netlify.app\n\n' +
               '#FQTLIFECOUNTER #人生日数カウンター'
           });
