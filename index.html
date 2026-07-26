@@ -1988,6 +1988,26 @@
     50%      { transform: scale(1.05); }
   }
 
+  .share-privacy-toggle{
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    background: var(--blue-pale);
+    border: 1px solid transparent;
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin: 0 0 14px;
+    cursor: pointer;
+  }
+  .share-privacy-toggle.active{
+    background: #fef2f2;
+    color: #b91c1c;
+    border-color: #fecaca;
+  }
+
   .share-grid{
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -2700,6 +2720,7 @@
   <!-- 結果シェアカード -->
   <div class="card" id="shareCard" style="display:none;">
     <p class="share-title">📤 結果をシェアして運氣アップ✨</p>
+    <button class="share-privacy-toggle" id="sharePrivacyToggle" type="button">🔓　日数を隠さずシェア</button>
     <div class="share-grid" id="shareGrid">
       <button class="share-btn share-x" id="shareXBtn" type="button">
         <span class="share-icon">𝕏</span>Xでポスト
@@ -3094,6 +3115,31 @@ function updateRealtimeDisplay(){
 
 // ----- シェア用のテキストを組み立ててシェアカードを表示 -----
 let currentShareText = '';
+let detailedShareText = '';
+let privacyShareText = '';
+
+// 「日数を隠す」設定は端末に記憶しておく
+const SHARE_HIDE_DAY_KEY = 'fqtLifeCounter_shareHideDay';
+function loadShareHideDayPref(){
+  try{
+    return window.localStorage.getItem(SHARE_HIDE_DAY_KEY) === 'true';
+  } catch(e){
+    return false;
+  }
+}
+function saveShareHideDayPref(hide){
+  try{
+    window.localStorage.setItem(SHARE_HIDE_DAY_KEY, hide ? 'true' : 'false');
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+}
+let shareHideDayCount = loadShareHideDayPref();
+
+// トグルの状態に応じて、実際にシェアされる文言を切り替える
+function updateActiveShareText(){
+  currentShareText = shareHideDayCount ? privacyShareText : detailedShareText;
+}
 
 function renderShare({ currentDay, targetDays, targetDate, remain, progress, birthDate, today }){
   const currentLabel = currentDay.toLocaleString('ja-JP');
@@ -3115,7 +3161,8 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
   const shareBio = calcBiorhythm(birthDate, today);
   const combinedShareRank = calcCombinedRank(shareMoney.seed, shareDirection.seed, shareTarot.seed, shareBio);
 
-  currentShareText =
+  // ① 日数をそのまま含む詳しいシェア文言
+  detailedShareText =
     `🌏今日は私が地球に降り立って${currentLabel}日目！\n\n` +
     `私の今日の運勢は　${combinedShareRank}\n\n` +
     `【地球経過時間】\n` +
@@ -3128,6 +3175,22 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
     `あなたの今日の運勢は？\n` +
     `https://fqtlifecounter2.netlify.app`;
 
+  // ② 日数を「⭕️」で伏せた、年齢を特定されたくない人向けのシェア文言
+  privacyShareText =
+    `🌏私は今日、地球に来て⭕️日目でした。\n\n` +
+    `今日の運勢は　${combinedShareRank}\n\n` +
+    `誕生日を入力するだけで\n` +
+    `🔮今日の運勢\n` +
+    `🌌13種類の宇宙占い\n` +
+    `🐾毎日違う宇宙どうぶつに出会える\n\n` +
+    `ログイン不要\n` +
+    `完全無料✨\n\n` +
+    `👇 あなたは今日、地球に来て何日目？✨\n` +
+    `https://fqtlifecounter2.netlify.app\n\n` +
+    `#FQTLIFECOUNTER\n` +
+    `#人生日数カウンター`;
+
+  updateActiveShareText();
   shareCard.style.display = 'block';
 }
 
@@ -3781,6 +3844,26 @@ function renderFortune(birth, today){
 const shareXBtn = document.getElementById('shareXBtn');
 const shareLineBtn = document.getElementById('shareLineBtn');
 const shareCopyBtn = document.getElementById('shareCopyBtn');
+const sharePrivacyToggle = document.getElementById('sharePrivacyToggle');
+
+function renderSharePrivacyToggle(){
+  if (shareHideDayCount){
+    sharePrivacyToggle.textContent = '🔒　日数を隠してシェア中';
+    sharePrivacyToggle.classList.add('active');
+  } else {
+    sharePrivacyToggle.textContent = '🔓　日数を隠さずシェア';
+    sharePrivacyToggle.classList.remove('active');
+  }
+}
+renderSharePrivacyToggle();
+
+// 「日数を隠す」トグル：年齢を特定されたくない人向けに、日数を伏せた文言に切り替える
+sharePrivacyToggle.addEventListener('click', () => {
+  shareHideDayCount = !shareHideDayCount;
+  saveShareHideDayPref(shareHideDayCount);
+  renderSharePrivacyToggle();
+  updateActiveShareText();
+});
 
 function showShareNote(message){
   shareNote.textContent = message;
@@ -5159,10 +5242,11 @@ window.fqtConfirm = function(message, onConfirm){
 
   // 図鑑の「コンプリート率」を計算するための目標発見数
   // （理論上の全組み合わせは天文学的な数になり現実的な目標にならないため、
-  //   バッジの「FQTエキスパート／習慣エキスパート（680日）」と揃えて680種類を100%の目安とする）
-  const DEX_COMPLETION_TARGET = 680;
+  //   最高位の「マルチバースマスター（1,300種類）」を100%の基準とし、
+  //   図鑑モーダルの「コンプリート率」表示ともこの基準で統一する）
+  const DEX_COMPLETION_TARGET = 1300;
 
-  // ----- ② 実績一覧（8種類） -----
+  // ----- ② 実績一覧（9種類） -----
   // type: 'discovered'（図鑑登録数）／'legend'（★5出現回数）／'completion'（コンプリート率%）
   const ACHIEVEMENTS = [
     { id: 'first_meeting',     emoji: '🐾', name: 'はじめまして！',       desc: '初めて宇宙どうぶつに出会う',       type: 'discovered', target: 1 },
@@ -5172,7 +5256,7 @@ window.fqtConfirm = function(message, onConfirm){
     { id: 'galaxy_collector',  emoji: '🌍', name: 'ギャラクシーコレクター', desc: '図鑑登録数130種類',              type: 'discovered', target: 130 },
     { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13回発見',              type: 'legend',      target: 13 },
     { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑コンプリート率50%',            type: 'completion', target: 50 },
-    { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑コンプリート率100%',           type: 'completion', target: 100 },
+    { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑登録数680種類',                type: 'discovered', target: 680 },
     { id: 'multiverse_master', emoji: '🌌✨', name: 'マルチバースマスター', desc: '図鑑登録数1300種類',              type: 'discovered', target: 1300 }
   ];
 
