@@ -245,6 +245,11 @@
     color: var(--text-sub);
     margin-bottom: 6px;
   }
+  .birthdate-label{
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--blue);
+  }
   .field-note{
     font-size: 11px;
     color: var(--text-sub);
@@ -476,6 +481,999 @@
     font-size: 11px;
     color: var(--text-sub);
     margin: -6px 0 10px;
+  }
+
+  /* ==========================================================
+     🏅 バッジシステム
+     ========================================================== */
+
+  /* ----- サマリーカード（トップに表示） ----- */
+  .badge-summary-card{
+    background: linear-gradient(135deg, #ffffff, var(--blue-pale));
+  }
+  .badge-summary-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .badge-summary-item{
+    text-align: center;
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 12px 6px;
+  }
+  .badge-summary-icon{
+    font-size: 20px;
+    margin-bottom: 4px;
+  }
+  .badge-summary-value{
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-main);
+  }
+  .badge-summary-label{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    font-weight: 700;
+    margin-top: 2px;
+  }
+  .badge-open-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--blue);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .badge-open-btn:active{ transform: scale(0.98); }
+
+  /* ----- バッジ一覧モーダル（画面） ----- */
+  .badge-modal-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 15, 0.72);
+    z-index: 500;
+    padding: 20px 14px;
+    overflow-y: auto;
+  }
+  .badge-modal-overlay.show{
+    display: block;
+  }
+  .badge-modal{
+    max-width: 460px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 18px 26px;
+    position: relative;
+  }
+  .badge-modal-close{
+    position: absolute;
+    top: 14px;
+    right: 14px;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: none;
+    background: var(--blue-pale);
+    color: var(--text-sub);
+    font-size: 16px;
+    font-weight: 900;
+    cursor: pointer;
+    line-height: 1;
+  }
+  .badge-modal-title{
+    font-size: 18px;
+    font-weight: 900;
+    text-align: center;
+    margin: 0 0 6px;
+  }
+  .badge-modal-note{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    text-align: center;
+    line-height: 1.6;
+    margin: 0 0 18px;
+  }
+
+  /* ----- 記録サマリー（モーダル内） ----- */
+  .badge-modal-stats{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .badge-modal-stat{
+    text-align: center;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px 6px;
+  }
+  .badge-modal-stat .icon{ font-size: 20px; }
+  .badge-modal-stat .value{ font-size: 18px; font-weight: 900; margin-top: 4px; }
+  .badge-modal-stat .label{ font-size: 10.5px; color: var(--text-sub); font-weight: 700; margin-top: 2px; }
+
+  /* ----- 進捗ブロック（次のバッジまで） ----- */
+  .badge-progress-block{
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .badge-progress-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 10px;
+  }
+  .badge-progress-current{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+  .badge-progress-current .emoji{ font-size: 26px; }
+  .badge-progress-current .name{ font-size: 14px; font-weight: 800; }
+  .badge-progress-next{
+    font-size: 12px;
+    color: var(--text-sub);
+    margin-bottom: 8px;
+  }
+  .badge-progress-track{
+    width: 100%;
+    height: 12px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+  }
+  .badge-progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, #60a5fa, var(--blue));
+    border-radius: 999px;
+    transition: width .5s ease;
+  }
+  .badge-progress-count{
+    text-align: right;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-top: 6px;
+  }
+
+  /* ----- バッジ一覧グリッド ----- */
+  .badge-list-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 18px 0 10px;
+  }
+  .badge-grid{
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+  .badge-item{
+    text-align: center;
+    border-radius: 12px;
+    padding: 10px 4px;
+    background: var(--blue-pale);
+  }
+  .badge-item .badge-emoji{
+    font-size: 22px;
+    display: block;
+  }
+  .badge-item .badge-name{
+    font-size: 9px;
+    font-weight: 700;
+    margin-top: 4px;
+    line-height: 1.3;
+    display: block;
+  }
+  .badge-item.earned{
+    background: linear-gradient(135deg, #fffdf0, #fff3c4);
+    box-shadow: 0 0 0 1.5px #f0d16b inset;
+    animation: badge-sparkle 2.6s ease-in-out infinite;
+  }
+  .badge-item.earned .badge-name{
+    color: #92700c;
+  }
+  .badge-item.locked{
+    filter: grayscale(1);
+    opacity: 0.45;
+  }
+  @keyframes badge-sparkle{
+    0%, 100% { box-shadow: 0 0 0 1.5px #f0d16b inset, 0 0 0 rgba(240,209,107,0); }
+    50%      { box-shadow: 0 0 0 1.5px #f0d16b inset, 0 0 10px rgba(240,209,107,0.6); }
+  }
+
+  /* 最高ランク（1300日）バッジ専用の特別な演出 */
+  .badge-item.max-rank{
+    background: linear-gradient(135deg, #fff7d6, #ffe08a, #ffd873);
+    box-shadow: 0 0 0 2px #d4af37 inset;
+    animation: badge-max-glow 2.2s ease-in-out infinite;
+  }
+  .badge-item.max-rank .badge-name{
+    color: #7a5c00;
+    font-weight: 900;
+  }
+  @keyframes badge-max-glow{
+    0%, 100% { box-shadow: 0 0 0 2px #d4af37 inset, 0 0 4px rgba(212,175,55,0.4); }
+    50%      { box-shadow: 0 0 0 2px #d4af37 inset, 0 0 16px rgba(212,175,55,0.85); }
+  }
+
+  /* ----- リセットボタン ----- */
+  .badge-reset-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: #b91c1c;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 12px;
+    padding: 10px;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+
+  /* ----- バッジ獲得演出（紙吹雪＋ズームポップアップ） ----- */
+  .badge-earn-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 15, 0.75);
+    z-index: 600;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+  }
+  .badge-earn-overlay.show{
+    display: flex;
+  }
+  .badge-earn-popup{
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 28px 24px;
+    text-align: center;
+    max-width: 320px;
+    width: 100%;
+    animation: badge-earn-zoom .45s cubic-bezier(.34,1.56,.64,1);
+  }
+  @keyframes badge-earn-zoom{
+    0%   { transform: scale(0.4); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+  }
+  .badge-earn-header{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin: 0 0 10px;
+  }
+  .badge-earn-emoji{
+    font-size: 54px;
+    margin-bottom: 8px;
+  }
+  .badge-earn-name{
+    font-size: 19px;
+    font-weight: 900;
+    margin-bottom: 8px;
+  }
+  .badge-earn-desc{
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 18px;
+  }
+  .badge-earn-ok-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: var(--blue);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+
+  /* 紙吹雪 */
+  .confetti-piece{
+    position: fixed;
+    top: -12px;
+    width: 8px;
+    height: 14px;
+    z-index: 650;
+    pointer-events: none;
+    animation: confetti-fall linear forwards;
+  }
+  @keyframes confetti-fall{
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0.9; }
+  }
+
+  /* ==========================================================
+     🌌 宇宙どうぶつ図鑑
+     ========================================================== */
+
+  /* ----- 今日の宇宙どうぶつカード ----- */
+  .animal-card{
+    background: linear-gradient(160deg, #ffffff, var(--blue-pale));
+    text-align: center;
+  }
+  .animal-stage{
+    position: relative;
+    width: 100%;
+    max-width: 220px;
+    margin: 4px auto 10px;
+  }
+  .animal-svg-wrap{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 8px 22px rgba(0,0,0,0.14);
+    background: #eef2ff;
+  }
+  .animal-svg-wrap svg{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .animal-new-badge{
+    position: absolute;
+    top: -6px;
+    right: -6px;
+    background: linear-gradient(135deg, #ff7ab8, #ffb347);
+    color: #fff;
+    font-size: 12px;
+    font-weight: 900;
+    padding: 6px 12px;
+    border-radius: 999px;
+    box-shadow: 0 4px 10px rgba(255,122,184,0.45);
+    z-index: 2;
+    animation: animal-new-pop .5s cubic-bezier(.34,1.56,.64,1), animal-new-pulse 1.6s ease-in-out 0.5s infinite;
+  }
+  @keyframes animal-new-pop{
+    0%   { transform: scale(0); }
+    100% { transform: scale(1); }
+  }
+  @keyframes animal-new-pulse{
+    0%, 100% { transform: scale(1); }
+    50%      { transform: scale(1.08); }
+  }
+  .animal-rarity{
+    font-size: 16px;
+    letter-spacing: 2px;
+    color: #d4af37;
+    margin-bottom: 4px;
+  }
+  .animal-name{
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .animal-met-note{
+    font-size: 11.5px;
+    color: var(--text-sub);
+    font-weight: 700;
+    min-height: 14px;
+    margin-bottom: 10px;
+  }
+  .animal-info-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+  .animal-info-item{
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 10px 6px;
+  }
+  .animal-info-label{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 3px;
+  }
+  .animal-info-value{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .animal-quote{
+    font-size: 13px;
+    color: var(--blue-dark);
+    font-weight: 700;
+    line-height: 1.6;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 0 14px;
+  }
+  .animal-dex-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #7c6ee0, #5b4bc4);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .animal-dex-btn:active{ transform: scale(0.98); }
+
+  /* レア度が高いほど台座を豪華に光らせる */
+  .animal-svg-wrap.rarity-2{ box-shadow: 0 8px 22px rgba(96,165,250,0.35); }
+  .animal-svg-wrap.rarity-3{
+    box-shadow: 0 0 0 3px #a78bfa, 0 8px 26px rgba(167,139,250,0.45);
+  }
+  .animal-svg-wrap.rarity-4{
+    box-shadow: 0 0 0 3px #f472b6, 0 0 24px rgba(244,114,182,0.6);
+    animation: animal-rare-glow 2.4s ease-in-out infinite;
+  }
+  .animal-svg-wrap.rarity-5{
+    box-shadow: 0 0 0 4px #ffd873, 0 0 32px rgba(255,216,115,0.85);
+    animation: animal-rare-glow 1.8s ease-in-out infinite;
+  }
+  @keyframes animal-rare-glow{
+    0%, 100% { filter: brightness(1); }
+    50%      { filter: brightness(1.12); }
+  }
+
+  /* ----- 図鑑モーダル ----- */
+  .dex-modal-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(5, 6, 15, 0.72);
+    z-index: 500;
+    padding: 20px 14px;
+    overflow-y: auto;
+  }
+  .dex-modal-overlay.show{ display: block; }
+  .dex-modal{
+    max-width: 460px;
+    margin: 0 auto;
+    background: #ffffff;
+    border-radius: 20px;
+    padding: 20px 18px 26px;
+    position: relative;
+  }
+  .dex-modal-stats{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .dex-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+  .dex-item{
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+  .dex-item .dex-thumb{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 0 auto 6px;
+    background: #eef2ff;
+  }
+  .dex-item .dex-thumb svg{ width: 100%; height: 100%; display: block; }
+  .dex-item .dex-name{
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.3;
+  }
+  .dex-item .dex-rarity{
+    font-size: 9.5px;
+    color: #d4af37;
+    margin-top: 2px;
+  }
+  .dex-item.undiscovered{
+    filter: grayscale(1);
+    opacity: 0.4;
+  }
+  .dex-item.undiscovered .dex-thumb{
+    background: #d9dde5;
+  }
+  .dex-item.undiscovered .dex-name{
+    color: var(--text-sub);
+  }
+
+  /* ----- 🏆 実績（Achievements） ----- */
+  .achievement-list{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .achievement-row{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 12px 14px;
+  }
+  .achievement-row .ach-emoji{
+    font-size: 26px;
+    flex-shrink: 0;
+    width: 36px;
+    text-align: center;
+  }
+  .achievement-row .ach-text{
+    flex: 1;
+    min-width: 0;
+  }
+  .achievement-row .ach-name{
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+  .achievement-row .ach-desc{
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-top: 2px;
+  }
+  .achievement-row .ach-progress{
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin-top: 4px;
+  }
+  .achievement-row.earned{
+    background: linear-gradient(135deg, #fffdf0, #fff3c4);
+    box-shadow: 0 0 0 1.5px #f0d16b inset;
+    animation: badge-sparkle 2.6s ease-in-out infinite;
+  }
+  .achievement-row.earned .ach-name{
+    color: #92700c;
+  }
+  .achievement-row.earned .ach-progress{
+    color: #92700c;
+  }
+  .achievement-row.locked{
+    filter: grayscale(1);
+    opacity: 0.55;
+  }
+  .ach-check{
+    color: #16a34a;
+    font-weight: 900;
+    font-size: 13px;
+  }
+
+  /* 実績解除演出（バッジ獲得演出と同じ土台デザインを再利用） */
+  .achievement-earn-popup{
+    background: linear-gradient(160deg, #ffffff, #fff7d6);
+  }
+
+  /* ==========================================================
+     🎉 季節イベント＆限定宇宙どうぶつ
+     ========================================================== */
+
+  /* ----- 今日の宇宙どうぶつカード内：開催中イベントのお知らせ ----- */
+  .event-active-banner{
+    font-size: 11.5px;
+    font-weight: 800;
+    color: #b8860b;
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    border-radius: 10px;
+    padding: 8px 10px;
+    margin: 0 0 12px;
+  }
+
+  /* ----- イベント図鑑を開くボタン ----- */
+  .event-dex-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ff8a65, #ff6f91, #ffd873);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+  .event-dex-btn:active{ transform: scale(0.98); }
+
+  /* ----- イベント進捗リスト（春 ○/10 など） ----- */
+  .event-progress-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .event-progress-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .event-progress-row.active{
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    box-shadow: 0 0 0 1.5px #ffb6c1 inset;
+  }
+  .event-progress-row .ep-emoji{
+    font-size: 20px;
+    width: 28px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+  .event-progress-row .ep-text{
+    flex: 1;
+    min-width: 0;
+  }
+  .event-progress-row .ep-name{
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .event-progress-row .ep-bar-track{
+    width: 100%;
+    height: 6px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-top: 4px;
+  }
+  .event-progress-row .ep-bar-fill{
+    height: 100%;
+    background: linear-gradient(90deg, #ff8a65, #ff6f91);
+    border-radius: 999px;
+  }
+  .event-progress-row .ep-count{
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    flex-shrink: 0;
+  }
+
+  /* ----- イベント限定どうぶつのカード（虹色の縁取り） ----- */
+  .dex-item.event-item{
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    box-shadow: 0 0 0 1.5px #ffb6c1 inset;
+  }
+  .dex-item.event-item .dex-name{
+    color: #b8860b;
+  }
+
+  /* ----- イベント限定発見演出（虹＋星＋ズーム） ----- */
+  .event-earn-popup{
+    background: linear-gradient(160deg, #fff0f5, #fff7d6, #eafaf1);
+    position: relative;
+    overflow: hidden;
+  }
+  .event-earn-header{
+    background: linear-gradient(90deg, #ff6f91, #ffb347, #ffe066, #8ce99a, #74c0fc, #b197fc);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 16px;
+  }
+  .event-earn-emoji{
+    font-size: 54px;
+    margin-bottom: 8px;
+    animation: animal-new-pulse 1.2s ease-in-out infinite;
+  }
+
+  /* ----- 究極の実績：FQTユニバースマスター演出 ----- */
+  .ultimate-earn-popup{
+    background: linear-gradient(160deg, #1b2a55, #402a6e, #6e2a55);
+    color: #ffffff;
+    box-shadow: 0 0 60px rgba(255, 216, 115, 0.6);
+  }
+  .ultimate-earn-header{
+    background: linear-gradient(90deg, #ffd873, #ff8a65, #ff6f91, #b197fc, #74c0fc, #8ce99a, #ffd873);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    font-size: 18px;
+    animation: ultimate-rainbow 3s linear infinite;
+  }
+  @keyframes ultimate-rainbow{
+    0%   { background-position: 0% 50%; }
+    100% { background-position: 300% 50%; }
+  }
+  .ultimate-earn-emoji{
+    font-size: 60px;
+    margin-bottom: 10px;
+    animation: animal-new-pulse 1.4s ease-in-out infinite;
+  }
+  .ultimate-earn-name{
+    color: #ffd873 !important;
+    font-size: 20px;
+  }
+  .ultimate-earn-popup .badge-earn-desc{
+    color: #e5e7eb;
+  }
+  .ultimate-earn-popup .badge-earn-ok-btn{
+    background: linear-gradient(135deg, #ffd873, #ff8a65);
+    color: #1b2a55;
+    font-weight: 900;
+  }
+
+  /* 星が降る演出（究極の実績専用） */
+  .star-fall-piece{
+    position: fixed;
+    top: -20px;
+    font-size: 18px;
+    z-index: 650;
+    pointer-events: none;
+    animation: star-fall linear forwards;
+  }
+  @keyframes star-fall{
+    0%   { transform: translateY(0) rotate(0deg); opacity: 1; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
+  }
+
+  /* ==========================================================
+     🎂 誕生日イベント
+     ========================================================== */
+
+  /* ----- フルスクリーン祝福演出 ----- */
+  .birthday-overlay{
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 800;
+    background: radial-gradient(ellipse at 50% 20%, #402a6e 0%, #1b2a55 55%, #05060f 100%);
+    overflow: hidden;
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
+  }
+  .birthday-overlay.show{
+    display: flex;
+  }
+  .birthday-decor{
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .birthday-card{
+    position: relative;
+    z-index: 2;
+    max-width: 340px;
+    width: 100%;
+    background: #ffffff;
+    border-radius: 22px;
+    padding: 30px 22px;
+    text-align: center;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+    animation: badge-earn-zoom .5s cubic-bezier(.34,1.56,.64,1);
+  }
+  .birthday-title{
+    font-size: 24px;
+    font-weight: 900;
+    margin: 0 0 6px;
+    background: linear-gradient(90deg, #ff6f91, #ffb347, #ffe066, #8ce99a, #74c0fc, #b197fc);
+    background-size: 300% 100%;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: ultimate-rainbow 4s linear infinite;
+  }
+  .birthday-sub{
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--text-main);
+    margin: 0 0 14px;
+  }
+  .birthday-days{
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    margin: 0 0 4px;
+  }
+  .birthday-days span{
+    font-size: 26px;
+    font-weight: 900;
+    color: var(--blue);
+    margin: 0 2px;
+  }
+  .birthday-congrats{
+    font-size: 15px;
+    font-weight: 800;
+    color: #b8860b;
+    margin: 0 0 14px;
+  }
+  .birthday-message{
+    font-size: 13px;
+    color: var(--text-sub);
+    line-height: 1.7;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 0 18px;
+  }
+  .birthday-btn-row{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .birthday-action-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ff8a65, #ff6f91);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .birthday-action-btn:active{ transform: scale(0.98); }
+  .birthday-action-btn:nth-child(2){ background: linear-gradient(135deg, #74c0fc, #4dabf7); }
+  .birthday-action-btn:nth-child(3){ background: linear-gradient(135deg, #b197fc, #9775fa); }
+
+  /* 紙吹雪・星・虹・風船・キラキラが画面をゆっくり流れる装飾パーツ */
+  .birthday-float-piece{
+    position: absolute;
+    top: -10%;
+    font-size: 20px;
+    pointer-events: none;
+    animation: birthday-float linear infinite;
+  }
+  @keyframes birthday-float{
+    0%   { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0.9; }
+    100% { transform: translateY(120vh) translateX(20px) rotate(360deg); opacity: 0.7; }
+  }
+
+  /* ----- プレゼントBOXボタン ----- */
+  .birthday-present-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #7a5c00;
+    background: linear-gradient(135deg, #ffe066, #ffd873);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+    cursor: pointer;
+    animation: badge-max-glow 2.2s ease-in-out infinite;
+  }
+  .birthday-present-btn:active{ transform: scale(0.98); }
+
+  /* ----- 誕生日記録ボタン ----- */
+  .birthday-record-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: #ffffff;
+    border: 1.5px solid var(--blue-light);
+    border-radius: 12px;
+    padding: 11px;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+  .birthday-record-btn:active{ transform: scale(0.98); }
+
+  .present-result-popup{
+    background: linear-gradient(160deg, #fff7d6, #ffe6f0);
+  }
+
+  /* ==========================================================
+     🌍 人生節目イベント
+     ========================================================== */
+
+  /* ----- フルスクリーン祝福演出（誕生日演出の土台デザインを再利用） ----- */
+  .milestone-overlay{
+    background: radial-gradient(ellipse at 50% 15%, #4e2a6e 0%, #1b2a55 55%, #05060f 100%);
+  }
+  .milestone-card-popup{
+    max-width: 360px;
+  }
+  .milestone-rank-label{
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    color: #7a5c00;
+    background: linear-gradient(135deg, #fff7d6, #ffe066);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin: 0 0 10px;
+  }
+  .milestone-title{
+    font-size: 20px;
+  }
+  .milestone-days{
+    font-size: 15px;
+  }
+  .milestone-days span{
+    font-size: 30px;
+    animation: animal-new-pulse 1.4s ease-in-out infinite;
+  }
+
+  .milestone-animal-box{
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 14px;
+    margin: 0 0 16px;
+    text-align: center;
+  }
+  .milestone-animal-svg{
+    width: 88px;
+    height: 88px;
+    margin: 0 auto 8px;
+    border-radius: 50%;
+    overflow: hidden;
+    box-shadow: 0 0 0 3px #ffd873, 0 0 20px rgba(255,216,115,0.6);
+  }
+  .milestone-animal-svg svg{ width: 100%; height: 100%; display: block; }
+  .milestone-animal-name{
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 0 0 2px;
+  }
+  .milestone-animal-caption{
+    font-size: 11px;
+    color: var(--text-sub);
+    margin: 0;
+  }
+
+  .milestone-share-btn{
+    background: linear-gradient(135deg, #ffd873, #ff8a65) !important;
+    color: #5c3d00 !important;
+    font-weight: 900 !important;
+  }
+
+  /* ----- 人生ヒストリー一覧 ----- */
+  .milestone-history-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 18px;
+  }
+  .milestone-history-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 12px;
+  }
+  .milestone-history-row .mh-date{
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    width: 84px;
+    flex-shrink: 0;
+  }
+  .milestone-history-row .mh-label{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
   }
 
   /* ===== リアルタイム経過リスト ===== */
@@ -891,6 +1889,265 @@
 <!-- 「計算する」押下時に一瞬だけ光るフラッシュ演出 -->
 <div class="flash-overlay" id="flashOverlay"></div>
 
+<!-- 🏅 バッジ一覧モーダル（画面） -->
+<div class="badge-modal-overlay" id="badgeModalOverlay">
+  <div class="badge-modal">
+    <button class="badge-modal-close" id="badgeModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🏅 あなたの記録</p>
+    <p class="badge-modal-note">※ ログイン不要のため、記録はこの端末・ブラウザのみに保存されます。<br>端末を変えると引き継がれません。</p>
+
+    <div class="badge-modal-stats">
+      <div class="badge-modal-stat">
+        <div class="icon">🔥</div>
+        <div class="value" id="badgeModalStreak">-</div>
+        <div class="label">連続アクセス</div>
+      </div>
+      <div class="badge-modal-stat">
+        <div class="icon">🌍</div>
+        <div class="value" id="badgeModalTotal">-</div>
+        <div class="label">累計アクセス</div>
+      </div>
+      <div class="badge-modal-stat">
+        <div class="icon">🏅</div>
+        <div class="value" id="badgeModalCount">-</div>
+        <div class="label">獲得バッジ</div>
+      </div>
+    </div>
+
+    <!-- 累計アクセスバッジの進捗 -->
+    <div class="badge-progress-block">
+      <p class="badge-progress-title">🌍 累計アクセスバッジ</p>
+      <div class="badge-progress-current">
+        <span class="emoji" id="totalBadgeCurrentEmoji">-</span>
+        <span class="name" id="totalBadgeCurrentName">-</span>
+      </div>
+      <div class="badge-progress-next" id="totalBadgeNextText">-</div>
+      <div class="badge-progress-track"><div class="badge-progress-fill" id="totalBadgeProgressFill"></div></div>
+      <div class="badge-progress-count" id="totalBadgeProgressCount">-</div>
+    </div>
+
+    <!-- 連続アクセスバッジの進捗 -->
+    <div class="badge-progress-block">
+      <p class="badge-progress-title">🔥 連続アクセスバッジ</p>
+      <div class="badge-progress-current">
+        <span class="emoji" id="streakBadgeCurrentEmoji">-</span>
+        <span class="name" id="streakBadgeCurrentName">-</span>
+      </div>
+      <div class="badge-progress-next" id="streakBadgeNextText">-</div>
+      <div class="badge-progress-track"><div class="badge-progress-fill" id="streakBadgeProgressFill"></div></div>
+      <div class="badge-progress-count" id="streakBadgeProgressCount">-</div>
+    </div>
+
+    <!-- バッジ一覧 -->
+    <p class="badge-list-title">🌍 累計アクセスバッジ一覧</p>
+    <div class="badge-grid" id="totalBadgeGrid"></div>
+
+    <p class="badge-list-title">🔥 連続アクセスバッジ一覧</p>
+    <div class="badge-grid" id="streakBadgeGrid"></div>
+
+    <button class="badge-reset-btn" id="badgeResetBtn" type="button">データをリセット</button>
+  </div>
+</div>
+
+<!-- 🎉 バッジ獲得演出モーダル -->
+<div class="badge-earn-overlay" id="badgeEarnOverlay">
+  <div class="badge-earn-popup">
+    <p class="badge-earn-header">🎉 バッジ獲得！</p>
+    <div class="badge-earn-emoji" id="badgeEarnEmoji">🏅</div>
+    <p class="badge-earn-name" id="badgeEarnName">-</p>
+    <p class="badge-earn-desc" id="badgeEarnDesc">-</p>
+    <button class="badge-earn-ok-btn" id="badgeEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🌌 宇宙どうぶつ図鑑モーダル -->
+<div class="dex-modal-overlay" id="dexModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="dexModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌌 宇宙どうぶつ図鑑</p>
+    <p class="badge-modal-note">※ アクセスするたびに新しい宇宙どうぶつに出会えます。<br>累計・連続アクセス日数には影響しません。</p>
+
+    <div class="dex-modal-stats">
+      <div class="badge-modal-stat">
+        <div class="icon">👀</div>
+        <div class="value" id="dexDiscoveredCount">-</div>
+        <div class="label">発見数</div>
+      </div>
+      <div class="badge-modal-stat">
+        <div class="icon">📖</div>
+        <div class="value" id="dexCompleteRate">-</div>
+        <div class="label">コンプリート率</div>
+      </div>
+    </div>
+
+    <div class="dex-grid" id="dexGrid"></div>
+
+    <!-- 🏆 実績（Achievements） -->
+    <p class="badge-list-title">🏆 実績</p>
+    <div class="achievement-list" id="achievementList"></div>
+  </div>
+</div>
+
+<!-- 🏆 実績解除演出モーダル -->
+<div class="badge-earn-overlay" id="achievementEarnOverlay">
+  <div class="badge-earn-popup achievement-earn-popup">
+    <p class="badge-earn-header">🏆 実績解除！</p>
+    <div class="badge-earn-emoji" id="achievementEarnEmoji">🏆</div>
+    <p class="badge-earn-name" id="achievementEarnName">-</p>
+    <p class="badge-earn-desc" id="achievementEarnDesc">-</p>
+    <button class="badge-earn-ok-btn" id="achievementEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🎉 イベント図鑑モーダル -->
+<div class="dex-modal-overlay" id="eventDexModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="eventDexModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎉 イベント図鑑</p>
+    <p class="badge-modal-note">※ イベント期間中、低確率で季節限定の宇宙どうぶつに出会えます。<br>通常の図鑑・累計/連続アクセス日数には影響しません。</p>
+
+    <div class="event-progress-list" id="eventProgressList"></div>
+
+    <p class="badge-list-title">🎊 イベント実績</p>
+    <div class="achievement-list" id="eventAchievementList"></div>
+
+    <p class="badge-list-title">🎁 発見したイベント限定どうぶつ</p>
+    <div class="dex-grid" id="eventDexGrid"></div>
+  </div>
+</div>
+
+<!-- 🎉 イベント限定どうぶつ発見演出モーダル -->
+<div class="badge-earn-overlay" id="eventEarnOverlay">
+  <div class="badge-earn-popup event-earn-popup">
+    <p class="badge-earn-header event-earn-header">🎉 EVENT！</p>
+    <div class="event-earn-emoji" id="eventEarnEmoji">🎉</div>
+    <p class="badge-earn-name" id="eventEarnName">-</p>
+    <p class="badge-earn-desc" id="eventEarnDesc">限定宇宙どうぶつ発見！</p>
+    <button class="badge-earn-ok-btn" id="eventEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 👑🌌 究極の実績：FQTユニバースマスター演出モーダル -->
+<div class="badge-earn-overlay" id="ultimateEarnOverlay">
+  <div class="badge-earn-popup ultimate-earn-popup">
+    <p class="badge-earn-header ultimate-earn-header">👑🌌 全達成！</p>
+    <div class="ultimate-earn-emoji">👑🌌</div>
+    <p class="badge-earn-name ultimate-earn-name">FQT ユニバースマスター</p>
+    <p class="badge-earn-desc">図鑑・イベント図鑑・実績・バッジ<br>すべてを制覇しました！おめでとうございます！</p>
+    <button class="badge-earn-ok-btn" id="ultimateEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🎂 誕生日フルスクリーン祝福演出 -->
+<div class="birthday-overlay" id="birthdayOverlay">
+  <div class="birthday-decor" id="birthdayDecor"></div>
+  <div class="birthday-card">
+    <p class="birthday-title">🎂 Happy Birthday！</p>
+    <p class="birthday-sub">今日はあなたの誕生日です！</p>
+    <p class="birthday-days">地球に生まれて<span id="birthdayDaysCount">-</span>日目</p>
+    <p class="birthday-congrats">おめでとうございます！</p>
+    <p class="birthday-message" id="birthdayMessage">-</p>
+    <div class="birthday-btn-row">
+      <button class="birthday-action-btn" id="birthdayThanksBtn" type="button">ありがとう</button>
+      <button class="birthday-action-btn" id="birthdayFortuneBtn" type="button">今日の運勢を見る</button>
+      <button class="birthday-action-btn" id="birthdayAnimalBtn" type="button">今日の宇宙どうぶつを見る</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🎁 プレゼントBOX結果ポップアップ -->
+<div class="badge-earn-overlay" id="presentResultOverlay">
+  <div class="badge-earn-popup present-result-popup">
+    <p class="badge-earn-header">🎁 プレゼント開封！</p>
+    <div class="badge-earn-emoji" id="presentResultEmoji">🎁</div>
+    <p class="badge-earn-name" id="presentResultTitle">-</p>
+    <p class="badge-earn-desc" id="presentResultDesc">-</p>
+    <button class="badge-earn-ok-btn" id="presentResultOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🎂 誕生日限定どうぶつ発見演出 -->
+<div class="badge-earn-overlay" id="birthdayAnimalEarnOverlay">
+  <div class="badge-earn-popup event-earn-popup">
+    <p class="badge-earn-header event-earn-header">🎂 誕生日限定！</p>
+    <div class="event-earn-emoji" id="birthdayAnimalEarnEmoji">🎂</div>
+    <p class="badge-earn-name" id="birthdayAnimalEarnName">-</p>
+    <p class="badge-earn-desc">誕生日限定の宇宙どうぶつを発見！</p>
+    <button class="badge-earn-ok-btn" id="birthdayAnimalEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🎂 誕生日記録モーダル -->
+<div class="dex-modal-overlay" id="birthdayRecordModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="birthdayRecordModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎂 誕生日記録</p>
+    <p class="badge-modal-note">※ 生年月日の月日と今日の日付が一致すると誕生日イベントが発動します。<br>年をまたいでアクセス回数が積み上がります。</p>
+
+    <div class="dex-modal-stats">
+      <div class="badge-modal-stat">
+        <div class="icon">🎂</div>
+        <div class="value" id="birthdayAccessCount">-</div>
+        <div class="label">誕生日アクセス回数</div>
+      </div>
+      <div class="badge-modal-stat">
+        <div class="icon">🎁</div>
+        <div class="value" id="birthdayCollectionCount">-</div>
+        <div class="label">限定発見数 / 13</div>
+      </div>
+    </div>
+
+    <p class="badge-list-title">🏅 誕生日限定バッジ</p>
+    <div class="achievement-list" id="birthdayBadgeList"></div>
+
+    <p class="badge-list-title">🎊 誕生日実績</p>
+    <div class="achievement-list" id="birthdayAchievementList"></div>
+
+    <p class="badge-list-title">🎂 発見した誕生日限定どうぶつ</p>
+    <div class="dex-grid" id="birthdayDexGrid"></div>
+  </div>
+</div>
+
+<!-- 🌍 人生節目フルスクリーン祝福演出 -->
+<div class="birthday-overlay milestone-overlay" id="milestoneOverlay">
+  <div class="birthday-decor" id="milestoneDecor"></div>
+  <div class="birthday-card milestone-card-popup">
+    <p class="milestone-rank-label" id="milestoneRankLabel">-</p>
+    <p class="birthday-title milestone-title">🎉 おめでとうございます！</p>
+    <p class="birthday-sub">今日は</p>
+    <p class="birthday-days milestone-days">🌍 地球に生まれて<span id="milestoneDaysCount">-</span>日目です！</p>
+    <p class="birthday-message" id="milestoneMessage">-</p>
+
+    <div class="milestone-animal-box" id="milestoneAnimalBox" style="display:none;">
+      <div class="milestone-animal-svg" id="milestoneAnimalSvg"></div>
+      <p class="milestone-animal-name" id="milestoneAnimalName">-</p>
+      <p class="milestone-animal-caption">節目限定の宇宙どうぶつ</p>
+    </div>
+
+    <div class="birthday-btn-row">
+      <button class="birthday-action-btn milestone-share-btn" id="milestoneShareBtn" type="button">📤　シェアする</button>
+      <button class="birthday-action-btn" id="milestoneCloseBtn" type="button">閉じる</button>
+    </div>
+  </div>
+</div>
+
+<!-- 🌍 人生ヒストリーモーダル -->
+<div class="dex-modal-overlay" id="milestoneHistoryModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="milestoneHistoryModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌍 人生ヒストリー</p>
+    <p class="badge-modal-note">※ 13日・68日・100日・365日・1,000日など、人生の節目となる日数に到達すると自動で記録されます。</p>
+
+    <div class="milestone-history-list" id="milestoneHistoryList"></div>
+
+    <p class="badge-list-title">🏅 節目限定バッジ</p>
+    <div class="achievement-list" id="milestoneBadgeList"></div>
+
+    <p class="badge-list-title">🎊 節目限定実績</p>
+    <div class="achievement-list" id="milestoneAchievementList"></div>
+  </div>
+</div>
+
 <!-- 画面下に佇む地球のような光の球体（装飾） -->
 <div class="earth-glow"></div>
 
@@ -905,10 +2162,62 @@
     <button class="bgm-btn" id="bgmBtn" type="button">🎵　癒しのBGMを再生</button>
   </div>
 
+  <!-- バッジ機能：あなたの記録サマリーカード -->
+  <div class="card badge-summary-card" id="badgeSummaryCard">
+    <p class="section-title">📊 あなたの記録</p>
+    <div class="badge-summary-grid">
+      <div class="badge-summary-item">
+        <div class="badge-summary-icon">🔥</div>
+        <div class="badge-summary-value" id="badgeSummaryStreak">-</div>
+        <div class="badge-summary-label">連続アクセス</div>
+      </div>
+      <div class="badge-summary-item">
+        <div class="badge-summary-icon">🌍</div>
+        <div class="badge-summary-value" id="badgeSummaryTotal">-</div>
+        <div class="badge-summary-label">累計アクセス</div>
+      </div>
+      <div class="badge-summary-item">
+        <div class="badge-summary-icon">🏅</div>
+        <div class="badge-summary-value" id="badgeSummaryCount">-</div>
+        <div class="badge-summary-label">獲得バッジ</div>
+      </div>
+    </div>
+    <button class="badge-open-btn" id="badgeOpenBtn" type="button">🏅　バッジ一覧を見る</button>
+  </div>
+
+  <!-- 🌌 今日の宇宙どうぶつカード -->
+  <div class="card animal-card">
+    <p class="section-title">🌌 今日の宇宙どうぶつ</p>
+    <div class="animal-stage" id="animalStage">
+      <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
+      <div class="animal-svg-wrap" id="animalSvgWrap"></div>
+    </div>
+    <div class="animal-rarity" id="animalRarity">-</div>
+    <div class="animal-name" id="animalName">-</div>
+    <div class="animal-met-note" id="animalMetNote"></div>
+    <div class="animal-info-grid">
+      <div class="animal-info-item">
+        <div class="animal-info-label">せいかく</div>
+        <div class="animal-info-value" id="animalPersonality">-</div>
+      </div>
+      <div class="animal-info-item">
+        <div class="animal-info-label">すきなもの</div>
+        <div class="animal-info-value" id="animalFavorite">-</div>
+      </div>
+    </div>
+    <p class="animal-quote" id="animalQuote">-</p>
+    <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
+    <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
+    <button class="event-dex-btn" id="eventDexBtn" type="button">🎉　イベント図鑑を見る</button>
+    <button class="birthday-present-btn" id="birthdayPresentBtn" type="button" style="display:none;">🎁　プレゼントBOXを開ける</button>
+    <button class="birthday-record-btn" id="birthdayRecordBtn" type="button">🎂　誕生日記録を見る</button>
+    <button class="birthday-record-btn milestone-record-btn" id="milestoneHistoryBtn" type="button">🌍　人生ヒストリーを見る</button>
+  </div>
+
   <!-- 入力カード -->
   <div class="card">
     <div class="field">
-      <label for="birthdate">① 生年月日</label>
+      <label for="birthdate" class="birthdate-label">① 生年月日を入力</label>
       <input type="date" id="birthdate" required>
     </div>
 
@@ -1428,6 +2737,10 @@ function calculate(){
 
   // 入力が正しく確定したタイミングで一瞬だけ光るフラッシュ演出
   triggerFlash();
+
+  // 「計算する」が押されたことを他の独立モジュール（宇宙どうぶつなど）へ通知する
+  // ※ 直接関数を呼び出さず、カスタムイベントで疎結合に連携する
+  document.dispatchEvent(new CustomEvent('fqtCalculatePressed'));
 
   // この端末に生年月日を記憶（次回アクセス時に自動入力するため）
   saveBirthdateToStorage(birthValue);
@@ -2561,7 +3874,2731 @@ bgmBtn.addEventListener('click', () => {
     bgmBtn.classList.add('active');
   }
 });
+
+/* ==========================================================
+   🏅 バッジシステム（追加実装のみ・既存機能には触れない）
+   ・LocalStorageに保存するのは数字・フラグ・配列のみ
+   ・関数化してコメントを多めに記述
+   ========================================================== */
+(function initBadgeSystem(){
+
+  // ----- ① 保存データのキー -----
+  const BADGE_STORAGE_KEY = 'fqtLifeCounter_badgeData';
+
+  // ----- ② 累計アクセスバッジ一覧（回数, 絵文字, 名前） -----
+  const TOTAL_ACCESS_BADGES = [
+    { threshold: 1,    emoji: '🏅', name: 'はじめの一歩' },
+    { threshold: 3,    emoji: '🔹', name: 'スタートダッシュ' },
+    { threshold: 5,    emoji: '🌱', name: '新芽' },
+    { threshold: 7,    emoji: '🥈', name: 'ラッキーセブン' },
+    { threshold: 11,   emoji: '✨', name: 'ゾロ目ビギナー' },
+    { threshold: 13,   emoji: '🥇', name: '13の扉' },
+    { threshold: 22,   emoji: '🌟', name: 'ダブルラッキー' },
+    { threshold: 33,   emoji: '💎', name: 'トリプルライト' },
+    { threshold: 44,   emoji: '🍀', name: '四つ葉の奇跡' },
+    { threshold: 55,   emoji: '⭐', name: 'ファイブスター' },
+    { threshold: 68,   emoji: '🌈', name: 'FQTチャレンジャー' },
+    { threshold: 77,   emoji: '🎊', name: 'ダブルセブン' },
+    { threshold: 88,   emoji: '🔥', name: '情熱エイト' },
+    { threshold: 99,   emoji: '💫', name: 'あと一歩' },
+    { threshold: 100,  emoji: '🚀', name: 'センチュリー' },
+    { threshold: 111,  emoji: '👑', name: 'ゾロ目マスター' },
+    { threshold: 130,  emoji: '🌍', name: 'FQTトラベラー' },
+    { threshold: 144,  emoji: '💠', name: 'FQTブレイクスルー' },
+    { threshold: 169,  emoji: '🌸', name: 'FQTハーモニー' },
+    { threshold: 222,  emoji: '💠', name: 'ダブルミラクル' },
+    { threshold: 333,  emoji: '🌸', name: 'トリプルハーモニー' },
+    { threshold: 365,  emoji: '🌙', name: 'イヤーコンプリート' },
+    { threshold: 378,  emoji: '💖', name: '13ヶ月の節目' },
+    { threshold: 444,  emoji: '🌿', name: 'FQTフォース' },
+    { threshold: 555,  emoji: '✨', name: 'FQTファイブ' },
+    { threshold: 666,  emoji: '🎉', name: 'FQTシックス' },
+    { threshold: 680,  emoji: '⭐', name: 'FQTエキスパート' },
+    { threshold: 777,  emoji: '🏆', name: 'FQTトリプルセブン' },
+    { threshold: 888,  emoji: '💎', name: 'FQTインフィニティ' },
+    { threshold: 999,  emoji: '🌟', name: 'FQTミレニアム前夜' },
+    { threshold: 1000, emoji: '🌠', name: 'FQTミレニアム' },
+    { threshold: 1111, emoji: '👑', name: 'FQTゾロ目レジェンド' },
+    { threshold: 1200, emoji: '🌌', name: 'FQTマスター候補' },
+    { threshold: 1300, emoji: '🌌', name: 'FQTマスター' }
+  ];
+
+  // ----- ③ 連続アクセスバッジ一覧（日数, 絵文字, 名前） -----
+  const STREAK_BADGES = [
+    { threshold: 1,    emoji: '🏅', name: '習慣スタート' },
+    { threshold: 3,    emoji: '🔹', name: '継続ビギナー' },
+    { threshold: 5,    emoji: '🍀', name: '継続の種' },
+    { threshold: 7,    emoji: '🥈', name: '習慣セブン' },
+    { threshold: 11,   emoji: '✨', name: '継続ゾロ目' },
+    { threshold: 13,   emoji: '🥇', name: '13日修行' },
+    { threshold: 22,   emoji: '🌟', name: '習慣アップ' },
+    { threshold: 33,   emoji: '💎', name: '継続の輝き' },
+    { threshold: 44,   emoji: '🍀', name: '習慣の四葉' },
+    { threshold: 55,   emoji: '⭐', name: '習慣スター' },
+    { threshold: 68,   emoji: '🔥', name: '習慣チャレンジャー' },
+    { threshold: 77,   emoji: '🎊', name: '継続ラッキー' },
+    { threshold: 88,   emoji: '💪', name: '習慣ファイター' },
+    { threshold: 99,   emoji: '💫', name: 'あと一歩' },
+    { threshold: 100,  emoji: '🚀', name: '習慣100' },
+    { threshold: 111,  emoji: '👑', name: '習慣マスター候補' },
+    { threshold: 130,  emoji: '🌿', name: '習慣キーパー' },
+    { threshold: 144,  emoji: '💠', name: '継続ブレイクスルー' },
+    { threshold: 169,  emoji: '🌸', name: '継続ハーモニー' },
+    { threshold: 222,  emoji: '💠', name: '継続ダブル' },
+    { threshold: 333,  emoji: '🌸', name: '継続トリプル' },
+    { threshold: 365,  emoji: '🌙', name: '1年間皆勤' },
+    { threshold: 378,  emoji: '💖', name: '13ヶ月皆勤' },
+    { threshold: 444,  emoji: '🌿', name: '継続フォース' },
+    { threshold: 555,  emoji: '✨', name: '継続ファイブ' },
+    { threshold: 666,  emoji: '🎉', name: '継続シックス' },
+    { threshold: 680,  emoji: '⭐', name: '習慣エキスパート' },
+    { threshold: 777,  emoji: '🏆', name: '継続777' },
+    { threshold: 888,  emoji: '💎', name: '継続インフィニティ' },
+    { threshold: 999,  emoji: '🌟', name: '継続999' },
+    { threshold: 1000, emoji: '🌠', name: '継続1000' },
+    { threshold: 1111, emoji: '👑', name: '習慣キング' },
+    { threshold: 1200, emoji: '🌌', name: '習慣マスター候補' },
+    { threshold: 1300, emoji: '🌌', name: '習慣マスター' }
+  ];
+
+  // ----- ④ 端末の今日の日付（YYYY-MM-DD）を取得 -----
+  function getTodayDateString(){
+    const now = new Date();
+    const y = now.getFullYear();
+    const m = String(now.getMonth() + 1).padStart(2, '0');
+    const d = String(now.getDate()).padStart(2, '0');
+    return `${y}-${m}-${d}`;
+  }
+
+  // ----- ⑤ 2つの日付文字列（YYYY-MM-DD）の日数差を計算 -----
+  function diffDaysBetween(dateStrA, dateStrB){
+    const a = new Date(dateStrA + 'T00:00:00');
+    const b = new Date(dateStrB + 'T00:00:00');
+    return Math.round((b.getTime() - a.getTime()) / (1000 * 60 * 60 * 24));
+  }
+
+  // ----- ⑥ LocalStorageからバッジデータを読み込む（存在しない場合は初期値） -----
+  function loadBadgeData(){
+    const defaultData = {
+      totalAccess: 0,
+      currentStreak: 0,
+      lastVisitDate: null,
+      earnedTotalBadges: [],
+      earnedStreakBadges: []
+    };
+    try{
+      const raw = window.localStorage.getItem(BADGE_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      // 想定外のデータが入っていた場合も壊れないようフォールバック
+      return {
+        totalAccess: Number(parsed.totalAccess) || 0,
+        currentStreak: Number(parsed.currentStreak) || 0,
+        lastVisitDate: parsed.lastVisitDate || null,
+        earnedTotalBadges: Array.isArray(parsed.earnedTotalBadges) ? parsed.earnedTotalBadges : [],
+        earnedStreakBadges: Array.isArray(parsed.earnedStreakBadges) ? parsed.earnedStreakBadges : []
+      };
+    } catch(e){
+      // プライベートブラウジング等でlocalStorageが使えない場合も静かにフォールバック
+      return defaultData;
+    }
+  }
+
+  // ----- ⑦ バッジデータをLocalStorageへ保存 -----
+  function saveBadgeData(data){
+    try{
+      window.localStorage.setItem(BADGE_STORAGE_KEY, JSON.stringify(data));
+    } catch(e){
+      // 保存できない環境では何もしない（機能に影響しないよう静かに無視）
+    }
+  }
+
+  // ----- ⑧ 累計・連続アクセスを更新し、新しく獲得したバッジを返す -----
+  function updateAccessAndCheckBadges(data){
+    const today = getTodayDateString();
+    const newlyEarned = []; // { type: 'total'|'streak', badge: {...} }
+
+    // 累計アクセス・連続アクセスは、どちらも「今日初めてのアクセス」の時だけ判定する
+    if (data.lastVisitDate !== today){
+      // 累計アクセスは1日1回だけ加算（同日に何度アクセスしても増えない）
+      data.totalAccess += 1;
+
+      if (data.lastVisitDate === null){
+        // 初回アクセス
+        data.currentStreak = 1;
+      } else {
+        const diff = diffDaysBetween(data.lastVisitDate, today);
+        if (diff === 1){
+          // 前日からの連続アクセス
+          data.currentStreak += 1;
+        } else if (diff > 1){
+          // 1日以上空いたのでリセット
+          data.currentStreak = 1;
+        }
+        // diff <= 0（未来日付など異常値）の場合は何もしない
+      }
+      data.lastVisitDate = today;
+    }
+
+    // 累計アクセスバッジの新規獲得チェック
+    TOTAL_ACCESS_BADGES.forEach(badge => {
+      const already = data.earnedTotalBadges.indexOf(badge.threshold) !== -1;
+      if (!already && data.totalAccess >= badge.threshold){
+        data.earnedTotalBadges.push(badge.threshold);
+        newlyEarned.push({ type: 'total', badge: badge });
+      }
+    });
+
+    // 連続アクセスバッジの新規獲得チェック
+    STREAK_BADGES.forEach(badge => {
+      const already = data.earnedStreakBadges.indexOf(badge.threshold) !== -1;
+      if (!already && data.currentStreak >= badge.threshold){
+        data.earnedStreakBadges.push(badge.threshold);
+        newlyEarned.push({ type: 'streak', badge: badge });
+      }
+    });
+
+    return newlyEarned;
+  }
+
+  // ----- ⑨ 現在の値から「現在のバッジ」「次のバッジ」「進捗率」を求める -----
+  function calcBadgeProgress(currentValue, badgeList){
+    // 達成済みの中で最も基準値が高いものを「現在のバッジ」とする
+    let currentBadge = null;
+    let nextBadge = null;
+    for (let i = 0; i < badgeList.length; i++){
+      if (badgeList[i].threshold <= currentValue){
+        currentBadge = badgeList[i];
+      } else {
+        nextBadge = badgeList[i];
+        break;
+      }
+    }
+    if (!nextBadge){
+      // 全バッジ達成済み
+      return { currentBadge, nextBadge: null, progressPercent: 100, remain: 0 };
+    }
+    const prevThreshold = currentBadge ? currentBadge.threshold : 0;
+    const range = nextBadge.threshold - prevThreshold;
+    const progressed = currentValue - prevThreshold;
+    const progressPercent = range > 0 ? Math.min(100, Math.max(0, (progressed / range) * 100)) : 0;
+    const remain = nextBadge.threshold - currentValue;
+    return { currentBadge, nextBadge, progressPercent, remain };
+  }
+
+  // ----- ⑩ 進捗ブロック（累計／連続共通）をDOMへ反映 -----
+  function renderProgressBlock(prefix, currentValue, badgeList, unitLabel){
+    const progress = calcBadgeProgress(currentValue, badgeList);
+    const emojiEl = document.getElementById(prefix + 'CurrentEmoji');
+    const nameEl = document.getElementById(prefix + 'CurrentName');
+    const nextTextEl = document.getElementById(prefix + 'NextText');
+    const fillEl = document.getElementById(prefix + 'ProgressFill');
+    const countEl = document.getElementById(prefix + 'ProgressCount');
+
+    if (progress.currentBadge){
+      emojiEl.textContent = progress.currentBadge.emoji;
+      nameEl.textContent = progress.currentBadge.name;
+    } else {
+      emojiEl.textContent = '🔓';
+      nameEl.textContent = 'まだバッジがありません';
+    }
+
+    if (progress.nextBadge){
+      nextTextEl.textContent =
+        `次のバッジ：${progress.nextBadge.emoji} ${progress.nextBadge.name}（あと${progress.remain}${unitLabel}）`;
+      countEl.textContent =
+        `${currentValue.toLocaleString('ja-JP')} / ${progress.nextBadge.threshold.toLocaleString('ja-JP')}${unitLabel}　${progress.progressPercent.toFixed(0)}%`;
+    } else {
+      // 1300日到達（最高ランク）：次のバッジは表示せずMAX表記にする
+      nextTextEl.textContent = '🎊 最高ランク達成（MAX）';
+      countEl.textContent = `${currentValue.toLocaleString('ja-JP')}${unitLabel}　MAX`;
+    }
+    fillEl.style.width = progress.progressPercent + '%';
+  }
+
+  // ----- ⑪ バッジ一覧グリッドをDOMへ反映 -----
+  function renderBadgeGrid(containerId, badgeList, earnedList){
+    const container = document.getElementById(containerId);
+    container.innerHTML = ''; // 既存表示をクリア
+    badgeList.forEach(badge => {
+      const earned = earnedList.indexOf(badge.threshold) !== -1;
+      const isMaxRank = badge.threshold === 1300; // 最高ランクは特別演出にする
+      let className = 'badge-item ' + (earned ? 'earned' : 'locked');
+      if (earned && isMaxRank) className += ' max-rank';
+      const item = document.createElement('div');
+      item.className = className;
+      item.innerHTML =
+        `<span class="badge-emoji">${badge.emoji}</span>` +
+        `<span class="badge-name">${badge.name}</span>`;
+      container.appendChild(item);
+    });
+  }
+
+  // ----- ⑫ サマリーカード（トップ）とモーダル全体をまとめて再描画 -----
+  function renderAll(data){
+    // 旧バッジ仕様の履歴（現在のバッジ一覧に存在しないID）は集計から除外する
+    const validTotalThresholds = TOTAL_ACCESS_BADGES.map(b => b.threshold);
+    const validStreakThresholds = STREAK_BADGES.map(b => b.threshold);
+    const earnedTotalCount = data.earnedTotalBadges.filter(t => validTotalThresholds.indexOf(t) !== -1).length;
+    const earnedStreakCount = data.earnedStreakBadges.filter(t => validStreakThresholds.indexOf(t) !== -1).length;
+    const totalEarnedCount = earnedTotalCount + earnedStreakCount;
+    const totalBadgeCount = TOTAL_ACCESS_BADGES.length + STREAK_BADGES.length;
+
+    // トップのサマリーカード
+    document.getElementById('badgeSummaryStreak').textContent = data.currentStreak + '日';
+    document.getElementById('badgeSummaryTotal').textContent = data.totalAccess + '日';
+    document.getElementById('badgeSummaryCount').textContent = totalEarnedCount + '個';
+
+    // モーダル内のサマリー
+    document.getElementById('badgeModalStreak').textContent = data.currentStreak + '日';
+    document.getElementById('badgeModalTotal').textContent = data.totalAccess + '日';
+    document.getElementById('badgeModalCount').textContent = `${totalEarnedCount} / ${totalBadgeCount}個`;
+
+    // 進捗ブロック
+    renderProgressBlock('totalBadge', data.totalAccess, TOTAL_ACCESS_BADGES, '日');
+    renderProgressBlock('streakBadge', data.currentStreak, STREAK_BADGES, '日');
+
+    // バッジ一覧グリッド
+    renderBadgeGrid('totalBadgeGrid', TOTAL_ACCESS_BADGES, data.earnedTotalBadges);
+    renderBadgeGrid('streakBadgeGrid', STREAK_BADGES, data.earnedStreakBadges);
+  }
+
+  // ----- ⑬ 紙吹雪エフェクトを生成 -----
+  function launchConfetti(){
+    const colors = ['#f43f5e', '#f59e0b', '#22c55e', '#3b82f6', '#a855f7', '#eab308'];
+    const pieceCount = 40;
+    for (let i = 0; i < pieceCount; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      // アニメーション終了後にDOMから除去（メモリを圧迫しないように）
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+  }
+
+  // ----- ⑭ バッジ獲得ポップアップを1件表示する -----
+  function showEarnPopup(entry){
+    const overlay = document.getElementById('badgeEarnOverlay');
+    const typeLabel = entry.type === 'total' ? '累計アクセス' : '連続アクセス';
+    const unit = '日'; // 累計・連続どちらも「日」で統一（累計アクセス"日数"バッジのため）
+    document.getElementById('badgeEarnEmoji').textContent = entry.badge.emoji;
+    document.getElementById('badgeEarnName').textContent = entry.badge.name;
+    document.getElementById('badgeEarnDesc').textContent =
+      `${typeLabel}${entry.badge.threshold.toLocaleString('ja-JP')}${unit}達成！`;
+    overlay.classList.add('show');
+
+    launchConfetti();
+
+    // 対応端末のみ軽くバイブレーション
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([40, 30, 40]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  }
+
+  // ----- ⑮ 獲得済みバッジの通知キューを順番に表示する -----
+  let earnQueue = [];
+  function processEarnQueue(){
+    if (earnQueue.length === 0) return;
+    const next = earnQueue.shift();
+    showEarnPopup(next);
+  }
+
+  // ----- 状態を保持する変数（このモジュール内だけで使用） -----
+  let badgeData = loadBadgeData();
+
+  // ----- ⑯ 初期化：アクセスを記録し、画面を描画し、新規バッジがあれば通知する -----
+  function initialize(){
+    const newlyEarned = updateAccessAndCheckBadges(badgeData);
+    saveBadgeData(badgeData);
+    renderAll(badgeData);
+
+    if (newlyEarned.length > 0){
+      earnQueue = newlyEarned.slice();
+      processEarnQueue();
+    }
+  }
+
+  // ----- ⑰ イベント登録 -----
+  const badgeOpenBtn = document.getElementById('badgeOpenBtn');
+  const badgeModalOverlay = document.getElementById('badgeModalOverlay');
+  const badgeModalCloseBtn = document.getElementById('badgeModalCloseBtn');
+  const badgeEarnOverlay = document.getElementById('badgeEarnOverlay');
+  const badgeEarnOkBtn = document.getElementById('badgeEarnOkBtn');
+  const badgeResetBtn = document.getElementById('badgeResetBtn');
+
+  // バッジ一覧モーダルを開く
+  badgeOpenBtn.addEventListener('click', () => {
+    renderAll(badgeData); // 開くたびに最新状態を反映
+    badgeModalOverlay.classList.add('show');
+  });
+
+  // バッジ一覧モーダルを閉じる（✕ボタン、または背景タップ）
+  badgeModalCloseBtn.addEventListener('click', () => {
+    badgeModalOverlay.classList.remove('show');
+  });
+  badgeModalOverlay.addEventListener('click', (e) => {
+    if (e.target === badgeModalOverlay){
+      badgeModalOverlay.classList.remove('show');
+    }
+  });
+
+  // バッジ獲得ポップアップのOKボタン：閉じて次のキューがあれば続けて表示
+  badgeEarnOkBtn.addEventListener('click', () => {
+    badgeEarnOverlay.classList.remove('show');
+    // 少し間を置いて次のポップアップを表示（連続表示の見やすさのため）
+    setTimeout(processEarnQueue, 300);
+  });
+
+  // データリセット（設定的な操作）：確認ダイアログでYESの場合のみ実行
+  badgeResetBtn.addEventListener('click', () => {
+    const confirmed = window.confirm('本当にリセットしますか？');
+    if (!confirmed) return; // YES以外は何もしない
+
+    badgeData = {
+      totalAccess: 0,
+      currentStreak: 0,
+      lastVisitDate: null,
+      earnedTotalBadges: [],
+      earnedStreakBadges: []
+    };
+    saveBadgeData(badgeData);
+    renderAll(badgeData);
+  });
+
+  // ----- 起動 -----
+  initialize();
+
+})();
+
+/* ==========================================================
+   🌌 宇宙どうぶつ図鑑（追加実装のみ・既存機能には触れない）
+   ・SVGのみで描画（画像ファイル・外部ライブラリ・AI画像API不使用）
+   ・累計/連続アクセス日数には影響しない（表示専用の機能）
+   ・LocalStorageには図鑑データ（発見済みIDと最小限の情報）のみ保存
+   ========================================================== */
+(function initSpaceAnimalDex(){
+
+  // ----- ① 保存データのキー（バッジとは別の独立したキー） -----
+  const DEX_STORAGE_KEY = 'fqtLifeCounter_animalDex';
+  const BADGE_DATA_KEY_FOR_SEED = 'fqtLifeCounter_badgeData'; // 種（シード）生成のため読み取り専用で参照
+
+  /* ==========================================================
+     ② パーツ素材（色・カラーパレットなど）
+     各パーツの「見た目のバリエーション」は、
+     少数の基本テンプレート × 回転・拡大縮小・反転などの
+     パラメータ変化を組み合わせて実現している（保守しやすさ重視）。
+     これにより数百万通り以上の組み合わせを、
+     少ないコード量で実現できる。
+     ========================================================== */
+
+  // 体・パーツの色（30色）
+  const BODY_COLORS = [
+    '#FFB3C6','#FFD6A5','#FFF3B0','#CDEAC0','#B5EAD7','#A0E7E5','#B4D4FF','#C7B7F5',
+    '#F5B7EE','#F7A6A6','#FFDAC1','#E2F0CB','#B5D8EB','#D0BFFF','#FFC6FF','#9BF6FF',
+    '#CAFFBF','#FDFFB6','#FFADAD','#A0C4FF','#BDB2FF','#FFC8DD','#BDE0FE','#A2D2FF',
+    '#FFAFCC','#CDB4DB','#E4C1F9','#F1FFC4','#B8F2E6','#AED9E0'
+  ];
+
+  // パターン用の差し色（体色より少し濃い/淡いイメージで固定の配色を用意）
+  const PATTERN_COLORS = [
+    '#FFFFFF','#FFE5EC','#FFF1E6','#E8F6EF','#EAE4F5','#FFF9DB','#E7F5FF','#FDF0FF'
+  ];
+
+  // 背景色（20種／宇宙っぽい配色）
+  const BG_COLORS = [
+    '#1B2A55','#2A1B55','#1B4055','#551B3A','#1B5540','#3A1B55','#551B1B','#1B3A55',
+    '#402A6E','#2A4E6E','#6E2A55','#2A6E4E','#6E4E2A','#4E2A6E','#2A6E6E','#6E2A2A',
+    '#28304F','#4F284A','#284F3E','#4F3E28'
+  ];
+
+  // ----- ③ シード生成：日付・時刻・アクセス日数・生年月日から決定的な乱数の種を作る -----
+  function generateAnimalSeed(){
+    const now = new Date();
+    const dateStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
+    const timeStr = `${now.getMinutes()}-${now.getSeconds()}-${now.getMilliseconds()}`;
+
+    // バッジデータ（累計/連続アクセス日数）を読み取り専用で参照する
+    // ※ ここでは絶対に加算・保存を行わない（既存のバッジ機能に影響を与えないため）
+    let totalAccess = 0;
+    let currentStreak = 0;
+    try{
+      const raw = window.localStorage.getItem(BADGE_DATA_KEY_FOR_SEED);
+      if (raw){
+        const parsed = JSON.parse(raw);
+        totalAccess = Number(parsed.totalAccess) || 0;
+        currentStreak = Number(parsed.currentStreak) || 0;
+      }
+    } catch(e){
+      // 読み取れない場合は0のまま進める
+    }
+
+    // 生年月日（入力済みなら利用、未入力ならランダム性を保つため現在時刻のみで代用）
+    const birthEl = document.getElementById('birthdate');
+    const birthValue = (birthEl && birthEl.value) ? birthEl.value : 'guest';
+
+    const seedStr = `animal_${dateStr}_${timeStr}_${totalAccess}_${currentStreak}_${birthValue}_${Math.random()}`;
+    // 末尾にMath.random()を加えることで「同じ日に何度アクセスしても毎回違う」を確実にする
+    return simpleHash(seedStr);
+  }
+
+  // ----- ④ シードから各パーツのインデックスを決定 -----
+  // 素数に近い大きな値で割ることで、各パーツの抽選が互いに干渉しにくいようにする
+  function pickPartIndices(seed){
+    return {
+      body:     seed % 20,
+      ear:      Math.floor(seed / 23)   % 20,
+      eye:      Math.floor(seed / 47)   % 20,
+      mouth:    Math.floor(seed / 71)   % 15,
+      nose:     Math.floor(seed / 97)   % 10,
+      tail:     Math.floor(seed / 131)  % 20,
+      wing:     Math.floor(seed / 173)  % 10,
+      horn:     Math.floor(seed / 211)  % 10,
+      antenna:  Math.floor(seed / 251)  % 10,
+      hand:     Math.floor(seed / 293)  % 15,
+      foot:     Math.floor(seed / 337)  % 15,
+      pattern:  Math.floor(seed / 383)  % 30,
+      background: Math.floor(seed / 431) % 20,
+      color:    Math.floor(seed / 479)  % 30,
+      star:     Math.floor(seed / 523)  % 15
+    };
+  }
+
+  // ----- ⑤ レア度の判定（★1〜★5、指定された出現率に基づく） -----
+  // 大きな整数のシードを0〜1の小数に変換して判定する
+  function pickRarity(seed){
+    const roll = (seed % 100000) / 100000; // 0.00000〜0.99999
+    if (roll < 0.005) return 5;             // 0.5%
+    if (roll < 0.005 + 0.03) return 4;      // 3%
+    if (roll < 0.005 + 0.03 + 0.12) return 3; // 12%
+    if (roll < 0.005 + 0.03 + 0.12 + 0.30) return 2; // 30%
+    return 1;                                // 残り 54.5%
+  }
+
+  /* ==========================================================
+     ⑥ SVG生成：各パーツを「基本テンプレート × 変形パラメータ」で描画
+     ========================================================== */
+
+  // 便利関数：指定インデックスを「テンプレート番号」と「変化パターン」に分解する
+  function splitVariant(index, templateCount){
+    return {
+      t: index % templateCount,
+      v: Math.floor(index / templateCount)
+    };
+  }
+
+  // 背景（宇宙っぽい放射状グラデーション円＋淡いリング）
+  function buildBackgroundSVG(bgIndex, idPrefix){
+    const color = BG_COLORS[bgIndex % BG_COLORS.length];
+    const gradId = `${idPrefix}-bgGrad`;
+    return `
+      <defs>
+        <radialGradient id="${gradId}" cx="50%" cy="42%" r="70%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="0.25"/>
+          <stop offset="55%" stop-color="${color}"/>
+          <stop offset="100%" stop-color="${color}" stop-opacity="0.85"/>
+        </radialGradient>
+      </defs>
+      <rect x="0" y="0" width="200" height="200" fill="url(#${gradId})"/>
+    `;
+  }
+
+  // 星エフェクト（15種：数・大きさ・散らばり方が変化する小さな星／点）
+  function buildStarsSVG(starIndex){
+    const { t, v } = splitVariant(starIndex, 5);
+    const counts = [4, 6, 9, 12, 16];
+    const count = counts[t];
+    const sizeBase = 1.2 + v * 0.5;
+    let stars = '';
+    // シード的に決定的な配置にするため、starIndexを使った簡易な疑似乱数を用いる
+    let pseudoSeed = starIndex * 9973 + 17;
+    function nextRand(){
+      pseudoSeed = (pseudoSeed * 48271) % 2147483647;
+      return (pseudoSeed % 1000) / 1000;
+    }
+    for (let i = 0; i < count; i++){
+      const x = (nextRand() * 180 + 10).toFixed(1);
+      const y = (nextRand() * 90 + 5).toFixed(1);
+      const r = (sizeBase * (0.6 + nextRand() * 0.8)).toFixed(1);
+      const op = (0.5 + nextRand() * 0.5).toFixed(2);
+      stars += `<circle cx="${x}" cy="${y}" r="${r}" fill="#ffffff" opacity="${op}"/>`;
+    }
+    return `<g>${stars}</g>`;
+  }
+
+  // しっぽ（20種：形テンプレート4種 × カール具合5段階）
+  function buildTailSVG(tailIndex, color){
+    const { t, v } = splitVariant(tailIndex, 4);
+    const curl = 10 + v * 8;
+    const templates = [
+      `M60,140 Q${20 - curl},150 ${15 - curl},110`,   // ふわっとカーブ
+      `M60,140 Q${10 - curl},130 ${20 - curl},90`,    // つり上がり
+      `M60,150 Q${25 - curl},170 ${40 - curl},185`,   // 垂れ下がり
+      `M60,140 Q${5 - curl},110 ${30 - curl},80`       // くるんと巻く
+    ];
+    return `<path d="${templates[t]}" stroke="${color}" stroke-width="14" fill="none" stroke-linecap="round"/>`;
+  }
+
+  // 羽（10種：形2種 × サイズ／角度5段階）
+  function buildWingSVG(wingIndex, color){
+    const { t, v } = splitVariant(wingIndex, 2);
+    const spread = 18 + v * 5;
+    const tilt = v * 4;
+    const shape = t === 0
+      ? `M0,0 Q-${28 + spread},-${10 + tilt} -${20 + spread},${20} Q-${10},${10} 0,0`
+      : `M0,0 Q-${20 + spread},-${20 + tilt} -${10 + spread},${25} Q-${5},${15} 0,0`;
+    return `
+      <g opacity="0.9">
+        <path d="${shape}" fill="${color}" opacity="0.55" transform="translate(38,95)"/>
+        <path d="${shape}" fill="${color}" opacity="0.55" transform="translate(162,95) scale(-1,1)"/>
+      </g>
+    `;
+  }
+
+  // 角（10種：本数・長さ・カーブが変化）
+  function buildHornSVG(hornIndex, color){
+    const { t, v } = splitVariant(hornIndex, 2);
+    const len = 16 + v * 4;
+    if (t === 0){
+      // 中央1本角
+      return `<path d="M100,55 Q${96},${55 - len} 100,${40 - len}" stroke="${color}" stroke-width="8" fill="none" stroke-linecap="round"/>`;
+    }
+    // 左右2本角
+    return `
+      <path d="M85,58 Q${78},${58 - len} 74,${45 - len}" stroke="${color}" stroke-width="7" fill="none" stroke-linecap="round"/>
+      <path d="M115,58 Q${122},${58 - len} 126,${45 - len}" stroke="${color}" stroke-width="7" fill="none" stroke-linecap="round"/>
+    `;
+  }
+
+  // アンテナ（10種：本数・先端の玉の大きさが変化）
+  function buildAntennaSVG(antennaIndex, color){
+    const { t, v } = splitVariant(antennaIndex, 2);
+    const ballR = 4 + v * 1.2;
+    if (t === 0){
+      return `
+        <line x1="100" y1="55" x2="100" y2="32" stroke="${color}" stroke-width="3"/>
+        <circle cx="100" cy="30" r="${ballR}" fill="${color}"/>
+      `;
+    }
+    return `
+      <line x1="90" y1="56" x2="82" y2="30" stroke="${color}" stroke-width="3"/>
+      <circle cx="81" cy="27" r="${ballR}" fill="${color}"/>
+      <line x1="110" y1="56" x2="118" y2="30" stroke="${color}" stroke-width="3"/>
+      <circle cx="119" cy="27" r="${ballR}" fill="${color}"/>
+    `;
+  }
+
+  // 耳（20種：形テンプレート4種 × 大きさ／角度5段階）
+  function buildEarSVG(earIndex, color){
+    const { t, v } = splitVariant(earIndex, 4);
+    const size = 16 + v * 2.4;
+    const angle = v * 6;
+    const shapes = [
+      // 丸耳
+      (cx, sign) => `<ellipse cx="${cx}" cy="${52 - size * 0.3}" rx="${size * 0.55}" ry="${size * 0.7}" fill="${color}" transform="rotate(${sign * angle} ${cx} 60)"/>`,
+      // とがり耳
+      (cx, sign) => `<path d="M${cx - size * 0.4},60 Q${cx},${60 - size * 1.4} ${cx + size * 0.4},60 Z" fill="${color}" transform="rotate(${sign * angle} ${cx} 60)"/>`,
+      // たれ耳
+      (cx, sign) => `<ellipse cx="${cx}" cy="68" rx="${size * 0.4}" ry="${size * 0.9}" fill="${color}" transform="rotate(${sign * (angle + 20)} ${cx} 58)"/>`,
+      // ぷっくり丸耳（大きめ）
+      (cx, sign) => `<circle cx="${cx}" cy="${55 - size * 0.2}" r="${size * 0.6}" fill="${color}" transform="rotate(${sign * angle} ${cx} 60)"/>`
+    ];
+    const fn = shapes[t];
+    return `${fn(62, -1)}${fn(138, 1)}`;
+  }
+
+  // 目（20種：形4種 × 大きさ／表情5段階）
+  function buildEyeSVG(eyeIndex){
+    const { t, v } = splitVariant(eyeIndex, 4);
+    const r = 9 + v * 1.4;
+    const shapes = [
+      // ぱっちり丸目
+      (cx) => `<circle cx="${cx}" cy="95" r="${r}" fill="#2b2b2b"/><circle cx="${cx - 2}" cy="${92}" r="${r * 0.32}" fill="#ffffff"/>`,
+      // たれ目（やさしい）
+      (cx) => `<ellipse cx="${cx}" cy="97" rx="${r}" ry="${r * 0.8}" fill="#2b2b2b"/><circle cx="${cx - 2}" cy="94" r="${r * 0.3}" fill="#ffffff"/>`,
+      // つり目（元気）
+      (cx) => `<ellipse cx="${cx}" cy="93" rx="${r}" ry="${r * 0.85}" fill="#2b2b2b" transform="rotate(-8 ${cx} 93)"/><circle cx="${cx - 1}" cy="90" r="${r * 0.3}" fill="#ffffff"/>`,
+      // キラキラおめめ（大きめハイライト2つ）
+      (cx) => `<circle cx="${cx}" cy="95" r="${r * 1.05}" fill="#2b2b2b"/><circle cx="${cx - 3}" cy="91" r="${r * 0.35}" fill="#ffffff"/><circle cx="${cx + 2}" cy="97" r="${r * 0.2}" fill="#ffffff"/>`
+    ];
+    const fn = shapes[t];
+    return `${fn(80)}${fn(120)}`;
+  }
+
+  // 鼻（10種：小さな点・三角・ハートなど）
+  function buildNoseSVG(noseIndex, color){
+    const { t } = splitVariant(noseIndex, 5);
+    const shapes = [
+      `<circle cx="100" cy="108" r="2.6" fill="${color}"/>`,
+      `<ellipse cx="100" cy="108" rx="3.4" ry="2.4" fill="${color}"/>`,
+      `<path d="M97,106 L103,106 L100,111 Z" fill="${color}"/>`,
+      `<path d="M100,110 Q97,105 94,108 Q97,113 100,110 Q103,105 106,108 Q103,113 100,110 Z" fill="${color}" transform="scale(0.6) translate(66,72)"/>`,
+      `<rect x="97.5" y="105.5" width="5" height="4" rx="2" fill="${color}"/>`
+    ];
+    return shapes[t];
+  }
+
+  // 口（15種：にっこり・ぽかん・への字など5種 × 幅3段階）
+  function buildMouthSVG(mouthIndex){
+    const { t, v } = splitVariant(mouthIndex, 5);
+    const w = 6 + v * 2;
+    const shapes = [
+      `<path d="M${100 - w},116 Q100,${122 + v} ${100 + w},116" stroke="#7a4a3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>`, // にっこり
+      `<ellipse cx="100" cy="118" rx="${w * 0.6}" ry="${w * 0.5}" fill="#7a4a3a"/>`, // ぽかん
+      `<path d="M${100 - w},119 Q100,${116 - v} ${100 + w},119" stroke="#7a4a3a" stroke-width="2.2" fill="none" stroke-linecap="round"/>`, // への字
+      `<line x1="${100 - w}" y1="117" x2="${100 + w}" y2="117" stroke="#7a4a3a" stroke-width="2.2" stroke-linecap="round"/>`, // 一文字
+      `<path d="M${100 - w},115 Q100,${124 + v} ${100 + w},115 Q100,${119 + v} ${100 - w},115 Z" fill="#7a4a3a" opacity="0.85"/>` // にっこり大きめ（歯見え風）
+    ];
+    return shapes[t];
+  }
+
+  // 体型（20種：楕円の縦横比・丸み5段階 × ぷにぷに感4パターン）
+  function buildBodySVG(bodyIndex, color){
+    const { t, v } = splitVariant(bodyIndex, 4);
+    const wobble = v * 3;
+    const rx = 44 + t * 2;
+    const ry = 48 - t * 1.5 + wobble;
+    return `<ellipse cx="100" cy="105" rx="${rx}" ry="${ry}" fill="${color}"/>`;
+  }
+
+  // 模様（30種：ドット・しま・はな・なし などを体に重ねる）
+  function buildPatternSVG(patternIndex, patternColor){
+    const { t, v } = splitVariant(patternIndex, 6);
+    const opacity = (0.35 + v * 0.08).toFixed(2);
+    if (t === 0){
+      // 模様なし
+      return '';
+    }
+    if (t === 1){
+      // 水玉
+      let dots = '';
+      for (let i = 0; i < 6; i++){
+        const angle = (i / 6) * Math.PI * 2;
+        const cx = 100 + Math.cos(angle) * 26;
+        const cy = 110 + Math.sin(angle) * 26;
+        dots += `<circle cx="${cx.toFixed(1)}" cy="${cy.toFixed(1)}" r="5" fill="${patternColor}" opacity="${opacity}"/>`;
+      }
+      return `<g>${dots}</g>`;
+    }
+    if (t === 2){
+      // しましま
+      let lines = '';
+      for (let i = 0; i < 4; i++){
+        lines += `<ellipse cx="100" cy="${80 + i * 16}" rx="40" ry="5" fill="${patternColor}" opacity="${opacity}"/>`;
+      }
+      return `<g>${lines}</g>`;
+    }
+    if (t === 3){
+      // ほっぺ（チーク）
+      return `
+        <circle cx="72" cy="105" r="7" fill="${patternColor}" opacity="${Number(opacity) + 0.15}"/>
+        <circle cx="128" cy="105" r="7" fill="${patternColor}" opacity="${Number(opacity) + 0.15}"/>
+      `;
+    }
+    if (t === 4){
+      // お腹の楕円（ベリーパッチ）
+      return `<ellipse cx="100" cy="118" rx="22" ry="26" fill="${patternColor}" opacity="${opacity}"/>`;
+    }
+    // ハートワンポイント
+    return `<path d="M100,128 Q94,120 88,124 Q92,132 100,138 Q108,132 112,124 Q106,120 100,128 Z" fill="${patternColor}" opacity="${Number(opacity) + 0.2}"/>`;
+  }
+
+  // 手（15種：位置・振り方3種 × 大きさ5段階）
+  function buildHandSVG(handIndex, color){
+    const { t, v } = splitVariant(handIndex, 3);
+    const r = 8 + v * 0.8;
+    const lift = t * 6;
+    return `
+      <circle cx="${62 - v}" cy="${125 - lift}" r="${r}" fill="${color}"/>
+      <circle cx="${138 + v}" cy="${125 - lift}" r="${r}" fill="${color}"/>
+    `;
+  }
+
+  // 足（15種：太さ・間隔3種 × 大きさ5段階）
+  function buildFootSVG(footIndex, color){
+    const { t, v } = splitVariant(footIndex, 3);
+    const r = 9 + v * 0.8;
+    const gap = 16 + t * 4;
+    return `
+      <ellipse cx="${100 - gap}" cy="150" rx="${r}" ry="${r * 0.8}" fill="${color}"/>
+      <ellipse cx="${100 + gap}" cy="150" rx="${r}" ry="${r * 0.8}" fill="${color}"/>
+    `;
+  }
+
+  // ----- ⑦ すべてのパーツを合成してSVG文字列を組み立てる -----
+  function buildAnimalSVG(parts, idPrefix){
+    const bodyColor = BODY_COLORS[parts.color % BODY_COLORS.length];
+    const patternColor = PATTERN_COLORS[parts.pattern % PATTERN_COLORS.length];
+    // 手足・耳・角・アンテナは体色よりわずかに濃い同系色にするため、
+    // 単純化して体色をそのまま利用する（保守しやすさ優先）
+    const accentColor = bodyColor;
+
+    return `
+      <svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+        ${buildBackgroundSVG(parts.background, idPrefix)}
+        ${buildStarsSVG(parts.star)}
+        ${buildTailSVG(parts.tail, bodyColor)}
+        ${buildWingSVG(parts.wing, bodyColor)}
+        ${buildFootSVG(parts.foot, bodyColor)}
+        ${buildBodySVG(parts.body, bodyColor)}
+        ${buildPatternSVG(parts.pattern, patternColor)}
+        ${buildHandSVG(parts.hand, bodyColor)}
+        ${buildEarSVG(parts.ear, bodyColor)}
+        ${buildHornSVG(parts.horn, accentColor)}
+        ${buildAntennaSVG(parts.antenna, accentColor)}
+        ${buildEyeSVG(parts.eye)}
+        ${buildNoseSVG(parts.nose, '#7a4a3a')}
+        ${buildMouthSVG(parts.mouth)}
+      </svg>
+    `;
+  }
+
+  /* ==========================================================
+     ⑧ 名前・性格・好きなもの・ひとこと の自動生成
+     ========================================================== */
+
+  // 名前パーツ（接頭×接尾の組み合わせで数千種類以上を実現）
+  const NAME_PREFIXES = [
+    'ルミ','ネビュ','コスモ','キラ','ポヨ','モコ','スター','プニ','ソラ','ピカ',
+    'ミルキー','ツキ','ホシ','ふわ','ぴこ','るな','てん','うちゅう','キャンディ','にじ',
+    'あかり','ぽわ','ゆめ','しゅわ','こなゆき','ぷく','とろ','ぎゅ','ふぁ','くる'
+  ];
+  const NAME_SUFFIXES = [
+    'にゃん','ぽん','ン','ぴょん','ロン','ルン','たま','もふ','るん','かん',
+    'まる','ちゃん','ぽこ','りん','ぴ','ぷ','こ','み','む','わん'
+  ];
+
+  function generateAnimalName(seed){
+    const prefix = NAME_PREFIXES[Math.floor(seed / 7) % NAME_PREFIXES.length];
+    const suffix = NAME_SUFFIXES[Math.floor(seed / 13) % NAME_SUFFIXES.length];
+    return prefix + suffix;
+  }
+
+  // 性格（50種以上）
+  const PERSONALITIES = [
+    'のんびり屋', '好奇心いっぱい', '甘えん坊', '勇敢', '優しい', '食いしん坊', '星集め名人', '虹好き',
+    '宇宙探検家', 'お昼寝好き', 'おしゃべり', 'てれ屋', 'いたずら好き', 'がんばり屋', '夢見がち',
+    'マイペース', '几帳面', '大胆', '心配性', 'ムードメーカー', '一途', '천진난만', '頑固', '天真爛漫',
+    '芸術家肌', 'おっとり', '負けず嫌い', '甘党', '寒がり', '暑がり', '朝型', '夜型', '記憶力抜群',
+    '方向音痴', '踊り好き', '歌好き', '読書家', 'コレクター気質', '几帳面すぎる', '楽天家', '慎重派',
+    'ロマンチスト', '現実主義', '好奇心旺盛', 'お世話好き', 'ひとり時間が好き', '仲間思い', '流行に敏感',
+    'マイブーム多め', 'よく笑う', '静かに燃えるタイプ', '直感型'
+  ];
+
+  // 好きなもの（50種以上）
+  const FAVORITES = [
+    '星', '月', '虹', '地球', '花', '水', 'コーヒー', '色鉛筆', '空', '四つ葉',
+    '雲', '雨上がり', '朝日', '夕焼け', '流れ星', '雪', '風', '砂浜', '波の音', '焚き火',
+    'はちみつ', 'いちご', 'クッキー', 'マシュマロ', '紅茶', 'キラキラしたもの', 'やわらかい毛布',
+    '音楽', 'ダンス', '絵を描くこと', '手紙', '写真', '思い出', '昼寝', '散歩', 'おしゃべり',
+    '静かな夜', 'にぎやかな朝', '本', '手作りのもの', '小さな冒険', '新しい発見', '友達', '家族',
+    'あたたかい飲み物', '甘い香り', '虫の声', '星座早見盤', 'プラネタリウム', '宇宙船', '流星群'
+  ];
+
+  // ひとこと（60種以上・アプリ全体の優しいトーンに合わせたポジティブなメッセージ）
+  const QUOTES = [
+    '今日はありがとうを伝えてみよう。', '空を見上げてみよう。', '笑顔は宇宙共通の言葉。',
+    '小さな幸せを探してみよう。', 'あなたは今日も素敵です。', '深呼吸すると心がほどけるよ。',
+    '今日のあなたに拍手を。', 'ゆっくり進んでも大丈夫。', '頑張った自分をほめてあげよう。',
+    '誰かの笑顔があなたの力になる。', '今日という日は二度と来ない特別な日。', '小さな一歩も立派な前進。',
+    '休むことも大切な仕事のうち。', '今日出会えてうれしいよ。', 'あなたのペースでいいんだよ。',
+    '星はいつもあなたを見守っているよ。', '雨の日も虹への準備期間。', '今日の空はどんな色かな？',
+    '好きなことをする時間を大切に。', '無理はしすぎないでね。', 'ちいさな勇気が世界を変える。',
+    '今日のごはんはおいしかった？', '誰かに優しくすると自分も温かくなるよ。', '夜はゆっくり眠ってね。',
+    '今日の自分に「おつかれさま」を。', '新しいことを始めるのに遅すぎることはないよ。',
+    '完璧じゃなくても大丈夫。', 'あなたのままで十分素敵。', '今日も一日ありがとう。',
+    '心が疲れたら深呼吸しよう。', 'ときには何もしない日があってもいい。', '好きな音楽を聴いてみよう。',
+    '窓を開けて風を感じてみよう。', '今日感じたことを大切にしてね。', 'ひとつずつ、で大丈夫。',
+    '今日のあなたのがんばりを見てるよ。', '誰かと比べなくていいんだよ。', '小さな成功を見逃さないで。',
+    '今日という日を楽しんでね。', 'あなたの時間はあなたのもの。', '心の声に耳をすませてみよう。',
+    '今日のひとときを大切に。', 'すこし立ち止まってもいいんだよ。', '応援しているよ。',
+    'あなたの笑顔が見たいな。', '今日も一緒にいられてうれしい。', '明日はきっといい日になるよ。',
+    '好きなものに囲まれて過ごそう。', '今日の空気を胸いっぱい吸ってみて。', 'できたことを数えてみよう。',
+    '今日という贈り物を大切に。', '自分にやさしくしてあげてね。', '今日のあなたを応援してるよ。',
+    'ちいさな発見を楽しんでね。', '今日はどんな一日だった？', 'あなたのペースで歩いていこう。',
+    '今日も宇宙のどこかで誰かが笑ってるよ。', 'ちょっとした冒険に出てみよう。',
+    '今日の出来事を誰かに話してみよう。', '心があたたまる瞬間を探してみて。',
+    '今日のあなたも、とても素敵だよ。'
+  ];
+
+  // ----- ⑨ 各種テキスト情報の生成 -----
+  function generateAnimalTexts(seed){
+    return {
+      name: generateAnimalName(seed),
+      personality: PERSONALITIES[Math.floor(seed / 17) % PERSONALITIES.length],
+      favorite: FAVORITES[Math.floor(seed / 19) % FAVORITES.length],
+      quote: QUOTES[Math.floor(seed / 29) % QUOTES.length]
+    };
+  }
+
+  // ----- ⑩ 宇宙どうぶつID：同じ特徴なら同じIDになるよう、パーツの組み合わせ自体から生成 -----
+  function buildAnimalId(parts){
+    // パーツ番号を連結した文字列をハッシュ化し、短いIDにする
+    const partStr = [
+      parts.body, parts.ear, parts.eye, parts.mouth, parts.nose,
+      parts.tail, parts.wing, parts.horn, parts.antenna,
+      parts.hand, parts.foot, parts.pattern, parts.background, parts.color
+    ].join('-');
+    return 'A' + simpleHash(partStr).toString(36); // starは見た目の演出のみのためIDには含めない
+  }
+
+  // ----- ⑪ LocalStorageから図鑑データを読み込む -----
+  function loadDexData(){
+    try{
+      const raw = window.localStorage.getItem(DEX_STORAGE_KEY);
+      if (!raw) return { discovered: {} };
+      const parsed = JSON.parse(raw);
+      return { discovered: (parsed && typeof parsed.discovered === 'object') ? parsed.discovered : {} };
+    } catch(e){
+      return { discovered: {} };
+    }
+  }
+
+  // ----- ⑫ 図鑑データを保存 -----
+  function saveDexData(data){
+    try{
+      window.localStorage.setItem(DEX_STORAGE_KEY, JSON.stringify(data));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let dexData = loadDexData();
+  let currentAnimal = null; // 今表示している宇宙どうぶつの情報
+
+  // ----- ⑬ 紙吹雪エフェクト（バッジ機能と同じ演出を、このモジュール内で独立して再現） -----
+  function launchConfettiForAnimal(){
+    const colors = ['#f43f5e', '#f59e0b', '#a855f7', '#38bdf8', '#22c55e', '#facc15'];
+    for (let i = 0; i < 36; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+  }
+
+  // ----- ⑭ 新しい宇宙どうぶつを1匹生成して画面に表示する -----
+  function encounterNewAnimal(){
+    const seed = generateAnimalSeed();
+    const parts = pickPartIndices(seed);
+    const rarity = pickRarity(seed);
+    const texts = generateAnimalTexts(seed);
+    const animalId = buildAnimalId(parts);
+    const isFirstMeeting = !dexData.discovered[animalId];
+
+    currentAnimal = { animalId, parts, rarity, texts };
+
+    // 初めて出会った場合は図鑑に登録する
+    if (isFirstMeeting){
+      dexData.discovered[animalId] = {
+        name: texts.name,
+        rarity: rarity,
+        personality: texts.personality,
+        favorite: texts.favorite,
+        parts: parts,
+        firstMetDate: getTodayDateStringForDex()
+      };
+      saveDexData(dexData);
+    }
+
+    renderCurrentAnimal(isFirstMeeting);
+
+    if (isFirstMeeting){
+      // NEW演出：星がキラキラ（CSSアニメーション）＋軽いズーム＋バイブレーション
+      launchConfettiForAnimal();
+      try{
+        if (window.navigator.vibrate){
+          window.navigator.vibrate([30, 20, 30]);
+        }
+      } catch(e){
+        // 非対応環境では無視
+      }
+    }
+
+    // 実績（Achievements）モジュールへ、出会った宇宙どうぶつのレア度を通知する
+    // ※ 直接関数を呼ばず、カスタムイベントで疎結合に連携する（既存モジュールに影響を与えないため）
+    document.dispatchEvent(new CustomEvent('fqtAnimalEncountered', {
+      detail: { rarity: rarity, isFirstMeeting: isFirstMeeting }
+    }));
+  }
+
+  // 今日の日付文字列（図鑑の初回発見日表示用）
+  function getTodayDateStringForDex(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // ----- ⑮ 今表示している宇宙どうぶつをDOMへ反映 -----
+  function renderCurrentAnimal(isFirstMeeting){
+    const svgWrap = document.getElementById('animalSvgWrap');
+    svgWrap.className = 'animal-svg-wrap rarity-' + currentAnimal.rarity;
+    svgWrap.innerHTML = buildAnimalSVG(currentAnimal.parts, 'stage');
+
+    document.getElementById('animalRarity').textContent =
+      'レア度 ' + '★'.repeat(currentAnimal.rarity) + '☆'.repeat(5 - currentAnimal.rarity);
+    document.getElementById('animalName').textContent = currentAnimal.texts.name;
+    document.getElementById('animalPersonality').textContent = currentAnimal.texts.personality;
+    document.getElementById('animalFavorite').textContent = currentAnimal.texts.favorite;
+    document.getElementById('animalQuote').textContent = '「' + currentAnimal.texts.quote + '」';
+
+    const newBadge = document.getElementById('animalNewBadge');
+    const metNote = document.getElementById('animalMetNote');
+    if (isFirstMeeting){
+      newBadge.style.display = 'block';
+      metNote.textContent = '';
+    } else {
+      newBadge.style.display = 'none';
+      metNote.textContent = '会ったことがあるよ！';
+    }
+  }
+
+  // ----- ⑯ 図鑑モーダルをDOMへ反映 -----
+  function renderDexModal(){
+    // 図鑑の総数は「これまでに実際に発見された組み合わせの数」を基準に表示する
+    // （体型20×耳20×...という理論上の全組み合わせは数百万〜億単位になり、
+    //   コンプリート目標として現実的でないため、発見数そのものを成長の指標として見せる）
+    const discoveredList = Object.keys(dexData.discovered).map(id => ({ id, ...dexData.discovered[id] }));
+    const discoveredCount = discoveredList.length;
+
+    document.getElementById('dexDiscoveredCount').textContent = discoveredCount + '匹';
+    // コンプリート率は「レア度5種をすべて発見できているか」を簡易的な指標として表示する
+    const rarityFound = new Set(discoveredList.map(a => a.rarity));
+    const completeRate = Math.round((rarityFound.size / 5) * 100);
+    document.getElementById('dexCompleteRate').textContent = completeRate + '%';
+
+    const grid = document.getElementById('dexGrid');
+    grid.innerHTML = '';
+
+    if (discoveredCount === 0){
+      grid.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; font-size:12px; color:var(--text-sub);">まだ宇宙どうぶつに出会っていません。アプリを開くと出会えるよ！</p>';
+      return;
+    }
+
+    // 発見が新しい順に並べる
+    discoveredList.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
+
+    discoveredList.forEach(animal => {
+      const item = document.createElement('div');
+      item.className = 'dex-item';
+      const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
+      item.innerHTML =
+        `<div class="dex-thumb">${thumbSvg}</div>` +
+        `<div class="dex-name">${animal.name}</div>` +
+        `<div class="dex-rarity">${'★'.repeat(animal.rarity)}${'☆'.repeat(5 - animal.rarity)}</div>`;
+      grid.appendChild(item);
+    });
+  }
+
+  // ----- ⑰ イベント登録 -----
+  const animalDexBtn = document.getElementById('animalDexBtn');
+  const dexModalOverlay = document.getElementById('dexModalOverlay');
+  const dexModalCloseBtn = document.getElementById('dexModalCloseBtn');
+
+  animalDexBtn.addEventListener('click', () => {
+    renderDexModal();
+    dexModalOverlay.classList.add('show');
+  });
+  dexModalCloseBtn.addEventListener('click', () => {
+    dexModalOverlay.classList.remove('show');
+  });
+  dexModalOverlay.addEventListener('click', (e) => {
+    if (e.target === dexModalOverlay){
+      dexModalOverlay.classList.remove('show');
+    }
+  });
+
+  // ----- 起動準備：他モジュール（実績・季節イベント）が連携できるよう、
+  //       必要な関数をwindowへ公開しておく -----
+  // 「計算する」押下時の再抽選は、季節イベントモジュール側のオーケストレーターが
+  // （通常表示／イベント限定表示のどちらにするか判定した上で）呼び出すため、
+  // ここでは直接のイベントリスナー登録は行わない。
+  window.__fqtEncounterNewAnimal = encounterNewAnimal;
+  window.__fqtAnimalHelpers = {
+    buildAnimalSVG: buildAnimalSVG,
+    pickPartIndices: pickPartIndices,
+    pickRarity: pickRarity
+  };
+
+})();
+
+/* ==========================================================
+   🏆 実績（Achievements）（追加実装のみ・既存機能には触れない）
+   ・宇宙どうぶつ図鑑（発見数・レア度）と連動して達成を判定する
+   ・図鑑データはLocalStorageから読み取り専用で参照するのみで、
+     図鑑側のデータを書き換えることは一切しない
+   ========================================================== */
+(function initAchievements(){
+
+  // ----- ① 保存データのキー（実績専用の独立したキー） -----
+  const ACHIEVEMENT_STORAGE_KEY = 'fqtLifeCounter_achievements';
+  const DEX_DATA_KEY_FOR_READ = 'fqtLifeCounter_animalDex'; // 図鑑データを読み取り専用で参照
+
+  // 図鑑の「コンプリート率」を計算するための目標発見数
+  // （理論上の全組み合わせは天文学的な数になり現実的な目標にならないため、
+  //   バッジの「FQTエキスパート／習慣エキスパート（680日）」と揃えて680種類を100%の目安とする）
+  const DEX_COMPLETION_TARGET = 680;
+
+  // ----- ② 実績一覧（8種類） -----
+  // type: 'discovered'（図鑑登録数）／'legend'（★5出現回数）／'completion'（コンプリート率%）
+  const ACHIEVEMENTS = [
+    { id: 'first_meeting',     emoji: '🐾', name: 'はじめまして！',       desc: '初めて宇宙どうぶつに出会う',       type: 'discovered', target: 1 },
+    { id: 'rare_hunter',       emoji: '🌟', name: 'レアハンター',         desc: '★★★★★レアを初めて発見する',        type: 'legend',      target: 1 },
+    { id: 'collector',         emoji: '🌈', name: 'コレクター',           desc: '図鑑登録数13種類',                 type: 'discovered', target: 13 },
+    { id: 'star_collector',    emoji: '🚀', name: 'スターコレクター',     desc: '図鑑登録数68種類',                 type: 'discovered', target: 68 },
+    { id: 'galaxy_collector',  emoji: '🌍', name: 'ギャラクシーコレクター', desc: '図鑑登録数130種類',              type: 'discovered', target: 130 },
+    { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13回発見',              type: 'legend',      target: 13 },
+    { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑コンプリート率50%',            type: 'completion', target: 50 },
+    { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑コンプリート率100%',           type: 'completion', target: 100 },
+    { id: 'multiverse_master', emoji: '🌌✨', name: 'マルチバースマスター', desc: '図鑑登録数1300種類',              type: 'discovered', target: 1300 }
+  ];
+
+  // ----- ③ LocalStorageから実績データを読み込む -----
+  function loadAchievementData(){
+    const defaultData = { achievements: [], legendCount: 0 };
+    try{
+      const raw = window.localStorage.getItem(ACHIEVEMENT_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        achievements: Array.isArray(parsed.achievements) ? parsed.achievements : [],
+        legendCount: Number(parsed.legendCount) || 0
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+
+  // ----- ④ 実績データをLocalStorageへ保存 -----
+  // ※ 仕様にある discoveredCount / completionRate も、参照しやすいように一緒に保存しておく
+  //    （実際の判定は毎回、図鑑データから最新値を計算し直すため、保存値は表示・記録用）
+  function saveAchievementData(data, discoveredCount, completionRate){
+    try{
+      window.localStorage.setItem(ACHIEVEMENT_STORAGE_KEY, JSON.stringify({
+        achievements: data.achievements,
+        legendCount: data.legendCount,
+        discoveredCount: discoveredCount,
+        completionRate: completionRate
+      }));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- ⑤ 図鑑データ（発見数）を読み取り専用で取得 -----
+  function getDiscoveredCount(){
+    try{
+      const raw = window.localStorage.getItem(DEX_DATA_KEY_FOR_READ);
+      if (!raw) return 0;
+      const parsed = JSON.parse(raw);
+      const discovered = (parsed && typeof parsed.discovered === 'object') ? parsed.discovered : {};
+      return Object.keys(discovered).length;
+    } catch(e){
+      return 0;
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let achievementData = loadAchievementData();
+
+  // ----- ⑥ 現在値から達成済みの実績を判定し、新規達成分を返す -----
+  function checkAchievements(){
+    const discoveredCount = getDiscoveredCount();
+    const completionRate = Math.min(100, Math.round((discoveredCount / DEX_COMPLETION_TARGET) * 100));
+    const newlyEarned = [];
+
+    ACHIEVEMENTS.forEach(ach => {
+      const already = achievementData.achievements.indexOf(ach.id) !== -1;
+      if (already) return;
+
+      let currentValue = 0;
+      if (ach.type === 'discovered') currentValue = discoveredCount;
+      else if (ach.type === 'legend') currentValue = achievementData.legendCount;
+      else if (ach.type === 'completion') currentValue = completionRate;
+
+      if (currentValue >= ach.target){
+        achievementData.achievements.push(ach.id);
+        newlyEarned.push(ach);
+      }
+    });
+
+    saveAchievementData(achievementData, discoveredCount, completionRate);
+    return { newlyEarned, discoveredCount, completionRate };
+  }
+
+  // ----- ⑦ 実績リストをモーダル内へ描画 -----
+  function renderAchievementList(){
+    const discoveredCount = getDiscoveredCount();
+    const completionRate = Math.min(100, Math.round((discoveredCount / DEX_COMPLETION_TARGET) * 100));
+    const container = document.getElementById('achievementList');
+    container.innerHTML = '';
+
+    ACHIEVEMENTS.forEach(ach => {
+      const earned = achievementData.achievements.indexOf(ach.id) !== -1;
+
+      let currentValue = 0;
+      let unit = '';
+      if (ach.type === 'discovered'){ currentValue = discoveredCount; unit = '種類'; }
+      else if (ach.type === 'legend'){ currentValue = achievementData.legendCount; unit = '回'; }
+      else if (ach.type === 'completion'){ currentValue = completionRate; unit = '%'; }
+      const displayCurrent = Math.min(currentValue, ach.target);
+
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${ach.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${ach.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+          `<div class="ach-desc">${ach.desc}</div>` +
+          `<div class="ach-progress">現在 ${displayCurrent} / ${ach.target}${unit}</div>` +
+        `</div>`;
+      container.appendChild(row);
+    });
+  }
+
+  // ----- ⑧ 紙吹雪＋星エフェクト（実績解除演出用に独立して用意） -----
+  function launchAchievementEffect(){
+    // 紙吹雪（バッジ・宇宙どうぶつと同じ演出パターンをこのモジュール内でも再現）
+    const colors = ['#ffd873', '#ffb347', '#f43f5e', '#a855f7', '#38bdf8', '#facc15'];
+    for (let i = 0; i < 40; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+    // 星エフェクト（画面中央付近にキラキラした星を一瞬散らす）
+    for (let i = 0; i < 10; i++){
+      const star = document.createElement('div');
+      star.textContent = '✨';
+      star.style.position = 'fixed';
+      star.style.left = (40 + Math.random() * 20) + 'vw';
+      star.style.top = (30 + Math.random() * 20) + 'vh';
+      star.style.fontSize = (14 + Math.random() * 14) + 'px';
+      star.style.zIndex = '650';
+      star.style.pointerEvents = 'none';
+      star.style.animation = 'animal-new-pulse 1s ease-out forwards';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 1000);
+    }
+  }
+
+  // ----- ⑨ 実績解除ポップアップを1件表示する -----
+  let earnQueue = [];
+  function showAchievementPopup(ach){
+    document.getElementById('achievementEarnEmoji').textContent = ach.emoji;
+    document.getElementById('achievementEarnName').textContent = ach.name;
+    document.getElementById('achievementEarnDesc').textContent = ach.desc + '！';
+    document.getElementById('achievementEarnOverlay').classList.add('show');
+
+    launchAchievementEffect();
+
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([40, 30, 40, 30, 60]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  }
+
+  function processEarnQueue(){
+    if (earnQueue.length === 0) return;
+    const next = earnQueue.shift();
+    showAchievementPopup(next);
+  }
+
+  // ----- ⑩ イベント登録 -----
+  const achievementEarnOverlay = document.getElementById('achievementEarnOverlay');
+  const achievementEarnOkBtn = document.getElementById('achievementEarnOkBtn');
+
+  achievementEarnOkBtn.addEventListener('click', () => {
+    achievementEarnOverlay.classList.remove('show');
+    setTimeout(processEarnQueue, 300);
+  });
+
+  // 宇宙どうぶつに出会うたびに（新規発見でも再会でも）実績条件を再チェックする
+  document.addEventListener('fqtAnimalEncountered', (e) => {
+    const rarity = e.detail && e.detail.rarity;
+    // ★5レアなら「同じ宇宙どうぶつでもカウントする」仕様のため、毎回加算する
+    if (rarity === 5){
+      achievementData.legendCount += 1;
+    }
+    const result = checkAchievements();
+    if (result.newlyEarned.length > 0){
+      earnQueue = earnQueue.concat(result.newlyEarned);
+      processEarnQueue();
+    }
+  });
+
+  // 図鑑モーダルが開かれるたびに実績一覧を最新状態で再描画する
+  // （図鑑モーダルの開閉ボタンは宇宙どうぶつモジュール側にあるため、
+  //   モーダル要素のクラス変化を監視して連携する）
+  const dexModalOverlayForAchievements = document.getElementById('dexModalOverlay');
+  if (dexModalOverlayForAchievements){
+    const observer = new MutationObserver(() => {
+      if (dexModalOverlayForAchievements.classList.contains('show')){
+        renderAchievementList();
+      }
+    });
+    observer.observe(dexModalOverlayForAchievements, { attributes: true, attributeFilter: ['class'] });
+  }
+
+  // ----- 起動：既存の図鑑データと照らして達成済みを確認しておく -----
+  checkAchievements();
+
+  // ----- 起動準備：初回の宇宙どうぶつ表示は、この後に読み込まれる
+  //       季節イベントモジュールが、全モジュールの初期化完了後に
+  //       まとめて呼び出す（通常表示／イベント限定表示の判定も担うため） -----
+
+})();
+
+/* ==========================================================
+   🎉 季節イベント＆限定宇宙どうぶつ（追加実装のみ・既存機能には触れない）
+   ・通常の宇宙どうぶつ図鑑・実績・バッジとは別の独立したデータで管理
+   ・「計算する」押下時／ページ読み込み時の1回の表示枠を、
+     このモジュールが「通常表示にするかイベント限定表示にするか」を
+     判定した上でオーケストレーション（司令塔）する
+   ========================================================== */
+(function initSeasonalEvents(){
+
+  // ----- ① 保存データのキー（イベント専用の独立したキー） -----
+  const EVENT_STORAGE_KEY = 'fqtLifeCounter_eventData';
+  const ULTIMATE_STORAGE_KEY = 'fqtLifeCounter_ultimateMaster';
+
+  // 他モジュールのデータを読み取り専用で参照するためのキー
+  const BADGE_DATA_KEY = 'fqtLifeCounter_badgeData';
+  const DEX_DATA_KEY = 'fqtLifeCounter_animalDex';
+  const ACHIEVEMENT_DATA_KEY = 'fqtLifeCounter_achievements';
+
+  /* ==========================================================
+     ② イベント定義（8種類・各10匹の限定宇宙どうぶつ）
+     ========================================================== */
+  const EVENTS = [
+    {
+      id: 'spring', emoji: '🌸', name: '春', start: [3, 1], end: [5, 31],
+      creatures: ['さくらぴょん', 'はなもふ', 'チェリルン', 'つぼみっこ', 'はるかぜにゃん', 'もえぎまる', 'ちょうちょろん', 'たんぽぽぽん', 'うぐいすん', 'さくらいろこ']
+    },
+    {
+      id: 'tanabata', emoji: '🎋', name: '七夕', start: [7, 1], end: [7, 7],
+      creatures: ['ミルキーしか', 'ほしうさ', 'あまのわん', 'おりひめにゃん', 'ひこぼしまる', 'たなばたん', 'ねがいぼし', 'ぎんがろん', 'たんざくん', 'あまのがわん']
+    },
+    {
+      id: 'summer', emoji: '🌻', name: '夏', start: [7, 1], end: [8, 31],
+      creatures: ['ひまわりん', 'すいかにゃん', 'なつかぜもふ', 'うみのこ', 'かきごおりん', 'せみころん', 'なつまつりん', 'あさがおぽん', 'とうもろこしん', 'なつぼしろん']
+    },
+    {
+      id: 'autumn', emoji: '🍁', name: '秋', start: [9, 1], end: [11, 30],
+      creatures: ['もみじにゃん', 'きのこもふ', 'どんぐりん', 'あきかぜろん', 'くりまろん', 'つきみうさ', 'いねほろん', 'まつぼっくん', 'あきばれぽん', 'ぶどうもん']
+    },
+    {
+      id: 'halloween', emoji: '🎃', name: 'ハロウィン', start: [10, 1], end: [10, 31],
+      creatures: ['パンプキンもふ', 'ゴーストにゃん', 'コウモリぽん', 'まじょっこ', 'くろねこん', 'きゃんでぃまろん', 'かぼちゃろん', 'どくろぽん', 'おばけもふ', 'くもすん']
+    },
+    {
+      id: 'christmas', emoji: '🎄', name: 'クリスマス', start: [12, 1], end: [12, 31],
+      creatures: ['スタートナカイ', 'サンタぴょん', 'ベルねこ', 'ゆきだるもん', 'もみのきん', 'プレゼントろん', 'キャンドルにゃん', 'スノーもふ', 'リースぽん', 'せいやろん']
+    },
+    {
+      id: 'newyear', emoji: '🎍', name: 'お正月', start: [1, 1], end: [1, 7],
+      creatures: ['だるまる', 'ししまる', 'ふじぴょん', 'かどまつん', 'おもちもふ', 'たこあげろん', 'はねつきん', 'かがみもちろん', 'こまわりん', 'おとそぽん']
+    },
+    {
+      id: 'winter', emoji: '❄️', name: '冬', start: [12, 1], end: [2, 28],
+      creatures: ['ゆきうさ', 'こおりんぽん', 'ふゆごもりん', 'しろくまもふ', 'つららん', 'こたつにゃん', 'ほっかいろん', 'みかんもふ', 'ゆきぐにん', 'かんぱいろん']
+    }
+  ];
+
+  // ----- ③ 日付が「月日の範囲」に含まれるか判定（年をまたぐ範囲にも対応） -----
+  function isInMonthDayRange(month, day, startMonth, startDay, endMonth, endDay){
+    const val = month * 100 + day;
+    const start = startMonth * 100 + startDay;
+    const end = endMonth * 100 + endDay;
+    if (start <= end){
+      return val >= start && val <= end;
+    }
+    // 年をまたぐ範囲（例：冬 12/1〜2/28）
+    return val >= start || val <= end;
+  }
+
+  // ----- ④ 現在アクティブなイベントを（複数該当することもある）すべて取得 -----
+  function getActiveEvents(date){
+    const month = date.getMonth() + 1;
+    const day = date.getDate();
+    return EVENTS.filter(ev => isInMonthDayRange(month, day, ev.start[0], ev.start[1], ev.end[0], ev.end[1]));
+  }
+
+  // ----- ⑤ LocalStorageからイベントデータを読み込む -----
+  function loadEventData(){
+    const defaultData = { discovered: {}, eventLegendCount: 0, eventAchievements: [] };
+    try{
+      const raw = window.localStorage.getItem(EVENT_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        discovered: (parsed && typeof parsed.discovered === 'object') ? parsed.discovered : {},
+        eventLegendCount: Number(parsed.eventLegendCount) || 0,
+        eventAchievements: Array.isArray(parsed.eventAchievements) ? parsed.eventAchievements : []
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+
+  // ----- ⑥ イベントデータを保存 -----
+  // ※ 仕様にある eventCollection / eventAchievements / eventLegendCount / eventCompletionRate を保存する
+  function saveEventData(data){
+    try{
+      const totalCreatures = EVENTS.reduce((sum, ev) => sum + ev.creatures.length, 0);
+      const discoveredCount = Object.keys(data.discovered).length;
+      const eventCompletionRate = Math.round((discoveredCount / totalCreatures) * 100);
+      window.localStorage.setItem(EVENT_STORAGE_KEY, JSON.stringify({
+        eventCollection: data.discovered,
+        discovered: data.discovered, // 内部処理用（読み込み時のキー名と揃える）
+        eventLegendCount: data.eventLegendCount,
+        eventAchievements: data.eventAchievements,
+        eventCompletionRate: eventCompletionRate
+      }));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let eventData = loadEventData();
+  let currentIsEventAnimal = false; // 今表示している宇宙どうぶつがイベント限定かどうか
+
+  /* ==========================================================
+     ⑦ イベント限定どうぶつの抽選ロジック
+     通常95% ／ イベント限定4.7% ／ ★★★★★イベント限定0.3%
+     ========================================================== */
+  function tryEventEncounter(){
+    const today = new Date();
+    const activeEvents = getActiveEvents(today);
+
+    if (activeEvents.length === 0){
+      updateEventBanner(null);
+      return false; // イベント期間外なので通常表示に任せる
+    }
+
+    updateEventBanner(activeEvents);
+
+    const roll = Math.random();
+    if (roll >= 0.05){
+      // 95%：通常の宇宙どうぶつ（イベント期間中でも大半はこちら）
+      return false;
+    }
+
+    // ここから先の5%が「イベント限定」。そのうち0.3%pt分はレア度★5固定にする
+    const isLegendRoll = roll < 0.003;
+    const rarity = isLegendRoll ? 5 : (2 + Math.floor(Math.random() * 3)); // ★2〜★4のいずれか
+
+    // 複数イベントが重なっている場合は、対象イベントをランダムに1つ選ぶ
+    const event = activeEvents[Math.floor(Math.random() * activeEvents.length)];
+    const creatureIndex = Math.floor(Math.random() * event.creatures.length);
+    const creatureName = event.creatures[creatureIndex];
+    const creatureId = `${event.id}_${creatureIndex}`;
+
+    renderEventAnimal(event, creatureName, creatureId, rarity);
+    return true; // イベント限定表示を行ったので、通常表示は行わない
+  }
+
+  // ----- ⑧ 開催中イベントのバナー表示を更新 -----
+  function updateEventBanner(activeEvents){
+    const banner = document.getElementById('eventActiveBanner');
+    if (!activeEvents || activeEvents.length === 0){
+      banner.style.display = 'none';
+      return;
+    }
+    const names = activeEvents.map(ev => `${ev.emoji} ${ev.name}`).join('・');
+    banner.textContent = `${names} 開催中！限定の宇宙どうぶつに出会えるかも`;
+    banner.style.display = 'block';
+  }
+
+  // ----- ⑨ イベント限定どうぶつをメインカードへ描画する -----
+  function renderEventAnimal(event, creatureName, creatureId, rarity){
+    currentIsEventAnimal = true;
+    const isFirstMeeting = !eventData.discovered[creatureId];
+
+    // 見た目は通常の宇宙どうぶつ生成システムを再利用し、右上にイベントの絵文字バッジを重ねる
+    const helpers = window.__fqtAnimalHelpers;
+    const seed = simpleHash(creatureId + '_' + Date.now() + '_' + Math.random());
+    const parts = helpers.pickPartIndices(seed);
+    let svg = helpers.buildAnimalSVG(parts, 'event' + creatureId + Date.now());
+    // SVGの閉じタグ直前にイベント絵文字バッジを挿入する
+    svg = svg.replace('</svg>', `<text x="172" y="34" font-size="26" text-anchor="middle">${event.emoji}</text></svg>`);
+
+    // 初めて出会った場合はイベント図鑑に登録する
+    if (isFirstMeeting){
+      eventData.discovered[creatureId] = {
+        name: creatureName,
+        eventId: event.id,
+        eventName: event.name,
+        eventEmoji: event.emoji,
+        rarity: rarity,
+        parts: parts,
+        firstMetDate: getTodayDateStringForEvent()
+      };
+    }
+    // ★5レアは「同じ個体でもカウントする」仕様のため、初回かどうかに関わらず加算
+    if (rarity === 5){
+      eventData.eventLegendCount += 1;
+    }
+    saveEventData(eventData);
+
+    // DOM反映（宇宙どうぶつカードと同じ要素を共有して表示する）
+    const svgWrap = document.getElementById('animalSvgWrap');
+    svgWrap.className = 'animal-svg-wrap rarity-' + rarity;
+    svgWrap.innerHTML = svg;
+
+    document.getElementById('animalRarity').textContent =
+      'レア度 ' + '★'.repeat(rarity) + '☆'.repeat(5 - rarity);
+    document.getElementById('animalName').textContent = `${creatureName}（${event.emoji}${event.name}限定）`;
+    document.getElementById('animalPersonality').textContent = 'イベント限定';
+    document.getElementById('animalFavorite').textContent = `${event.name}のひととき`;
+    document.getElementById('animalQuote').textContent = `「${event.emoji} 特別な季節に出会えてうれしいな」`;
+
+    const newBadge = document.getElementById('animalNewBadge');
+    const metNote = document.getElementById('animalMetNote');
+    if (isFirstMeeting){
+      newBadge.textContent = '🎉 EVENT!';
+      newBadge.style.display = 'block';
+      metNote.textContent = '';
+    } else {
+      newBadge.style.display = 'none';
+      metNote.textContent = 'このイベント限定どうぶつには会ったことがあるよ！';
+    }
+
+    // イベント専用の発見演出（初回のみ）：紙吹雪＋星＋虹＋ズーム＋バイブレーション
+    if (isFirstMeeting){
+      showEventEarnPopup(event, creatureName);
+    }
+
+    // 実績（イベント側・通常側の両方）を再チェックする
+    checkEventAchievements();
+    checkUltimateMaster();
+  }
+
+  function getTodayDateStringForEvent(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // ----- ⑩ イベント限定発見演出（紙吹雪＋星＋ズーム＋バイブレーション） -----
+  function launchEventEffect(){
+    const colors = ['#ff6f91', '#ffb347', '#ffe066', '#8ce99a', '#74c0fc', '#b197fc'];
+    for (let i = 0; i < 50; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+    for (let i = 0; i < 12; i++){
+      const star = document.createElement('div');
+      star.textContent = i % 2 === 0 ? '✨' : '🌈';
+      star.style.position = 'fixed';
+      star.style.left = (30 + Math.random() * 40) + 'vw';
+      star.style.top = (25 + Math.random() * 30) + 'vh';
+      star.style.fontSize = (16 + Math.random() * 16) + 'px';
+      star.style.zIndex = '650';
+      star.style.pointerEvents = 'none';
+      star.style.animation = 'animal-new-pulse 1s ease-out forwards';
+      document.body.appendChild(star);
+      setTimeout(() => star.remove(), 1000);
+    }
+  }
+
+  function showEventEarnPopup(event, creatureName){
+    document.getElementById('eventEarnEmoji').textContent = event.emoji;
+    document.getElementById('eventEarnName').textContent = `${creatureName}（${event.name}限定）`;
+    document.getElementById('eventEarnOverlay').classList.add('show');
+
+    launchEventEffect();
+
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([30, 20, 30, 20, 50]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  }
+
+  /* ==========================================================
+     ⑪ イベント実績（7種類）
+     ========================================================== */
+  const EVENT_ACHIEVEMENTS = [
+    { id: 'spring_master',     emoji: '🌸', name: '春マスター',           desc: '春限定を全種類発見', eventId: 'spring' },
+    { id: 'tanabata_master',   emoji: '🎋', name: '七夕マスター',         desc: '七夕限定を全種類発見', eventId: 'tanabata' },
+    { id: 'halloween_master',  emoji: '🎃', name: 'ハロウィンマスター',   desc: 'ハロウィン限定を全種類発見', eventId: 'halloween' },
+    { id: 'christmas_master',  emoji: '🎄', name: 'クリスマスマスター',   desc: 'クリスマス限定を全種類発見', eventId: 'christmas' },
+    { id: 'newyear_master',    emoji: '🎍', name: 'お正月マスター',       desc: 'お正月限定を全種類発見', eventId: 'newyear' },
+    { id: 'four_season_master', emoji: '🌍', name: '四季マスター',        desc: '全イベントで1匹以上発見', eventId: null },
+    { id: 'event_legend',      emoji: '👑', name: 'イベントレジェンド',   desc: 'イベント限定★★★★★を13匹発見', eventId: null }
+  ];
+
+  let eventEarnQueue = [];
+  function checkEventAchievements(){
+    const newlyEarned = [];
+
+    EVENT_ACHIEVEMENTS.forEach(ach => {
+      const already = eventData.eventAchievements.indexOf(ach.id) !== -1;
+      if (already) return;
+
+      let achieved = false;
+      if (ach.eventId){
+        // 特定イベントの全種類発見
+        const event = EVENTS.find(ev => ev.id === ach.eventId);
+        const foundCount = event.creatures.filter((name, idx) =>
+          !!eventData.discovered[`${event.id}_${idx}`]
+        ).length;
+        achieved = foundCount >= event.creatures.length;
+      } else if (ach.id === 'four_season_master'){
+        // 全イベントで1匹以上発見
+        achieved = EVENTS.every(ev =>
+          ev.creatures.some((name, idx) => !!eventData.discovered[`${ev.id}_${idx}`])
+        );
+      } else if (ach.id === 'event_legend'){
+        achieved = eventData.eventLegendCount >= 13;
+      }
+
+      if (achieved){
+        eventData.eventAchievements.push(ach.id);
+        newlyEarned.push(ach);
+      }
+    });
+
+    if (newlyEarned.length > 0){
+      saveEventData(eventData);
+      eventEarnQueue = eventEarnQueue.concat(newlyEarned);
+      processEventAchievementQueue();
+    }
+  }
+
+  function processEventAchievementQueue(){
+    if (eventEarnQueue.length === 0) return;
+    const next = eventEarnQueue.shift();
+    document.getElementById('achievementEarnEmoji').textContent = next.emoji;
+    document.getElementById('achievementEarnName').textContent = next.name;
+    document.getElementById('achievementEarnDesc').textContent = next.desc + '！';
+    document.getElementById('achievementEarnOverlay').classList.add('show');
+    launchEventEffect();
+  }
+
+  /* ==========================================================
+     ⑫ 究極の実績：FQTユニバースマスター
+     通常図鑑・イベント図鑑・実績・バッジ、すべてを達成すると解除
+     ========================================================== */
+  function checkUltimateMaster(){
+    try{
+      // すでに達成済みなら再判定しない
+      if (window.localStorage.getItem(ULTIMATE_STORAGE_KEY) === 'true') return;
+
+      // バッジ：累計・連続それぞれ34種類ずつ、全68種類
+      const badgeRaw = window.localStorage.getItem(BADGE_DATA_KEY);
+      const badgeParsed = badgeRaw ? JSON.parse(badgeRaw) : null;
+      const totalBadgesEarned = badgeParsed ? (badgeParsed.earnedTotalBadges || []).length : 0;
+      const streakBadgesEarned = badgeParsed ? (badgeParsed.earnedStreakBadges || []).length : 0;
+      const allBadgesEarned = totalBadgesEarned >= 34 && streakBadgesEarned >= 34;
+
+      // 通常図鑑：ユニバースマスター実績が取れているか（コンプリート率100%）
+      const achievementRaw = window.localStorage.getItem(ACHIEVEMENT_DATA_KEY);
+      const achievementParsed = achievementRaw ? JSON.parse(achievementRaw) : null;
+      const earnedAchievements = achievementParsed ? (achievementParsed.achievements || []) : [];
+      const allMainAchievementsEarned = earnedAchievements.indexOf('universe_master') !== -1
+        && earnedAchievements.indexOf('multiverse_master') !== -1;
+
+      // イベント図鑑：全8イベント×10匹＝80匹すべて発見
+      const totalEventCreatures = EVENTS.reduce((sum, ev) => sum + ev.creatures.length, 0);
+      const discoveredEventCount = Object.keys(eventData.discovered).length;
+      const allEventCreaturesFound = discoveredEventCount >= totalEventCreatures;
+
+      // イベント実績：7種類すべて達成
+      const allEventAchievementsEarned = eventData.eventAchievements.length >= EVENT_ACHIEVEMENTS.length;
+
+      if (allBadgesEarned && allMainAchievementsEarned && allEventCreaturesFound && allEventAchievementsEarned){
+        window.localStorage.setItem(ULTIMATE_STORAGE_KEY, 'true');
+        showUltimateMasterPopup();
+      }
+    } catch(e){
+      // 判定中に問題があっても他機能に影響しないよう静かに無視する
+    }
+  }
+
+  // 星が降る特別演出（究極の実績専用）
+  function launchStarFall(){
+    for (let i = 0; i < 60; i++){
+      const star = document.createElement('div');
+      star.className = 'star-fall-piece';
+      star.textContent = ['⭐', '✨', '🌟', '💫'][Math.floor(Math.random() * 4)];
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (3 + Math.random() * 2) + 's';
+      document.body.appendChild(star);
+      star.addEventListener('animationend', () => star.remove());
+    }
+  }
+
+  function showUltimateMasterPopup(){
+    document.getElementById('ultimateEarnOverlay').classList.add('show');
+    launchEventEffect();
+    launchStarFall();
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([60, 40, 60, 40, 100]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  }
+
+  /* ==========================================================
+     ⑬ イベント図鑑モーダルの描画
+     ========================================================== */
+  function renderEventDexModal(){
+    const progressList = document.getElementById('eventProgressList');
+    progressList.innerHTML = '';
+
+    const today = new Date();
+    const activeIds = getActiveEvents(today).map(ev => ev.id);
+
+    EVENTS.forEach(ev => {
+      const foundCount = ev.creatures.filter((name, idx) => !!eventData.discovered[`${ev.id}_${idx}`]).length;
+      const percent = Math.round((foundCount / ev.creatures.length) * 100);
+      const row = document.createElement('div');
+      row.className = 'event-progress-row' + (activeIds.indexOf(ev.id) !== -1 ? ' active' : '');
+      row.innerHTML =
+        `<div class="ep-emoji">${ev.emoji}</div>` +
+        `<div class="ep-text">` +
+          `<div class="ep-name">${ev.name}</div>` +
+          `<div class="ep-bar-track"><div class="ep-bar-fill" style="width:${percent}%"></div></div>` +
+        `</div>` +
+        `<div class="ep-count">${foundCount}/${ev.creatures.length}</div>`;
+      progressList.appendChild(row);
+    });
+
+    // イベント実績一覧
+    const achList = document.getElementById('eventAchievementList');
+    achList.innerHTML = '';
+    EVENT_ACHIEVEMENTS.forEach(ach => {
+      const earned = eventData.eventAchievements.indexOf(ach.id) !== -1;
+      let currentValue = 0;
+      let target = 1;
+      let unit = '';
+      if (ach.eventId){
+        const event = EVENTS.find(ev => ev.id === ach.eventId);
+        currentValue = event.creatures.filter((name, idx) => !!eventData.discovered[`${event.id}_${idx}`]).length;
+        target = event.creatures.length;
+        unit = '種類';
+      } else if (ach.id === 'four_season_master'){
+        currentValue = EVENTS.filter(ev => ev.creatures.some((name, idx) => !!eventData.discovered[`${ev.id}_${idx}`])).length;
+        target = EVENTS.length;
+        unit = 'イベント';
+      } else if (ach.id === 'event_legend'){
+        currentValue = Math.min(eventData.eventLegendCount, 13);
+        target = 13;
+        unit = '匹';
+      }
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${ach.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${ach.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+          `<div class="ach-desc">${ach.desc}</div>` +
+          `<div class="ach-progress">現在 ${currentValue} / ${target}${unit}</div>` +
+        `</div>`;
+      achList.appendChild(row);
+    });
+
+    // 発見済みイベント限定どうぶつ一覧
+    const grid = document.getElementById('eventDexGrid');
+    grid.innerHTML = '';
+    const discoveredList = Object.keys(eventData.discovered).map(id => ({ id, ...eventData.discovered[id] }));
+
+    if (discoveredList.length === 0){
+      grid.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; font-size:12px; color:var(--text-sub);">まだイベント限定の宇宙どうぶつに出会っていません。</p>';
+      return;
+    }
+
+    discoveredList.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    const helpers = window.__fqtAnimalHelpers;
+
+    discoveredList.forEach(creature => {
+      const item = document.createElement('div');
+      item.className = 'dex-item event-item';
+      let thumbSvg = helpers.buildAnimalSVG(creature.parts, 'eventdex' + creature.id);
+      thumbSvg = thumbSvg.replace('</svg>', `<text x="172" y="34" font-size="24" text-anchor="middle">${creature.eventEmoji}</text></svg>`);
+      item.innerHTML =
+        `<div class="dex-thumb">${thumbSvg}</div>` +
+        `<div class="dex-name">${creature.name}</div>` +
+        `<div class="dex-rarity">${'★'.repeat(creature.rarity)}${'☆'.repeat(5 - creature.rarity)}</div>`;
+      grid.appendChild(item);
+    });
+  }
+
+  // ----- ⑭ イベント図鑑モーダルの開閉 -----
+  const eventDexBtn = document.getElementById('eventDexBtn');
+  const eventDexModalOverlay = document.getElementById('eventDexModalOverlay');
+  const eventDexModalCloseBtn = document.getElementById('eventDexModalCloseBtn');
+
+  eventDexBtn.addEventListener('click', () => {
+    renderEventDexModal();
+    eventDexModalOverlay.classList.add('show');
+  });
+  eventDexModalCloseBtn.addEventListener('click', () => {
+    eventDexModalOverlay.classList.remove('show');
+  });
+  eventDexModalOverlay.addEventListener('click', (e) => {
+    if (e.target === eventDexModalOverlay){
+      eventDexModalOverlay.classList.remove('show');
+    }
+  });
+
+  // イベント限定発見ポップアップのOKボタン
+  document.getElementById('eventEarnOkBtn').addEventListener('click', () => {
+    document.getElementById('eventEarnOverlay').classList.remove('show');
+  });
+
+  // 究極の実績ポップアップのOKボタン
+  document.getElementById('ultimateEarnOkBtn').addEventListener('click', () => {
+    document.getElementById('ultimateEarnOverlay').classList.remove('show');
+  });
+
+  /* ==========================================================
+     ⑮ このモジュールの判定処理を外部へ公開する
+     ・実際に「いつ呼び出すか」（ページ読み込み時／計算する押下時）の
+       司令塔は、優先度が最も高い誕生日イベントモジュール（最後に読み込む）
+       がまとめて担当する。ここでは判定関数を公開するだけにとどめ、
+       このモジュール自身はイベントリスナーの登録や自動実行を行わない。
+     ========================================================== */
+  window.__fqtTryEventEncounter = tryEventEncounter;
+
+  // 起動直後にも究極の実績（すでに条件を満たしている端末向け）を確認しておく
+  checkUltimateMaster();
+
+})();
+
+/* ==========================================================
+   🎂 誕生日イベント（追加実装のみ・既存機能には触れない）
+   ・生年月日の「月日」が今日と一致した場合のみ発動する
+   ・このモジュールは最後に読み込まれるため、
+     「宇宙どうぶつを1匹表示する」処理全体の最終的な司令塔も兼ねる
+     （優先度：誕生日限定 → 季節イベント限定 → 通常）
+   ========================================================== */
+(function initBirthdayEvent(){
+
+  // ----- ① 保存データのキー（誕生日専用の独立したキー） -----
+  const BIRTHDAY_STORAGE_KEY = 'fqtLifeCounter_birthdayData';
+
+  // ----- ② 誕生日限定宇宙どうぶつ（13種類） -----
+  const BIRTHDAY_CREATURES = [
+    { emoji: '🎂', name: 'バースデーぴょん' },
+    { emoji: '🎁', name: 'ギフトにゃん' },
+    { emoji: '🌟', name: 'ミラクルスター' },
+    { emoji: '🧁', name: 'カップケーキもふ' },
+    { emoji: '🎈', name: 'バルーンぽん' },
+    { emoji: '🌈', name: 'レインボールン' },
+    { emoji: '🍰', name: 'ケーキまる' },
+    { emoji: '🎉', name: 'パーティーベア' },
+    { emoji: '✨', name: 'ハッピーコスモ' },
+    { emoji: '💝', name: 'ハートルミ' },
+    { emoji: '🌠', name: 'スターバース' },
+    { emoji: '🎀', name: 'プレゼントン' },
+    { emoji: '👑', name: 'バースデーキング' }
+  ];
+
+  // ----- ③ 誕生日お祝いメッセージ（70種類・優しいトーンで統一） -----
+  const BIRTHDAY_MESSAGES = [
+    '生まれてきてくれてありがとう。', '今日はあなたが主役の日。', '素敵な一年になりますように。',
+    '宇宙のみんながお祝いしています。', '今日という日を楽しもう！', '笑顔いっぱいの一年になりますように。',
+    'あなたがいてくれるだけで、世界は少し明るい。', '今日は特別に自分を甘やかしていい日。',
+    'これまでの一年、本当におつかれさまでした。', '新しい一年も、あなたらしく歩んでいこう。',
+    '誕生日おめでとう。今日のあなたが一番輝いてる。', '大切な人に「誕生日だよ」と伝えてみよう。',
+    '今日食べたいものを、思いきり食べよう。', '一年に一度の特別な日、大切に過ごしてね。',
+    'あなたの存在が、誰かの支えになっている。', '今日はゆっくり自分を労わってあげてね。',
+    '星も月も、今日のあなたを祝福しているよ。', 'この一年で見つけた小さな幸せを思い出してみて。',
+    '誕生日おめでとう。これからも応援しているよ。', '今日という日が、優しい記憶になりますように。',
+    'あなたのこれからの一年が、笑顔で満ちますように。', '生まれた日をこうして祝えることが幸せです。',
+    '今日は思いきり自分を褒めてあげてね。', '一年前より、また少し素敵になったあなたへ。',
+    'これまでの頑張りに、大きな拍手を。', '今日という日を、心ゆくまで味わって。',
+    '誕生日、本当におめでとうございます。', 'あなたの笑顔が見られて、今日もうれしいです。',
+    '宇宙のどこかで、今日もあなたの誕生日を祝う光がまたたいているよ。', '今年も出会えてよかったです。',
+    'これからの一年も、一緒に楽しもうね。', '誕生日という贈り物に、感謝を込めて。',
+    '今日という日は、あなたのために用意された特別な日。', 'いつもがんばっているあなたへ、お祝いを。',
+    '誕生日を迎えられたことに、心から乾杯を。', 'あなたの新しい一年に、たくさんの幸運がありますように。',
+    '今日という日を、大好きな人たちと分かち合ってね。', '誕生日は、これまでの自分に感謝する日でもあるね。',
+    'あなたが健やかでありますように。', '今年もまた、素晴らしい一年になりますように。',
+    '誕生日おめでとう。今日は特別な自分でいよう。', '一年間、本当にお疲れさまでした。',
+    'これからのあなたの物語も、楽しみにしています。', '今日という日の空は、あなたのために少し特別かも。',
+    '誕生日という節目に、これまでの歩みを労ってあげて。', 'あなたの誕生日を知れて、うれしいです。',
+    '今日一日、目一杯楽しんでね。', '誕生日おめでとう。今年も素敵な一年を。',
+    'あなたがいる世界に、感謝しています。', '今日という特別な日を、心から祝福します。',
+    '誕生日おめでとう。次の一年もきっと素晴らしい。', '今日は自分にご褒美をあげる日。',
+    'これからも、あなたらしく歩んでいってね。', '誕生日という贈り物を、今日は思いきり味わって。',
+    'あなたの一年に、たくさんの「うれしい」がありますように。', '今日という日が、特別な思い出になりますように。',
+    '誕生日おめでとう。今日は主人公はあなたです。', 'いつも頑張っているあなたに、盛大な拍手を。',
+    '誕生日を迎えたあなたに、心からありがとう。', '今年一年、たくさんの素敵な出会いがありますように。',
+    'あなたのこれからの日々が、優しさに包まれますように。', '誕生日おめでとう。今日という日に感謝を。',
+    '一年に一度の特別な日、思う存分楽しんでね。', 'あなたが笑うと、まわりも自然と笑顔になるよ。',
+    '誕生日おめでとう。今日のあなたは誰よりも輝いている。', 'これからの一年も、応援しています。',
+    '今日という日をきっかけに、また新しい一歩を。', '誕生日を一緒にお祝いできて、幸せです。',
+    'あなたの存在そのものが、贈り物のようです。', '誕生日おめでとう。今日は特別に胸を張って。'
+  ];
+
+  // ----- ④ LocalStorageから誕生日データを読み込む -----
+  function loadBirthdayData(){
+    const defaultData = { history: [], badges: [], collection: {}, achievements: [], presentHistory: [] };
+    try{
+      const raw = window.localStorage.getItem(BIRTHDAY_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        history: Array.isArray(parsed.history) ? parsed.history : [],
+        badges: Array.isArray(parsed.badges) ? parsed.badges : [],
+        collection: (parsed && typeof parsed.collection === 'object') ? parsed.collection : {},
+        achievements: Array.isArray(parsed.achievements) ? parsed.achievements : [],
+        presentHistory: Array.isArray(parsed.presentHistory) ? parsed.presentHistory : []
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+
+  // ----- ⑤ 誕生日データを保存 -----
+  function saveBirthdayData(data){
+    try{
+      window.localStorage.setItem(BIRTHDAY_STORAGE_KEY, JSON.stringify({
+        birthdayHistory: data.history,
+        history: data.history, // 内部読み込み用に同じ内容をあわせて保存
+        birthdayBadge: data.badges,
+        badges: data.badges,
+        birthdayCollection: data.collection,
+        collection: data.collection,
+        birthdayAchievement: data.achievements,
+        achievements: data.achievements,
+        birthdayPresentHistory: data.presentHistory,
+        presentHistory: data.presentHistory
+      }));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let birthdayData = loadBirthdayData();
+
+  // ----- ⑥ 今日が誕生日かどうかを判定（生年月日の「月日」が一致するか） -----
+  function isBirthdayToday(){
+    const birthEl = document.getElementById('birthdate');
+    if (!birthEl || !birthEl.value) return false;
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const today = new Date();
+    return birth.getMonth() === today.getMonth() && birth.getDate() === today.getDate();
+  }
+
+  // ----- ⑦ 生まれてからの経過日数を計算（誕生日を1日目として数える） -----
+  function calcDaysAlive(){
+    const birthEl = document.getElementById('birthdate');
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
+    return diff + 1;
+  }
+
+  function getTodayDateStringForBirthday(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  /* ==========================================================
+     ⑧ 誕生日限定どうぶつの抽選（誕生日の間だけ判定する）
+     ★5演出2% ／ 限定（通常レア度）15% ／ それ以外83%は通常の抽選へ
+     ========================================================== */
+  function tryBirthdayEncounter(){
+    if (!isBirthdayToday()) return false;
+
+    const roll = Math.random();
+    if (roll >= 0.17){
+      return false; // 83%は誕生日限定に該当しない（季節イベント→通常の順で判定される）
+    }
+
+    const rarity = roll < 0.02 ? 5 : (3 + Math.floor(Math.random() * 2)); // ★5 or ★3〜4
+    const index = Math.floor(Math.random() * BIRTHDAY_CREATURES.length);
+    renderBirthdayAnimal(index, rarity);
+    return true;
+  }
+
+  // ----- ⑨ 誕生日限定どうぶつをメインカードへ描画する -----
+  function renderBirthdayAnimal(index, rarity){
+    const creature = BIRTHDAY_CREATURES[index];
+    const creatureId = 'birthday_' + index;
+    const isFirstMeeting = !birthdayData.collection[creatureId];
+
+    const helpers = window.__fqtAnimalHelpers;
+    const seed = simpleHash(creatureId + '_' + Date.now() + '_' + Math.random());
+    const parts = helpers.pickPartIndices(seed);
+    let svg = helpers.buildAnimalSVG(parts, 'birthday' + creatureId + Date.now());
+    svg = svg.replace('</svg>', `<text x="172" y="34" font-size="26" text-anchor="middle">${creature.emoji}</text></svg>`);
+
+    if (isFirstMeeting){
+      birthdayData.collection[creatureId] = {
+        name: creature.name,
+        emoji: creature.emoji,
+        rarity: rarity,
+        parts: parts,
+        firstMetDate: getTodayDateStringForBirthday()
+      };
+      saveBirthdayData(birthdayData);
+    }
+
+    const svgWrap = document.getElementById('animalSvgWrap');
+    svgWrap.className = 'animal-svg-wrap rarity-' + rarity;
+    svgWrap.innerHTML = svg;
+
+    document.getElementById('animalRarity').textContent =
+      'レア度 ' + '★'.repeat(rarity) + '☆'.repeat(5 - rarity);
+    document.getElementById('animalName').textContent = `${creature.name}（🎂 誕生日限定）`;
+    document.getElementById('animalPersonality').textContent = '誕生日限定';
+    document.getElementById('animalFavorite').textContent = 'あなたの特別な日';
+    document.getElementById('animalQuote').textContent = '「🎂 今日という特別な日に会えてうれしいな」';
+
+    const newBadge = document.getElementById('animalNewBadge');
+    const metNote = document.getElementById('animalMetNote');
+    if (isFirstMeeting){
+      newBadge.textContent = '🎂 BIRTHDAY!';
+      newBadge.style.display = 'block';
+      metNote.textContent = '';
+      showBirthdayAnimalPopup(creature);
+    } else {
+      newBadge.style.display = 'none';
+      metNote.textContent = 'この誕生日限定どうぶつには会ったことがあるよ！';
+    }
+
+    checkBirthdayAchievements();
+  }
+
+  function showBirthdayAnimalPopup(creature){
+    document.getElementById('birthdayAnimalEarnEmoji').textContent = creature.emoji;
+    document.getElementById('birthdayAnimalEarnName').textContent = creature.name;
+    document.getElementById('birthdayAnimalEarnOverlay').classList.add('show');
+    launchBirthdayEffect(30);
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([30, 20, 30, 20, 60]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  }
+
+  document.getElementById('birthdayAnimalEarnOkBtn').addEventListener('click', () => {
+    document.getElementById('birthdayAnimalEarnOverlay').classList.remove('show');
+  });
+
+  /* ==========================================================
+     ⑩ 誕生日限定バッジ（3種類・年をまたいで累積）
+     ========================================================== */
+  const BIRTHDAY_BADGES = [
+    { id: 'first_birthday',    emoji: '🏅', name: 'はじめての誕生日',   desc: '初めて誕生日にアクセス',            target: 1 },
+    { id: 'birthday_master',   emoji: '🎂', name: 'バースデーマスター', desc: '誕生日に3回アクセス（年をまたいで累積）', target: 3 },
+    { id: 'birthday_legend',   emoji: '🌈', name: 'バースデーレジェンド', desc: '誕生日に13回アクセス（年をまたいで累積）', target: 13 }
+  ];
+
+  // ----- ⑪ 誕生日実績（4種類） -----
+  const BIRTHDAY_ACHIEVEMENTS = [
+    { id: 'birthday_join',       emoji: '🎁', name: '誕生日イベント参加',         desc: '誕生日イベントに参加する' },
+    { id: 'birthday_discover',   emoji: '🎂', name: '誕生日限定宇宙どうぶつ発見', desc: '誕生日限定の宇宙どうぶつを1匹発見する' },
+    { id: 'birthday_legend_find', emoji: '🌟', name: '誕生日限定★★★★★発見',    desc: '誕生日限定の★★★★★を発見する' },
+    { id: 'birthday_complete',   emoji: '👑', name: '誕生日限定13種類コンプリート', desc: '誕生日限定を全13種類発見する' }
+  ];
+
+  function checkBirthdayAchievements(){
+    const collectionCount = Object.keys(birthdayData.collection).length;
+    const hasLegend = Object.keys(birthdayData.collection).some(id => birthdayData.collection[id].rarity === 5);
+    const newlyEarned = [];
+
+    // バッジ判定
+    BIRTHDAY_BADGES.forEach(badge => {
+      const already = birthdayData.badges.indexOf(badge.id) !== -1;
+      if (!already && birthdayData.history.length >= badge.target){
+        birthdayData.badges.push(badge.id);
+        newlyEarned.push({ kind: 'badge', item: badge });
+      }
+    });
+
+    // 実績判定
+    BIRTHDAY_ACHIEVEMENTS.forEach(ach => {
+      const already = birthdayData.achievements.indexOf(ach.id) !== -1;
+      if (already) return;
+      let achieved = false;
+      if (ach.id === 'birthday_join') achieved = birthdayData.history.length >= 1;
+      else if (ach.id === 'birthday_discover') achieved = collectionCount >= 1;
+      else if (ach.id === 'birthday_legend_find') achieved = hasLegend;
+      else if (ach.id === 'birthday_complete') achieved = collectionCount >= BIRTHDAY_CREATURES.length;
+
+      if (achieved){
+        birthdayData.achievements.push(ach.id);
+        newlyEarned.push({ kind: 'achievement', item: ach });
+      }
+    });
+
+    if (newlyEarned.length > 0){
+      saveBirthdayData(birthdayData);
+      // 共通の実績解除ポップアップ（実績モジュールと見た目を揃えて再利用）を使って表示する
+      newlyEarned.forEach(entry => {
+        document.getElementById('achievementEarnEmoji').textContent = entry.item.emoji;
+        document.getElementById('achievementEarnName').textContent = entry.item.name;
+        document.getElementById('achievementEarnDesc').textContent = entry.item.desc + '！';
+        document.getElementById('achievementEarnOverlay').classList.add('show');
+      });
+    } else {
+      saveBirthdayData(birthdayData);
+    }
+  }
+
+  /* ==========================================================
+     ⑫ フルスクリーン祝福演出
+     ========================================================== */
+  function launchBirthdayEffect(count){
+    const pieces = ['🎊', '⭐', '🌈', '🎈', '✨'];
+    const colors = ['#ff6f91', '#ffb347', '#ffe066', '#8ce99a', '#74c0fc', '#b197fc'];
+    for (let i = 0; i < count; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+  }
+
+  // 誕生日カード背後に、紙吹雪・星・虹・風船・キラキラがゆっくり流れる演出を敷き詰める
+  function launchBirthdayDecor(){
+    const decor = document.getElementById('birthdayDecor');
+    decor.innerHTML = '';
+    const symbols = ['🎊', '⭐', '🌈', '🎈', '✨', '🎉', '💫'];
+    for (let i = 0; i < 24; i++){
+      const piece = document.createElement('div');
+      piece.className = 'birthday-float-piece';
+      piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      piece.style.left = Math.random() * 100 + '%';
+      piece.style.fontSize = (16 + Math.random() * 18) + 'px';
+      piece.style.animationDuration = (6 + Math.random() * 6) + 's';
+      piece.style.animationDelay = (Math.random() * 4) + 's';
+      decor.appendChild(piece);
+    }
+  }
+
+  // ----- ⑬ フルスクリーン祝福演出を表示する -----
+  function showBirthdayCelebration(){
+    const daysAlive = calcDaysAlive();
+    document.getElementById('birthdayDaysCount').textContent = daysAlive.toLocaleString('ja-JP');
+
+    const message = BIRTHDAY_MESSAGES[Math.floor(Math.random() * BIRTHDAY_MESSAGES.length)];
+    document.getElementById('birthdayMessage').textContent = message;
+
+    launchBirthdayDecor();
+    document.getElementById('birthdayOverlay').classList.add('show');
+    launchBirthdayEffect(50);
+
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([40, 30, 40, 30, 80]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+
+    // 今日の日付をまだ記録していなければ履歴へ追加する（同日重複カウント防止）
+    const today = getTodayDateStringForBirthday();
+    if (birthdayData.history.indexOf(today) === -1){
+      birthdayData.history.push(today);
+      saveBirthdayData(birthdayData);
+    }
+    checkBirthdayAchievements();
+
+    // プレゼントBOXボタンを表示する
+    document.getElementById('birthdayPresentBtn').style.display = 'block';
+  }
+
+  // ----- ⑭ 祝福演出のボタン操作 -----
+  document.getElementById('birthdayThanksBtn').addEventListener('click', () => {
+    document.getElementById('birthdayOverlay').classList.remove('show');
+  });
+  document.getElementById('birthdayFortuneBtn').addEventListener('click', () => {
+    document.getElementById('birthdayOverlay').classList.remove('show');
+    const fortuneCard = document.getElementById('fortuneCard');
+    if (fortuneCard) fortuneCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+  document.getElementById('birthdayAnimalBtn').addEventListener('click', () => {
+    document.getElementById('birthdayOverlay').classList.remove('show');
+    const animalStage = document.getElementById('animalStage');
+    if (animalStage) animalStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  });
+
+  /* ==========================================================
+     ⑮ プレゼントBOX（タップでランダムに4種類のいずれかを贈る）
+     ========================================================== */
+  function openPresentBox(){
+    const rewardTypes = ['creature', 'background', 'title', 'message'];
+    const type = rewardTypes[Math.floor(Math.random() * rewardTypes.length)];
+    let resultEmoji = '🎁';
+    let resultTitle = '';
+    let resultDesc = '';
+
+    if (type === 'creature'){
+      // 特別な宇宙どうぶつを1匹、確定でプレゼントする
+      const index = Math.floor(Math.random() * BIRTHDAY_CREATURES.length);
+      const rarity = Math.random() < 0.15 ? 5 : (2 + Math.floor(Math.random() * 3));
+      renderBirthdayAnimal(index, rarity);
+      resultEmoji = BIRTHDAY_CREATURES[index].emoji;
+      resultTitle = '特別な宇宙どうぶつ';
+      resultDesc = `${BIRTHDAY_CREATURES[index].name} をプレゼント！`;
+    } else if (type === 'background'){
+      resultEmoji = '🎆';
+      resultTitle = '限定背景エフェクト';
+      resultDesc = '今日だけの特別な花火＆虹の演出をプレゼント！';
+      launchBirthdayEffect(60);
+    } else if (type === 'title'){
+      const titles = ['虹の使者', '星屑コレクター', 'コスモの祝福を受けし者', '宇宙一のお祝いされ上手', '銀河のバースデーヒーロー'];
+      const title = titles[Math.floor(Math.random() * titles.length)];
+      resultEmoji = '🏵️';
+      resultTitle = '限定称号';
+      resultDesc = `称号「${title}」を授かりました！`;
+    } else {
+      const msg = BIRTHDAY_MESSAGES[Math.floor(Math.random() * BIRTHDAY_MESSAGES.length)];
+      resultEmoji = '💌';
+      resultTitle = '限定メッセージ';
+      resultDesc = msg;
+    }
+
+    birthdayData.presentHistory.push({
+      type: type, result: resultDesc, date: getTodayDateStringForBirthday()
+    });
+    saveBirthdayData(birthdayData);
+
+    document.getElementById('presentResultEmoji').textContent = resultEmoji;
+    document.getElementById('presentResultTitle').textContent = resultTitle;
+    document.getElementById('presentResultDesc').textContent = resultDesc;
+    document.getElementById('presentResultOverlay').classList.add('show');
+  }
+
+  document.getElementById('birthdayPresentBtn').addEventListener('click', openPresentBox);
+  document.getElementById('presentResultOkBtn').addEventListener('click', () => {
+    document.getElementById('presentResultOverlay').classList.remove('show');
+  });
+
+  /* ==========================================================
+     ⑯ 誕生日記録モーダル
+     ========================================================== */
+  function renderBirthdayRecordModal(){
+    document.getElementById('birthdayAccessCount').textContent = birthdayData.history.length + '回';
+    document.getElementById('birthdayCollectionCount').textContent =
+      Object.keys(birthdayData.collection).length + ' / ' + BIRTHDAY_CREATURES.length;
+
+    const badgeList = document.getElementById('birthdayBadgeList');
+    badgeList.innerHTML = '';
+    BIRTHDAY_BADGES.forEach(badge => {
+      const earned = birthdayData.badges.indexOf(badge.id) !== -1;
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${badge.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${badge.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+          `<div class="ach-desc">${badge.desc}</div>` +
+          `<div class="ach-progress">現在 ${Math.min(birthdayData.history.length, badge.target)} / ${badge.target}回</div>` +
+        `</div>`;
+      badgeList.appendChild(row);
+    });
+
+    const achList = document.getElementById('birthdayAchievementList');
+    achList.innerHTML = '';
+    BIRTHDAY_ACHIEVEMENTS.forEach(ach => {
+      const earned = birthdayData.achievements.indexOf(ach.id) !== -1;
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${ach.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${ach.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+          `<div class="ach-desc">${ach.desc}</div>` +
+        `</div>`;
+      achList.appendChild(row);
+    });
+
+    const grid = document.getElementById('birthdayDexGrid');
+    grid.innerHTML = '';
+    const discoveredList = Object.keys(birthdayData.collection).map(id => ({ id, ...birthdayData.collection[id] }));
+
+    if (discoveredList.length === 0){
+      grid.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; font-size:12px; color:var(--text-sub);">まだ誕生日限定の宇宙どうぶつに出会っていません。</p>';
+      return;
+    }
+
+    const helpers = window.__fqtAnimalHelpers;
+    discoveredList.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    discoveredList.forEach(creature => {
+      const item = document.createElement('div');
+      item.className = 'dex-item event-item';
+      let thumbSvg = helpers.buildAnimalSVG(creature.parts, 'bdaydex' + creature.id);
+      thumbSvg = thumbSvg.replace('</svg>', `<text x="172" y="34" font-size="24" text-anchor="middle">${creature.emoji}</text></svg>`);
+      item.innerHTML =
+        `<div class="dex-thumb">${thumbSvg}</div>` +
+        `<div class="dex-name">${creature.name}</div>` +
+        `<div class="dex-rarity">${'★'.repeat(creature.rarity)}${'☆'.repeat(5 - creature.rarity)}</div>`;
+      grid.appendChild(item);
+    });
+  }
+
+  document.getElementById('birthdayRecordBtn').addEventListener('click', () => {
+    renderBirthdayRecordModal();
+    document.getElementById('birthdayRecordModalOverlay').classList.add('show');
+  });
+  document.getElementById('birthdayRecordModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('birthdayRecordModalOverlay').classList.remove('show');
+  });
+  document.getElementById('birthdayRecordModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('birthdayRecordModalOverlay')){
+      document.getElementById('birthdayRecordModalOverlay').classList.remove('show');
+    }
+  });
+
+  /* ==========================================================
+     ⑰ 全モジュール共通の最終オーケストレーター
+     優先度：誕生日限定 → 季節イベント限定 → 通常の宇宙どうぶつ
+     ========================================================== */
+  window.__fqtRunEncounterCycle = function(){
+    const shownAsBirthday = tryBirthdayEncounter();
+    if (shownAsBirthday) return;
+
+    if (typeof window.__fqtTryEventEncounter === 'function' && window.__fqtTryEventEncounter()){
+      return;
+    }
+
+    if (typeof window.__fqtEncounterNewAnimal === 'function'){
+      window.__fqtEncounterNewAnimal();
+    }
+  };
+
+  // 「計算する」が押されたタイミングでオーケストレーターを実行する
+  document.addEventListener('fqtCalculatePressed', window.__fqtRunEncounterCycle);
+
+  // ----- 起動：全モジュールの初期化が完了したので、ここで初めて宇宙どうぶつを表示する -----
+  window.__fqtRunEncounterCycle();
+
+  // 誕生日であれば、フルスクリーンの祝福演出も表示する
+  if (isBirthdayToday()){
+    showBirthdayCelebration();
+  }
+
+})();
+
+/* ==========================================================
+   🌍 人生節目イベント（追加実装のみ・既存機能には触れない）
+   ・「地球に生まれて○○日目」が指定の節目日数と一致した場合のみ発動する
+   ・宇宙どうぶつカードの表示枠は奪わず、専用のフルスクリーン演出内で完結させる
+   ========================================================== */
+(function initLifeMilestones(){
+
+  // ----- ① 保存データのキー（節目専用の独立したキー） -----
+  const MILESTONE_STORAGE_KEY = 'fqtLifeCounter_milestoneData';
+
+  // ----- ② 節目日数の定義（23種類・ランク／メッセージ／背景ラベル付き） -----
+  const MILESTONES = [
+    { days: 13,    rank: 'start', bg: '若葉',       messages: ['人生最初の小さな節目です。', 'ここから始まる、あなたの物語。'] },
+    { days: 68,    rank: 'start', bg: '虹',         messages: ['今日も小さな奇跡が積み重なっています。', '68日分の「あなたらしさ」がここに。'] },
+    { days: 100,   rank: 'start', bg: '若葉',       messages: ['100日、おめでとうございます。', '3桁の節目、よく積み重ねてきました。'] },
+    { days: 130,   rank: 'start', bg: '虹',         messages: ['130日という時間を、ここまで歩んできました。', '一日一日が、ちゃんと積み重なっています。'] },
+    { days: 365,   rank: 'start', bg: '青空',       messages: ['地球で最初の一年、おめでとう！', '一年分の経験が、あなたの中にあります。'] },
+    { days: 500,   rank: 'start', bg: '若葉',       messages: ['500日という、静かに誇れる記録です。', 'ここまでの日々に、拍手を送りたい。'] },
+    { days: 680,   rank: 'start', bg: '虹',         messages: ['680日、着実に歩みを重ねてきましたね。', 'コツコツの積み重ねが、ここに。'] },
+    { days: 777,   rank: 'start', bg: '金色',       messages: ['幸運が重なる特別な一日です。', 'ラッキーセブンが3つ並ぶ日。'] },
+    { days: 1000,  rank: 'start', bg: '青空',       messages: ['1,000日の物語が始まりました。', '4桁の節目に、心からおめでとう。'] },
+    { days: 1111,  rank: 'start', bg: '虹',         messages: ['1が4つ並ぶ、ゾロ目の特別な日です。', '整った数字のように、着実な歩み。'] },
+    { days: 1300,  rank: 'start', bg: '若葉',       messages: ['1,300日という積み重ねに、拍手を。', 'ここまで来た道のりを、少し振り返ってみて。'] },
+    { days: 2222,  rank: 'life',  bg: '宇宙',       messages: ['2が4つ並ぶ、美しい節目です。', 'ここからは「ライフ記念」の始まりです。'] },
+    { days: 3333,  rank: 'life',  bg: '宇宙',       messages: ['3,333日、また一つゾロ目の記録です。', '人生の物語が、また一章進みました。'] },
+    { days: 5000,  rank: 'life',  bg: '宇宙',       messages: ['5,000日という大きな節目に到達しました。', '折り返しにも似た、大切な一日です。'] },
+    { days: 7777,  rank: 'life',  bg: '金色',       messages: ['幸運が重なる特別な一日です。', '7が4つ並ぶ、golden な記念日。'] },
+    { days: 10000, rank: 'life',  bg: '宇宙花火',   messages: ['人生10,000日達成！', '5桁の大台に、心からおめでとうございます。'] },
+    { days: 11111, rank: 'grand', bg: '宇宙',       messages: ['1が5つ並ぶ、美しいゾロ目の日です。', 'ここからは「グランド記念」の始まりです。'] },
+    { days: 12345, rank: 'grand', bg: '宇宙',       messages: ['1,2,3,4,5と並ぶ、特別な並びの日。', '数字の階段を、ここまで登ってきました。'] },
+    { days: 13000, rank: 'grand', bg: 'オーロラ',   messages: ['13,000日という素晴らしい節目です。', 'ここまでの日々に、深く感謝を。'] },
+    { days: 20000, rank: 'grand', bg: '銀河',       messages: ['積み重ねてきた毎日に感謝。', '20,000日という壮大な記録です。'] },
+    { days: 22222, rank: 'legend', bg: '銀河',      messages: ['2が5つ並ぶ、レジェンド級のゾロ目です。', 'ここからは「レジェンド記念」の始まりです。'] },
+    { days: 30000, rank: 'legend', bg: '宇宙神殿',  messages: ['人生の大きな節目を迎えました。', '30,000日、本当に見事な記録です。'] },
+    { days: 33333, rank: 'legend', bg: '伝説の銀河', messages: ['あなたは人生のレジェンドです。', 'この日を迎えたあなたを、心から称えます。'] }
+  ];
+
+  const RANK_INFO = {
+    start:  { label: '🌱 スタート記念', color: '#8ce99a' },
+    life:   { label: '🌍 ライフ記念',   color: '#74c0fc' },
+    grand:  { label: '💎 グランド記念', color: '#ffd873' },
+    legend: { label: '👑 レジェンド記念', color: '#ff8a65' }
+  };
+
+  // ----- ③ 節目限定宇宙どうぶつ（30種類） -----
+  const MILESTONE_CREATURES = [
+    'アースぽん', 'ミラクルスター', 'レインボーもふ', 'ダイヤにゃん', 'コスモルン',
+    'ギャラクシーキング', 'ユニバースドラゴン', 'ムーンうさ', 'ミルキーキャット', 'セレブレーションベア',
+    'ホシツブぽん', 'テンネンストーン', 'オーロラにゃん', 'ワープぽよ', 'ネビュラベア',
+    'スパークルン', 'インフィニコスモ', 'エターナルもふ', 'タイムトラベルン', 'フェスタキャット',
+    'グロウスター', 'レジェンドもふ', 'ラッキーコメット', 'シャイニームーン', 'プラチナぽん',
+    'セレスチャルン', 'ヴィクトリーベア', 'ドリームキャット', 'ハーモニコスモ', 'フューチャーるん'
+  ];
+
+  // ----- ④ 節目限定バッジ（8種類） -----
+  const MILESTONE_BADGES = [
+    { id: 'first_milestone', emoji: '🏅', name: 'はじめての節目',  days: 13 },
+    { id: 'fqt_miracle',     emoji: '🌈', name: 'FQTミラクル',     days: 68 },
+    { id: 'earth_master',    emoji: '🌍', name: 'アースマスター',  days: 365 },
+    { id: 'millennium',      emoji: '💫', name: 'ミレニアム',      days: 1000 },
+    { id: 'ten_thousand',    emoji: '👑', name: 'テン・サウザンド', days: 10000 },
+    { id: 'fqt_grand',       emoji: '🌌', name: 'FQTグランド',     days: 20000 },
+    { id: 'life_legend',     emoji: '💎', name: 'ライフレジェンド', days: 30000 },
+    { id: 'universe_legend', emoji: '👑✨', name: 'FQTユニバースレジェンド', days: 33333 }
+  ];
+
+  // ----- ⑤ 節目限定実績（10種類） -----
+  const MILESTONE_ACHIEVEMENTS = [
+    { id: 'first_join', emoji: '🌱', name: '初めて節目イベント参加', days: null },
+    { id: 'd13',    emoji: '🌈', name: '13日達成',    days: 13 },
+    { id: 'd68',    emoji: '🚀', name: '68日達成',    days: 68 },
+    { id: 'd365',   emoji: '🌍', name: '365日達成',   days: 365 },
+    { id: 'd1000',  emoji: '🌠', name: '1,000日達成', days: 1000 },
+    { id: 'd10000', emoji: '🎂', name: '10,000日達成', days: 10000 },
+    { id: 'd13000', emoji: '👑', name: '13,000日達成', days: 13000 },
+    { id: 'd20000', emoji: '💎', name: '20,000日達成', days: 20000 },
+    { id: 'd30000', emoji: '🌌', name: '30,000日達成', days: 30000 },
+    { id: 'd33333', emoji: '👑✨', name: '33,333日達成', days: 33333 }
+  ];
+
+  // ----- ⑥ LocalStorageから節目データを読み込む -----
+  function loadMilestoneData(){
+    const defaultData = { history: [], badges: [], achievements: [], lastMilestone: null };
+    try{
+      const raw = window.localStorage.getItem(MILESTONE_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        history: Array.isArray(parsed.history) ? parsed.history : [],
+        badges: Array.isArray(parsed.badges) ? parsed.badges : [],
+        achievements: Array.isArray(parsed.achievements) ? parsed.achievements : [],
+        lastMilestone: parsed.lastMilestone || null
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+
+  // ----- ⑦ 節目データを保存 -----
+  function saveMilestoneData(data){
+    try{
+      window.localStorage.setItem(MILESTONE_STORAGE_KEY, JSON.stringify({
+        lifeMilestones: MILESTONES.map(m => m.days), // 節目日数の定義一覧（参照用）
+        milestoneHistory: data.history,
+        history: data.history,
+        milestoneBadges: data.badges,
+        badges: data.badges,
+        milestoneAchievements: data.achievements,
+        achievements: data.achievements,
+        lastMilestone: data.lastMilestone
+      }));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let milestoneData = loadMilestoneData();
+  let currentMilestone = null;
+
+  // ----- ⑧ 現在の「地球に生まれて○○日目」を計算（誕生日を1日目として数える） -----
+  function getCurrentDayCount(){
+    const birthEl = document.getElementById('birthdate');
+    if (!birthEl || !birthEl.value) return null;
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
+    return diff + 1;
+  }
+
+  // ----- ⑨ 今日が節目の日かどうかを判定 -----
+  function checkMilestoneToday(){
+    const dayCount = getCurrentDayCount();
+    if (dayCount === null) return null;
+    return MILESTONES.find(m => m.days === dayCount) || null;
+  }
+
+  function getTodayDateStringForMilestone(){
+    const now = new Date();
+    return `${now.getFullYear()}/${String(now.getMonth() + 1).padStart(2, '0')}/${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  /* ==========================================================
+     ⑩ 節目限定宇宙どうぶつを表示（節目の日は確定で1匹登場する）
+     ========================================================== */
+  function showMilestoneAnimal(milestone){
+    const helpers = window.__fqtAnimalHelpers;
+    if (!helpers) return; // 宇宙どうぶつモジュールが読み込めていない場合は静かにスキップ
+
+    const index = Math.floor(Math.random() * MILESTONE_CREATURES.length);
+    const name = MILESTONE_CREATURES[index];
+    const seed = simpleHash('milestone_' + milestone.days + '_' + Date.now() + '_' + Math.random());
+    const parts = helpers.pickPartIndices(seed);
+    let svg = helpers.buildAnimalSVG(parts, 'milestone' + milestone.days + Date.now());
+    svg = svg.replace('</svg>', `<text x="172" y="34" font-size="26" text-anchor="middle">🌍</text></svg>`);
+
+    document.getElementById('milestoneAnimalSvg').innerHTML = svg;
+    document.getElementById('milestoneAnimalName').textContent = name;
+    document.getElementById('milestoneAnimalBox').style.display = 'block';
+  }
+
+  /* ==========================================================
+     ⑪ 演出（花火・紙吹雪・流れ星・虹）
+     ========================================================== */
+  function launchMilestoneEffect(){
+    const colors = ['#ffd873', '#ff8a65', '#ff6f91', '#8ce99a', '#74c0fc', '#b197fc'];
+    // 紙吹雪
+    for (let i = 0; i < 60; i++){
+      const piece = document.createElement('div');
+      piece.className = 'confetti-piece';
+      piece.style.left = Math.random() * 100 + 'vw';
+      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+      piece.style.animationDuration = (2 + Math.random() * 1.5) + 's';
+      piece.style.opacity = String(0.7 + Math.random() * 0.3);
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+    // 流れ星・花火・虹（絵文字演出）
+    const symbols = ['🎆', '🌠', '🌈', '✨', '💫'];
+    for (let i = 0; i < 16; i++){
+      const star = document.createElement('div');
+      star.className = 'star-fall-piece';
+      star.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      star.style.left = Math.random() * 100 + 'vw';
+      star.style.animationDuration = (2.5 + Math.random() * 2) + 's';
+      document.body.appendChild(star);
+      star.addEventListener('animationend', () => star.remove());
+    }
+  }
+
+  /* ==========================================================
+     ⑫ 節目バッジ・実績の判定
+     ========================================================== */
+  function checkMilestoneBadgesAndAchievements(milestone){
+    const newlyEarned = [];
+
+    MILESTONE_BADGES.forEach(badge => {
+      const already = milestoneData.badges.indexOf(badge.id) !== -1;
+      if (!already && badge.days === milestone.days){
+        milestoneData.badges.push(badge.id);
+        newlyEarned.push({ kind: 'badge', item: badge });
+      }
+    });
+
+    MILESTONE_ACHIEVEMENTS.forEach(ach => {
+      const already = milestoneData.achievements.indexOf(ach.id) !== -1;
+      if (already) return;
+      // 「初めて節目イベント参加」はdaysを問わず、初回の節目到達で解除する
+      const achieved = (ach.days === null) || (ach.days === milestone.days);
+      if (achieved){
+        milestoneData.achievements.push(ach.id);
+        newlyEarned.push({ kind: 'achievement', item: ach });
+      }
+    });
+
+    if (newlyEarned.length > 0){
+      // 共通の実績解除ポップアップ（実績モジュールと見た目を揃えて再利用）
+      newlyEarned.forEach(entry => {
+        document.getElementById('achievementEarnEmoji').textContent = entry.item.emoji;
+        document.getElementById('achievementEarnName').textContent = entry.item.name;
+        document.getElementById('achievementEarnDesc').textContent = entry.item.name + 'を解除しました！';
+        document.getElementById('achievementEarnOverlay').classList.add('show');
+      });
+    }
+  }
+
+  /* ==========================================================
+     ⑬ フルスクリーン祝福演出の表示
+     ========================================================== */
+  function showMilestoneCelebration(milestone){
+    currentMilestone = milestone;
+    const dayCount = milestone.days;
+
+    document.getElementById('milestoneRankLabel').textContent = RANK_INFO[milestone.rank].label;
+    document.getElementById('milestoneDaysCount').textContent = dayCount.toLocaleString('ja-JP');
+    const message = milestone.messages[Math.floor(Math.random() * milestone.messages.length)];
+    document.getElementById('milestoneMessage').textContent = `${message}（背景：${milestone.bg}）`;
+
+    // 節目限定宇宙どうぶつを確定で1匹表示する
+    showMilestoneAnimal(milestone);
+
+    document.getElementById('milestoneOverlay').classList.add('show');
+    launchMilestoneEffect();
+
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([50, 30, 50, 30, 100]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+
+    // 履歴・バッジ・実績への記録は、この節目がまだ未記録の場合のみ行う
+    const alreadyRecorded = milestoneData.history.some(h => h.days === milestone.days);
+    if (!alreadyRecorded){
+      milestoneData.history.push({
+        days: milestone.days,
+        date: getTodayDateStringForMilestone(),
+        label: `${RANK_INFO[milestone.rank].label.split(' ')[1] || ''}${dayCount.toLocaleString('ja-JP')}日達成`
+      });
+      milestoneData.lastMilestone = milestone.days;
+      checkMilestoneBadgesAndAchievements(milestone); // バッジ・実績の判定（milestoneDataを直接更新）
+      saveMilestoneData(milestoneData); // 履歴・バッジ・実績をまとめてここで保存する
+    }
+  }
+
+  document.getElementById('milestoneCloseBtn').addEventListener('click', () => {
+    document.getElementById('milestoneOverlay').classList.remove('show');
+  });
+
+  /* ==========================================================
+     ⑭ シェア機能（Web Share API対応端末は共有画面、非対応はコピー）
+     ========================================================== */
+  document.getElementById('milestoneShareBtn').addEventListener('click', async () => {
+    if (!currentMilestone) return;
+    const days = currentMilestone.days.toLocaleString('ja-JP');
+    const shareText =
+      `🌍 今日、私は地球に生まれて\n${days}日目でした！\n\n` +
+      `人生の節目をFQTLIFECOUNTERでお祝いしました✨\n` +
+      `https://fqtlifecounter2.netlify.app`;
+
+    if (navigator.share){
+      try{
+        await navigator.share({ text: shareText });
+      } catch(e){
+        // ユーザーがキャンセルした場合は何もしない
+      }
+    } else if (navigator.clipboard && navigator.clipboard.writeText){
+      try{
+        await navigator.clipboard.writeText(shareText);
+        alert('シェア用のテキストをコピーしました！');
+      } catch(e){
+        alert('コピーに失敗しました。手動で選択してコピーしてください。');
+      }
+    } else {
+      alert(shareText);
+    }
+  });
+
+  /* ==========================================================
+     ⑮ 人生ヒストリーモーダル
+     ========================================================== */
+  function renderMilestoneHistoryModal(){
+    const list = document.getElementById('milestoneHistoryList');
+    list.innerHTML = '';
+
+    if (milestoneData.history.length === 0){
+      list.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--text-sub);">まだ節目に到達していません。これからの積み重ねを楽しみに！</p>';
+    } else {
+      const sorted = milestoneData.history.slice().sort((a, b) => b.days - a.days);
+      sorted.forEach(entry => {
+        const row = document.createElement('div');
+        row.className = 'milestone-history-row';
+        row.innerHTML =
+          `<div class="mh-date">${entry.date}</div>` +
+          `<div class="mh-label">${entry.label}</div>`;
+        list.appendChild(row);
+      });
+    }
+
+    // バッジ一覧
+    const badgeList = document.getElementById('milestoneBadgeList');
+    badgeList.innerHTML = '';
+    MILESTONE_BADGES.forEach(badge => {
+      const earned = milestoneData.badges.indexOf(badge.id) !== -1;
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${badge.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${badge.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+          `<div class="ach-desc">${badge.days.toLocaleString('ja-JP')}日達成</div>` +
+        `</div>`;
+      badgeList.appendChild(row);
+    });
+
+    // 実績一覧
+    const achList = document.getElementById('milestoneAchievementList');
+    achList.innerHTML = '';
+    MILESTONE_ACHIEVEMENTS.forEach(ach => {
+      const earned = milestoneData.achievements.indexOf(ach.id) !== -1;
+      const row = document.createElement('div');
+      row.className = 'achievement-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="ach-emoji">${ach.emoji}</div>` +
+        `<div class="ach-text">` +
+          `<div class="ach-name">${ach.name}${earned ? ' <span class="ach-check">✔</span>' : ''}</div>` +
+        `</div>`;
+      achList.appendChild(row);
+    });
+  }
+
+  document.getElementById('milestoneHistoryBtn').addEventListener('click', () => {
+    renderMilestoneHistoryModal();
+    document.getElementById('milestoneHistoryModalOverlay').classList.add('show');
+  });
+  document.getElementById('milestoneHistoryModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('milestoneHistoryModalOverlay').classList.remove('show');
+  });
+  document.getElementById('milestoneHistoryModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('milestoneHistoryModalOverlay')){
+      document.getElementById('milestoneHistoryModalOverlay').classList.remove('show');
+    }
+  });
+
+  /* ==========================================================
+     ⑯ 起動：ページ読み込み時に節目チェックを行う
+     ・「計算する」が押されたタイミングでも再チェックする
+     ========================================================== */
+  function runMilestoneCheck(){
+    const milestone = checkMilestoneToday();
+    if (milestone){
+      showMilestoneCelebration(milestone);
+    }
+  }
+
+  document.addEventListener('fqtCalculatePressed', runMilestoneCheck);
+  runMilestoneCheck();
+
+})();
 </script>
+
+
 
 </body>
 </html>
