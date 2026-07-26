@@ -2333,7 +2333,7 @@
     <div class="birthday-btn-row">
       <button class="birthday-action-btn" id="birthdayThanksBtn" type="button">ありがとう</button>
       <button class="birthday-action-btn" id="birthdayFortuneBtn" type="button">今日の運勢を見る</button>
-      <button class="birthday-action-btn" id="birthdayAnimalBtn" type="button">今日の宇宙どうぶつを見る</button>
+      <button class="birthday-action-btn" id="birthdayAnimalBtn" type="button">宇宙どうぶつを見る</button>
     </div>
   </div>
 </div>
@@ -2475,35 +2475,6 @@
     <button class="badge-open-btn" id="badgeOpenBtn" type="button">🏅　バッジ一覧を見る</button>
   </div>
 
-  <!-- 🌌 今日の宇宙どうぶつカード -->
-  <div class="card animal-card">
-    <p class="section-title">🌌 今日の宇宙どうぶつ</p>
-    <button class="animal-voice-btn" id="animalVoiceBtn" type="button">🔇　鳴き声OFF</button>
-    <div class="animal-stage" id="animalStage">
-      <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
-      <div class="animal-svg-wrap" id="animalSvgWrap"></div>
-    </div>
-    <div class="animal-rarity" id="animalRarity">-</div>
-    <div class="animal-name" id="animalName">-</div>
-    <div class="animal-met-note" id="animalMetNote"></div>
-    <div class="animal-info-grid">
-      <div class="animal-info-item">
-        <div class="animal-info-label">せいかく</div>
-        <div class="animal-info-value" id="animalPersonality">-</div>
-      </div>
-      <div class="animal-info-item">
-        <div class="animal-info-label">すきなもの</div>
-        <div class="animal-info-value" id="animalFavorite">-</div>
-      </div>
-    </div>
-    <p class="animal-quote" id="animalQuote">-</p>
-    <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
-    <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
-    <button class="event-dex-btn" id="eventDexBtn" type="button">🎉　イベント図鑑を見る</button>
-    <button class="birthday-present-btn" id="birthdayPresentBtn" type="button" style="display:none;">🎁　プレゼントBOXを開ける</button>
-    <button class="birthday-record-btn" id="birthdayRecordBtn" type="button">🎂　誕生日記録を見る</button>
-  </div>
-
   <!-- 入力カード -->
   <div class="card">
     <div class="field">
@@ -2575,6 +2546,35 @@
         <div class="progress-fill" id="progressFill" style="width:0%"></div>
       </div>
     </div>
+  </div>
+
+  <!-- 🌌 今日の宇宙どうぶつカード（結果カードの直後＝計算後に自動スクロールしてすぐ見える位置） -->
+  <div class="card animal-card" id="animalCard">
+    <p class="section-title">🌌 宇宙どうぶつに出会った！</p>
+    <button class="animal-voice-btn" id="animalVoiceBtn" type="button">🔇　鳴き声OFF</button>
+    <div class="animal-stage" id="animalStage">
+      <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
+      <div class="animal-svg-wrap" id="animalSvgWrap"></div>
+    </div>
+    <div class="animal-rarity" id="animalRarity">-</div>
+    <div class="animal-name" id="animalName">-</div>
+    <div class="animal-met-note" id="animalMetNote"></div>
+    <div class="animal-info-grid">
+      <div class="animal-info-item">
+        <div class="animal-info-label">せいかく</div>
+        <div class="animal-info-value" id="animalPersonality">-</div>
+      </div>
+      <div class="animal-info-item">
+        <div class="animal-info-label">すきなもの</div>
+        <div class="animal-info-value" id="animalFavorite">-</div>
+      </div>
+    </div>
+    <p class="animal-quote" id="animalQuote">-</p>
+    <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
+    <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
+    <button class="event-dex-btn" id="eventDexBtn" type="button">🎉　イベント図鑑を見る</button>
+    <button class="birthday-present-btn" id="birthdayPresentBtn" type="button" style="display:none;">🎁　プレゼントBOXを開ける</button>
+    <button class="birthday-record-btn" id="birthdayRecordBtn" type="button">🎂　誕生日記録を見る</button>
   </div>
 
   <!-- 次の人生の節目カード -->
