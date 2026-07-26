@@ -2649,7 +2649,7 @@
       <div class="fortune-row">
         <div class="ic" id="fortuneCosmicIcon">🌌</div>
         <div class="fortune-text">
-          <div class="label">宇宙占い</div>
+          <div class="label">FQT 宇宙占い</div>
           <div class="value" id="fortuneCosmicType">-</div>
           <div class="sub" id="fortuneCosmicSub">-</div>
         </div>
@@ -3319,7 +3319,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
     `今日の運勢は　${combinedShareRank}\n\n` +
     `誕生日を入力するだけで\n` +
     `🔮今日の運勢\n` +
-    `🌌13種類の宇宙占い\n` +
+    `🌌13種類のFQT 宇宙占い\n` +
     `🐾毎日違う宇宙どうぶつに出会える\n\n` +
     `ログイン不要\n` +
     `完全無料✨\n\n` +
@@ -3404,7 +3404,7 @@ function calcNineStar(birth){
   return star;
 }
 
-// ----- 🌌 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
+// ----- 🌌 FQT 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
 const COSMIC_TYPES = [
   { emoji: '🌞', name: '恒星タイプ', desc: '周りを照らす光の存在。自然と人を引きつけ、希望や安心感を与えるリーダータイプ。' },
   { emoji: '🌍', name: '惑星タイプ', desc: '安定と成長を大切にする存在。一歩ずつ積み重ねることで、大きな成果を育てるタイプ。' },
@@ -3906,7 +3906,7 @@ function renderFortune(birth, today){
   document.getElementById('fortuneNineStar').textContent = NINE_STAR_NAMES[star];
   document.getElementById('fortuneNineStarSub').textContent = NINE_STAR_TRAITS[star];
 
-  // 宇宙占い
+  // FQT 宇宙占い
   const cosmic = calcCosmicType(birth);
   document.getElementById('fortuneCosmicIcon').textContent = cosmic.emoji;
   document.getElementById('fortuneCosmicType').textContent = cosmic.name;
@@ -7853,7 +7853,7 @@ window.fqtConfirm = function(message, onConfirm){
     drawInfoRow(ctx, rowY, '🌎 地球到着日', data.birthLabel); rowY += rowGap;
     drawInfoRow(ctx, rowY, '📅 地球滞在日数', `${data.day}日`); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🔮 今日の運勢', data.rank); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '🌌 今日の宇宙占い', data.cosmicType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌌 FQT 宇宙占い', data.cosmicType); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🐾 今日出会った宇宙どうぶつ', data.animalName);
 
     // フッター
