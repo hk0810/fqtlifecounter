@@ -1439,6 +1439,87 @@
   .confirm-modal-ok-btn:active{ transform: scale(0.97); }
 
   /* ==========================================================
+     🌏 地球滞在証明書
+     ========================================================== */
+  .certificate-card{
+    text-align: center;
+    background: linear-gradient(160deg, #ffffff, #eef2ff);
+  }
+  .certificate-card-title{
+    text-align: center;
+  }
+  .certificate-card-desc{
+    font-size: 12.5px;
+    color: var(--text-sub);
+    line-height: 1.7;
+    margin: 0 0 14px;
+  }
+  .certificate-open-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 800;
+    color: #ffd873;
+    background: linear-gradient(135deg, #1b2a55, #402a6e);
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    cursor: pointer;
+  }
+  .certificate-open-btn:active{ transform: scale(0.98); }
+
+  .certificate-modal{
+    max-width: 420px;
+  }
+  .certificate-canvas-wrap{
+    width: 100%;
+    aspect-ratio: 1 / 1;
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+    margin-bottom: 16px;
+    background: #05060f;
+  }
+  .certificate-canvas-wrap canvas{
+    width: 100%;
+    height: 100%;
+    display: block;
+  }
+  .certificate-btn-row{
+    display: flex;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .certificate-download-btn,
+  .certificate-share-btn{
+    flex: 1;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .certificate-download-btn{
+    background: var(--blue-pale);
+    color: var(--blue-dark);
+  }
+  .certificate-share-btn{
+    background: linear-gradient(135deg, #1b2a55, #402a6e);
+    color: #ffd873;
+  }
+  .certificate-download-btn:active,
+  .certificate-share-btn:active{ transform: scale(0.98); }
+  .certificate-note{
+    font-size: 11px;
+    color: var(--text-sub);
+    text-align: center;
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  /* ==========================================================
      🌍 人生節目イベント
      ========================================================== */
 
@@ -2215,6 +2296,22 @@
   </div>
 </div>
 
+<!-- 🌏 地球滞在証明書プレビューモーダル -->
+<div class="dex-modal-overlay" id="certificateModalOverlay">
+  <div class="dex-modal certificate-modal">
+    <button class="badge-modal-close" id="certificateModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌏 地球滞在証明書</p>
+    <div class="certificate-canvas-wrap">
+      <canvas id="certificateCanvas" width="1080" height="1080"></canvas>
+    </div>
+    <div class="certificate-btn-row">
+      <button class="certificate-download-btn" id="certificateDownloadBtn" type="button">💾　画像を保存</button>
+      <button class="certificate-share-btn" id="certificateShareBtn" type="button">📤　シェアする</button>
+    </div>
+    <p class="certificate-note">※ 保存した画像は、Instagram・X・LINEなどに<br>そのまま投稿してシェアできます。</p>
+  </div>
+</div>
+
 <!-- 🎂 誕生日フルスクリーン祝福演出 -->
 <div class="birthday-overlay" id="birthdayOverlay">
   <div class="birthday-decor" id="birthdayDecor"></div>
@@ -2735,6 +2832,13 @@
     <p class="share-note" id="shareNote"></p>
   </div>
 
+  <!-- 🌏 地球滞在証明書カード -->
+  <div class="card certificate-card">
+    <p class="section-title certificate-card-title">🌏 地球滞在証明書</p>
+    <p class="certificate-card-desc">あなたの記録を、宇宙の証明書デザインで<br>画像にしてシェアできます。</p>
+    <button class="certificate-open-btn" id="certificateOpenBtn" type="button">🌏　証明書を作成する</button>
+  </div>
+
   <!-- フッターメッセージ -->
   <p class="footer-message">今日という日は、残りの人生の最初の日。</p>
 
@@ -3177,7 +3281,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
 
   // ② 日数を「⭕️」で伏せた、年齢を特定されたくない人向けのシェア文言
   privacyShareText =
-    `🌏私は今日、地球に来て⭕️日目でした。\n\n` +
+    `🌏今日は私が地球に来て⭕️日目でした！\n\n` +
     `今日の運勢は　${combinedShareRank}\n\n` +
     `誕生日を入力するだけで\n` +
     `🔮今日の運勢\n` +
@@ -7294,6 +7398,281 @@ window.fqtConfirm = function(message, onConfirm){
     if (rarity){
       playCuteVoice(rarity);
     }
+  });
+
+})();
+
+/* ==========================================================
+   🌏 地球滞在証明書（追加実装のみ・既存機能には触れない）
+   ・Canvas 2D APIで1080×1080pxの証明書画像をその場で描画する
+   ・外部ライブラリ・画像素材は使用しない
+   ・表示中のDOM（結果カード）から値を読み取るだけで、
+     計算処理そのものはこのモジュールでは行わない
+   ========================================================== */
+(function initCertificateGenerator(){
+
+  const CANVAS_SIZE = 1080;
+
+  // ----- ① 日本語として自然な生年月日表示に整える -----
+  function formatBirthDateLabel(){
+    const birthEl = document.getElementById('birthdate');
+    if (!birthEl || !birthEl.value) return '-';
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    return `${birth.getFullYear()}年${birth.getMonth() + 1}月${birth.getDate()}日`;
+  }
+
+  // ----- ② 画面に表示中の値をそのまま読み取る（読み取り専用） -----
+  function collectCertificateData(){
+    const dayText = document.getElementById('currentDay').textContent.trim();
+    const rankText = document.getElementById('fortuneRank').textContent.trim();
+    const nineStarText = document.getElementById('fortuneNineStar').textContent.trim();
+    // どうぶつ名から「（〇〇限定）」のような補足を取り除き、名前だけにする
+    const animalRaw = document.getElementById('animalName').textContent.trim();
+    const animalName = animalRaw.replace(/[（(].*?[）)]/g, '').trim() || '-';
+
+    return {
+      day: dayText,
+      birthLabel: formatBirthDateLabel(),
+      rank: rankText,
+      nineStar: nineStarText,
+      animalName: animalName
+    };
+  }
+
+  // ----- ③ 星空を散りばめる -----
+  function drawStars(ctx){
+    let seed = 42;
+    function rand(){
+      seed = (seed * 9301 + 49297) % 233280;
+      return seed / 233280;
+    }
+    for (let i = 0; i < 220; i++){
+      const x = rand() * CANVAS_SIZE;
+      const y = rand() * CANVAS_SIZE * 0.75; // 下側は地球の光で占めるため上寄りに集中させる
+      const r = rand() * 1.8 + 0.4;
+      ctx.globalAlpha = rand() * 0.6 + 0.3;
+      ctx.beginPath();
+      ctx.arc(x, y, r, 0, Math.PI * 2);
+      ctx.fillStyle = '#ffffff';
+      ctx.fill();
+    }
+    ctx.globalAlpha = 1;
+  }
+
+  // ----- ④ 背景（深い宇宙ブルー＋銀河のグラデーション＋地球の光） -----
+  function drawBackground(ctx){
+    // 深宇宙のベースグラデーション
+    const bg = ctx.createRadialGradient(
+      CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.15, 60,
+      CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.9
+    );
+    bg.addColorStop(0, '#1b2a55');
+    bg.addColorStop(0.5, '#12183a');
+    bg.addColorStop(1, '#05060f');
+    ctx.fillStyle = bg;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    // 銀河のような淡い色のにじみ
+    const nebula1 = ctx.createRadialGradient(150, 250, 20, 150, 250, 420);
+    nebula1.addColorStop(0, 'rgba(147, 112, 219, 0.25)');
+    nebula1.addColorStop(1, 'rgba(147, 112, 219, 0)');
+    ctx.fillStyle = nebula1;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    const nebula2 = ctx.createRadialGradient(920, 320, 20, 920, 320, 380);
+    nebula2.addColorStop(0, 'rgba(56, 189, 248, 0.20)');
+    nebula2.addColorStop(1, 'rgba(56, 189, 248, 0)');
+    ctx.fillStyle = nebula2;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+
+    drawStars(ctx);
+
+    // 画面下部に佇む「地球」の淡い光（円形グラデーション）
+    const earth = ctx.createRadialGradient(
+      CANVAS_SIZE * 0.5, CANVAS_SIZE * 1.28, 40,
+      CANVAS_SIZE * 0.5, CANVAS_SIZE * 1.28, CANVAS_SIZE * 0.85
+    );
+    earth.addColorStop(0, 'rgba(255,255,255,0.35)');
+    earth.addColorStop(0.15, 'rgba(58,166,255,0.55)');
+    earth.addColorStop(0.5, 'rgba(31,111,214,0.35)');
+    earth.addColorStop(1, 'rgba(5,6,15,0)');
+    ctx.fillStyle = earth;
+    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+  }
+
+  // ----- ⑤ 証明書らしい飾り枠 -----
+  function drawFrame(ctx){
+    const margin = 40;
+    ctx.strokeStyle = 'rgba(255, 216, 115, 0.65)';
+    ctx.lineWidth = 2;
+    ctx.strokeRect(margin, margin, CANVAS_SIZE - margin * 2, CANVAS_SIZE - margin * 2);
+
+    const innerMargin = 52;
+    ctx.strokeStyle = 'rgba(255, 216, 115, 0.35)';
+    ctx.lineWidth = 1;
+    ctx.strokeRect(innerMargin, innerMargin, CANVAS_SIZE - innerMargin * 2, CANVAS_SIZE - innerMargin * 2);
+
+    // 四隅の飾り
+    const corners = [[margin, margin], [CANVAS_SIZE - margin, margin], [margin, CANVAS_SIZE - margin], [CANVAS_SIZE - margin, CANVAS_SIZE - margin]];
+    ctx.fillStyle = '#ffd873';
+    corners.forEach(([cx, cy]) => {
+      ctx.beginPath();
+      ctx.arc(cx, cy, 4, 0, Math.PI * 2);
+      ctx.fill();
+    });
+  }
+
+  // ----- ⑥ 情報を1行分描画する（アイコン付きラベル＋値） -----
+  function drawInfoRow(ctx, y, label, value){
+    const rowWidth = 860;
+    const rowX = (CANVAS_SIZE - rowWidth) / 2;
+    const rowHeight = 74;
+
+    ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
+    roundRect(ctx, rowX, y, rowWidth, rowHeight, 14);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(255, 216, 115, 0.25)';
+    ctx.lineWidth = 1;
+    roundRect(ctx, rowX, y, rowWidth, rowHeight, 14);
+    ctx.stroke();
+
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.font = '600 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.75)';
+    ctx.fillText(label, rowX + 28, y + rowHeight / 2);
+
+    ctx.textAlign = 'right';
+    ctx.font = '800 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.fillText(value, rowX + rowWidth - 28, y + rowHeight / 2);
+  }
+
+  // 角丸四角形を描くヘルパー
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.arcTo(x + w, y, x + w, y + h, r);
+    ctx.arcTo(x + w, y + h, x, y + h, r);
+    ctx.arcTo(x, y + h, x, y, r);
+    ctx.arcTo(x, y, x + w, y, r);
+    ctx.closePath();
+  }
+
+  // ----- ⑦ 証明書全体を描画する -----
+  function drawCertificate(){
+    const canvas = document.getElementById('certificateCanvas');
+    const ctx = canvas.getContext('2d');
+    const data = collectCertificateData();
+
+    drawBackground(ctx);
+    drawFrame(ctx);
+
+    // タイトル
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'alphabetic';
+    ctx.font = '700 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#ffd873';
+    ctx.fillText('🌏 地球滞在証明書', CANVAS_SIZE / 2, 150);
+
+    // タイトル下の飾り線
+    ctx.strokeStyle = 'rgba(255, 216, 115, 0.6)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(CANVAS_SIZE / 2 - 90, 172);
+    ctx.lineTo(CANVAS_SIZE / 2 + 90, 172);
+    ctx.stroke();
+
+    // メインコピー（2行）
+    ctx.font = '500 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#e5e7eb';
+    ctx.fillText('私は今日、地球に来て', CANVAS_SIZE / 2, 260);
+
+    // 日数（最も目立つ大きな数字）
+    ctx.font = '900 108px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(255, 216, 115, 0.8)';
+    ctx.shadowBlur = 30;
+    ctx.fillText(`${data.day}日目`, CANVAS_SIZE / 2, 390);
+    ctx.shadowBlur = 0;
+
+    ctx.font = '500 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#e5e7eb';
+    ctx.fillText('でした', CANVAS_SIZE / 2, 440);
+
+    // 情報行（5項目）
+    let rowY = 500;
+    const rowGap = 86;
+    drawInfoRow(ctx, rowY, '🌎 地球到着日', data.birthLabel); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '📅 地球滞在日数', `${data.day}日`); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🔮 今日の運勢', data.rank); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌌 今日の宇宙占い', `${data.nineStar}タイプ`); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🐾 今日出会った宇宙どうぶつ', data.animalName);
+
+    // フッター
+    ctx.textAlign = 'center';
+    ctx.font = '700 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#ffd873';
+    ctx.fillText('あなたは今日、地球に来て何日目？🌏', CANVAS_SIZE / 2, 970);
+
+    ctx.font = '500 22px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = 'rgba(255,255,255,0.8)';
+    ctx.fillText('https://fqtlifecounter2.netlify.app', CANVAS_SIZE / 2, 1010);
+  }
+
+  // ----- ⑧ モーダルの開閉 -----
+  const certificateOpenBtn = document.getElementById('certificateOpenBtn');
+  const certificateModalOverlay = document.getElementById('certificateModalOverlay');
+  const certificateModalCloseBtn = document.getElementById('certificateModalCloseBtn');
+
+  certificateOpenBtn.addEventListener('click', () => {
+    certificateModalOverlay.classList.add('show');
+    // モーダルが実際に表示されてからCanvasを描画する（レイアウト確定後の方が安定するため）
+    setTimeout(drawCertificate, 50);
+  });
+  certificateModalCloseBtn.addEventListener('click', () => {
+    certificateModalOverlay.classList.remove('show');
+  });
+  certificateModalOverlay.addEventListener('click', (e) => {
+    if (e.target === certificateModalOverlay){
+      certificateModalOverlay.classList.remove('show');
+    }
+  });
+
+  // ----- ⑨ 画像の保存・シェア -----
+  document.getElementById('certificateDownloadBtn').addEventListener('click', () => {
+    const canvas = document.getElementById('certificateCanvas');
+    const link = document.createElement('a');
+    link.download = 'fqt_earth_certificate.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  });
+
+  document.getElementById('certificateShareBtn').addEventListener('click', async () => {
+    const canvas = document.getElementById('certificateCanvas');
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      const file = new File([blob], 'fqt_earth_certificate.png', { type: 'image/png' });
+
+      // 画像ファイルの共有に対応した端末では共有シートを開く
+      if (navigator.canShare && navigator.canShare({ files: [file] })){
+        try{
+          await navigator.share({
+            files: [file],
+            title: '🌏 地球滞在証明書',
+            text: 'FQT LIFE COUNTERで地球滞在証明書を作りました！'
+          });
+        } catch(e){
+          // ユーザーがキャンセルした場合は何もしない
+        }
+      } else {
+        // 非対応端末では保存を促す
+        const link = document.createElement('a');
+        link.download = 'fqt_earth_certificate.png';
+        link.href = URL.createObjectURL(blob);
+        link.click();
+      }
+    }, 'image/png');
   });
 
 })();
