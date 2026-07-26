@@ -806,6 +806,26 @@
     background: linear-gradient(160deg, #ffffff, var(--blue-pale));
     text-align: center;
   }
+  .animal-voice-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    background: var(--blue-pale);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 5px 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .animal-voice-btn.active{
+    background: #eef2ff;
+    color: #5b4bc4;
+    border-color: #b197fc;
+  }
   .animal-stage{
     position: relative;
     width: 100%;
@@ -1475,6 +1495,94 @@
     font-weight: 800;
     color: var(--text-main);
   }
+
+  /* ==========================================================
+     🌈 今日の不思議色鉛筆ワーク
+     ========================================================== */
+  .daily-work-card{
+    background: linear-gradient(160deg, #ffffff, #f5f0ff);
+    text-align: center;
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border);
+    padding: 22px 20px;
+    margin: 18px 0;
+  }
+  .daily-work-title{
+    text-align: center;
+  }
+  .daily-work-date{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 12px;
+  }
+  .daily-work-content-box{
+    background: linear-gradient(135deg, var(--blue-pale), #f5f0ff);
+    border-radius: 16px;
+    padding: 20px 16px;
+    margin: 0 0 14px;
+  }
+  .daily-work-content{
+    font-size: 17px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .daily-work-complete-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #9775fa, #7c6ee0);
+    border: none;
+    border-radius: 12px;
+    padding: 13px;
+    cursor: pointer;
+    margin-bottom: 14px;
+  }
+  .daily-work-complete-btn:active{ transform: scale(0.98); }
+  .daily-work-complete-btn.completed{
+    background: linear-gradient(135deg, #8ce99a, #51cf66);
+  }
+  .daily-work-progress{
+    margin-bottom: 12px;
+  }
+  .daily-work-progress-track{
+    width: 100%;
+    height: 10px;
+    background: #e2e8f0;
+    border-radius: 999px;
+    overflow: hidden;
+    margin-bottom: 6px;
+  }
+  .daily-work-progress-fill{
+    height: 100%;
+    background: linear-gradient(90deg, #9775fa, #b197fc);
+    border-radius: 999px;
+    transition: width .5s ease;
+  }
+  .daily-work-progress-text{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    margin: 0;
+  }
+  .daily-work-history-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: #ffffff;
+    border: 1.5px solid var(--blue-light);
+    border-radius: 12px;
+    padding: 11px;
+    cursor: pointer;
+  }
+  .daily-work-history-btn:active{ transform: scale(0.98); }
 
   /* ===== リアルタイム経過リスト ===== */
   .realtime-list{
@@ -2148,6 +2256,16 @@
   </div>
 </div>
 
+<!-- 🌈 過去のワーク履歴モーダル -->
+<div class="dex-modal-overlay" id="dailyWorkHistoryModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="dailyWorkHistoryModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">📖 過去のワーク履歴</p>
+    <p class="badge-modal-note">※ 68個のワークを一巡すると、履歴をリセットしてまたランダムに巡ります。</p>
+    <div class="milestone-history-list" id="dailyWorkHistoryList"></div>
+  </div>
+</div>
+
 <!-- 画面下に佇む地球のような光の球体（装飾） -->
 <div class="earth-glow"></div>
 
@@ -2188,6 +2306,7 @@
   <!-- 🌌 今日の宇宙どうぶつカード -->
   <div class="card animal-card">
     <p class="section-title">🌌 今日の宇宙どうぶつ</p>
+    <button class="animal-voice-btn" id="animalVoiceBtn" type="button">🔇　鳴き声OFF</button>
     <div class="animal-stage" id="animalStage">
       <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
       <div class="animal-svg-wrap" id="animalSvgWrap"></div>
@@ -2481,6 +2600,21 @@
         <div class="iroenpitsu-deity" id="iroenpitsuDeity">-</div>
         <div class="iroenpitsu-desc" id="iroenpitsuDesc">-</div>
       </div>
+    </div>
+
+    <!-- 🌈 今日の不思議色鉛筆ワークカード -->
+    <div class="daily-work-card">
+      <p class="section-title daily-work-title">🌈 今日の不思議色鉛筆ワーク</p>
+      <p class="daily-work-date" id="dailyWorkDate">-</p>
+      <div class="daily-work-content-box">
+        <p class="daily-work-content" id="dailyWorkContent">-</p>
+      </div>
+      <button class="daily-work-complete-btn" id="dailyWorkCompleteBtn" type="button">✅　できたらタップ</button>
+      <div class="daily-work-progress">
+        <div class="daily-work-progress-track"><div class="daily-work-progress-fill" id="dailyWorkProgressFill"></div></div>
+        <p class="daily-work-progress-text" id="dailyWorkProgressText">68個中 0個 達成</p>
+      </div>
+      <button class="daily-work-history-btn" id="dailyWorkHistoryBtn" type="button">📖　過去のワーク履歴を見る</button>
     </div>
 
     <hr class="divider">
@@ -4873,9 +5007,9 @@ bgmBtn.addEventListener('click', () => {
     const discoveredCount = discoveredList.length;
 
     document.getElementById('dexDiscoveredCount').textContent = discoveredCount + '匹';
-    // コンプリート率は「レア度5種をすべて発見できているか」を簡易的な指標として表示する
-    const rarityFound = new Set(discoveredList.map(a => a.rarity));
-    const completeRate = Math.round((rarityFound.size / 5) * 100);
+    // コンプリート率は「発見した匹数」を基準に表示する
+    // （マルチバースマスター実績と同じ1,300匹を100%の目安として揃える）
+    const completeRate = Math.min(100, Math.round((discoveredCount / 1300) * 100));
     document.getElementById('dexCompleteRate').textContent = completeRate + '%';
 
     const grid = document.getElementById('dexGrid');
@@ -6594,6 +6728,411 @@ bgmBtn.addEventListener('click', () => {
 
   document.addEventListener('fqtCalculatePressed', runMilestoneCheck);
   runMilestoneCheck();
+
+})();
+
+/* ==========================================================
+   🌈 今日の不思議色鉛筆ワーク（追加実装のみ・既存機能には触れない）
+   ・68個のワークから毎日1つだけランダムに表示する
+   ・一巡するまで同じワークは表示しない（シャッフルバッグ方式）
+   ・生年月日に依存しないため、入力前でも利用できる
+   ========================================================== */
+(function initDailyWork(){
+
+  // ----- ① 保存データのキー（デイリーワーク専用の独立したキー） -----
+  const DAILY_WORK_STORAGE_KEY = 'fqtLifeCounter_dailyWork';
+
+  // ----- ② ワーク項目（68個・指定内容をそのまま登録） -----
+  const WORKS = [
+    '今日の願いを13文字以内で書く',
+    '「ありがとう」を3回書く',
+    '今日の目標を1つ書く',
+    '今日手放したいことを書く',
+    '今日挑戦したいことを書く',
+    '家族の名前を1人書く',
+    '大切な人の幸せを願って○を描く',
+    '自分の名前を丁寧に書く',
+    '好きな色で○を1つ描く',
+    '星を1つ描く',
+    'ハートを3つ描く',
+    '四つ葉のクローバーを描く',
+    '太陽を描く',
+    '月を描く',
+    '虹を描く',
+    '地球を描く',
+    '富士山を描く',
+    '花を1輪描く',
+    '木を描く',
+    '鳥を描く',
+    '今日見つけた幸せを書く',
+    '今日笑ったことを書く',
+    '今日感謝したい人を書く',
+    '今日一番嬉しかったことを書く',
+    '今日一番楽しかったことを書く',
+    '「大丈夫」と5回書く',
+    '「できる」と5回書く',
+    '「私は運がいい」と書く',
+    '「今日も最高」と書く',
+    '「ありがとう地球」と書く',
+    '水の入ったコップを○の上に68秒置く',
+    'お茶を○の上に68秒置く',
+    '好きな飲み物を○の上に130秒置く',
+    '色鉛筆を握って30秒目を閉じる',
+    '色鉛筆で小さな○を13個描く',
+    '色鉛筆で今日のラッキーカラーを塗る',
+    '色鉛筆で葉っぱを1枚描く',
+    '色鉛筆で花びらを5枚描く',
+    '色鉛筆で木の年輪を描く',
+    '色鉛筆で太陽の光を放射状に描く',
+    '色鉛筆で星空を描く',
+    '色鉛筆で三日月を描く',
+    '色鉛筆で雲を描く',
+    '色鉛筆で羽を1枚描く',
+    '色鉛筆で渦巻きを13回描く',
+    '笑顔マーク😊を描く',
+    '自分を褒める言葉を書き、○で囲む',
+    '家族を褒める言葉を書き、ハートで囲む',
+    '「ありがとう」と書いて星を添える',
+    '大切な人の名前を書いて○で囲む',
+    '色鉛筆で部屋のイメージを自由に描く',
+    '色鉛筆で机の上に置きたい物を描く',
+    '色鉛筆で財布の絵を描く',
+    '色鉛筆で靴のイラストを描く',
+    'コップの絵を描き、その上に実際のコップを68秒置く',
+    '色鉛筆で伸びる木を描く',
+    '色鉛筆で大きな円を描く',
+    '色鉛筆で∞（無限大）を13回描く',
+    '今日のラッキーカラーで丸を塗る',
+    '今日のラッキーナンバーを書く',
+    '次の節目の日数を色鉛筆で囲む',
+    '生まれて○○日目を書いて飾りを描く',
+    '今日の日付を色鉛筆でデザイン文字にする',
+    '今日の運勢を色鉛筆でイラスト付きで記録する',
+    '色鉛筆で自由に1分落書きする',
+    '「明日はもっと楽しい」と書いて虹を添える',
+    '今日の出来事を一言日記にしてイラストを添える',
+    '未来の自分へ一言メッセージを書き、○で囲む'
+  ];
+
+  // ----- ③ LocalStorageからデイリーワークデータを読み込む -----
+  function loadDailyWorkData(){
+    const defaultData = {
+      cycleHistory: [],      // 現在の一巡で既に表示したワークの番号
+      completedIndices: [],  // これまでに「完了」した、重複のないワーク番号
+      lastShownDate: null,   // 最後にワークを選んだ日付（YYYY-MM-DD）
+      todayWorkIndex: null,  // 今日のワーク番号
+      todayCompleted: false, // 今日のワークを完了したか
+      log: []                 // 過去のワーク履歴（日付・番号のペア。一巡してもリセットしない）
+    };
+    try{
+      const raw = window.localStorage.getItem(DAILY_WORK_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        cycleHistory: Array.isArray(parsed.cycleHistory) ? parsed.cycleHistory : [],
+        completedIndices: Array.isArray(parsed.completedIndices) ? parsed.completedIndices : [],
+        lastShownDate: parsed.lastShownDate || null,
+        todayWorkIndex: (typeof parsed.todayWorkIndex === 'number') ? parsed.todayWorkIndex : null,
+        todayCompleted: !!parsed.todayCompleted,
+        log: Array.isArray(parsed.log) ? parsed.log : []
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+
+  // ----- ④ デイリーワークデータを保存 -----
+  function saveDailyWorkData(data){
+    try{
+      window.localStorage.setItem(DAILY_WORK_STORAGE_KEY, JSON.stringify(data));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // ----- 状態を保持する変数 -----
+  let workData = loadDailyWorkData();
+
+  function getTodayDateStringForWork(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // ----- ⑤ 今日のワークを決定する（シャッフルバッグ方式：一巡するまで重複しない） -----
+  function pickTodayWorkIfNeeded(){
+    const today = getTodayDateStringForWork();
+
+    // 今日すでに選ばれていれば何もしない（同日に何度開いても変わらない）
+    if (workData.lastShownDate === today && workData.todayWorkIndex !== null){
+      return;
+    }
+
+    // 「まだ今回の一巡で表示していない番号」だけを候補にする
+    let pool = [];
+    for (let i = 0; i < WORKS.length; i++){
+      if (workData.cycleHistory.indexOf(i) === -1) pool.push(i);
+    }
+    // 68個すべて表示し終えていたら、履歴をリセットして再び全68個から選び直す
+    if (pool.length === 0){
+      workData.cycleHistory = [];
+      pool = WORKS.map((_, i) => i);
+    }
+
+    const chosenIndex = pool[Math.floor(Math.random() * pool.length)];
+    workData.cycleHistory.push(chosenIndex);
+    workData.lastShownDate = today;
+    workData.todayWorkIndex = chosenIndex;
+    workData.todayCompleted = false;
+    workData.log.push({ date: today, index: chosenIndex });
+
+    saveDailyWorkData(workData);
+  }
+
+  // ----- ⑥ 画面表示を更新する -----
+  function renderDailyWork(){
+    const now = new Date();
+    const dateLabel = `${now.getFullYear()}年${now.getMonth() + 1}月${now.getDate()}日`;
+    document.getElementById('dailyWorkDate').textContent = dateLabel;
+
+    const workText = WORKS[workData.todayWorkIndex] || '-';
+    document.getElementById('dailyWorkContent').textContent = `「${workText}」`;
+
+    const completeBtn = document.getElementById('dailyWorkCompleteBtn');
+    if (workData.todayCompleted){
+      completeBtn.textContent = '✅ 完了しました！';
+      completeBtn.classList.add('completed');
+    } else {
+      completeBtn.textContent = '✅　できたらタップ';
+      completeBtn.classList.remove('completed');
+    }
+
+    const completedCount = workData.completedIndices.length;
+    const percent = Math.round((completedCount / WORKS.length) * 100);
+    document.getElementById('dailyWorkProgressFill').style.width = percent + '%';
+    document.getElementById('dailyWorkProgressText').textContent =
+      `${WORKS.length}個中 ${completedCount}個 達成`;
+  }
+
+  // ----- ⑦ 完了ボタンの動作 -----
+  document.getElementById('dailyWorkCompleteBtn').addEventListener('click', () => {
+    if (workData.todayCompleted) return; // すでに完了済みなら何もしない
+
+    workData.todayCompleted = true;
+    if (workData.completedIndices.indexOf(workData.todayWorkIndex) === -1){
+      workData.completedIndices.push(workData.todayWorkIndex);
+    }
+    saveDailyWorkData(workData);
+    renderDailyWork();
+  });
+
+  // ----- ⑧ 過去のワーク履歴モーダル -----
+  function renderDailyWorkHistoryModal(){
+    const list = document.getElementById('dailyWorkHistoryList');
+    list.innerHTML = '';
+
+    if (workData.log.length === 0){
+      list.innerHTML = '<p style="text-align:center; font-size:12px; color:var(--text-sub);">まだワーク履歴がありません。</p>';
+      return;
+    }
+
+    const sorted = workData.log.slice().reverse(); // 新しい順に表示
+    sorted.forEach(entry => {
+      const row = document.createElement('div');
+      row.className = 'milestone-history-row';
+      const workText = WORKS[entry.index] || '-';
+      row.innerHTML =
+        `<div class="mh-date">${entry.date}</div>` +
+        `<div class="mh-label">${workText}</div>`;
+      list.appendChild(row);
+    });
+  }
+
+  document.getElementById('dailyWorkHistoryBtn').addEventListener('click', () => {
+    renderDailyWorkHistoryModal();
+    document.getElementById('dailyWorkHistoryModalOverlay').classList.add('show');
+  });
+  document.getElementById('dailyWorkHistoryModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('dailyWorkHistoryModalOverlay').classList.remove('show');
+  });
+  document.getElementById('dailyWorkHistoryModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('dailyWorkHistoryModalOverlay')){
+      document.getElementById('dailyWorkHistoryModalOverlay').classList.remove('show');
+    }
+  });
+
+  // ----- 起動：今日のワークを決定して表示する -----
+  pickTodayWorkIfNeeded();
+  renderDailyWork();
+
+})();
+
+/* ==========================================================
+   🔊 宇宙どうぶつの鳴き声（追加実装のみ・既存機能には触れない）
+   ・Web Audio APIでその場で合成する（録音ファイルは使用しない）
+   ・デフォルトOFF。ユーザーがONにした時だけ音声処理を開始する
+   ・ブラウザの自動再生制限を避けるため、
+     ユーザー操作（「計算する」押下）のタイミングでのみ再生する
+   ========================================================== */
+(function initAnimalVoice(){
+
+  // ----- ① 設定の保存キー -----
+  const VOICE_PREF_KEY = 'fqtLifeCounter_animalVoiceEnabled';
+
+  function loadVoicePref(){
+    try{
+      return window.localStorage.getItem(VOICE_PREF_KEY) === 'true';
+    } catch(e){
+      return false;
+    }
+  }
+  function saveVoicePref(enabled){
+    try{
+      window.localStorage.setItem(VOICE_PREF_KEY, enabled ? 'true' : 'false');
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  let voiceEnabled = loadVoicePref();
+  let audioCtx = null;
+
+  // ----- ② AudioContextは初めて音を鳴らす時にだけ生成する -----
+  function ensureAudioContext(){
+    if (!audioCtx){
+      const AudioCtx = window.AudioContext || window.webkitAudioContext;
+      audioCtx = new AudioCtx();
+    }
+    if (audioCtx.state === 'suspended'){
+      audioCtx.resume();
+    }
+    return audioCtx;
+  }
+
+  // ----- ③ レア度に応じて「鳴き声」を合成して再生する -----
+  // ★が多いほど音が高く・きらびやかになる（倍音を1つ重ねる）
+  function playCuteVoice(rarity){
+    const ctx = ensureAudioContext();
+    const now = ctx.currentTime;
+    const duration = 3.0; // むにょむにょと伸びる3秒間
+
+    // レア度が高いほど基準の音を少し高くする（低め〜中音域で「むにょ」っぽさを出す）
+    const baseFreqTable = { 1: 260, 2: 280, 3: 300, 4: 330, 5: 360 };
+    const baseFreq = baseFreqTable[rarity] || 280;
+
+    // ----- メインの音（伸びる音） -----
+    const osc = ctx.createOscillator();
+    osc.type = 'sine';
+    osc.frequency.setValueAtTime(baseFreq, now);
+
+    // ピッチをゆっくり波打たせるLFO（これが「むにょむにょ」感の正体）
+    const pitchLfo = ctx.createOscillator();
+    pitchLfo.type = 'sine';
+    pitchLfo.frequency.setValueAtTime(4.2, now); // 1秒に4回程度、ゆらゆら揺れる速さ
+    const pitchLfoGain = ctx.createGain();
+    pitchLfoGain.gain.setValueAtTime(baseFreq * 0.14, now); // 揺れの幅
+    pitchLfo.connect(pitchLfoGain);
+    pitchLfoGain.connect(osc.frequency);
+
+    // 音量もゆっくり波打たせて、弾むような「むにょっ」を強調する
+    const ampLfo = ctx.createOscillator();
+    ampLfo.type = 'sine';
+    ampLfo.frequency.setValueAtTime(2.6, now);
+    const ampLfoGain = ctx.createGain();
+    ampLfoGain.gain.setValueAtTime(0.05, now);
+    ampLfo.connect(ampLfoGain);
+
+    // 全体の音量エンベロープ（ゆっくり出てゆっくり消える）
+    const mainGain = ctx.createGain();
+    mainGain.gain.setValueAtTime(0, now);
+    mainGain.gain.linearRampToValueAtTime(0.16, now + 0.3);
+    mainGain.gain.setValueAtTime(0.16, now + duration - 0.6);
+    mainGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+    ampLfoGain.connect(mainGain.gain); // 音量エンベロープにゆらぎを加算する
+
+    osc.connect(mainGain);
+    mainGain.connect(ctx.destination);
+
+    osc.start(now);
+    pitchLfo.start(now);
+    ampLfo.start(now);
+    osc.stop(now + duration);
+    pitchLfo.stop(now + duration);
+    ampLfo.stop(now + duration);
+
+    // ★4以上は、きらめく倍音を重ねてより特別な音にする
+    if (rarity >= 4){
+      const shimmer = ctx.createOscillator();
+      shimmer.type = 'triangle';
+      shimmer.frequency.setValueAtTime(baseFreq * 2.5, now);
+
+      const shimmerLfo = ctx.createOscillator();
+      shimmerLfo.type = 'sine';
+      shimmerLfo.frequency.setValueAtTime(4.2, now);
+      const shimmerLfoGain = ctx.createGain();
+      shimmerLfoGain.gain.setValueAtTime(baseFreq * 0.3, now);
+      shimmerLfo.connect(shimmerLfoGain);
+      shimmerLfoGain.connect(shimmer.frequency);
+
+      const shimmerGain = ctx.createGain();
+      shimmerGain.gain.setValueAtTime(0, now);
+      shimmerGain.gain.linearRampToValueAtTime(0.06, now + 0.3);
+      shimmerGain.gain.setValueAtTime(0.06, now + duration - 0.6);
+      shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+      shimmer.connect(shimmerGain);
+      shimmerGain.connect(ctx.destination);
+      shimmer.start(now);
+      shimmerLfo.start(now);
+      shimmer.stop(now + duration);
+      shimmerLfo.stop(now + duration);
+    }
+  }
+
+  // ----- ④ 現在表示されている宇宙どうぶつのレア度を、DOMのクラス名から読み取る -----
+  function getCurrentRarityFromDom(){
+    const svgWrap = document.getElementById('animalSvgWrap');
+    if (!svgWrap) return null;
+    const match = svgWrap.className.match(/rarity-(\d)/);
+    return match ? Number(match[1]) : null;
+  }
+
+  // ----- ⑤ トグルボタンの表示・動作 -----
+  const voiceBtn = document.getElementById('animalVoiceBtn');
+
+  function renderVoiceBtn(){
+    if (voiceEnabled){
+      voiceBtn.textContent = '🔊　鳴き声ON';
+      voiceBtn.classList.add('active');
+    } else {
+      voiceBtn.textContent = '🔇　鳴き声OFF';
+      voiceBtn.classList.remove('active');
+    }
+  }
+  renderVoiceBtn();
+
+  voiceBtn.addEventListener('click', () => {
+    voiceEnabled = !voiceEnabled;
+    saveVoicePref(voiceEnabled);
+    renderVoiceBtn();
+    if (voiceEnabled){
+      // ONにした操作自体がユーザー操作なので、ここで軽く1回鳴らして確認できるようにする
+      const rarity = getCurrentRarityFromDom();
+      if (rarity){
+        playCuteVoice(rarity);
+      }
+    }
+  });
+
+  // ----- ⑥ 「計算する」が押された後（＝宇宙どうぶつの表示が確定した後）に鳴き声を再生する -----
+  // このモジュールは最後に読み込まれるため、他のリスナー（宇宙どうぶつ表示の更新）より
+  // 後に実行され、更新済みのレア度を正しく読み取れる。
+  document.addEventListener('fqtCalculatePressed', () => {
+    if (!voiceEnabled) return;
+    const rarity = getCurrentRarityFromDom();
+    if (rarity){
+      playCuteVoice(rarity);
+    }
+  });
 
 })();
 </script>
