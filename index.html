@@ -1401,6 +1401,43 @@
     background: linear-gradient(160deg, #fff7d6, #ffe6f0);
   }
 
+  /* ----- アプリ内の確認モーダル ----- */
+  .confirm-modal-popup{
+    max-width: 300px;
+  }
+  .confirm-modal-message{
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 4px 0 20px;
+  }
+  .confirm-modal-btn-row{
+    display: flex;
+    gap: 10px;
+  }
+  .confirm-modal-cancel-btn,
+  .confirm-modal-ok-btn{
+    flex: 1;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .confirm-modal-cancel-btn{
+    background: var(--blue-pale);
+    color: var(--text-sub);
+  }
+  .confirm-modal-ok-btn{
+    background: #dc2626;
+    color: #fff;
+  }
+  .confirm-modal-cancel-btn:active,
+  .confirm-modal-ok-btn:active{ transform: scale(0.97); }
+
   /* ==========================================================
      🌍 人生節目イベント
      ========================================================== */
@@ -2143,6 +2180,18 @@
     <p class="badge-earn-name ultimate-earn-name">FQT ユニバースマスター</p>
     <p class="badge-earn-desc">図鑑・イベント図鑑・実績・バッジ<br>すべてを制覇しました！おめでとうございます！</p>
     <button class="badge-earn-ok-btn" id="ultimateEarnOkBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- ⚠️ アプリ内の確認モーダル（データリセット用。PWAのスタンドアロン表示などでも
+     確実に動作するよう、ブラウザ標準のconfirm()ではなく自前のモーダルを使用） -->
+<div class="badge-earn-overlay" id="confirmModalOverlay">
+  <div class="badge-earn-popup confirm-modal-popup">
+    <p class="confirm-modal-message" id="confirmModalMessage">本当によろしいですか？</p>
+    <div class="confirm-modal-btn-row">
+      <button class="confirm-modal-cancel-btn" id="confirmModalCancelBtn" type="button">キャンセル</button>
+      <button class="confirm-modal-ok-btn" id="confirmModalOkBtn" type="button">はい</button>
+    </div>
   </div>
 </div>
 
@@ -4010,6 +4059,36 @@ bgmBtn.addEventListener('click', () => {
 });
 
 /* ==========================================================
+   ⚠️ アプリ内の確認モーダル（共通ユーティリティ）
+   ・window.confirm()はPWAのスタンドアロン表示や一部のアプリ内ブラウザで
+     表示されない／隠れてしまうことがあるため、自前のモーダルで代用する
+   ・各モジュールから window.fqtConfirm(message, onConfirm) の形で呼び出せる
+   ========================================================== */
+window.fqtConfirm = function(message, onConfirm){
+  const overlay = document.getElementById('confirmModalOverlay');
+  const messageEl = document.getElementById('confirmModalMessage');
+  const okBtn = document.getElementById('confirmModalOkBtn');
+  const cancelBtn = document.getElementById('confirmModalCancelBtn');
+
+  messageEl.textContent = message;
+  overlay.classList.add('show');
+
+  // 前回登録したハンドラが残らないよう、ボタンを複製して差し替えてからイベント登録する
+  const newOkBtn = okBtn.cloneNode(true);
+  okBtn.parentNode.replaceChild(newOkBtn, okBtn);
+  const newCancelBtn = cancelBtn.cloneNode(true);
+  cancelBtn.parentNode.replaceChild(newCancelBtn, cancelBtn);
+
+  newOkBtn.addEventListener('click', () => {
+    overlay.classList.remove('show');
+    onConfirm();
+  });
+  newCancelBtn.addEventListener('click', () => {
+    overlay.classList.remove('show');
+  });
+};
+
+/* ==========================================================
    🏅 バッジシステム（追加実装のみ・既存機能には触れない）
    ・LocalStorageに保存するのは数字・フラグ・配列のみ
    ・関数化してコメントを多めに記述
@@ -4393,18 +4472,17 @@ bgmBtn.addEventListener('click', () => {
 
   // データリセット（設定的な操作）：確認ダイアログでYESの場合のみ実行
   badgeResetBtn.addEventListener('click', () => {
-    const confirmed = window.confirm('本当にリセットしますか？');
-    if (!confirmed) return; // YES以外は何もしない
-
-    badgeData = {
-      totalAccess: 0,
-      currentStreak: 0,
-      lastVisitDate: null,
-      earnedTotalBadges: [],
-      earnedStreakBadges: []
-    };
-    saveBadgeData(badgeData);
-    renderAll(badgeData);
+    window.fqtConfirm('本当にリセットしますか？', () => {
+      badgeData = {
+        totalAccess: 0,
+        currentStreak: 0,
+        lastVisitDate: null,
+        earnedTotalBadges: [],
+        earnedStreakBadges: []
+      };
+      saveBadgeData(badgeData);
+      renderAll(badgeData);
+    });
   });
 
   // ----- 起動 -----
