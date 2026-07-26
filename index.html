@@ -66,7 +66,7 @@
       radial-gradient(ellipse 55% 35% at 80% 15%, rgba(56, 189, 248, 0.20), transparent 60%),
       radial-gradient(ellipse 70% 50% at 50% 100%, rgba(16, 185, 129, 0.16), transparent 65%),
       radial-gradient(ellipse 120% 80% at 50% 0%, #1b2a55 0%, #0b1230 40%, #05060f 75%);
-    background-attachment: fixed;
+    /* background-attachment: fixed はiOS Safariで背景が描画されない不具合の原因になるため使用しない */
   }
 
   /* ===== 星空エフェクト（小さな星を全面に散りばめる） ===== */
