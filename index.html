@@ -2114,7 +2114,8 @@
 
   .share-x{ background: #000000; }
   .share-line{ background: #06c755; }
-  .share-copy{ background: #6b7280; grid-column: span 2; }
+  .share-other{ background: linear-gradient(135deg, #f58529, #dd2a7b, #8134af, #515bd4); }
+  .share-copy{ background: #6b7280; }
 
   .share-note{
     display: none;
@@ -2825,6 +2826,9 @@
       <button class="share-btn share-line" id="shareLineBtn" type="button">
         <span class="share-icon">💬</span>LINEで送る
       </button>
+      <button class="share-btn share-other" id="shareOtherBtn" type="button">
+        <span class="share-icon">📸</span>インスタなど
+      </button>
       <button class="share-btn share-copy" id="shareCopyBtn" type="button">
         <span class="share-icon">📋</span>コピー
       </button>
@@ -2833,7 +2837,7 @@
   </div>
 
   <!-- 🌏 地球滞在証明書カード -->
-  <div class="card certificate-card">
+  <div class="card certificate-card" id="certificateCard" style="display:none;">
     <p class="section-title certificate-card-title">🌏 地球滞在証明書</p>
     <p class="certificate-card-desc">あなたの記録を、宇宙の証明書デザインで<br>画像にしてシェアできます。</p>
     <button class="certificate-open-btn" id="certificateOpenBtn" type="button">🌏　証明書を作成する</button>
@@ -2995,6 +2999,8 @@ function showError(message){
   shareCard.style.display = 'none';
   realtimeCard.style.display = 'none';
   fortuneCard.style.display = 'none';
+  const certificateCardEl = document.getElementById('certificateCard');
+  if (certificateCardEl) certificateCardEl.style.display = 'none';
   if (realtimeTimer){
     clearInterval(realtimeTimer);
     realtimeTimer = null;
@@ -3296,6 +3302,9 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
 
   updateActiveShareText();
   shareCard.style.display = 'block';
+
+  const certificateCard = document.getElementById('certificateCard');
+  if (certificateCard) certificateCard.style.display = 'block';
 }
 
 /* ==========================================================
@@ -3993,6 +4002,26 @@ shareCopyBtn.addEventListener('click', async () => {
     showShareNote('結果をコピーしました。');
   } catch(e){
     showShareNote('コピーに失敗しました。手動で選択してコピーしてください。');
+  }
+});
+
+// インスタグラムなど、端末にインストールされたアプリへシェア（標準の共有シートを開く）
+const shareOtherBtn = document.getElementById('shareOtherBtn');
+shareOtherBtn.addEventListener('click', async () => {
+  if (navigator.share){
+    try{
+      await navigator.share({ text: currentShareText });
+    } catch(e){
+      // ユーザーがキャンセルした場合は何もしない
+    }
+  } else {
+    // 共有シートに対応していない端末では、コピーして案内する
+    try{
+      await navigator.clipboard.writeText(currentShareText);
+      showShareNote('この端末は共有シートに対応していないため、結果をコピーしました。貼り付けてご利用ください。');
+    } catch(e){
+      showShareNote('この端末では共有機能を利用できません。手動で選択してコピーしてください。');
+    }
   }
 });
 
@@ -7660,7 +7689,10 @@ window.fqtConfirm = function(message, onConfirm){
           await navigator.share({
             files: [file],
             title: '🌏 地球滞在証明書',
-            text: 'FQT LIFE COUNTERで地球滞在証明書を作りました！'
+            text:
+              'FQT LIFE COUNTERで地球滞在証明書を作りました！\n\n' +
+              'https://fqtlifecounter2.netlify.app\n\n' +
+              '#FQTLIFECOUNTER #人生日数カウンター'
           });
         } catch(e){
           // ユーザーがキャンセルした場合は何もしない
