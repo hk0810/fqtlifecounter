@@ -226,6 +226,35 @@
     0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.25); }
     50%      { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
   }
+  .reminder-btn{
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-light);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 8px 16px;
+    margin-top: 10px;
+    margin-left: 8px;
+    cursor: pointer;
+    transition: background .2s ease, box-shadow .2s ease, transform .1s ease;
+  }
+  .reminder-btn:active{ transform: scale(0.96); }
+  .reminder-btn.active{
+    background: #fff7d6;
+    color: #92700c;
+    border-color: #ffd873;
+    animation: bgm-pulse 2.8s ease-in-out infinite;
+  }
+  .reminder-note{
+    font-size: 10.5px;
+    color: #b8d4f0;
+    margin: 6px 0 0;
+  }
 
   /* ===== カード共通 ===== */
   .card{
@@ -518,6 +547,16 @@
     font-weight: 700;
     margin-top: 2px;
   }
+  .badge-freeze-note{
+    text-align: center;
+    font-size: 12px;
+    font-weight: 700;
+    color: #0891b2;
+    background: #ecfeff;
+    border-radius: 10px;
+    padding: 7px;
+    margin: 0 0 12px;
+  }
   .badge-open-btn{
     width: 100%;
     font-family: inherit;
@@ -805,7 +844,281 @@
   .animal-card{
     background: linear-gradient(160deg, #ffffff, var(--blue-pale));
     text-align: center;
+    position: relative;
   }
+  .oshi-widget{
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: #fff0f5;
+    border: 1.5px solid #ffb6c1;
+    border-radius: 999px;
+    padding: 6px 16px 6px 6px;
+  }
+  .oshi-card{
+    text-align: center;
+  }
+
+  /* ----- 🐾 FQT宇宙どうぶつ診断 ----- */
+  .diag-intro{
+    font-size: 12px;
+    color: var(--text-sub);
+    margin: 0 0 16px;
+  }
+  .diag-animal-section{
+    text-align: center;
+    background: linear-gradient(160deg, var(--blue-pale), #f5f0ff);
+    border-radius: 16px;
+    padding: 18px 16px;
+    margin-bottom: 16px;
+  }
+  .diag-animal-thumb{
+    width: 140px;
+    height: 140px;
+    margin: 0 auto 10px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ffffff;
+    box-shadow: 0 0 0 3px #ffd873;
+  }
+  .diag-animal-thumb svg{ width: 100%; height: 100%; display: block; }
+  .diag-animal-name{
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin-bottom: 10px;
+  }
+  .diag-animal-info-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .diag-animal-info-item{
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 8px 6px;
+  }
+  .diag-animal-info-label{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 2px;
+  }
+  .diag-animal-info-value{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .diag-animal-quote{
+    font-size: 12.5px;
+    color: var(--text-sub);
+    font-style: italic;
+    margin: 0;
+  }
+  .diag-row{
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin-bottom: 10px;
+  }
+  .diag-row-icon{
+    font-size: 20px;
+    line-height: 1.3;
+  }
+  .diag-row-label{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin-bottom: 4px;
+  }
+  .diag-row-label span{
+    color: var(--blue-dark);
+  }
+  .diag-row-desc{
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.7;
+  }
+  .diag-sub-title{
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 18px 0 10px;
+  }
+  .diag-compat-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .diag-compat-item{
+    background: rgba(255, 216, 115, 0.16);
+    border: 1px solid rgba(255, 216, 115, 0.4);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  .diag-compat-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 4px;
+  }
+  .diag-compat-name{
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .diag-compat-stars{
+    font-size: 13px;
+    color: #ffb703;
+    letter-spacing: 1px;
+  }
+  .diag-compat-reason{
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+  }
+  .diag-overall-message{
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.9;
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 0;
+  }
+  .diag-share-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 14px;
+    cursor: pointer;
+  }
+  .diag-share-btn:active{ transform: scale(0.98); }
+  .oshi-widget{
+    cursor: pointer;
+  }
+  .oshi-detail-thumb{
+    width: 100%;
+    max-width: 220px;
+    aspect-ratio: 1 / 1;
+    margin: 0 auto 12px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--blue-pale);
+    box-shadow: 0 0 0 3px #ffb6c1;
+  }
+  .oshi-detail-thumb svg{ width: 100%; height: 100%; display: block; }
+  .oshi-detail-rarity{
+    font-size: 15px;
+    color: #ffb703;
+    letter-spacing: 2px;
+    margin: 0 0 4px;
+  }
+  .oshi-detail-save-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .oshi-detail-oshi-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #d6336c;
+    background: #fff0f5;
+    border: 1.5px solid #ffb6c1;
+    border-radius: 12px;
+    padding: 11px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .oshi-detail-oshi-btn.active{
+    background: #ffe6f0;
+    color: #d6336c;
+    font-weight: 800;
+  }
+  .oshi-detail-oshi-btn:active{ transform: scale(0.98); }
+  .oshi-detail-share-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13.5px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+    cursor: pointer;
+  }
+  .oshi-detail-share-btn:active{ transform: scale(0.98); }
+  .oshi-detail-save-btn:active{ transform: scale(0.98); }
+  .oshi-detail-info-grid{
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin: 14px 0 18px;
+  }
+  .oshi-detail-info-item{
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 6px;
+  }
+  .oshi-detail-info-label{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 3px;
+  }
+  .oshi-detail-info-value{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .oshi-widget-thumb{
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--blue-pale);
+    flex-shrink: 0;
+  }
+  .oshi-widget-thumb svg{ width: 100%; height: 100%; display: block; }
+  .oshi-widget-text{ text-align: left; line-height: 1.2; }
+  .oshi-widget-label{
+    font-size: 8.5px;
+    font-weight: 700;
+    color: #d6336c;
+  }
+  .oshi-widget-name{
+    font-size: 10.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    max-width: 74px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .animal-voice-btn{
     display: inline-flex;
     align-items: center;
@@ -977,19 +1290,21 @@
   }
   .dex-sort-row{
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 10px;
   }
   .dex-sort-btn{
     flex: 1;
+    min-width: 72px;
     font-family: inherit;
-    font-size: 11.5px;
+    font-size: 11px;
     font-weight: 700;
     color: var(--text-sub);
     background: var(--blue-pale);
     border: 1px solid transparent;
     border-radius: 999px;
-    padding: 7px 4px;
+    padding: 7px 3px;
     cursor: pointer;
   }
   .dex-sort-btn.active{
@@ -1007,6 +1322,31 @@
     border-radius: 14px;
     padding: 10px 6px;
     text-align: center;
+    position: relative;
+  }
+  .dex-item.oshi{
+    box-shadow: 0 0 0 2px #ff6f91 inset;
+    background: linear-gradient(135deg, #fff0f5, #ffe6f0);
+  }
+  .dex-oshi-btn{
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: none;
+    background: rgba(255,255,255,0.85);
+    font-size: 12px;
+    line-height: 1;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
+  }
+  .dex-oshi-btn.active{
+    background: #ffe6f0;
   }
   .dex-item .dex-thumb{
     width: 100%;
@@ -1015,8 +1355,10 @@
     overflow: hidden;
     margin: 0 auto 6px;
     background: #eef2ff;
+    cursor: pointer;
   }
   .dex-item .dex-thumb svg{ width: 100%; height: 100%; display: block; }
+  .dex-item .dex-name{ cursor: pointer; }
   .dex-item .dex-name{
     font-size: 10.5px;
     font-weight: 800;
@@ -1121,6 +1463,62 @@
     border-radius: 10px;
     padding: 8px 10px;
     margin: 0 0 12px;
+  }
+
+  /* ----- 🌕 満月・新月バナー ----- */
+  .moon-banner{
+    background: linear-gradient(135deg, rgba(184, 212, 240, 0.18), rgba(212, 184, 240, 0.18));
+    border: 1px solid rgba(184, 212, 240, 0.35);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 0 0 18px;
+    text-align: center;
+  }
+  .moon-banner-text{
+    font-size: 12.5px;
+    font-weight: 700;
+    color: #dbe9ff;
+    margin: 0;
+  }
+
+  /* ----- 💫 エンジェルナンバーの日 ----- */
+  .angel-number-note{
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #92700c;
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    border-radius: 999px;
+    padding: 5px 14px;
+    margin: 10px 0 0;
+  }
+
+  /* ----- ✨ 星のかけらメッセージ ----- */
+  .star-message-banner{
+    background: #ffffff;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px 16px;
+    margin: 0 0 18px;
+    text-align: left;
+  }
+  .star-message-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 10px;
+    text-align: left;
+  }
+  .star-message-text{
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin: 0;
+    text-align: left;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   /* ----- イベント図鑑を開くボタン ----- */
@@ -1447,6 +1845,88 @@
   .milestone-record-btn:active{ transform: scale(0.98); }
   .birthday-record-btn:active{ transform: scale(0.98); }
 
+  /* ----- ✉️ 未来の自分への手紙（タイムカプセル） ----- */
+  .capsule-box{
+    background: linear-gradient(160deg, #f5f0ff, #ffffff);
+    border-radius: 16px;
+    padding: 18px 16px;
+    margin-top: 12px;
+    text-align: center;
+  }
+  .capsule-title{
+    font-size: 15px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 10px;
+  }
+  .capsule-desc{
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin: 0 0 12px;
+  }
+  .capsule-textarea{
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 90px;
+    font-family: inherit;
+    font-size: 13px;
+    border: 1.5px solid var(--blue-light);
+    border-radius: 12px;
+    padding: 10px 12px;
+    resize: vertical;
+    margin-bottom: 10px;
+  }
+  .capsule-seal-btn, .capsule-open-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #7c6ee0, #5b4bc4);
+    border: none;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+  }
+  .capsule-seal-btn:active, .capsule-open-btn:active{ transform: scale(0.98); }
+  .capsule-sealed-icon{
+    font-size: 34px;
+    margin-bottom: 8px;
+  }
+  .capsule-sealed-text{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    line-height: 1.7;
+    margin: 0;
+  }
+  .capsule-ready-text{
+    font-size: 13.5px;
+    font-weight: 800;
+    color: #92700c;
+    margin: 0 0 12px;
+    animation: badge-max-glow 2.2s ease-in-out infinite;
+  }
+  .capsule-opened-label{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 8px;
+  }
+  .capsule-opened-message{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.8;
+    white-space: pre-wrap;
+    background: rgba(255,255,255,0.8);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 0 0 14px;
+    text-align: left;
+  }
+
   .present-result-popup{
     background: linear-gradient(160deg, #fff7d6, #ffe6f0);
   }
@@ -1487,6 +1967,51 @@
   }
   .confirm-modal-cancel-btn:active,
   .confirm-modal-ok-btn:active{ transform: scale(0.97); }
+
+  /* ----- 📊 月間ダイジェスト ----- */
+  .digest-popup{
+    background: linear-gradient(160deg, #ffffff, #eef2ff);
+    max-width: 340px;
+  }
+  .digest-header{
+    background: none;
+    color: var(--blue-dark);
+  }
+  .digest-month{
+    font-size: 18px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 4px 0 16px;
+  }
+  .digest-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .digest-row{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  .digest-row .digest-label{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
+  .digest-row .digest-value{
+    font-size: 16px;
+    font-weight: 900;
+    color: var(--blue-dark);
+  }
+  .digest-footer{
+    font-size: 12px;
+    color: var(--text-sub);
+    margin: 0 0 18px;
+  }
 
   /* ==========================================================
      🌏 地球滞在証明書
@@ -1662,6 +2187,8 @@
     font-size: 13px;
     font-weight: 800;
     color: var(--text-main);
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   /* ==========================================================
@@ -1697,6 +2224,8 @@
     color: var(--text-main);
     line-height: 1.6;
     margin: 0;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .daily-work-complete-btn{
     width: 100%;
@@ -1752,6 +2281,40 @@
   }
   .daily-work-history-btn:active{ transform: scale(0.98); }
 
+  /* ----- 📆 1年前の今日カード ----- */
+  .lookback-card{
+    background: linear-gradient(160deg, #ffffff, #fff0f5);
+  }
+  .lookback-day{
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 14px;
+  }
+  .lookback-item{
+    background: rgba(255,255,255,0.7);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin-bottom: 10px;
+    text-align: left;
+  }
+  .lookback-item-label{
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 3px;
+  }
+  .lookback-item-value{
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-main);
+  }
+  .lookback-empty{
+    font-size: 12px;
+    color: var(--text-sub);
+    margin: 0;
+  }
+
   /* ===== リアルタイム経過リスト ===== */
   .realtime-list{
     display: flex;
@@ -1781,12 +2344,56 @@
   .rt-value.accent{
     color: var(--blue);
   }
+  .space-distance-box{
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px dashed var(--border);
+    text-align: center;
+  }
+  .space-distance-label{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 6px;
+  }
+  .space-distance-value{
+    font-size: 17px;
+    font-weight: 900;
+    color: var(--blue);
+    line-height: 1.5;
+    margin: 0;
+  }
+  .space-distance-au{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
 
   /* ===== 今日の運勢占いカード ===== */
   .fortune-list{
     display: flex;
     flex-direction: column;
     gap: 10px;
+  }
+  .sun-pref-row{
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 4px;
+  }
+  .sun-pref-row .sub{
+    font-size: 11px;
+    color: var(--text-sub);
+  }
+  .sun-pref-select{
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: #ffffff;
+    border: 1px solid var(--blue-light);
+    border-radius: 8px;
+    padding: 3px 6px;
   }
   .fortune-row{
     display: flex;
@@ -2179,6 +2786,20 @@
     margin: 12px 0 0;
   }
   .share-note.show{ display: block; }
+  .private-joke-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    background: none;
+    border: none;
+    padding: 10px;
+    margin-top: 4px;
+    cursor: pointer;
+    text-decoration: underline;
+  }
+  .private-joke-btn:active{ opacity: 0.6; }
 </style>
 </head>
 <body>
@@ -2210,6 +2831,7 @@
         <div class="label">獲得バッジ</div>
       </div>
     </div>
+    <p class="badge-freeze-note" id="badgeModalFreezeNote"></p>
 
     <!-- 累計アクセスバッジの進捗 -->
     <div class="badge-progress-block">
@@ -2287,6 +2909,7 @@
       <button class="dex-sort-btn active" data-sort="newest" type="button">新しい順</button>
       <button class="dex-sort-btn" data-sort="name" type="button">あかさたな順</button>
       <button class="dex-sort-btn" data-sort="rarity" type="button">レア度順</button>
+      <button class="dex-sort-btn" data-sort="color" type="button">色順</button>
     </div>
     <div class="dex-grid" id="dexGrid"></div>
   </div>
@@ -2351,6 +2974,50 @@
       <button class="confirm-modal-cancel-btn" id="confirmModalCancelBtn" type="button">キャンセル</button>
       <button class="confirm-modal-ok-btn" id="confirmModalOkBtn" type="button">はい</button>
     </div>
+  </div>
+</div>
+
+<!-- 🙅 「シェアせず自分だけのものにする」ジョークポップアップ -->
+<div class="badge-earn-overlay" id="privateJokeOverlay">
+  <div class="badge-earn-popup">
+    <div class="badge-earn-emoji">🤫</div>
+    <p class="badge-earn-name">結果をシェアする機能を<br>無効化しました（嘘）</p>
+    <p class="badge-earn-desc">地球年齢を隠してシェアすることも<br>できますよ。</p>
+    <button class="badge-earn-ok-btn" id="privateJokeCloseBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 🎗 推しの詳細ポップアップ -->
+<div class="badge-earn-overlay" id="oshiDetailOverlay">
+  <div class="badge-earn-popup">
+    <div class="oshi-detail-thumb" id="oshiDetailThumb"></div>
+    <p class="badge-earn-name" id="oshiDetailName">-</p>
+    <p class="oshi-detail-rarity" id="oshiDetailRarity">-</p>
+    <div class="oshi-detail-info-grid">
+      <div class="oshi-detail-info-item">
+        <div class="oshi-detail-info-label">せいかく</div>
+        <div class="oshi-detail-info-value" id="oshiDetailPersonality">-</div>
+      </div>
+      <div class="oshi-detail-info-item">
+        <div class="oshi-detail-info-label">すきなもの</div>
+        <div class="oshi-detail-info-value" id="oshiDetailFavorite">-</div>
+      </div>
+    </div>
+    <button class="oshi-detail-oshi-btn" id="oshiDetailOshiBtn" type="button">🤍　推しにする</button>
+    <button class="oshi-detail-share-btn" id="oshiDetailShareBtn" type="button">📤　SNSでシェア</button>
+    <button class="oshi-detail-save-btn" id="oshiDetailSaveBtn" type="button">💾　画像を保存（PNG）</button>
+    <button class="badge-earn-ok-btn" id="oshiDetailCloseBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- 📊 月間ダイジェストモーダル -->
+<div class="badge-earn-overlay" id="digestModalOverlay">
+  <div class="badge-earn-popup digest-popup">
+    <p class="badge-earn-header digest-header">📊 月間ダイジェスト</p>
+    <p class="digest-month" id="digestMonth">-</p>
+    <div class="digest-list" id="digestList"></div>
+    <p class="digest-footer">今月も、あなたのペースで楽しんでくださいね。</p>
+    <button class="badge-earn-ok-btn" id="digestCloseBtn" type="button">OK</button>
   </div>
 </div>
 
@@ -2499,6 +3166,13 @@
     <h1>FQT LIFE COUNTER</h1>
     <p class="tagline">あなたは地球に来て何日目？<br>今日の運勢は？</p>
     <button class="bgm-btn" id="bgmBtn" type="button">🎵　癒しのBGMを再生</button>
+    <button class="reminder-btn" id="reminderBtn" type="button">🔔　通知でリマインド</button>
+    <p class="reminder-note">※ このタブを開いている間だけ通知されます（アプリを閉じると届きません）</p>
+  </div>
+
+  <!-- 🌕 満月・新月お知らせバナー（実際の天文計算による本物の月齢を使用） -->
+  <div class="moon-banner" id="moonBanner" style="display:none;">
+    <p class="moon-banner-text" id="moonBannerText">-</p>
   </div>
 
   <!-- バッジ機能：あなたの記録サマリーカード -->
@@ -2521,6 +3195,7 @@
         <div class="badge-summary-label">獲得バッジ</div>
       </div>
     </div>
+    <p class="badge-freeze-note" id="badgeFreezeNote"></p>
     <button class="badge-open-btn" id="badgeOpenBtn" type="button">🏅　バッジ一覧を見る</button>
   </div>
 
@@ -2565,9 +3240,41 @@
       <div class="label">あなたは地球に来て</div>
       <div class="big accent"><span id="currentDay">-</span><span class="unit">日目</span></div>
       <div class="note">生まれた日を1日目としています。</div>
+      <p class="angel-number-note" id="angelNumberNote" style="display:none;"></p>
     </div>
 
     <button class="birthday-record-btn milestone-record-btn" id="milestoneHistoryBtn" type="button">🌍　人生ヒストリーを見る</button>
+
+    <!-- ✉️ 未来の自分への手紙（タイムカプセル） -->
+    <div class="capsule-box" id="capsuleBox">
+      <p class="capsule-title">✉️ 未来の自分への手紙</p>
+
+      <!-- 手紙を書くフォーム（未封印の時だけ表示） -->
+      <div id="capsuleWriteForm" style="display:none;">
+        <p class="capsule-desc" id="capsuleWriteDesc">次の節目の日まで開封できない手紙を、未来の自分に書いてみましょう。</p>
+        <textarea class="capsule-textarea" id="capsuleTextarea" maxlength="500" placeholder="未来のあなたへ、今の気持ちを書いてみてください"></textarea>
+        <button class="capsule-seal-btn" id="capsuleSealBtn" type="button">🔒　封印する</button>
+      </div>
+
+      <!-- 封印中の表示（まだ節目に届いていない時） -->
+      <div id="capsuleSealed" style="display:none;">
+        <div class="capsule-sealed-icon">🔒</div>
+        <p class="capsule-sealed-text" id="capsuleSealedText">-</p>
+      </div>
+
+      <!-- 開封できる時の表示 -->
+      <div id="capsuleReady" style="display:none;">
+        <p class="capsule-ready-text">✨ 節目に到達しました！手紙が届いています。</p>
+        <button class="capsule-open-btn" id="capsuleOpenBtn" type="button">✉️　手紙を開封する</button>
+      </div>
+
+      <!-- 開封後の手紙本文 -->
+      <div id="capsuleOpened" style="display:none;">
+        <p class="capsule-opened-label" id="capsuleOpenedLabel">-</p>
+        <p class="capsule-opened-message" id="capsuleOpenedMessage">-</p>
+        <button class="capsule-seal-btn" id="capsuleWriteNewBtn" type="button">✉️　また新しい手紙を書く</button>
+      </div>
+    </div>
 
     <hr class="divider">
 
@@ -2599,7 +3306,7 @@
 
   <!-- 🌌 今日の宇宙どうぶつカード（結果カードの直後＝計算後に自動スクロールしてすぐ見える位置） -->
   <div class="card animal-card" id="animalCard">
-    <p class="section-title">🌌 宇宙どうぶつに出会った！</p>
+    <p class="section-title" id="animalCardTitle">🌌 宇宙どうぶつに出会った！</p>
     <button class="animal-voice-btn" id="animalVoiceBtn" type="button">🔇　鳴き声OFF</button>
     <div class="animal-stage" id="animalStage">
       <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
@@ -2620,10 +3327,90 @@
     </div>
     <p class="animal-quote" id="animalQuote">-</p>
     <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
+    <button class="oshi-detail-share-btn" id="animalShareBtn" type="button">📤　SNSでシェア</button>
     <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
     <button class="event-dex-btn" id="eventDexBtn" type="button">🎉　イベント図鑑を見る</button>
     <button class="birthday-present-btn" id="birthdayPresentBtn" type="button" style="display:none;">🎁　プレゼントBOXを開ける</button>
     <button class="birthday-record-btn" id="birthdayRecordBtn" type="button">🎂　誕生日記録を見る</button>
+  </div>
+
+  <!-- 🎗 推し宇宙どうぶつカード（独立カード） -->
+  <div class="card oshi-card" id="oshiCard" style="display:none;">
+    <p class="section-title">🎗 推し</p>
+    <div class="oshi-widget" id="oshiWidget">
+      <div class="oshi-widget-thumb" id="oshiWidgetThumb"></div>
+      <div class="oshi-widget-text">
+        <div class="oshi-widget-label">推し</div>
+        <div class="oshi-widget-name" id="oshiWidgetName">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 🐾 FQT宇宙どうぶつ診断カード（誕生日で決まる、FQTオリジナルの本質診断） -->
+  <div class="card diag-card" id="diagCard" style="display:none;">
+    <p class="section-title">🐾 FQT宇宙どうぶつ診断</p>
+    <p class="diag-intro">あなたの誕生日から導く、FQT独自の本質診断です。</p>
+
+    <div class="diag-section diag-animal-section">
+      <div class="diag-animal-thumb" id="diagAnimalThumb"></div>
+      <div class="diag-animal-name" id="diagAnimalName">-</div>
+      <div class="diag-animal-info-grid">
+        <div class="diag-animal-info-item">
+          <div class="diag-animal-info-label">性格</div>
+          <div class="diag-animal-info-value" id="diagAnimalPersonality">-</div>
+        </div>
+        <div class="diag-animal-info-item">
+          <div class="diag-animal-info-label">好きなもの</div>
+          <div class="diag-animal-info-value" id="diagAnimalFavorite">-</div>
+        </div>
+      </div>
+      <p class="diag-animal-quote" id="diagAnimalQuote">-</p>
+    </div>
+
+    <div class="diag-row">
+      <div class="diag-row-icon">🌍</div>
+      <div class="diag-row-text">
+        <div class="diag-row-label">地球人意識：<span id="diagEarthType">-</span></div>
+        <div class="diag-row-desc" id="diagEarthDesc">-</div>
+      </div>
+    </div>
+
+    <div class="diag-row">
+      <div class="diag-row-icon">🚀</div>
+      <div class="diag-row-text">
+        <div class="diag-row-label">宇宙意識：<span id="diagSpaceType">-</span></div>
+        <div class="diag-row-desc" id="diagSpaceDesc">-</div>
+      </div>
+    </div>
+
+    <div class="diag-row">
+      <div class="diag-row-icon">💎</div>
+      <div class="diag-row-text">
+        <div class="diag-row-label">あなたの才能：<span id="diagTalentType">-</span></div>
+        <div class="diag-row-desc" id="diagTalentDesc">-</div>
+      </div>
+    </div>
+
+    <div class="diag-row">
+      <div class="diag-row-icon">🌱</div>
+      <div class="diag-row-text">
+        <div class="diag-row-label">今世のテーマ：<span id="diagThemeType">-</span></div>
+        <div class="diag-row-desc" id="diagThemeDesc">-</div>
+      </div>
+    </div>
+
+    <p class="diag-sub-title">💞 相性の良い宇宙どうぶつ TOP3</p>
+    <div class="diag-compat-list" id="diagCompatList"></div>
+
+    <p class="diag-sub-title">🌌 総合メッセージ</p>
+    <p class="diag-overall-message" id="diagOverallMessage">-</p>
+    <button class="diag-share-btn" id="diagShareBtn" type="button">📤　診断結果をシェアする</button>
+  </div>
+
+  <!-- ✨ 星のかけらメッセージ（68種類、毎日1つずつ順番に表示。宇宙どうぶつカードの直下、計算する押下時に表示） -->
+  <div class="star-message-banner" id="starMessageBanner" style="display:none;">
+    <p class="star-message-title">✨星のかけらメッセージ</p>
+    <p class="star-message-text" id="starMessageText">-</p>
   </div>
 
   <!-- 次の人生の節目カード -->
@@ -2670,6 +3457,10 @@
         <span class="rt-label">経過秒</span>
         <span class="rt-value accent" id="rtSeconds">-</span>
       </div>
+    </div>
+    <div class="space-distance-box">
+      <p class="space-distance-label">宇宙を移動した距離</p>
+      <p class="space-distance-value" id="rtSpaceDistance">-</p>
     </div>
   </div>
 
@@ -2748,6 +3539,17 @@
     <p class="fortune-section-note">🌙🎌🌕は全員共通、他はあなたの誕生日で変わります</p>
 
     <div class="fortune-list">
+      <div class="fortune-row">
+        <div class="ic">🌅</div>
+        <div class="fortune-text">
+          <div class="label">今日の日の出・日の入り</div>
+          <div class="value" id="fortuneSunTimes">-</div>
+          <div class="sun-pref-row">
+            <span class="sub">計算する地域：</span>
+            <select class="sun-pref-select" id="sunPrefSelect"></select>
+          </div>
+        </div>
+      </div>
       <div class="fortune-row">
         <div class="ic">🌙</div>
         <div class="fortune-text">
@@ -2848,6 +3650,21 @@
       <button class="daily-work-history-btn" id="dailyWorkHistoryBtn" type="button">📖　過去のワーク履歴を見る</button>
     </div>
 
+    <!-- 📆 1年前の今日カード -->
+    <div class="daily-work-card lookback-card" id="lookbackCard" style="display:none;">
+      <p class="section-title daily-work-title">📆 1年前の今日</p>
+      <p class="lookback-day" id="lookbackDay">-</p>
+      <div class="lookback-item" id="lookbackWorkItem" style="display:none;">
+        <div class="lookback-item-label">🌈 あの日のワーク</div>
+        <div class="lookback-item-value" id="lookbackWorkValue">-</div>
+      </div>
+      <div class="lookback-item" id="lookbackMilestoneItem" style="display:none;">
+        <div class="lookback-item-label">🌍 あの日の節目</div>
+        <div class="lookback-item-value" id="lookbackMilestoneValue">-</div>
+      </div>
+      <p class="lookback-empty" id="lookbackEmpty" style="display:none;">1年前はまだこのアプリを使っていなかったようです。これからの記録を楽しみに！</p>
+    </div>
+
     <hr class="divider">
 
     <div class="fortune-today">
@@ -2881,8 +3698,8 @@
 
   <!-- 結果シェアカード -->
   <div class="card" id="shareCard" style="display:none;">
-    <p class="share-title">📤 結果をシェアして運氣アップ✨</p>
-    <button class="share-privacy-toggle" id="sharePrivacyToggle" type="button">🔓　日数を隠さずシェア</button>
+    <p class="share-title">📤 ワクワクをシェアする✨</p>
+    <button class="share-privacy-toggle" id="sharePrivacyToggle" type="button">🔓　日数（地球年齢）を隠さずシェア</button>
     <div class="share-grid" id="shareGrid">
       <button class="share-btn share-x" id="shareXBtn" type="button">
         <span class="share-icon">𝕏</span>Xでポスト
@@ -2898,6 +3715,7 @@
       </button>
     </div>
     <p class="share-note" id="shareNote"></p>
+    <button class="private-joke-btn" id="privateJokeBtn" type="button">🙅　結果をシェアせず自分だけのものにする</button>
   </div>
 
   <!-- 🌏 地球滞在証明書カード -->
@@ -2986,6 +3804,7 @@ setMaxDateToToday();
    ========================================================== */
 const BIRTHDATE_STORAGE_KEY = 'fqtLifeCounter_birthdate';
 const BIRTHTIME_STORAGE_KEY = 'fqtLifeCounter_birthTime';
+const TARGET_DAYS_STORAGE_KEY = 'fqtLifeCounter_targetDays';
 
 function saveBirthdateToStorage(value){
   try{
@@ -3019,6 +3838,23 @@ function loadBirthTimeFromStorage(){
   }
 }
 
+// 前回入力したターゲット日数を保存・復元する
+function saveTargetDaysToStorage(value){
+  try{
+    window.localStorage.setItem(TARGET_DAYS_STORAGE_KEY, value);
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+}
+
+function loadTargetDaysFromStorage(){
+  try{
+    return window.localStorage.getItem(TARGET_DAYS_STORAGE_KEY);
+  } catch(e){
+    return null;
+  }
+}
+
 // 前回入力した生年月日・時刻があれば自動で入力欄に反映する
 const savedBirthdate = loadBirthdateFromStorage();
 if (savedBirthdate){
@@ -3028,6 +3864,92 @@ const savedBirthTime = loadBirthTimeFromStorage();
 if (savedBirthTime){
   birthTimeInput.value = savedBirthTime;
 }
+// 前回入力したターゲット日数があれば、そのまま入力欄に反映する（なければHTML側の初期値33333のまま）
+const savedTargetDays = loadTargetDaysFromStorage();
+if (savedTargetDays){
+  targetDaysInput.value = savedTargetDays;
+}
+
+// 🗾 日の出・日の入りの都道府県プルダウンを初期化する
+// ----- 🗾 47都道府県の緯度経度データ（県庁所在地の座標を使用） -----
+const PREFECTURES = [
+  { name: '北海道',   lat: 43.0642, lon: 141.3469 },
+  { name: '青森県',   lat: 40.8244, lon: 140.7400 },
+  { name: '岩手県',   lat: 39.7036, lon: 141.1527 },
+  { name: '宮城県',   lat: 38.2688, lon: 140.8721 },
+  { name: '秋田県',   lat: 39.7186, lon: 140.1024 },
+  { name: '山形県',   lat: 38.2404, lon: 140.3633 },
+  { name: '福島県',   lat: 37.7503, lon: 140.4676 },
+  { name: '茨城県',   lat: 36.3418, lon: 140.4468 },
+  { name: '栃木県',   lat: 36.5658, lon: 139.8836 },
+  { name: '群馬県',   lat: 36.3911, lon: 139.0608 },
+  { name: '埼玉県',   lat: 35.8570, lon: 139.6489 },
+  { name: '千葉県',   lat: 35.6047, lon: 140.1233 },
+  { name: '東京都',   lat: 35.6762, lon: 139.6503 },
+  { name: '神奈川県', lat: 35.4478, lon: 139.6425 },
+  { name: '新潟県',   lat: 37.9026, lon: 139.0232 },
+  { name: '富山県',   lat: 36.6953, lon: 137.2113 },
+  { name: '石川県',   lat: 36.5947, lon: 136.6256 },
+  { name: '福井県',   lat: 36.0652, lon: 136.2216 },
+  { name: '山梨県',   lat: 35.6642, lon: 138.5686 },
+  { name: '長野県',   lat: 36.6513, lon: 138.1810 },
+  { name: '岐阜県',   lat: 35.3912, lon: 136.7223 },
+  { name: '静岡県',   lat: 34.9769, lon: 138.3831 },
+  { name: '愛知県',   lat: 35.1802, lon: 136.9066 },
+  { name: '三重県',   lat: 34.7303, lon: 136.5086 },
+  { name: '滋賀県',   lat: 35.0045, lon: 135.8686 },
+  { name: '京都府',   lat: 35.0212, lon: 135.7556 },
+  { name: '大阪府',   lat: 34.6863, lon: 135.5200 },
+  { name: '兵庫県',   lat: 34.6913, lon: 135.1830 },
+  { name: '奈良県',   lat: 34.6851, lon: 135.8329 },
+  { name: '和歌山県', lat: 34.2261, lon: 135.1675 },
+  { name: '鳥取県',   lat: 35.5039, lon: 134.2381 },
+  { name: '島根県',   lat: 35.4723, lon: 133.0505 },
+  { name: '岡山県',   lat: 34.6618, lon: 133.9344 },
+  { name: '広島県',   lat: 34.3966, lon: 132.4596 },
+  { name: '山口県',   lat: 34.1859, lon: 131.4714 },
+  { name: '徳島県',   lat: 34.0658, lon: 134.5593 },
+  { name: '香川県',   lat: 34.3401, lon: 134.0434 },
+  { name: '愛媛県',   lat: 33.8417, lon: 132.7658 },
+  { name: '高知県',   lat: 33.5597, lon: 133.5311 },
+  { name: '福岡県',   lat: 33.6064, lon: 130.4183 },
+  { name: '佐賀県',   lat: 33.2494, lon: 130.2988 },
+  { name: '長崎県',   lat: 32.7448, lon: 129.8737 },
+  { name: '熊本県',   lat: 32.7898, lon: 130.7417 },
+  { name: '大分県',   lat: 33.2382, lon: 131.6126 },
+  { name: '宮崎県',   lat: 31.9111, lon: 131.4239 },
+  { name: '鹿児島県', lat: 31.5602, lon: 130.5581 },
+  { name: '沖縄県',   lat: 26.2124, lon: 127.6809 }
+];
+
+const SUN_PREF_STORAGE_KEY = 'fqtLifeCounter_sunPref';
+function loadSelectedPrefName(){
+  try{
+    return window.localStorage.getItem(SUN_PREF_STORAGE_KEY) || '東京都';
+  } catch(e){
+    return '東京都';
+  }
+}
+function saveSelectedPrefName(name){
+  try{
+    window.localStorage.setItem(SUN_PREF_STORAGE_KEY, name);
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+}
+
+const sunPrefSelect = document.getElementById('sunPrefSelect');
+PREFECTURES.forEach(pref => {
+  const opt = document.createElement('option');
+  opt.value = pref.name;
+  opt.textContent = pref.name;
+  sunPrefSelect.appendChild(opt);
+});
+sunPrefSelect.value = loadSelectedPrefName();
+sunPrefSelect.addEventListener('change', () => {
+  saveSelectedPrefName(sunPrefSelect.value);
+  renderSunTimes();
+});
 
 // ----- ターゲット候補ボタンを生成 -----
 function renderPresetButtons(){
@@ -3136,6 +4058,8 @@ function calculate(){
   // この端末に生年月日を記憶（次回アクセス時に自動入力するため）
   saveBirthdateToStorage(birthValue);
   saveBirthTimeToStorage(birthTimeValue);
+  // ターゲット日数も記憶し、次回アクセス時は前回の入力をそのまま表示する
+  saveTargetDaysToStorage(targetValue);
 
   const targetDays = Math.floor(Number(targetValue));
 
@@ -3169,6 +4093,16 @@ function calculate(){
 // ----- 結果を画面に描画 -----
 function renderResult({ currentDay, targetDays, targetDate, remain, progress }){
   document.getElementById('currentDay').textContent = currentDay.toLocaleString('ja-JP');
+
+  // 💫 エンジェルナンバーの日（既存のバッジ・節目と重複しない3桁ゾロ目のみ対象。777は節目バッジと重複するため除外）
+  const ANGEL_NUMBERS = [111, 222, 333, 444, 555, 666, 888, 999];
+  const angelNote = document.getElementById('angelNumberNote');
+  if (ANGEL_NUMBERS.indexOf(currentDay) !== -1){
+    angelNote.textContent = `✨ 今日は${currentDay}日目。エンジェルナンバーの日です`;
+    angelNote.style.display = 'inline-block';
+  } else {
+    angelNote.style.display = 'none';
+  }
 
   const targetDaysLabel = targetDays.toLocaleString('ja-JP');
   document.getElementById('targetLabel').textContent = `ターゲット　${targetDaysLabel}日目まで`;
@@ -3296,6 +4230,15 @@ function updateRealtimeDisplay(){
   document.getElementById('rtHours').textContent = totalHours.toLocaleString('ja-JP') + ' 時間';
   document.getElementById('rtMinutes').textContent = totalMinutes.toLocaleString('ja-JP') + ' 分';
   document.getElementById('rtSeconds').textContent = totalSeconds.toLocaleString('ja-JP') + ' 秒';
+
+  // 🌌 宇宙を移動した距離：地球の公転速度（秒速約29.78km）×生きてきた秒数
+  const EARTH_ORBITAL_SPEED_KMS = 29.78;
+  const AU_KM = 149597870.7; // 1天文単位（地球〜太陽の平均距離）
+  const spaceDistanceKm = totalSeconds * EARTH_ORBITAL_SPEED_KMS;
+  const spaceDistanceAU = spaceDistanceKm / AU_KM;
+  document.getElementById('rtSpaceDistance').innerHTML =
+    `約${Math.round(spaceDistanceKm).toLocaleString('ja-JP')} km<br>` +
+    `<span class="space-distance-au">（${spaceDistanceAU.toFixed(1)}天文単位）</span>`;
 
   realtimeCard.style.display = 'block';
 }
@@ -3628,6 +4571,68 @@ function calcDailyPersonalNumber(birth, today){
   const number = (seed % 9) + 1;
 
   return { number, message: DAILY_NUMBER_MESSAGES[number] };
+}
+
+
+// ----- 🌅 今日の日の出・日の入り（実際の天文計算、東京基準） -----
+// 「日の出方程式」（Sunrise equation）に基づく標準的な近似計算
+function calcSunTimes(date, latDeg, lonDeg){
+  const rad = Math.PI / 180;
+
+  // ユリウス日を求める（UTC正午基準）
+  const y = date.getFullYear(), m = date.getMonth() + 1, d = date.getDate();
+  const a = Math.floor((14 - m) / 12);
+  const yy = y + 4800 - a;
+  const mm = m + 12 * a - 3;
+  const julianDay = d + Math.floor((153 * mm + 2) / 5) + 365 * yy + Math.floor(yy / 4) - Math.floor(yy / 100) + Math.floor(yy / 400) - 32045;
+
+  const n = julianDay - 2451545.0 + 0.0008;
+  const meanSolarNoon = n - lonDeg / 360;
+  const solarMeanAnomalyDeg = (357.5291 + 0.98560028 * meanSolarNoon) % 360;
+  const M = solarMeanAnomalyDeg * rad;
+  const equationOfCenter = 1.9148 * Math.sin(M) + 0.02 * Math.sin(2 * M) + 0.0003 * Math.sin(3 * M);
+  const eclipticLongitudeDeg = (solarMeanAnomalyDeg + equationOfCenter + 180 + 102.9372) % 360;
+  const lambda = eclipticLongitudeDeg * rad;
+
+  const solarTransit = 2451545.0 + meanSolarNoon + 0.0053 * Math.sin(M) - 0.0069 * Math.sin(2 * lambda);
+
+  const sinDeclination = Math.sin(lambda) * Math.sin(23.4397 * rad);
+  const declination = Math.asin(sinDeclination);
+
+  const latRad = latDeg * rad;
+  const cosHourAngle = (Math.sin(-0.833 * rad) - Math.sin(latRad) * sinDeclination) / (Math.cos(latRad) * Math.cos(declination));
+
+  // 極夜・白夜など、日の出/日の入りが定義できない場合は null を返す
+  if (cosHourAngle > 1 || cosHourAngle < -1) return null;
+
+  const hourAngleDeg = Math.acos(cosHourAngle) / rad;
+  const frac = hourAngleDeg / 360;
+
+  const sunriseJD = solarTransit - frac;
+  const sunsetJD = solarTransit + frac;
+
+  // ユリウス日 → JS Dateへ変換（UTC）
+  function julianToDate(jd){
+    const ms = (jd - 2440587.5) * 86400000;
+    return new Date(ms);
+  }
+
+  return { sunrise: julianToDate(sunriseJD), sunset: julianToDate(sunsetJD) };
+}
+
+// 選択中の都道府県で日の出・日の入りを再計算して表示する（今日の日付を対象とする）
+function renderSunTimes(){
+  const selectEl = document.getElementById('sunPrefSelect');
+  const selectedPrefName = (selectEl && selectEl.value) || '東京都';
+  const selectedPref = PREFECTURES.find(p => p.name === selectedPrefName) || PREFECTURES.find(p => p.name === '東京都');
+  const sunTimes = calcSunTimes(new Date(), selectedPref.lat, selectedPref.lon);
+  if (sunTimes){
+    const fmtJST = (d) => d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo' });
+    document.getElementById('fortuneSunTimes').textContent =
+      `日の出 ${fmtJST(sunTimes.sunrise)}　/　日の入り ${fmtJST(sunTimes.sunset)}`;
+  } else {
+    document.getElementById('fortuneSunTimes').textContent = '-';
+  }
 }
 
 // ----- 🌙 今日の月齢・月相（実際の天文計算） -----
@@ -3980,6 +4985,9 @@ function renderFortune(birth, today){
   document.getElementById('fortuneColorSwatch').style.background = birthColor.hex;
   document.getElementById('fortuneColor').textContent = birthColor.name;
 
+  // 🌅 今日の日の出・日の入り（選択中の都道府県基準）
+  renderSunTimes();
+
   // 🌙 今日の月齢・月相
   const moon = calcMoonPhase(today);
   document.getElementById('fortuneMoonPhase').textContent =
@@ -4067,10 +5075,10 @@ const sharePrivacyToggle = document.getElementById('sharePrivacyToggle');
 
 function renderSharePrivacyToggle(){
   if (shareHideDayCount){
-    sharePrivacyToggle.textContent = '🔒　日数を隠してシェア中';
+    sharePrivacyToggle.textContent = '🔒　日数（地球年齢）を隠してシェア中';
     sharePrivacyToggle.classList.add('active');
   } else {
-    sharePrivacyToggle.textContent = '🔓　日数を隠さずシェア';
+    sharePrivacyToggle.textContent = '🔓　日数（地球年齢）を隠さずシェア';
     sharePrivacyToggle.classList.remove('active');
   }
 }
@@ -4129,6 +5137,15 @@ shareOtherBtn.addEventListener('click', async () => {
       showShareNote('この端末では共有機能を利用できません。手動で選択してコピーしてください。');
     }
   }
+});
+
+// 🙅 「結果をシェアせず自分だけのものにする」ジョークボタン
+// ※ 実際には何も無効化しない。純粋なジョークとして、ポップアップを見せるだけの演出
+document.getElementById('privateJokeBtn').addEventListener('click', () => {
+  document.getElementById('privateJokeOverlay').classList.add('show');
+});
+document.getElementById('privateJokeCloseBtn').addEventListener('click', () => {
+  document.getElementById('privateJokeOverlay').classList.remove('show');
 });
 
 // ----- イベント登録 -----
@@ -4519,7 +5536,8 @@ window.fqtConfirm = function(message, onConfirm){
       currentStreak: 0,
       lastVisitDate: null,
       earnedTotalBadges: [],
-      earnedStreakBadges: []
+      earnedStreakBadges: [],
+      streakFreezeCount: 0 // 連続アクセスの「フリーズ」所持数（1日空けても記録を守れるアイテム）
     };
     try{
       const raw = window.localStorage.getItem(BADGE_STORAGE_KEY);
@@ -4531,7 +5549,8 @@ window.fqtConfirm = function(message, onConfirm){
         currentStreak: Number(parsed.currentStreak) || 0,
         lastVisitDate: parsed.lastVisitDate || null,
         earnedTotalBadges: Array.isArray(parsed.earnedTotalBadges) ? parsed.earnedTotalBadges : [],
-        earnedStreakBadges: Array.isArray(parsed.earnedStreakBadges) ? parsed.earnedStreakBadges : []
+        earnedStreakBadges: Array.isArray(parsed.earnedStreakBadges) ? parsed.earnedStreakBadges : [],
+        streakFreezeCount: Number(parsed.streakFreezeCount) || 0
       };
     } catch(e){
       // プライベートブラウジング等でlocalStorageが使えない場合も静かにフォールバック
@@ -4552,6 +5571,7 @@ window.fqtConfirm = function(message, onConfirm){
   function updateAccessAndCheckBadges(data){
     const today = getTodayDateString();
     const newlyEarned = []; // { type: 'total'|'streak', badge: {...} }
+    let freezeUsed = false; // このアクセスでフリーズが発動したかどうか（通知用）
 
     // 累計アクセス・連続アクセスは、どちらも「今日初めてのアクセス」の時だけ判定する
     if (data.lastVisitDate !== today){
@@ -4566,8 +5586,13 @@ window.fqtConfirm = function(message, onConfirm){
         if (diff === 1){
           // 前日からの連続アクセス
           data.currentStreak += 1;
+        } else if (diff === 2 && data.streakFreezeCount > 0){
+          // ちょうど1日だけ空いた場合、フリーズを1個消費して連続記録を守る
+          data.streakFreezeCount -= 1;
+          data.currentStreak += 1;
+          freezeUsed = true;
         } else if (diff > 1){
-          // 1日以上空いたのでリセット
+          // 1日以上空いた（かつフリーズも無い）のでリセット
           data.currentStreak = 1;
         }
         // diff <= 0（未来日付など異常値）の場合は何もしない
@@ -4585,13 +5610,19 @@ window.fqtConfirm = function(message, onConfirm){
     });
 
     // 連続アクセスバッジの新規獲得チェック
+    // ※ 新しく獲得したバッジ1個につき、フリーズを1個プレゼントする
     STREAK_BADGES.forEach(badge => {
       const already = data.earnedStreakBadges.indexOf(badge.threshold) !== -1;
       if (!already && data.currentStreak >= badge.threshold){
         data.earnedStreakBadges.push(badge.threshold);
+        data.streakFreezeCount += 1;
         newlyEarned.push({ type: 'streak', badge: badge });
       }
     });
+
+    if (freezeUsed){
+      newlyEarned.push({ type: 'freeze_used', badge: null });
+    }
 
     return newlyEarned;
   }
@@ -4696,6 +5727,13 @@ window.fqtConfirm = function(message, onConfirm){
     // バッジ一覧グリッド
     renderBadgeGrid('totalBadgeGrid', TOTAL_ACCESS_BADGES, data.earnedTotalBadges);
     renderBadgeGrid('streakBadgeGrid', STREAK_BADGES, data.earnedStreakBadges);
+
+    // 🧊 フリーズ所持数の表示（1個も持っていない時は説明だけ表示する）
+    const freezeText = data.streakFreezeCount > 0
+      ? `🧊 フリーズ ×${data.streakFreezeCount}（1日休んでも連続記録が守られます）`
+      : '🧊 フリーズ ×0（連続アクセスバッジを獲得すると1個もらえます）';
+    document.getElementById('badgeFreezeNote').textContent = freezeText;
+    document.getElementById('badgeModalFreezeNote').textContent = freezeText;
   }
 
   // ----- ⑬ 紙吹雪エフェクトを生成 -----
@@ -4718,12 +5756,31 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- ⑭ バッジ獲得ポップアップを1件表示する -----
   function showEarnPopup(entry){
     const overlay = document.getElementById('badgeEarnOverlay');
+
+    if (entry.type === 'freeze_used'){
+      // フリーズが発動して連続記録が守られた時の専用表示
+      document.getElementById('badgeEarnEmoji').textContent = '🧊';
+      document.getElementById('badgeEarnName').textContent = 'フリーズ発動！';
+      document.getElementById('badgeEarnDesc').textContent = '1日お休みしても、連続記録は守られました。';
+      overlay.classList.add('show');
+      launchConfetti();
+      try{
+        if (window.navigator.vibrate){
+          window.navigator.vibrate([30, 20, 30]);
+        }
+      } catch(e){
+        // 非対応環境では無視
+      }
+      return;
+    }
+
     const typeLabel = entry.type === 'total' ? '累計アクセス' : '連続アクセス';
     const unit = '日'; // 累計・連続どちらも「日」で統一（累計アクセス"日数"バッジのため）
     document.getElementById('badgeEarnEmoji').textContent = entry.badge.emoji;
     document.getElementById('badgeEarnName').textContent = entry.badge.name;
     document.getElementById('badgeEarnDesc').textContent =
-      `${typeLabel}${entry.badge.threshold.toLocaleString('ja-JP')}${unit}達成！`;
+      `${typeLabel}${entry.badge.threshold.toLocaleString('ja-JP')}${unit}達成！` +
+      (entry.type === 'streak' ? '（🧊フリーズ+1）' : '');
     overlay.classList.add('show');
 
     launchConfetti();
@@ -4800,7 +5857,8 @@ window.fqtConfirm = function(message, onConfirm){
         currentStreak: 0,
         lastVisitDate: null,
         earnedTotalBadges: [],
-        earnedStreakBadges: []
+        earnedStreakBadges: [],
+        streakFreezeCount: 0
       };
       saveBadgeData(badgeData);
       renderAll(badgeData);
@@ -4854,6 +5912,49 @@ window.fqtConfirm = function(message, onConfirm){
   ];
 
   // ----- ③ シード生成：日付・時刻・アクセス日数・生年月日から決定的な乱数の種を作る -----
+  /* ==========================================================
+     🌟 人気者の宇宙どうぶつ（固定デザイン・出現率アップ）
+     ・ピカチュウのように「よく見かける、覚えやすい」看板キャラクターを
+       あえて13体（人気者10体＋レア人気者3体）用意する
+     ・パーツ構成を固定することで、毎回同じ見た目・同じ名前で登場する
+     ・通常のランダム生成とは別枠で、一定確率で優先的に出現させる
+     ========================================================== */
+  const SIGNATURE_CREATURES = [
+    // ----- 人気者10体（★2固定・出現率アップ） -----
+    // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
+    { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
+      rarity: 2, name: 'ムーンモチ', personality: 'のんびり屋', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
+    { key: 'san_san_poko', parts: { body:18, ear:10, eye:1,  mouth:4,  nose:6, tail:18, wing:2, horn:1, antenna:0, hand:4,  foot:6,  pattern:5,  background:18, color:2,  star:2 },
+      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う', favorite: '朝日', quote: '今日もいい天気！元気にいこう☀️' },
+    { key: 'yume_purin', parts: { body:8,  ear:3,  eye:7,  mouth:0,  nose:5, tail:4,  wing:7, horn:9, antenna:6, hand:11, foot:11, pattern:12, background:0,  color:13, star:2 },
+      rarity: 2, name: 'ゆめプリン', personality: '夢見がち', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
+    { key: 'honey_puni', parts: { body:10, ear:12, eye:14, mouth:1,  nose:7, tail:10, wing:4, horn:0, antenna:2, hand:10, foot:12, pattern:7,  background:16, color:1,  star:12 },
+      rarity: 2, name: 'ハニプニ', personality: '甘えん坊', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
+    { key: 'sakura_mochi', parts: { body:19, ear:13, eye:8,  mouth:10, nose:8, tail:2,  wing:1, horn:4, antenna:7, hand:14, foot:6,  pattern:15, background:18, color:21, star:4 },
+      rarity: 2, name: 'さくらもち', personality: 'おっとり', favorite: '花', quote: '春の風がきもちいいね' },
+    { key: 'puni_koro', parts: { body:18, ear:12, eye:6,  mouth:13, nose:3, tail:10, wing:0, horn:3, antenna:1, hand:11, foot:11, pattern:14, background:8,  color:24, star:7 },
+      rarity: 2, name: 'ぷにコロ', personality: 'マイペース', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
+    { key: 'kira_kiran', parts: { body:6,  ear:16, eye:14, mouth:9,  nose:0, tail:18, wing:8, horn:4, antenna:4, hand:6,  foot:14, pattern:4,  background:13, color:26, star:4 },
+      rarity: 2, name: 'きらきらん', personality: 'ムードメーカー', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
+    { key: 'mintoru', parts: { body:3,  ear:14, eye:4,  mouth:8,  nose:1, tail:0,  wing:7, horn:3, antenna:0, hand:10, foot:9,  pattern:8,  background:14, color:5,  star:1 },
+      rarity: 2, name: 'みんとる', personality: '几帳面', favorite: 'ハーブティー', quote: 'すっきり爽やかな気分だよ' },
+    { key: 'pofu_pofu', parts: { body:3,  ear:15, eye:5,  mouth:8,  nose:1, tail:0,  wing:3, horn:5, antenna:6, hand:11, foot:11, pattern:22, background:15, color:0,  star:0 },
+      rarity: 2, name: 'ぽふぽふ', personality: '甘党', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
+    { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
+      rarity: 2, name: 'パクパクン', personality: '食いしん坊', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
+
+    // ----- レア人気者3体（★5固定・出現率は控えめ） -----
+    { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
+      rarity: 5, name: 'コスモプリンス', personality: 'ロマンチスト', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
+    { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
+      rarity: 5, name: 'ギャラクシークイーン', personality: '芸術家肌', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
+    { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
+      rarity: 5, name: 'レジェンドスター', personality: '負けず嫌い', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
+  ];
+  // 「宇宙どうぶつ占い」など今後の機能から、人気者13体のデータ（key・パーツ・名前等）を
+  // そのまま参照できるよう公開しておく
+  window.__fqtSignatureCreatures = SIGNATURE_CREATURES;
+
   function generateAnimalSeed(){
     const now = new Date();
     const dateStr = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`;
@@ -5193,6 +6294,8 @@ window.fqtConfirm = function(message, onConfirm){
       </svg>
     `;
   }
+  // 「FQT宇宙どうぶつ診断」など今後の機能からも、同じSVG生成ロジックを使えるよう公開する
+  window.__fqtBuildAnimalSVG = buildAnimalSVG;
 
   /* ==========================================================
      ⑧ 名前・性格・好きなもの・ひとこと の自動生成
@@ -5219,7 +6322,7 @@ window.fqtConfirm = function(message, onConfirm){
   const PERSONALITIES = [
     'のんびり屋', '好奇心いっぱい', '甘えん坊', '勇敢', '優しい', '食いしん坊', '星集め名人', '虹好き',
     '宇宙探検家', 'お昼寝好き', 'おしゃべり', 'てれ屋', 'いたずら好き', 'がんばり屋', '夢見がち',
-    'マイペース', '几帳面', '大胆', '心配性', 'ムードメーカー', '一途', '천진난만', '頑固', '天真爛漫',
+    'マイペース', '几帳面', '大胆', '心配性', 'ムードメーカー', '一途', '頑固', '天真爛漫',
     '芸術家肌', 'おっとり', '負けず嫌い', '甘党', '寒がり', '暑がり', '朝型', '夜型', '記憶力抜群',
     '方向音痴', '踊り好き', '歌好き', '読書家', 'コレクター気質', '几帳面すぎる', '楽天家', '慎重派',
     'ロマンチスト', '現実主義', '好奇心旺盛', 'お世話好き', 'ひとり時間が好き', '仲間思い', '流行に敏感',
@@ -5325,10 +6428,31 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ⑭ 新しい宇宙どうぶつを1匹生成して画面に表示する -----
   function encounterNewAnimal(){
-    const seed = generateAnimalSeed();
-    const parts = pickPartIndices(seed);
-    const rarity = pickRarity(seed);
-    const texts = generateAnimalTexts(seed);
+    // 🌟 人気者チェック：一定確率で、固定デザインの「人気者」を優先的に出現させる
+    // （レア人気者3体＝0.5%、人気者10体＝14.5%、残り85%は通常のランダム生成）
+    const signatureRoll = Math.random();
+    let seed, parts, rarity, texts;
+
+    if (signatureRoll < 0.005){
+      const rareSignatures = SIGNATURE_CREATURES.filter(s => s.rarity === 5);
+      const chosen = rareSignatures[Math.floor(Math.random() * rareSignatures.length)];
+      parts = chosen.parts;
+      rarity = chosen.rarity;
+      texts = { name: chosen.name, personality: chosen.personality, favorite: chosen.favorite, quote: chosen.quote, signatureKey: chosen.key };
+    } else if (signatureRoll < 0.15){
+      const commonSignatures = SIGNATURE_CREATURES.filter(s => s.rarity !== 5);
+      const chosen = commonSignatures[Math.floor(Math.random() * commonSignatures.length)];
+      parts = chosen.parts;
+      rarity = chosen.rarity;
+      texts = { name: chosen.name, personality: chosen.personality, favorite: chosen.favorite, quote: chosen.quote, signatureKey: chosen.key };
+    } else {
+      seed = generateAnimalSeed();
+      parts = pickPartIndices(seed);
+      rarity = pickRarity(seed);
+      texts = generateAnimalTexts(seed);
+      texts.signatureKey = null; // 通常生成のどうぶつには人気者キーは付かない
+    }
+
     const animalId = buildAnimalId(parts);
     const isFirstMeeting = !dexData.discovered[animalId];
 
@@ -5342,7 +6466,8 @@ window.fqtConfirm = function(message, onConfirm){
         personality: texts.personality,
         favorite: texts.favorite,
         parts: parts,
-        firstMetDate: getTodayDateStringForDex()
+        firstMetDate: getTodayDateStringForDex(),
+        signatureKey: texts.signatureKey || null // 「人気者13体」のどれかであれば、そのkeyを記録（宇宙どうぶつ占い等で使用予定）
       };
       saveDexData(dexData);
     }
@@ -5389,18 +6514,44 @@ window.fqtConfirm = function(message, onConfirm){
 
     const newBadge = document.getElementById('animalNewBadge');
     const metNote = document.getElementById('animalMetNote');
+    const cardTitle = document.getElementById('animalCardTitle');
     if (isFirstMeeting){
       newBadge.style.display = 'block';
       metNote.textContent = '';
+      if (cardTitle){
+        cardTitle.textContent = window.__fqtIsFirstEncounterThisSession
+          ? '🌌 新しい宇宙どうぶつに出会った！'
+          : '🌌さらに新しい宇宙どうぶつに出会った！';
+      }
     } else {
       newBadge.style.display = 'none';
       metNote.textContent = '会ったことがあるよ！';
+      if (cardTitle) cardTitle.textContent = '🌌 また宇宙どうぶつに出会った！';
     }
   }
 
   // ----- ⑯ 図鑑モーダルをDOMへ反映 -----
-  // 図鑑一覧の並び順（新しい順／あかさたな順／レア度順）
+  // 図鑑一覧の並び順（新しい順／あかさたな順／レア度順／色順）
   let dexSortMode = 'newest';
+
+  // 16進数カラーコードを色相（Hue、0〜360度）に変換する
+  // これにより、配列の並び順に関係なく「本物の虹の順番」で並べ替えられる
+  function hexToHue(hex){
+    const r = parseInt(hex.slice(1, 3), 16) / 255;
+    const g = parseInt(hex.slice(3, 5), 16) / 255;
+    const b = parseInt(hex.slice(5, 7), 16) / 255;
+    const max = Math.max(r, g, b);
+    const min = Math.min(r, g, b);
+    const delta = max - min;
+    if (delta === 0) return 0;
+    let hue;
+    if (max === r) hue = ((g - b) / delta) % 6;
+    else if (max === g) hue = (b - r) / delta + 2;
+    else hue = (r - g) / delta + 4;
+    hue *= 60;
+    if (hue < 0) hue += 360;
+    return hue;
+  }
 
   function sortDiscoveredList(list, mode){
     const sorted = list.slice();
@@ -5410,6 +6561,13 @@ window.fqtConfirm = function(message, onConfirm){
     } else if (mode === 'rarity'){
       // レア度が高い順。同じレア度内では発見が新しい順にする
       sorted.sort((a, b) => (b.rarity - a.rarity) || (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    } else if (mode === 'color'){
+      // 色相（本物の虹の順番）で並べる
+      sorted.sort((a, b) => {
+        const hueA = hexToHue(BODY_COLORS[a.parts.color % BODY_COLORS.length]);
+        const hueB = hexToHue(BODY_COLORS[b.parts.color % BODY_COLORS.length]);
+        return hueA - hueB;
+      });
     } else {
       // 発見が新しい順（デフォルト）
       sorted.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
@@ -5442,15 +6600,315 @@ window.fqtConfirm = function(message, onConfirm){
 
     sortedList.forEach(animal => {
       const item = document.createElement('div');
-      item.className = 'dex-item';
+      const isOshi = oshiAnimal && oshiAnimal.id === animal.id;
+      item.className = 'dex-item' + (isOshi ? ' oshi' : '');
       const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
       item.innerHTML =
-        `<div class="dex-thumb">${thumbSvg}</div>` +
-        `<div class="dex-name">${animal.name}</div>` +
+        `<div class="dex-thumb" data-id="${animal.id}">${thumbSvg}</div>` +
+        `<button class="dex-oshi-btn ${isOshi ? 'active' : ''}" data-id="${animal.id}" type="button" title="推しにする">${isOshi ? '💖' : '🤍'}</button>` +
+        `<div class="dex-name" data-id="${animal.id}">${animal.name}</div>` +
         `<div class="dex-rarity">${'★'.repeat(animal.rarity)}${'☆'.repeat(5 - animal.rarity)}</div>`;
       grid.appendChild(item);
     });
   }
+
+  // ----- 🎗 推し宇宙どうぶつの選択（図鑑一覧から1匹だけ選べる） -----
+  const OSHI_STORAGE_KEY = 'fqtLifeCounter_oshiAnimal';
+  function loadOshiAnimal(){
+    try{
+      const raw = window.localStorage.getItem(OSHI_STORAGE_KEY);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e){
+      return null;
+    }
+  }
+  function saveOshiAnimal(animal){
+    try{
+      window.localStorage.setItem(OSHI_STORAGE_KEY, JSON.stringify(animal));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+  let oshiAnimal = loadOshiAnimal();
+
+  // メインカードの隅に、推しの宇宙どうぶつを小さく表示し続ける
+  function renderOshiWidget(){
+    const card = document.getElementById('oshiCard');
+    if (!card) return;
+    if (!oshiAnimal){
+      card.style.display = 'none';
+      return;
+    }
+    const svg = buildAnimalSVG(oshiAnimal.parts, 'oshiWidget' + oshiAnimal.id);
+    document.getElementById('oshiWidgetThumb').innerHTML = svg;
+    document.getElementById('oshiWidgetName').textContent = oshiAnimal.name;
+    card.style.display = 'block';
+  }
+  renderOshiWidget();
+
+  document.getElementById('dexGrid').addEventListener('click', (e) => {
+    const btn = e.target.closest('.dex-oshi-btn');
+    if (!btn) return;
+    const id = btn.dataset.id;
+    const animal = dexData.discovered[id];
+    if (!animal) return;
+
+    if (oshiAnimal && oshiAnimal.id === id){
+      // すでに推しならタップで解除する
+      oshiAnimal = null;
+    } else {
+      oshiAnimal = { id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite };
+    }
+    saveOshiAnimal(oshiAnimal);
+    renderOshiWidget();
+    renderDexModal(); // ハートの表示状態を更新するため再描画する
+  });
+
+  // 推しウィジェットをタップすると、せいかく・すきなものを見られるポップアップを表示する
+  // 宇宙どうぶつの詳細（せいかく・すきなもの・レア度）をポップアップで表示する共通関数
+  // ・図鑑からのクリック、推しウィジェットのクリック、両方から呼び出す
+  // 「画像を保存」ボタンが、今ポップアップに表示中のどうぶつの情報を丸ごと参照できるよう記憶しておく
+  let currentDetailAnimal = null;
+
+  function showAnimalDetailPopup(animal){
+    if (!animal) return;
+    const svg = buildAnimalSVG(animal.parts, 'detail' + (animal.id || '') + Date.now());
+    document.getElementById('oshiDetailThumb').innerHTML = svg;
+    document.getElementById('oshiDetailName').textContent = animal.name;
+    document.getElementById('oshiDetailRarity').textContent =
+      '★'.repeat(animal.rarity) + '☆'.repeat(5 - animal.rarity);
+    // 既存データに古い形式（せいかく・すきなもの未保存）が残っている場合も落ちないようにする
+    document.getElementById('oshiDetailPersonality').textContent = animal.personality || '-';
+    document.getElementById('oshiDetailFavorite').textContent = animal.favorite || '-';
+    document.getElementById('oshiDetailOverlay').classList.add('show');
+    currentDetailAnimal = animal;
+    renderOshiDetailOshiBtn();
+  }
+
+  // ポップアップ内の「推しにする」ボタンの見た目を、現在表示中のどうぶつが推しかどうかで切り替える
+  function renderOshiDetailOshiBtn(){
+    const btn = document.getElementById('oshiDetailOshiBtn');
+    if (!btn || !currentDetailAnimal) return;
+    const isCurrentOshi = oshiAnimal && currentDetailAnimal.id && oshiAnimal.id === currentDetailAnimal.id;
+    if (isCurrentOshi){
+      btn.textContent = '💖　推しに設定中';
+      btn.classList.add('active');
+    } else {
+      btn.textContent = '🤍　推しにする';
+      btn.classList.remove('active');
+    }
+  }
+
+  document.getElementById('oshiDetailOshiBtn').addEventListener('click', () => {
+    if (!currentDetailAnimal || !currentDetailAnimal.id) return;
+    const id = currentDetailAnimal.id;
+
+    if (oshiAnimal && oshiAnimal.id === id){
+      // すでに推しならタップで解除する
+      oshiAnimal = null;
+    } else {
+      oshiAnimal = {
+        id: id,
+        name: currentDetailAnimal.name,
+        parts: currentDetailAnimal.parts,
+        rarity: currentDetailAnimal.rarity,
+        personality: currentDetailAnimal.personality,
+        favorite: currentDetailAnimal.favorite
+      };
+    }
+    saveOshiAnimal(oshiAnimal);
+    renderOshiWidget();
+    renderOshiDetailOshiBtn();
+    renderDexModal(); // 図鑑一覧のハート表示も更新する
+  });
+
+  // 🖼️ どうぶつの絵＋名前・レア度・せいかく・すきなものを1枚のカード画像（Canvas）として生成する共通関数
+  // ・保存ボタン・シェアボタンの両方、さらに図鑑ポップアップ以外（今日の宇宙どうぶつカード）からも使えるよう
+  //   window に公開する
+  function buildAnimalCardCanvas(svgEl, animalInfo, onDone){
+    const svgString = new XMLSerializer().serializeToString(svgEl);
+    const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+    const url = URL.createObjectURL(svgBlob);
+
+    const img = new Image();
+    img.onload = () => {
+      const W = 900, H = 1150; // カード全体のサイズ（縦長）
+      const canvas = document.createElement('canvas');
+      canvas.width = W;
+      canvas.height = H;
+      const ctx = canvas.getContext('2d');
+
+      // カード全体の背景（やわらかいグラデーション）
+      const bg = ctx.createLinearGradient(0, 0, 0, H);
+      bg.addColorStop(0, '#ffffff');
+      bg.addColorStop(1, '#eef2ff');
+      ctx.fillStyle = bg;
+      ctx.fillRect(0, 0, W, H);
+
+      // 外枠
+      ctx.strokeStyle = '#d8dff5';
+      ctx.lineWidth = 4;
+      ctx.strokeRect(10, 10, W - 20, H - 20);
+
+      // どうぶつの絵（円形）
+      const imgSize = 620;
+      const imgX = (W - imgSize) / 2;
+      const imgY = 60;
+      ctx.save();
+      ctx.beginPath();
+      ctx.arc(W / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.closePath();
+      ctx.clip();
+      ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
+      ctx.restore();
+      // 円の縁取り
+      ctx.beginPath();
+      ctx.arc(W / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+      ctx.lineWidth = 6;
+      ctx.strokeStyle = '#ffb6c1';
+      ctx.stroke();
+
+      let y = imgY + imgSize + 70;
+
+      // 名前
+      ctx.textAlign = 'center';
+      ctx.font = '900 46px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = '#1f2937';
+      ctx.fillText(animalInfo.name || '-', W / 2, y);
+
+      // レア度
+      y += 56;
+      const rarity = animalInfo.rarity || 1;
+      ctx.font = '700 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = '#ffb703';
+      ctx.fillText('★'.repeat(rarity) + '☆'.repeat(5 - rarity), W / 2, y);
+
+      // せいかく・すきなもの（2つの情報ボックス）
+      y += 50;
+      const boxW = 380, boxH = 130, gap = 20;
+      const boxY = y;
+      const box1X = W / 2 - boxW - gap / 2;
+      const box2X = W / 2 + gap / 2;
+
+      function drawInfoBox(x, label, value){
+        ctx.fillStyle = '#eef2ff';
+        ctx.beginPath();
+        ctx.roundRect ? ctx.roundRect(x, boxY, boxW, boxH, 16) : ctx.rect(x, boxY, boxW, boxH);
+        ctx.fill();
+
+        ctx.textAlign = 'center';
+        ctx.font = '700 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+        ctx.fillStyle = '#6b7280';
+        ctx.fillText(label, x + boxW / 2, boxY + 46);
+
+        ctx.font = '800 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
+        ctx.fillStyle = '#1f2937';
+        ctx.fillText(value || '-', x + boxW / 2, boxY + 92);
+      }
+      drawInfoBox(box1X, 'せいかく', animalInfo.personality);
+      drawInfoBox(box2X, 'すきなもの', animalInfo.favorite);
+
+      // フッター（アプリ名）
+      ctx.font = '700 22px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = '#9ca3af';
+      ctx.fillText('FQT LIFE COUNTER', W / 2, H - 50);
+
+      URL.revokeObjectURL(url);
+      onDone(canvas);
+    };
+    img.onerror = () => {
+      URL.revokeObjectURL(url);
+      onDone(null);
+    };
+    img.src = url;
+  }
+  window.__fqtBuildAnimalCardCanvas = buildAnimalCardCanvas;
+
+  // SNSシェア用の定型文言を組み立てる（どうぶつの名前だけ差し込む）
+  function buildAnimalShareText(animalName){
+    return `私の出会った宇宙どうぶつ\n` +
+      `「${animalName}」と出会いました！\n` +
+      `みんなはどんな宇宙どうぶつと出会った？🌎💙\n\n` +
+      `🚀 未知の宇宙どうぶつを発見！\n` +
+      `宇宙図鑑に仲間入りしました🌌\n\n` +
+      `#FQTLIFECOUNTER\n` +
+      `#宇宙どうぶつ\n` +
+      `#宇宙トモダチ\n` +
+      `#13種類の占い鑑定`;
+  }
+  window.__fqtBuildAnimalShareText = buildAnimalShareText;
+
+  // 画像＋テキストをシェアする（Web Share API対応端末は共有シート、非対応は画像ダウンロード＋テキストコピー）
+  async function shareAnimalCard(canvas, animalName){
+    const shareText = buildAnimalShareText(animalName);
+    canvas.toBlob(async (blob) => {
+      if (!blob) return;
+      const file = new File([blob], `${animalName || 'fqt_animal'}.png`, { type: 'image/png' });
+
+      if (navigator.canShare && navigator.canShare({ files: [file] })){
+        try{
+          await navigator.share({ files: [file], text: shareText, title: 'FQT LIFE COUNTER' });
+        } catch(e){
+          // ユーザーがキャンセルした場合は何もしない
+        }
+      } else {
+        // 非対応端末では画像を保存しつつ、テキストをコピーして案内する
+        const link = document.createElement('a');
+        link.download = `${animalName || 'fqt_animal'}.png`;
+        link.href = URL.createObjectURL(blob);
+        link.click();
+        try{
+          await navigator.clipboard.writeText(shareText);
+          alert('画像を保存し、シェア用テキストをコピーしました。SNSに貼り付けてご利用ください。');
+        } catch(e){
+          // コピーに失敗しても画像保存はできているので致命的ではない
+        }
+      }
+    }, 'image/png');
+  }
+  window.__fqtShareAnimalCard = shareAnimalCard;
+
+  // 「画像を保存」ボタン
+  document.getElementById('oshiDetailSaveBtn').addEventListener('click', () => {
+    const svgEl = document.querySelector('#oshiDetailThumb svg');
+    if (!svgEl || !currentDetailAnimal) return;
+    buildAnimalCardCanvas(svgEl, currentDetailAnimal, (canvas) => {
+      if (!canvas){ alert('画像の保存に失敗しました。'); return; }
+      const pngUrl = canvas.toDataURL('image/png');
+      const link = document.createElement('a');
+      link.download = `${currentDetailAnimal.name || 'fqt_animal'}.png`;
+      link.href = pngUrl;
+      link.click();
+    });
+  });
+
+  // 「SNSでシェア」ボタン
+  document.getElementById('oshiDetailShareBtn').addEventListener('click', () => {
+    const svgEl = document.querySelector('#oshiDetailThumb svg');
+    if (!svgEl || !currentDetailAnimal) return;
+    buildAnimalCardCanvas(svgEl, currentDetailAnimal, (canvas) => {
+      if (!canvas){ alert('画像の準備に失敗しました。'); return; }
+      shareAnimalCard(canvas, currentDetailAnimal.name);
+    });
+  });
+
+  // 推しウィジェットをタップすると、せいかく・すきなものを見られるポップアップを表示する
+  document.getElementById('oshiWidget').addEventListener('click', () => {
+    showAnimalDetailPopup(oshiAnimal);
+  });
+  document.getElementById('oshiDetailCloseBtn').addEventListener('click', () => {
+    document.getElementById('oshiDetailOverlay').classList.remove('show');
+  });
+
+  // 図鑑一覧の各どうぶつ（サムネイル・名前）をタップしても、同じ詳細ポップアップを表示する
+  document.getElementById('dexGrid').addEventListener('click', (e) => {
+    const target = e.target.closest('.dex-thumb, .dex-name');
+    if (!target) return;
+    const id = target.dataset.id;
+    const animal = dexData.discovered[id];
+    if (!animal) return;
+    showAnimalDetailPopup({ id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite });
+  });
 
   // 並び替えボタンの動作
   document.getElementById('dexSortRow').addEventListener('click', (e) => {
@@ -5518,11 +6976,15 @@ window.fqtConfirm = function(message, onConfirm){
     { id: 'first_meeting',     emoji: '🐾', name: 'はじめまして！',       desc: '初めて宇宙どうぶつに出会う',       type: 'discovered', target: 1 },
     { id: 'rare_hunter',       emoji: '🌟', name: 'レアハンター',         desc: '★★★★★レアを初めて発見する',        type: 'legend',      target: 1 },
     { id: 'collector',         emoji: '🌈', name: 'コレクター',           desc: '図鑑登録数13種類',                 type: 'discovered', target: 13 },
+    { id: 'triple_light',      emoji: '🌸', name: 'トリプルライト',       desc: '図鑑登録数33種類',                 type: 'discovered', target: 33 },
     { id: 'star_collector',    emoji: '🚀', name: 'スターコレクター',     desc: '図鑑登録数68種類',                 type: 'discovered', target: 68 },
     { id: 'galaxy_collector',  emoji: '🌍', name: 'ギャラクシーコレクター', desc: '図鑑登録数130種類',              type: 'discovered', target: 130 },
     { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13回発見',              type: 'legend',      target: 13 },
-    { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑コンプリート率50%',            type: 'completion', target: 50 },
+    { id: 'legend_king',       emoji: '👑', name: 'レジェンドキング',     desc: '★★★★★レアを33回発見',              type: 'legend',      target: 33 },
+    { id: 'galaxy_master',     emoji: '🌌', name: 'ギャラクシーマスター', desc: '図鑑登録数333種類',                type: 'discovered', target: 333 },
+    { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑登録数650種類',                type: 'discovered', target: 650 },
     { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑登録数680種類',                type: 'discovered', target: 680 },
+    { id: 'rainbow_complete',  emoji: '🌈', name: 'レインボーコンプリート', desc: '全30色を1匹以上ずつ発見する',    type: 'rainbow',    target: 30 },
     { id: 'multiverse_master', emoji: '🌌✨', name: 'マルチバースマスター', desc: '図鑑登録数1300種類',              type: 'discovered', target: 1300 }
   ];
 
@@ -5571,6 +7033,28 @@ window.fqtConfirm = function(message, onConfirm){
     }
   }
 
+  // 「レインボーコンプリート」実績用：これまでに発見した色（BODY_COLORSのインデックス）の種類数を数える
+  // 30色すべてを1匹以上発見できているかを判定するために使う
+  const BODY_COLOR_COUNT = 30;
+  function getDiscoveredColorCount(){
+    try{
+      const raw = window.localStorage.getItem(DEX_DATA_KEY_FOR_READ);
+      if (!raw) return 0;
+      const parsed = JSON.parse(raw);
+      const discovered = (parsed && typeof parsed.discovered === 'object') ? parsed.discovered : {};
+      const colorSet = new Set();
+      Object.keys(discovered).forEach(id => {
+        const animal = discovered[id];
+        if (animal && animal.parts && typeof animal.parts.color === 'number'){
+          colorSet.add(animal.parts.color % BODY_COLOR_COUNT);
+        }
+      });
+      return colorSet.size;
+    } catch(e){
+      return 0;
+    }
+  }
+
   // ----- 状態を保持する変数 -----
   let achievementData = loadAchievementData();
 
@@ -5588,6 +7072,7 @@ window.fqtConfirm = function(message, onConfirm){
       if (ach.type === 'discovered') currentValue = discoveredCount;
       else if (ach.type === 'legend') currentValue = achievementData.legendCount;
       else if (ach.type === 'completion') currentValue = completionRate;
+      else if (ach.type === 'rainbow') currentValue = getDiscoveredColorCount();
 
       if (currentValue >= ach.target){
         achievementData.achievements.push(ach.id);
@@ -5614,6 +7099,7 @@ window.fqtConfirm = function(message, onConfirm){
       if (ach.type === 'discovered'){ currentValue = discoveredCount; unit = '種類'; }
       else if (ach.type === 'legend'){ currentValue = achievementData.legendCount; unit = '回'; }
       else if (ach.type === 'completion'){ currentValue = completionRate; unit = '%'; }
+      else if (ach.type === 'rainbow'){ currentValue = getDiscoveredColorCount(); unit = '色'; }
       const displayCurrent = Math.min(currentValue, ach.target);
 
       const row = document.createElement('div');
@@ -5936,13 +7422,20 @@ window.fqtConfirm = function(message, onConfirm){
 
     const newBadge = document.getElementById('animalNewBadge');
     const metNote = document.getElementById('animalMetNote');
+    const cardTitleEvent = document.getElementById('animalCardTitle');
     if (isFirstMeeting){
       newBadge.textContent = '🎉 EVENT!';
       newBadge.style.display = 'block';
       metNote.textContent = '🎉 イベント図鑑に登録されました';
+      if (cardTitleEvent){
+        cardTitleEvent.textContent = window.__fqtIsFirstEncounterThisSession
+          ? '🌌 新しい宇宙どうぶつに出会った！'
+          : '🌌さらに新しい宇宙どうぶつに出会った！';
+      }
     } else {
       newBadge.style.display = 'none';
       metNote.textContent = 'このイベント限定どうぶつには会ったことがあるよ！';
+      if (cardTitleEvent) cardTitleEvent.textContent = '🌌 また宇宙どうぶつに出会った！';
     }
 
     // イベント専用の発見演出（初回のみ）：紙吹雪＋星＋虹＋ズーム＋バイブレーション
@@ -6448,14 +7941,21 @@ window.fqtConfirm = function(message, onConfirm){
 
     const newBadge = document.getElementById('animalNewBadge');
     const metNote = document.getElementById('animalMetNote');
+    const cardTitleBirthday = document.getElementById('animalCardTitle');
     if (isFirstMeeting){
       newBadge.textContent = '🎂 BIRTHDAY!';
       newBadge.style.display = 'block';
       metNote.textContent = '🎂 誕生日記録に登録されました';
+      if (cardTitleBirthday){
+        cardTitleBirthday.textContent = window.__fqtIsFirstEncounterThisSession
+          ? '🌌 新しい宇宙どうぶつに出会った！'
+          : '🌌さらに新しい宇宙どうぶつに出会った！';
+      }
       showBirthdayAnimalPopup(creature);
     } else {
       newBadge.style.display = 'none';
       metNote.textContent = 'この誕生日限定どうぶつには会ったことがあるよ！';
+      if (cardTitleBirthday) cardTitleBirthday.textContent = '🌌 また宇宙どうぶつに出会った！';
     }
 
     checkBirthdayAchievements();
@@ -6802,17 +8302,26 @@ window.fqtConfirm = function(message, onConfirm){
      ⑰ 全モジュール共通の最終オーケストレーター
      優先度：誕生日限定 → 季節イベント限定 → 通常の宇宙どうぶつ
      ========================================================== */
+  // 「ページを開いてから最初の1匹」かどうかを判定するフラグ
+  // （2匹目以降は「さらに新しい」という文言に変えるため）
+  window.__fqtIsFirstEncounterThisSession = true;
+
   window.__fqtRunEncounterCycle = function(){
     const shownAsBirthday = tryBirthdayEncounter();
-    if (shownAsBirthday) return;
+    if (shownAsBirthday){
+      window.__fqtIsFirstEncounterThisSession = false;
+      return;
+    }
 
     if (typeof window.__fqtTryEventEncounter === 'function' && window.__fqtTryEventEncounter()){
+      window.__fqtIsFirstEncounterThisSession = false;
       return;
     }
 
     if (typeof window.__fqtEncounterNewAnimal === 'function'){
       window.__fqtEncounterNewAnimal();
     }
+    window.__fqtIsFirstEncounterThisSession = false;
   };
 
   // 「計算する」が押されたタイミングでオーケストレーターを実行する
@@ -7380,6 +8889,12 @@ window.fqtConfirm = function(message, onConfirm){
   document.addEventListener('fqtCalculatePressed', runMilestoneCheck);
   runMilestoneCheck();
 
+  // 「未来の自分への手紙」機能などが、次の節目日数を参照できるよう公開する
+  window.__fqtFindNextMilestoneDays = function(currentDayCount){
+    const next = MILESTONES.find(m => m.days > currentDayCount);
+    return next ? next.days : null;
+  };
+
 })();
 
 /* ==========================================================
@@ -7614,6 +9129,9 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- 起動：今日のワークを決定して表示する -----
   pickTodayWorkIfNeeded();
   renderDailyWork();
+
+  // 「1年前の今日」機能などが、ワーク番号からテキストを引けるよう公開する
+  window.__fqtDailyWorks = WORKS;
 
 })();
 
@@ -8063,6 +9581,1008 @@ window.fqtConfirm = function(message, onConfirm){
       }
     }, 'image/png');
   });
+
+})();
+
+/* ==========================================================
+   🔔 通知でリマインド（追加実装のみ・既存機能には触れない）
+   ・このアプリはサーバーを持たない静的サイトのため、
+     アプリを閉じていても届く「本物のプッシュ通知」は実現できない。
+   ・実現できるのは「このタブを開いたまま（バックグラウンドでも可）
+     にしている間、条件を満たしたらブラウザ通知を出す」簡易版のみ。
+     この制約はボタンの説明文でも明示する。
+   ========================================================== */
+(function initReminder(){
+
+  const REMINDER_PREF_KEY = 'fqtLifeCounter_reminderEnabled';
+  const REMINDER_LAST_SHOWN_KEY = 'fqtLifeCounter_reminderLastShown';
+  const DAILY_WORK_KEY_FOR_READ = 'fqtLifeCounter_dailyWork';
+  const CHECK_INTERVAL_MS = 5 * 60 * 1000; // 5分ごとにチェック
+  const REMINDER_HOUR = 20; // 20時以降を「リマインドしてよい時間帯」とする
+
+  function loadReminderEnabled(){
+    try{
+      return window.localStorage.getItem(REMINDER_PREF_KEY) === 'true';
+    } catch(e){
+      return false;
+    }
+  }
+  function saveReminderEnabled(enabled){
+    try{
+      window.localStorage.setItem(REMINDER_PREF_KEY, enabled ? 'true' : 'false');
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  function getTodayDateStringForReminder(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // 今日のデイリーワークを既に完了しているかどうかを読み取り専用で確認する
+  function isTodayDailyWorkDone(){
+    try{
+      const raw = window.localStorage.getItem(DAILY_WORK_KEY_FOR_READ);
+      if (!raw) return false;
+      const parsed = JSON.parse(raw);
+      return parsed.lastShownDate === getTodayDateStringForReminder() && !!parsed.todayCompleted;
+    } catch(e){
+      return false;
+    }
+  }
+
+  // 今日すでにリマインド通知を出したかどうか（同じ日に何度も出さないため）
+  function hasShownReminderToday(){
+    try{
+      return window.localStorage.getItem(REMINDER_LAST_SHOWN_KEY) === getTodayDateStringForReminder();
+    } catch(e){
+      return false;
+    }
+  }
+  function markReminderShownToday(){
+    try{
+      window.localStorage.setItem(REMINDER_LAST_SHOWN_KEY, getTodayDateStringForReminder());
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  let reminderEnabled = loadReminderEnabled();
+  let intervalId = null;
+
+  const reminderBtn = document.getElementById('reminderBtn');
+
+  function renderReminderBtn(){
+    if (reminderEnabled){
+      reminderBtn.textContent = '🔔　リマインドON';
+      reminderBtn.classList.add('active');
+    } else {
+      reminderBtn.textContent = '🔔　通知でリマインド';
+      reminderBtn.classList.remove('active');
+    }
+  }
+  renderReminderBtn();
+
+  // 条件を満たしていれば、その場でブラウザ通知を出す
+  function checkAndNotify(){
+    if (!reminderEnabled) return;
+    if (Notification.permission !== 'granted') return;
+
+    const hour = new Date().getHours();
+    if (hour < REMINDER_HOUR) return; // まだリマインドする時間帯ではない
+    if (hasShownReminderToday()) return; // 今日はすでに通知済み
+    if (isTodayDailyWorkDone()) return; // すでに今日のワークを完了している
+
+    try{
+      new Notification('🌙 FQT LIFE COUNTER', {
+        body: '今日はまだ宇宙どうぶつに会っていません。今日という日を忘れずに！',
+      });
+      markReminderShownToday();
+    } catch(e){
+      // 通知の生成に失敗しても、他機能に影響しないよう静かに無視する
+    }
+  }
+
+  function startChecking(){
+    if (intervalId) return;
+    checkAndNotify(); // ボタンを押した直後にも1回チェックする
+    intervalId = setInterval(checkAndNotify, CHECK_INTERVAL_MS);
+  }
+  function stopChecking(){
+    if (intervalId){
+      clearInterval(intervalId);
+      intervalId = null;
+    }
+  }
+
+  reminderBtn.addEventListener('click', () => {
+    if (!('Notification' in window)){
+      alert('この端末・ブラウザは通知機能に対応していません。');
+      return;
+    }
+
+    if (reminderEnabled){
+      // OFFにする
+      reminderEnabled = false;
+      saveReminderEnabled(false);
+      renderReminderBtn();
+      stopChecking();
+      return;
+    }
+
+    // ONにする：まず許可をリクエストする
+    Notification.requestPermission().then(permission => {
+      if (permission === 'granted'){
+        reminderEnabled = true;
+        saveReminderEnabled(true);
+        renderReminderBtn();
+        startChecking();
+        try{
+          new Notification('🔔 リマインドを設定しました', {
+            body: 'このタブを開いている間、夜20時以降にまだ今日のワークをしていなければお知らせします。\nアプリを閉じている間は通知できません。',
+          });
+        } catch(e){
+          // 確認通知が出せなくても致命的ではないため無視する
+        }
+      } else {
+        alert('通知が許可されませんでした。ブラウザの設定から通知を許可すると利用できます。');
+      }
+    });
+  });
+
+  // ページを開いた時点ですでにONになっていれば、チェックを再開する
+  if (reminderEnabled && 'Notification' in window && Notification.permission === 'granted'){
+    startChecking();
+  }
+
+})();
+
+/* ==========================================================
+   📆 1年前の今日を振り返る（追加実装のみ・既存機能には触れない）
+   ・生年月日から「1年前の今日は何日目だったか」を計算する
+   ・デイリーワークの全履歴ログ、人生節目の履歴から、
+     その日の記録が残っていれば一緒に表示する
+   ========================================================== */
+(function initLookback(){
+
+  const DAILY_WORK_KEY_FOR_READ = 'fqtLifeCounter_dailyWork';
+  const MILESTONE_KEY_FOR_READ = 'fqtLifeCounter_milestoneData';
+
+  // ちょうど1年前の日付（YYYY-MM-DD）を求める
+  function getOneYearAgoDate(){
+    const now = new Date();
+    const oneYearAgo = new Date(now);
+    oneYearAgo.setFullYear(now.getFullYear() - 1);
+    return oneYearAgo;
+  }
+  function formatDateYMD(d){
+    return `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+  }
+  function formatDateJa(d){
+    return `${d.getFullYear()}年${d.getMonth() + 1}月${d.getDate()}日`;
+  }
+
+  // 1年前の時点で「地球に来て何日目」だったかを計算する（誕生日を1日目とする）
+  function calcDayCountOnDate(birth, targetDate){
+    const b = new Date(birth.getFullYear(), birth.getMonth(), birth.getDate());
+    const t = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
+    const diff = Math.round((t.getTime() - b.getTime()) / (1000 * 60 * 60 * 24));
+    return diff + 1;
+  }
+
+  // デイリーワークの全履歴ログから、指定日のワーク内容を探す
+  function findWorkOnDate(dateStr){
+    try{
+      const raw = window.localStorage.getItem(DAILY_WORK_KEY_FOR_READ);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      const log = Array.isArray(parsed.log) ? parsed.log : [];
+      const entry = log.find(e => e.date === dateStr);
+      if (!entry) return null;
+      const works = window.__fqtDailyWorks;
+      if (!works || typeof works[entry.index] === 'undefined') return null;
+      return works[entry.index];
+    } catch(e){
+      return null;
+    }
+  }
+
+  // 人生節目の履歴から、指定日に到達した節目を探す
+  function findMilestoneOnDate(dateStrSlash){
+    try{
+      const raw = window.localStorage.getItem(MILESTONE_KEY_FOR_READ);
+      if (!raw) return null;
+      const parsed = JSON.parse(raw);
+      const history = Array.isArray(parsed.milestoneHistory) ? parsed.milestoneHistory : [];
+      const entry = history.find(h => h.date === dateStrSlash);
+      return entry ? entry.label : null;
+    } catch(e){
+      return null;
+    }
+  }
+
+  function renderLookback(){
+    const birthEl = document.getElementById('birthdate');
+    const card = document.getElementById('lookbackCard');
+    if (!birthEl || !birthEl.value){
+      card.style.display = 'none';
+      return;
+    }
+
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const oneYearAgo = getOneYearAgoDate();
+
+    // 1年前がまだ生まれる前だった場合は何も表示しない
+    if (oneYearAgo < new Date(birth.getFullYear(), birth.getMonth(), birth.getDate())){
+      card.style.display = 'none';
+      return;
+    }
+
+    const dayCount = calcDayCountOnDate(birth, oneYearAgo);
+    document.getElementById('lookbackDay').innerHTML =
+      `${formatDateJa(oneYearAgo)}、あなたは地球に来て<br>${dayCount.toLocaleString('ja-JP')}日目でした`;
+
+    const dateStrHyphen = formatDateYMD(oneYearAgo);      // ワーク履歴は YYYY-MM-DD 形式
+    const dateStrSlash = dateStrHyphen.replace(/-/g, '/'); // 節目履歴は YYYY/MM/DD 形式
+
+    const workText = findWorkOnDate(dateStrHyphen);
+    const workItem = document.getElementById('lookbackWorkItem');
+    if (workText){
+      document.getElementById('lookbackWorkValue').textContent = `「${workText}」`;
+      workItem.style.display = 'block';
+    } else {
+      workItem.style.display = 'none';
+    }
+
+    const milestoneLabel = findMilestoneOnDate(dateStrSlash);
+    const milestoneItem = document.getElementById('lookbackMilestoneItem');
+    if (milestoneLabel){
+      document.getElementById('lookbackMilestoneValue').textContent = milestoneLabel;
+      milestoneItem.style.display = 'block';
+    } else {
+      milestoneItem.style.display = 'none';
+    }
+
+    const emptyNote = document.getElementById('lookbackEmpty');
+    emptyNote.style.display = (!workText && !milestoneLabel) ? 'block' : 'none';
+
+    card.style.display = 'block';
+  }
+
+  // 「計算する」が押されたタイミングで表示を更新する
+  document.addEventListener('fqtCalculatePressed', renderLookback);
+  renderLookback();
+
+})();
+
+/* ==========================================================
+   ✉️ 未来の自分への手紙（タイムカプセル）（追加実装のみ・既存機能には触れない）
+   ・次の人生節目の日まで開封できない手紙を書ける
+   ・節目に到達すると開封できるようになる
+   ========================================================== */
+(function initTimeCapsule(){
+
+  const CAPSULE_STORAGE_KEY = 'fqtLifeCounter_timeCapsule';
+
+  function loadCapsuleData(){
+    const defaultData = { pendingLetter: null, deliveredLetters: [] };
+    try{
+      const raw = window.localStorage.getItem(CAPSULE_STORAGE_KEY);
+      if (!raw) return defaultData;
+      const parsed = JSON.parse(raw);
+      return {
+        pendingLetter: parsed.pendingLetter || null,
+        deliveredLetters: Array.isArray(parsed.deliveredLetters) ? parsed.deliveredLetters : []
+      };
+    } catch(e){
+      return defaultData;
+    }
+  }
+  function saveCapsuleData(data){
+    try{
+      window.localStorage.setItem(CAPSULE_STORAGE_KEY, JSON.stringify(data));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  let capsuleData = loadCapsuleData();
+  let justOpened = false; // 「開封する」直後だけ本文を表示するためのフラグ
+
+  function getTodayDateStringForCapsule(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  // 現在の「地球に来て何日目」を、生年月日から自前で計算する（誕生日を1日目とする）
+  function getCurrentDayCount(){
+    const birthEl = document.getElementById('birthdate');
+    if (!birthEl || !birthEl.value) return null;
+    const birth = new Date(birthEl.value + 'T00:00:00');
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const diff = Math.round((today.getTime() - birth.getTime()) / (1000 * 60 * 60 * 24));
+    return diff + 1;
+  }
+
+  function showOnly(id){
+    ['capsuleWriteForm', 'capsuleSealed', 'capsuleReady', 'capsuleOpened'].forEach(elId => {
+      document.getElementById(elId).style.display = (elId === id) ? 'block' : 'none';
+    });
+  }
+
+  function render(){
+    const dayCount = getCurrentDayCount();
+    if (dayCount === null){
+      document.getElementById('capsuleBox').style.display = 'none';
+      return;
+    }
+    document.getElementById('capsuleBox').style.display = 'block';
+
+    if (justOpened){
+      // 開封直後は本文をそのまま表示し続ける（再描画で消えないようにする）
+      return;
+    }
+
+    if (capsuleData.pendingLetter){
+      const target = capsuleData.pendingLetter.targetDays;
+      if (dayCount >= target){
+        showOnly('capsuleReady');
+      } else {
+        const remain = target - dayCount;
+        document.getElementById('capsuleSealedText').textContent =
+          `${target.toLocaleString('ja-JP')}日目に届く予定です。\nあと${remain.toLocaleString('ja-JP')}日、封印されたままお待ちください。`;
+        showOnly('capsuleSealed');
+      }
+    } else {
+      // 手紙を書くフォームを表示。宛先（次の節目）を案内する
+      const nextTarget = (typeof window.__fqtFindNextMilestoneDays === 'function')
+        ? window.__fqtFindNextMilestoneDays(dayCount)
+        : null;
+      const target = nextTarget || (dayCount + 365); // 節目を使い果たした場合は1年後を目安にする
+      document.getElementById('capsuleWriteDesc').textContent =
+        `次の節目「${target.toLocaleString('ja-JP')}日目」まで開封できない手紙を、未来の自分に書いてみましょう。`;
+      document.getElementById('capsuleSealBtn').dataset.target = String(target);
+      showOnly('capsuleWriteForm');
+    }
+  }
+
+  document.getElementById('capsuleSealBtn').addEventListener('click', (e) => {
+    const textarea = document.getElementById('capsuleTextarea');
+    const message = textarea.value.trim();
+    if (!message){
+      alert('手紙の内容を書いてから封印してください。');
+      return;
+    }
+    const target = Number(e.currentTarget.dataset.target);
+    capsuleData.pendingLetter = {
+      message: message,
+      targetDays: target,
+      writtenDate: getTodayDateStringForCapsule()
+    };
+    saveCapsuleData(capsuleData);
+    textarea.value = '';
+    render();
+  });
+
+  document.getElementById('capsuleOpenBtn').addEventListener('click', () => {
+    const letter = capsuleData.pendingLetter;
+    if (!letter) return;
+
+    document.getElementById('capsuleOpenedLabel').textContent =
+      `${letter.writtenDate}のあなたから、${letter.targetDays.toLocaleString('ja-JP')}日目のあなたへ`;
+    document.getElementById('capsuleOpenedMessage').textContent = letter.message;
+
+    capsuleData.deliveredLetters.push({
+      message: letter.message,
+      targetDays: letter.targetDays,
+      writtenDate: letter.writtenDate,
+      deliveredDate: getTodayDateStringForCapsule()
+    });
+    capsuleData.pendingLetter = null;
+    saveCapsuleData(capsuleData);
+
+    justOpened = true;
+    showOnly('capsuleOpened');
+
+    try{
+      if (window.navigator.vibrate){
+        window.navigator.vibrate([30, 20, 30, 20, 60]);
+      }
+    } catch(e){
+      // 非対応環境では無視
+    }
+  });
+
+  document.getElementById('capsuleWriteNewBtn').addEventListener('click', () => {
+    justOpened = false;
+    render();
+  });
+
+  document.addEventListener('fqtCalculatePressed', render);
+  render();
+
+})();
+
+/* ==========================================================
+   📊 月間ダイジェスト（追加実装のみ・既存機能には触れない）
+   ・月が変わった最初のアクセス時に、前月の記録をまとめて振り返る
+   ・日付付きで記録が残っているデータ（宇宙どうぶつ・イベント限定・
+     節目・デイリーワーク）だけを集計する（バッジ等は獲得日を
+     記録していないため対象外）
+   ========================================================== */
+(function initMonthlyDigest(){
+
+  const DIGEST_LAST_MONTH_KEY = 'fqtLifeCounter_lastDigestMonth';
+  const ANIMAL_DEX_KEY = 'fqtLifeCounter_animalDex';
+  const EVENT_DATA_KEY = 'fqtLifeCounter_eventData';
+  const MILESTONE_DATA_KEY = 'fqtLifeCounter_milestoneData';
+  const DAILY_WORK_KEY = 'fqtLifeCounter_dailyWork';
+
+  function getYearMonth(date){
+    return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
+  }
+
+  function loadJson(key){
+    try{
+      const raw = window.localStorage.getItem(key);
+      return raw ? JSON.parse(raw) : null;
+    } catch(e){
+      return null;
+    }
+  }
+
+  // 前月（YYYY-MM、ハイフン区切り／スラッシュ区切りの両方）を計算する
+  function getPreviousMonthInfo(now){
+    const prev = new Date(now.getFullYear(), now.getMonth() - 1, 1);
+    const ym = getYearMonth(prev);
+    return {
+      label: `${prev.getFullYear()}年${prev.getMonth() + 1}月`,
+      hyphenPrefix: ym,               // 例: 2026-06
+      slashPrefix: ym.replace('-', '/') // 例: 2026/06（節目履歴の日付形式に合わせる）
+    };
+  }
+
+  function countByDatePrefix(dict, prefix){
+    if (!dict) return 0;
+    return Object.keys(dict).filter(id => {
+      const item = dict[id];
+      return item && typeof item.firstMetDate === 'string' && item.firstMetDate.startsWith(prefix);
+    }).length;
+  }
+
+  function buildDigest(monthInfo){
+    const animalDex = loadJson(ANIMAL_DEX_KEY);
+    const eventData = loadJson(EVENT_DATA_KEY);
+    const milestoneData = loadJson(MILESTONE_DATA_KEY);
+    const dailyWork = loadJson(DAILY_WORK_KEY);
+
+    const animalCount = countByDatePrefix(animalDex && animalDex.discovered, monthInfo.hyphenPrefix);
+    const eventCount = countByDatePrefix(eventData && eventData.discovered, monthInfo.hyphenPrefix);
+
+    let milestoneCount = 0;
+    if (milestoneData && Array.isArray(milestoneData.milestoneHistory)){
+      milestoneCount = milestoneData.milestoneHistory.filter(h =>
+        typeof h.date === 'string' && h.date.startsWith(monthInfo.slashPrefix)
+      ).length;
+    }
+
+    let activeDays = 0;
+    if (dailyWork && Array.isArray(dailyWork.log)){
+      activeDays = dailyWork.log.filter(e =>
+        typeof e.date === 'string' && e.date.startsWith(monthInfo.hyphenPrefix)
+      ).length;
+    }
+
+    return { animalCount, eventCount, milestoneCount, activeDays };
+  }
+
+  function showDigest(monthInfo, digest){
+    document.getElementById('digestMonth').textContent = `${monthInfo.label}のふりかえり`;
+
+    const rows = [
+      { icon: '🌌', label: '宇宙どうぶつ発見数', value: `${digest.animalCount}匹` },
+      { icon: '🎉', label: 'イベント限定発見数', value: `${digest.eventCount}匹` },
+      { icon: '🌍', label: '人生節目の到達数', value: `${digest.milestoneCount}回` },
+      { icon: '📅', label: 'アプリを開いた日数', value: `${digest.activeDays}日` },
+    ];
+
+    const list = document.getElementById('digestList');
+    list.innerHTML = '';
+    rows.forEach(row => {
+      const div = document.createElement('div');
+      div.className = 'digest-row';
+      div.innerHTML =
+        `<span class="digest-label">${row.icon} ${row.label}</span>` +
+        `<span class="digest-value">${row.value}</span>`;
+      list.appendChild(div);
+    });
+
+    document.getElementById('digestModalOverlay').classList.add('show');
+  }
+
+  document.getElementById('digestCloseBtn').addEventListener('click', () => {
+    document.getElementById('digestModalOverlay').classList.remove('show');
+  });
+
+  // ----- 起動：月が変わっていれば、前月のダイジェストを1回だけ表示する -----
+  function checkMonthlyDigest(){
+    const now = new Date();
+    const currentYm = getYearMonth(now);
+    let lastShownYm = null;
+    try{
+      lastShownYm = window.localStorage.getItem(DIGEST_LAST_MONTH_KEY);
+    } catch(e){
+      // 読み取れない環境では表示せずスキップする
+    }
+
+    if (lastShownYm !== null && lastShownYm !== currentYm){
+      const monthInfo = getPreviousMonthInfo(now);
+      const digest = buildDigest(monthInfo);
+      // 何も記録がない月は、わざわざ振り返りを出さない
+      const hasAnyRecord = digest.animalCount + digest.eventCount + digest.milestoneCount + digest.activeDays > 0;
+      if (hasAnyRecord){
+        showDigest(monthInfo, digest);
+      }
+    }
+
+    try{
+      window.localStorage.setItem(DIGEST_LAST_MONTH_KEY, currentYm);
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  checkMonthlyDigest();
+
+})();
+
+/* ==========================================================
+   🌕 満月・新月お知らせバナー（追加実装のみ・既存機能には触れない）
+   ・既存の calcMoonAge() （実際の天文計算）をそのまま利用する
+   ・生年月日に依存しないため、ページを開いた時点で判定できる
+   ========================================================== */
+(function initMoonBanner(){
+
+  const SYNODIC_MONTH = 29.530588853;
+  const FULL_MOON_AGE = SYNODIC_MONTH / 2; // 約14.77日
+  const TOLERANCE_DAYS = 1; // 満月・新月の前後1日以内を「その日」として扱う
+
+  function renderMoonBanner(){
+    const banner = document.getElementById('moonBanner');
+    const textEl = document.getElementById('moonBannerText');
+
+    // calcMoonAge()はメインスクリプトで定義済みのグローバル関数（既存の月齢計算をそのまま利用）
+    if (typeof calcMoonAge !== 'function'){
+      banner.style.display = 'none';
+      return;
+    }
+
+    const age = calcMoonAge(new Date());
+    const isNewMoon = age < TOLERANCE_DAYS || age > (SYNODIC_MONTH - TOLERANCE_DAYS);
+    const isFullMoon = Math.abs(age - FULL_MOON_AGE) < TOLERANCE_DAYS;
+
+    if (isNewMoon){
+      textEl.textContent = '🌑 今夜は新月です。心を静かにして、新しい願い事を書き出してみませんか？';
+      banner.style.display = 'block';
+    } else if (isFullMoon){
+      textEl.textContent = '🌕 今夜は満月です。夜空を見上げてみませんか？';
+      banner.style.display = 'block';
+    } else {
+      banner.style.display = 'none';
+    }
+  }
+
+  renderMoonBanner();
+
+})();
+
+/* ==========================================================
+   ✨ 星のかけらメッセージ（追加実装のみ・既存機能には触れない）
+   ・68種類のメッセージを、ランダムではなく「1〜68の順番通り」に
+     1日1つずつ表示する（68日で一巡し、また1から繰り返す）
+   ・生年月日に依存しないため、ページを開いた時点で表示できる
+   ========================================================== */
+(function initStarMessage(){
+
+  const STAR_MESSAGE_KEY = 'fqtLifeCounter_starMessage';
+
+  // 68種類のメッセージ（いただいた内容をそのまま、順番通りに登録）
+  const STAR_MESSAGES = [
+    'あなたの体をつくる原子は、何十億年も前に星の中で生まれました。',
+    'あなたは宇宙が長い時間をかけて育んだ存在です。',
+    'あなたは星のかけらでできています。',
+    '今日も宇宙は、あなたという奇跡を見つめています。',
+    'あなたの鼓動は、宇宙の歴史の続きです。',
+    '地球は宇宙からの贈り物。あなたもその一部です。',
+    'あなたの体の元素は、太陽より古い星が残した贈り物です。',
+    'あなたは138億年の物語の主人公の一人です。',
+    '宇宙は今もあなたの中で生きています。',
+    'あなたという存在は、星々が紡いだ芸術作品です。',
+    'あなたは宇宙の長い旅の途中にいます。',
+    '今日という一日は、宇宙にとっても一度きりです。',
+    '星は姿を変えて、あなたになりました。',
+    '宇宙はあなたを通して自分自身を見つめています。',
+    'あなたの命は宇宙の歴史とつながっています。',
+    'あなたは小さくても、宇宙にとって大切な存在です。',
+    '今日も宇宙は静かに広がり続けています。',
+    'あなたの中には何十億年もの時間が流れています。',
+    '星の命が終わったから、あなたが生まれました。',
+    'あなたの体は宇宙のリサイクルでできています。',
+    'あなたも宇宙の物語の登場人物です。',
+    'あなたの存在は、確率を超えた奇跡です。',
+    '地球は宇宙の中の小さな故郷です。',
+    '今日という瞬間は二度と戻りません。',
+    'あなたが見上げる星も、あなたを照らしています。',
+    '宇宙の歴史は、あなたの中にも刻まれています。',
+    'あなたの一歩も宇宙の歴史の一部です。',
+    'あなたは宇宙から受け継がれた命です。',
+    '宇宙はあなたをここまで運んできました。',
+    'あなたは138億年のバトンを受け継いでいます。',
+    '星々は姿を変え、生命になりました。',
+    'あなたの呼吸にも宇宙の歴史があります。',
+    'あなたは宇宙が育てた奇跡です。',
+    '命とは宇宙が咲かせた花です。',
+    '今日という日は宇宙に一度だけ訪れます。',
+    '宇宙は静かにあなたを応援しています。',
+    'あなたは宇宙にとって唯一無二です。',
+    'あなたの中には星の記憶があります。',
+    '宇宙はあなたという形で輝いています。',
+    'あなたは地球と宇宙をつなぐ存在です。',
+    '今日も宇宙はあなたとともに進みます。',
+    '星は終わりではなく始まりでした。',
+    'あなたは宇宙の贈り物です。',
+    '一つの命には宇宙の時間が詰まっています。',
+    'あなたがいることで宇宙の物語は続きます。',
+    '今日という日は138億年が生んだ瞬間です。',
+    'あなたは宇宙が描いた一枚の絵です。',
+    'あなたの中の原子は、かつて星の中心で輝いていました。',
+    'あなたは宇宙の時間を受け継ぐ旅人です。',
+    '宇宙はあなたという命で新しい景色を見ています。',
+    'あなたの存在は宇宙の詩の一節です。',
+    'あなたは宇宙から地球への贈り物です。',
+    'あなたは宇宙が咲かせた一輪の花です。',
+    '宇宙はあなたの可能性を信じています。',
+    'あなたの今日には138億年の価値があります。',
+    '一つの命は宇宙にとってかけがえのない光です。',
+    'あなたの中には星のぬくもりが残っています。',
+    'あなたは宇宙と地球を結ぶ架け橋です。',
+    '星の終わりは、新しい命の始まりでした。',
+    'あなたという奇跡は今ここにあります。',
+    '宇宙はあなたを通して未来を育てています。',
+    'あなたは星々から受け継いだ希望です。',
+    '宇宙はあなたに今日という時間を贈りました。',
+    'あなたも宇宙も、今この瞬間に生きています。',
+    'あなたは宇宙の歴史が実を結んだ存在です。',
+    'あなたの命は星々のリレーの続きです。',
+    'あなたは何十億年分の奇跡を受け継いでいます。',
+    'あなたは宇宙そのものが生んだ、かけがえのない存在です。'
+  ];
+
+  function getTodayDateStringForStarMessage(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  function loadStarMessageState(){
+    const defaultState = { lastShownDate: null, currentIndex: -1 };
+    try{
+      const raw = window.localStorage.getItem(STAR_MESSAGE_KEY);
+      if (!raw) return defaultState;
+      const parsed = JSON.parse(raw);
+      return {
+        lastShownDate: parsed.lastShownDate || null,
+        currentIndex: (typeof parsed.currentIndex === 'number') ? parsed.currentIndex : -1
+      };
+    } catch(e){
+      return defaultState;
+    }
+  }
+  function saveStarMessageState(state){
+    try{
+      window.localStorage.setItem(STAR_MESSAGE_KEY, JSON.stringify(state));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // 「計算する」が押されたタイミングで、宇宙どうぶつカードの下に表示する
+  function renderStarMessage(){
+    const state = loadStarMessageState();
+    const today = getTodayDateStringForStarMessage();
+
+    // 今日まだ進めていなければ、番号を1つ進める（68個で一巡してまた0に戻る＝順番通り）
+    if (state.lastShownDate !== today){
+      state.currentIndex = (state.currentIndex + 1) % STAR_MESSAGES.length;
+      state.lastShownDate = today;
+      saveStarMessageState(state);
+    }
+
+    document.getElementById('starMessageText').textContent = STAR_MESSAGES[state.currentIndex];
+    document.getElementById('starMessageBanner').style.display = 'block';
+  }
+
+  document.addEventListener('fqtCalculatePressed', renderStarMessage);
+
+})();
+
+/* ==========================================================
+   📤 今日の宇宙どうぶつカードからのSNSシェア（追加実装のみ・既存機能には触れない）
+   ・宇宙どうぶつ図鑑モジュールが公開した共通関数
+     （window.__fqtBuildAnimalCardCanvas / window.__fqtShareAnimalCard）を
+     再利用し、画面に表示中のどうぶつをそのままカード画像にしてシェアする
+   ========================================================== */
+(function initAnimalCardShare(){
+
+  const shareBtn = document.getElementById('animalShareBtn');
+  if (!shareBtn) return;
+
+  shareBtn.addEventListener('click', () => {
+    const svgEl = document.querySelector('#animalSvgWrap svg');
+    if (!svgEl) return;
+    if (typeof window.__fqtBuildAnimalCardCanvas !== 'function' || typeof window.__fqtShareAnimalCard !== 'function') return;
+
+    // 画面に表示中の内容をそのまま読み取る（読み取り専用）
+    // どうぶつ名から「（〇〇限定）」のような補足を取り除き、名前だけにする
+    const nameRaw = document.getElementById('animalName').textContent.trim();
+    const name = nameRaw.replace(/[（(].*?[）)]/g, '').trim() || nameRaw;
+    const rarityText = document.getElementById('animalRarity').textContent || '';
+    const rarity = (rarityText.match(/★/g) || []).length || 1;
+    const personality = document.getElementById('animalPersonality').textContent.trim();
+    const favorite = document.getElementById('animalFavorite').textContent.trim();
+
+    window.__fqtBuildAnimalCardCanvas(svgEl, { name, rarity, personality, favorite }, (canvas) => {
+      if (!canvas){ alert('画像の準備に失敗しました。'); return; }
+      window.__fqtShareAnimalCard(canvas, name);
+    });
+  });
+
+})();
+
+/* ==========================================================
+   🐾 FQT宇宙どうぶつ診断（追加実装のみ・既存機能には触れない）
+   ・生年月日から一意に決まる、FQTオリジナルの本質診断
+   ・「人気者13体」（window.__fqtSignatureCreatures）をそのまま
+     診断結果の「宇宙どうぶつ」として使う
+   ========================================================== */
+(function initSpaceAnimalDiagnosis(){
+
+  // ----- ① 地球人意識（4種）※ (MM+DD)%4 -----
+  const EARTH_CONSCIOUSNESS = {
+    1: { name: '安定', desc: '地に足をつけ、着実に積み重ねることを大切にするタイプです。焦らず一歩ずつ進むことで、周りからの信頼を得て、揺るがない基盤を築いていきます。' },
+    2: { name: '行動', desc: '考えるよりまず動く、フットワークの軽さが持ち味です。新しい環境や挑戦を恐れず、行動しながら学び、道を切り拓いていく力を持っています。' },
+    3: { name: '共感', desc: '人の気持ちに寄り添う力に長けています。相手の立場に立って考えられるやさしさが、多くの人との深いつながりを生み出していきます。' },
+    0: { name: '探究', desc: '物事の本質を知りたいという好奇心が原動力です。表面的な答えでは満足せず、深く掘り下げて理解しようとする探究心を持っています。' }
+  };
+
+  // ----- ② 宇宙意識（5種）※ YYYY%5 -----
+  const SPACE_CONSCIOUSNESS = {
+    1: { name: '愛', desc: 'あなたの根底には、人や物事を慈しむ深い愛があります。その愛は見返りを求めず、周囲を静かにあたため続ける力になっています。' },
+    2: { name: '創造', desc: '何もないところから新しいものを生み出す力を宿しています。既存の枠にとらわれない発想が、あなたらしい世界を形づくっていきます。' },
+    3: { name: '調和', desc: '対立よりも調和を大切にする意識を持っています。異なる意見や個性をやさしくつなぎ合わせ、心地よい場をつくる力があります。' },
+    4: { name: '自由', desc: '誰にも縛られず、自分らしくあることを大切にする意識です。既成概念にとらわれない自由な発想が、あなたの魅力の源になっています。' },
+    0: { name: '覚醒', desc: '物事の本質に気づき、目覚めていく意識を持っています。経験を通して少しずつ視野が広がり、深い気づきを得ていくタイプです。' }
+  };
+
+  // ----- ③ 今世のテーマ（8種）※ (月×日)%8 -----
+  const LIFE_THEME = {
+    1: { name: '愛', desc: '今世でのテーマは「愛すること・愛されること」です。素直に気持ちを伝え合う経験を通して、あなたの心はより豊かに満たされていきます。' },
+    2: { name: '挑戦', desc: '今世でのテーマは「挑戦」です。未知の領域に一歩踏み出す勇気が、あなたにしか描けない物語を紡いでいくきっかけになります。' },
+    3: { name: '信頼', desc: '今世でのテーマは「信頼」です。人を信じ、また自分自身を信じることで、揺るがない安心感に満ちた関係を築いていくでしょう。' },
+    4: { name: '成長', desc: '今世でのテーマは「成長」です。小さな変化の積み重ねが、やがて大きな自分らしさへとつながっていく道のりを歩んでいきます。' },
+    5: { name: '創造', desc: '今世でのテーマは「創造」です。あなただけの発想やアイデアを形にしていくことが、人生に彩りと充実感をもたらしてくれます。' },
+    6: { name: '調和', desc: '今世でのテーマは「調和」です。自分と周囲、心と体、そのバランスを整えていくことが、穏やかな毎日への近道になります。' },
+    7: { name: '勇気', desc: '今世でのテーマは「勇気」です。一歩踏み出す小さな勇気の積み重ねが、あなたの人生を大きく前に進めてくれるはずです。' },
+    0: { name: '感謝', desc: '今世でのテーマは「感謝」です。当たり前の日常に目を向け、感謝の気持ちを持つことで、心穏やかな豊かさを感じられるでしょう。' }
+  };
+
+  // ----- ④ 宇宙どうぶつごとの才能（固定） -----
+  const TALENTS = {
+    moon_mochi:    { name: '癒し', desc: 'あなたには、そばにいるだけで人をほっとさせる癒しの力があります。静かなやさしさが、疲れた心をそっとゆるめてくれる存在です。' },
+    san_san_poko:  { name: '元気を与える', desc: '太陽のような明るさで、周りに元気を届ける力を持っています。あなたの笑顔や前向きな言葉が、誰かの一日を照らすきっかけになります。' },
+    yume_purin:    { name: '想像力', desc: '現実にはない世界を思い描く、豊かな想像力があなたの才能です。夢や理想を形にする発想力が、新しい可能性を切り拓いていきます。' },
+    honey_puni:    { name: '愛され力', desc: '素直な甘えん坊気質が、自然と周りから愛される力になっています。飾らないあなたらしさが、多くの人の心を惹きつけていきます。' },
+    sakura_mochi:  { name: '調和力', desc: 'その場の空気をやわらげ、みんなを自然につなげる調和力を持っています。あなたがいるだけで、場が穏やかにまとまっていきます。' },
+    puni_koro:     { name: '柔軟性', desc: '状況に合わせて自在に形を変えられる柔軟性が持ち味です。こだわりすぎず受け流す力が、多くの場面であなたを助けてくれます。' },
+    kira_kiran:    { name: '場を明るくする力', desc: 'その場にいるだけで空気を明るくする力を持っています。あなたの存在そのものが、周囲を前向きな雰囲気に変えていきます。' },
+    mintoru:       { name: '整理力', desc: '物事をすっきりと整理し、筋道立てて考える力に長けています。混乱した状況でも、冷静に本質を見抜くことができるタイプです。' },
+    pofu_pofu:     { name: '安心感を与える力', desc: 'そばにいるだけで安心感を与える、やわらかな存在感が才能です。あなたと一緒にいると、多くの人が肩の力を抜くことができます。' },
+    paku_pakun:    { name: '行動力', desc: '思い立ったらすぐに動く、力強い行動力があなたの才能です。迷いよりも一歩踏み出すことを選ぶ姿勢が、道を切り拓いていきます。' },
+    cosmo_prince:  { name: 'ロマン・理想を描く力', desc: '壮大な夢や理想を描く力に恵まれています。現実にとどまらない発想が、周囲の人々にも夢を見る勇気を与えていきます。' },
+    galaxy_queen:  { name: '芸術・美的センス', desc: '美しいものを見極め、生み出す芸術的なセンスがあなたの才能です。独自の美意識が、唯一無二の世界観をつくり出していきます。' },
+    legend_star:   { name: 'リーダーシップ', desc: '人を導き、まとめ上げるリーダーシップに恵まれています。芯の強さと情熱が、多くの人を惹きつけ、共に前へ進む力になります。' }
+  };
+
+  // ----- ⑤ 相性理由（そのどうぶつが「相性の良い相手」として選ばれた時の理由） -----
+  const COMPAT_REASONS = {
+    moon_mochi:    'ムーンモチのおおらかさが、あなたの心にゆったりとした安心感をもたらしてくれます。',
+    san_san_poko:  'サンサンぽこの明るさが、あなたの毎日に前向きなエネルギーを届けてくれます。',
+    yume_purin:    'ゆめプリンの豊かな発想が、あなたの世界をより彩り豊かに広げてくれます。',
+    honey_puni:    'ハニプニの甘えん坊な素直さが、あなたの心をやさしくほどいてくれます。',
+    sakura_mochi:  'さくらもちのおっとりした穏やかさが、あなたに心地よい安らぎを与えてくれます。',
+    puni_koro:     'ぷにコロの柔軟な姿勢が、あなたの視野を軽やかに広げてくれます。',
+    kira_kiran:    'きらきらんの盛り上げ上手なムードが、あなたの毎日を華やかに彩ります。',
+    mintoru:       'みんとるの几帳面さが、あなたの考えをすっきりと整理する助けになります。',
+    pofu_pofu:     'ぽふぽふの温かい安心感が、あなたの心をふんわりと包んでくれます。',
+    paku_pakun:    'パクパクンの行動力が、あなたの背中をそっと押してくれる存在です。',
+    cosmo_prince:  'コスモプリンスのロマンチストな一面が、あなたの夢に彩りを添えてくれます。',
+    galaxy_queen:  'ギャラクシークイーンの美意識が、あなたの世界をより美しく照らしてくれます。',
+    legend_star:   'レジェンドスターの芯の強さが、あなたに前へ進む勇気を分けてくれます。'
+  };
+
+  // ----- 計算ロジック -----
+
+  // ①宇宙番号：(YYYY+MM+DD)%13、余り0は13。1〜13の番号を人気者13体の配列インデックスに対応させる
+  function calcSpaceAnimalNumber(birth){
+    const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
+    let n = (y + m + d) % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+
+  function calcEarthConsciousness(birth){
+    const m = birth.getMonth() + 1, d = birth.getDate();
+    const key = (m + d) % 4;
+    return EARTH_CONSCIOUSNESS[key];
+  }
+
+  function calcSpaceConsciousness(birth){
+    const key = birth.getFullYear() % 5;
+    return SPACE_CONSCIOUSNESS[key];
+  }
+
+  function calcLifeTheme(birth){
+    const m = birth.getMonth() + 1, d = birth.getDate();
+    const key = (m * d) % 8;
+    return LIFE_THEME[key];
+  }
+
+  // 相性：宇宙番号同士の円環距離（1〜13の円環で最短距離）から★を決める
+  function distanceStars(distance){
+    if (distance <= 1) return 4;
+    if (distance <= 2) return 4;
+    if (distance <= 4) return 3;
+    return 2;
+  }
+
+  function calcCompatibility(myNumber, creatures){
+    const others = [];
+    for (let n = 1; n <= 13; n++){
+      if (n === myNumber) continue;
+      const diff = Math.abs(n - myNumber);
+      const distance = Math.min(diff, 13 - diff);
+      others.push({ number: n, distance });
+    }
+    others.sort((a, b) => (a.distance - b.distance) || (a.number - b.number));
+    return others.slice(0, 3).map(o => {
+      const creature = creatures[o.number - 1];
+      return { creature, stars: distanceStars(o.distance) };
+    });
+  }
+
+  // 総合メッセージを組み立てる（200〜300文字程度）
+  function buildOverallMessage(creature, earth, space, talent, theme){
+    return `あなたの宇宙どうぶつは「${creature.name}」。${earth.name}な地球人意識と、${space.name}な宇宙意識をあわせ持つ、やわらかな存在です。その心の奥には「${talent.name}」という才能がしずかに宿っており、これまでの日々の中でも、知らず知らずのうちにその力を発揮してきたのではないでしょうか。今世のあなたに与えられたテーマは「${theme.name}」。日々の小さな出来事の中にも、そのテーマへのヒントが隠れています。${creature.name}らしい${creature.personality}な魅力を大切にしながら、あなたにしか描けない物語を、自分らしいペースで紡いでいってください。宇宙は、そんなあなたのことをいつも見守っています。`;
+  }
+
+  function renderDiagnosis(){
+    const birthEl = document.getElementById('birthdate');
+    const card = document.getElementById('diagCard');
+    if (!birthEl || !birthEl.value){
+      card.style.display = 'none';
+      return;
+    }
+    if (!Array.isArray(window.__fqtSignatureCreatures)){
+      card.style.display = 'none';
+      return;
+    }
+    const creatures = window.__fqtSignatureCreatures;
+    if (!Array.isArray(creatures) || creatures.length !== 13){
+      card.style.display = 'none';
+      return;
+    }
+
+    const birth = new Date(birthEl.value + 'T00:00:00');
+
+    const animalNumber = calcSpaceAnimalNumber(birth);
+    const creature = creatures[animalNumber - 1];
+    const earth = calcEarthConsciousness(birth);
+    const space = calcSpaceConsciousness(birth);
+    const theme = calcLifeTheme(birth);
+    const talent = TALENTS[creature.key];
+
+    // 🐾 宇宙どうぶつ（本質）
+    const svg = window.__fqtBuildAnimalSVG ? window.__fqtBuildAnimalSVG(creature.parts, 'diag' + creature.key) : '';
+    document.getElementById('diagAnimalThumb').innerHTML = svg;
+    document.getElementById('diagAnimalName').textContent = creature.name;
+    document.getElementById('diagAnimalPersonality').textContent = creature.personality;
+    document.getElementById('diagAnimalFavorite').textContent = creature.favorite;
+    document.getElementById('diagAnimalQuote').textContent = `「${creature.quote}」`;
+
+    // 🌍 地球人意識
+    document.getElementById('diagEarthType').textContent = earth.name;
+    document.getElementById('diagEarthDesc').textContent = earth.desc;
+
+    // 🚀 宇宙意識
+    document.getElementById('diagSpaceType').textContent = space.name;
+    document.getElementById('diagSpaceDesc').textContent = space.desc;
+
+    // 💎 あなたの才能
+    document.getElementById('diagTalentType').textContent = talent.name;
+    document.getElementById('diagTalentDesc').textContent = talent.desc;
+
+    // 🌱 今世のテーマ
+    document.getElementById('diagThemeType').textContent = theme.name;
+    document.getElementById('diagThemeDesc').textContent = theme.desc;
+
+    // 💞 相性の良い宇宙どうぶつTOP3
+    const compatList = calcCompatibility(animalNumber, creatures);
+    const listEl = document.getElementById('diagCompatList');
+    listEl.innerHTML = '';
+    compatList.forEach(item => {
+      const div = document.createElement('div');
+      div.className = 'diag-compat-item';
+      const stars = '★'.repeat(item.stars) + '☆'.repeat(5 - item.stars);
+      const reason = COMPAT_REASONS[item.creature.key] || '';
+      div.innerHTML =
+        `<div class="diag-compat-header">` +
+          `<span class="diag-compat-name">${item.creature.name}</span>` +
+          `<span class="diag-compat-stars">${stars}</span>` +
+        `</div>` +
+        `<div class="diag-compat-reason">${reason}</div>`;
+      listEl.appendChild(div);
+    });
+
+    // 🌌 総合メッセージ
+    const overallMessage = buildOverallMessage(creature, earth, space, talent, theme);
+    document.getElementById('diagOverallMessage').textContent = overallMessage;
+
+    // シェアボタンから参照できるよう、直近の診断結果を保存しておく
+    lastDiagResult = { creature, earth, space, talent, theme, overallMessage };
+
+    card.style.display = 'block';
+  }
+
+  // 📤 診断結果をシェアする
+  let lastDiagResult = null;
+  function buildDiagShareText(){
+    if (!lastDiagResult) return '';
+    const { creature, earth, space, talent, theme, overallMessage } = lastDiagResult;
+    return `🐾 FQT宇宙どうぶつ診断結果\n\n` +
+      `私の宇宙どうぶつは「${creature.name}」\n` +
+      `🌍地球人意識：${earth.name}\n` +
+      `🚀宇宙意識：${space.name}\n` +
+      `💎才能：${talent.name}\n` +
+      `🌱今世のテーマ：${theme.name}\n\n` +
+      `${overallMessage}\n\n` +
+      `あなたの宇宙どうぶつは何ですか？🌌\n` +
+      `https://fqtlifecounter2.netlify.app\n\n` +
+      `#FQTLIFECOUNTER\n` +
+      `#宇宙どうぶつ診断`;
+  }
+
+  document.getElementById('diagShareBtn').addEventListener('click', async () => {
+    const shareText = buildDiagShareText();
+    if (!shareText) return;
+
+    if (navigator.share){
+      try{
+        await navigator.share({ text: shareText, title: 'FQT宇宙どうぶつ診断' });
+      } catch(e){
+        // ユーザーがキャンセルした場合は何もしない
+      }
+    } else {
+      try{
+        await navigator.clipboard.writeText(shareText);
+        alert('診断結果をコピーしました。SNSに貼り付けてご利用ください。');
+      } catch(e){
+        alert('コピーに失敗しました。手動で選択してコピーしてください。');
+      }
+    }
+  });
+
+  document.addEventListener('fqtCalculatePressed', renderDiagnosis);
 
 })();
 </script>
