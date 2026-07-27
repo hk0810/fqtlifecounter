@@ -6676,7 +6676,7 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('oshiDetailThumb').innerHTML = svg;
     document.getElementById('oshiDetailName').textContent = animal.name;
     document.getElementById('oshiDetailRarity').textContent =
-      '★'.repeat(animal.rarity) + '☆'.repeat(5 - animal.rarity);
+      'レア度：' + '★'.repeat(animal.rarity) + '☆'.repeat(5 - animal.rarity);
     // 既存データに古い形式（せいかく・すきなもの未保存）が残っている場合も落ちないようにする
     document.getElementById('oshiDetailPersonality').textContent = animal.personality || '-';
     document.getElementById('oshiDetailFavorite').textContent = animal.favorite || '-';
@@ -6781,7 +6781,7 @@ window.fqtConfirm = function(message, onConfirm){
       const rarity = animalInfo.rarity || 1;
       ctx.font = '700 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
       ctx.fillStyle = '#ffb703';
-      ctx.fillText('★'.repeat(rarity) + '☆'.repeat(5 - rarity), W / 2, y);
+      ctx.fillText('レア度：' + '★'.repeat(rarity) + '☆'.repeat(5 - rarity), W / 2, y);
 
       // せいかく・すきなもの（2つの情報ボックス）
       y += 50;
