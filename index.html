@@ -975,6 +975,28 @@
     gap: 8px;
     margin-bottom: 18px;
   }
+  .dex-sort-row{
+    display: flex;
+    gap: 6px;
+    margin-bottom: 10px;
+  }
+  .dex-sort-btn{
+    flex: 1;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    background: var(--blue-pale);
+    border: 1px solid transparent;
+    border-radius: 999px;
+    padding: 7px 4px;
+    cursor: pointer;
+  }
+  .dex-sort-btn.active{
+    background: #eef2ff;
+    color: #5b4bc4;
+    border-color: #b197fc;
+  }
   .dex-grid{
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1250,6 +1272,20 @@
     100% { transform: translateY(110vh) rotate(360deg); opacity: 0.8; }
   }
 
+  /* 誕生日プレゼントBOX「限定背景エフェクト」専用：花火＆虹が画面に打ち上がる演出 */
+  .firework-burst-piece{
+    position: fixed;
+    font-size: 30px;
+    z-index: 650;
+    pointer-events: none;
+    animation: firework-burst 1.6s ease-out forwards;
+  }
+  @keyframes firework-burst{
+    0%   { transform: scale(0.3) translateY(0); opacity: 0; }
+    30%  { transform: scale(1.2) translateY(-10px); opacity: 1; }
+    100% { transform: scale(1) translateY(20px); opacity: 0; }
+  }
+
   /* ==========================================================
      🎂 誕生日イベント
      ========================================================== */
@@ -1380,6 +1416,12 @@
     animation: badge-max-glow 2.2s ease-in-out infinite;
   }
   .birthday-present-btn:active{ transform: scale(0.98); }
+  .birthday-present-btn:disabled{
+    background: #e5e7eb;
+    color: #9ca3af;
+    cursor: not-allowed;
+    animation: none;
+  }
 
   /* ----- 誕生日記録ボタン ----- */
   .birthday-record-btn{
@@ -2200,7 +2242,7 @@
     <p class="badge-list-title">🔥 連続アクセスバッジ一覧</p>
     <div class="badge-grid" id="streakBadgeGrid"></div>
 
-    <button class="badge-reset-btn" id="badgeResetBtn" type="button">データをリセット</button>
+    <button class="badge-reset-btn" id="badgeResetBtn" type="button">バッジ記録をリセット</button>
   </div>
 </div>
 
@@ -2235,11 +2277,18 @@
       </div>
     </div>
 
-    <div class="dex-grid" id="dexGrid"></div>
-
     <!-- 🏆 実績（Achievements） -->
     <p class="badge-list-title">🏆 実績</p>
     <div class="achievement-list" id="achievementList"></div>
+
+    <!-- 発見済みどうぶつ一覧（匹数が増えると長くなるため、実績より後ろに配置） -->
+    <p class="badge-list-title">🎴 発見したどうぶつ一覧</p>
+    <div class="dex-sort-row" id="dexSortRow">
+      <button class="dex-sort-btn active" data-sort="newest" type="button">新しい順</button>
+      <button class="dex-sort-btn" data-sort="name" type="button">あかさたな順</button>
+      <button class="dex-sort-btn" data-sort="rarity" type="button">レア度順</button>
+    </div>
+    <div class="dex-grid" id="dexGrid"></div>
   </div>
 </div>
 
@@ -4745,7 +4794,7 @@ window.fqtConfirm = function(message, onConfirm){
 
   // データリセット（設定的な操作）：確認ダイアログでYESの場合のみ実行
   badgeResetBtn.addEventListener('click', () => {
-    window.fqtConfirm('本当にリセットしますか？', () => {
+    window.fqtConfirm('バッジの記録を本当にリセットしますか？', () => {
       badgeData = {
         totalAccess: 0,
         currentStreak: 0,
@@ -5350,6 +5399,24 @@ window.fqtConfirm = function(message, onConfirm){
   }
 
   // ----- ⑯ 図鑑モーダルをDOMへ反映 -----
+  // 図鑑一覧の並び順（新しい順／あかさたな順／レア度順）
+  let dexSortMode = 'newest';
+
+  function sortDiscoveredList(list, mode){
+    const sorted = list.slice();
+    if (mode === 'name'){
+      // あかさたな順（日本語のロケール比較で、ひらがな・カタカナも自然に並ぶ）
+      sorted.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
+    } else if (mode === 'rarity'){
+      // レア度が高い順。同じレア度内では発見が新しい順にする
+      sorted.sort((a, b) => (b.rarity - a.rarity) || (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    } else {
+      // 発見が新しい順（デフォルト）
+      sorted.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    }
+    return sorted;
+  }
+
   function renderDexModal(){
     // 図鑑の総数は「これまでに実際に発見された組み合わせの数」を基準に表示する
     // （体型20×耳20×...という理論上の全組み合わせは数百万〜億単位になり、
@@ -5371,10 +5438,9 @@ window.fqtConfirm = function(message, onConfirm){
       return;
     }
 
-    // 発見が新しい順に並べる
-    discoveredList.sort((a, b) => (a.firstMetDate < b.firstMetDate ? 1 : -1));
+    const sortedList = sortDiscoveredList(discoveredList, dexSortMode);
 
-    discoveredList.forEach(animal => {
+    sortedList.forEach(animal => {
       const item = document.createElement('div');
       item.className = 'dex-item';
       const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
@@ -5385,6 +5451,16 @@ window.fqtConfirm = function(message, onConfirm){
       grid.appendChild(item);
     });
   }
+
+  // 並び替えボタンの動作
+  document.getElementById('dexSortRow').addEventListener('click', (e) => {
+    const btn = e.target.closest('.dex-sort-btn');
+    if (!btn) return;
+    dexSortMode = btn.dataset.sort;
+    document.querySelectorAll('#dexSortRow .dex-sort-btn').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    renderDexModal();
+  });
 
   // ----- ⑰ イベント登録 -----
   const animalDexBtn = document.getElementById('animalDexBtn');
@@ -6290,6 +6366,9 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- 状態を保持する変数 -----
   let birthdayData = loadBirthdayData();
+  // 「今日の運勢を見る」から自動でcalculate()を呼んだ際、その副作用で誕生日演出が
+  // 二重に表示されてしまうのを防ぐための一時的なフラグ
+  let suppressNextBirthdayPopup = false;
 
   // ----- ⑥ 今日が誕生日かどうかを判定（生年月日の「月日」が一致するか） -----
   function isBirthdayToday(){
@@ -6464,6 +6543,21 @@ window.fqtConfirm = function(message, onConfirm){
   /* ==========================================================
      ⑫ フルスクリーン祝福演出
      ========================================================== */
+  // 誕生日プレゼントBOX「限定背景エフェクト」専用：花火＆虹が画面各所に打ち上がる演出
+  function launchFireworkBurst(){
+    const symbols = ['🎆', '🌈', '🎇'];
+    for (let i = 0; i < 18; i++){
+      const piece = document.createElement('div');
+      piece.className = 'firework-burst-piece';
+      piece.textContent = symbols[Math.floor(Math.random() * symbols.length)];
+      piece.style.left = (5 + Math.random() * 90) + 'vw';
+      piece.style.top = (10 + Math.random() * 60) + 'vh';
+      piece.style.animationDelay = (Math.random() * 0.6) + 's';
+      document.body.appendChild(piece);
+      piece.addEventListener('animationend', () => piece.remove());
+    }
+  }
+
   function launchBirthdayEffect(count){
     const pieces = ['🎊', '⭐', '🌈', '🎈', '✨'];
     const colors = ['#ff6f91', '#ffb347', '#ffe066', '#8ce99a', '#74c0fc', '#b197fc'];
@@ -6479,11 +6573,11 @@ window.fqtConfirm = function(message, onConfirm){
     }
   }
 
-  // 誕生日カード背後に、紙吹雪・星・虹・風船・キラキラがゆっくり流れる演出を敷き詰める
+  // 誕生日カード背後に、紙吹雪・星・虹・風船・花火・キラキラがゆっくり流れる演出を敷き詰める
   function launchBirthdayDecor(){
     const decor = document.getElementById('birthdayDecor');
     decor.innerHTML = '';
-    const symbols = ['🎊', '⭐', '🌈', '🎈', '✨', '🎉', '💫'];
+    const symbols = ['🎊', '⭐', '🌈', '🎈', '✨', '🎉', '💫', '🎆'];
     for (let i = 0; i < 24; i++){
       const piece = document.createElement('div');
       piece.className = 'birthday-float-piece';
@@ -6526,6 +6620,7 @@ window.fqtConfirm = function(message, onConfirm){
 
     // プレゼントBOXボタンを表示する
     document.getElementById('birthdayPresentBtn').style.display = 'block';
+    renderPresentBoxButton();
   }
 
   // ----- ⑭ 祝福演出のボタン操作 -----
@@ -6535,6 +6630,11 @@ window.fqtConfirm = function(message, onConfirm){
   document.getElementById('birthdayFortuneBtn').addEventListener('click', () => {
     document.getElementById('birthdayOverlay').classList.remove('show');
     const fortuneCard = document.getElementById('fortuneCard');
+    // まだ「計算する」が押されておらず占いカードが非表示の場合は、先に自動で計算する
+    if (fortuneCard && fortuneCard.style.display === 'none' && typeof calculate === 'function'){
+      suppressNextBirthdayPopup = true; // この計算による誕生日演出の再表示を1回だけ抑制する
+      calculate();
+    }
     if (fortuneCard) fortuneCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
   });
   document.getElementById('birthdayAnimalBtn').addEventListener('click', () => {
@@ -6546,7 +6646,32 @@ window.fqtConfirm = function(message, onConfirm){
   /* ==========================================================
      ⑮ プレゼントBOX（タップでランダムに4種類のいずれかを贈る）
      ========================================================== */
+  // プレゼントBOXは合計13回までしか開けない（FQTらしい数字で打ち止めにする）
+  const PRESENT_BOX_LIMIT = 13;
+
+  // 「今年の誕生日」に開封した回数だけを数える（年が変わればまた13回に戻る）
+  function countThisYearPresentOpens(){
+    const thisYear = String(new Date().getFullYear());
+    return birthdayData.presentHistory.filter(entry => entry.date.startsWith(thisYear)).length;
+  }
+
+  // プレゼントBOXボタンの表示（残り回数のカウントダウン、上限到達で押せなくする）
+  function renderPresentBoxButton(){
+    const btn = document.getElementById('birthdayPresentBtn');
+    const remaining = PRESENT_BOX_LIMIT - countThisYearPresentOpens();
+    if (remaining <= 0){
+      btn.innerHTML = '🎁 プレゼントBOXは開け尽くしました<br>（また来年！）';
+      btn.disabled = true;
+    } else {
+      btn.textContent = `🎁　プレゼントBOXを開ける（あと${remaining}回）`;
+      btn.disabled = false;
+    }
+  }
+
   function openPresentBox(){
+    // 上限に達している場合は何もしない（ボタンは無効化されているが念のための二重チェック）
+    if (countThisYearPresentOpens() >= PRESENT_BOX_LIMIT) return;
+
     const rewardTypes = ['creature', 'background', 'title', 'message'];
     const type = rewardTypes[Math.floor(Math.random() * rewardTypes.length)];
     let resultEmoji = '🎁';
@@ -6565,7 +6690,8 @@ window.fqtConfirm = function(message, onConfirm){
       resultEmoji = '🎆';
       resultTitle = '限定背景エフェクト';
       resultDesc = '今日だけの特別な花火＆虹の演出をプレゼント！';
-      launchBirthdayEffect(60);
+      launchFireworkBurst();
+      launchBirthdayEffect(30);
     } else if (type === 'title'){
       const titles = ['虹の使者', '星屑コレクター', 'コスモの祝福を受けし者', '宇宙一のお祝いされ上手', '銀河のバースデーヒーロー'];
       const title = titles[Math.floor(Math.random() * titles.length)];
@@ -6583,6 +6709,7 @@ window.fqtConfirm = function(message, onConfirm){
       type: type, result: resultDesc, date: getTodayDateStringForBirthday()
     });
     saveBirthdayData(birthdayData);
+    renderPresentBoxButton();
 
     document.getElementById('presentResultEmoji').textContent = resultEmoji;
     document.getElementById('presentResultTitle').textContent = resultTitle;
@@ -6694,10 +6821,21 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- 起動：全モジュールの初期化が完了したので、ここで初めて宇宙どうぶつを表示する -----
   window.__fqtRunEncounterCycle();
 
-  // 誕生日であれば、フルスクリーンの祝福演出も表示する
-  if (isBirthdayToday()){
-    showBirthdayCelebration();
+  // 誕生日であれば、フルスクリーンの祝福演出を表示する
+  // ・ページを開くたびに毎回チェックする（同じ日に何度アクセスしてもお祝いされる）
+  // ・「計算する」を押した時にも同様にチェックする（初めて生年月日を入力した直後でも、
+  //   ページ再読み込みを待たずにその場でお祝いできるようにするため）
+  function checkAndShowBirthdayIfNeeded(){
+    if (suppressNextBirthdayPopup){
+      suppressNextBirthdayPopup = false; // 1回だけ抑制したら元に戻す
+      return;
+    }
+    if (isBirthdayToday()){
+      showBirthdayCelebration();
+    }
   }
+  document.addEventListener('fqtCalculatePressed', checkAndShowBirthdayIfNeeded);
+  checkAndShowBirthdayIfNeeded();
 
 })();
 
