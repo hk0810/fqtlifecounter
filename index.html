@@ -3078,7 +3078,7 @@
 <!-- 🏆 実績解除演出モーダル -->
 <div class="badge-earn-overlay" id="achievementEarnOverlay">
   <div class="badge-earn-popup achievement-earn-popup">
-    <p class="badge-earn-header">🏆 実績解除！</p>
+    <p class="badge-earn-header" id="achievementEarnHeader">🏆 達成しました！</p>
     <div class="badge-earn-emoji" id="achievementEarnEmoji">🏆</div>
     <p class="badge-earn-name" id="achievementEarnName">-</p>
     <p class="badge-earn-desc" id="achievementEarnDesc">-</p>
@@ -7599,9 +7599,17 @@ window.fqtConfirm = function(message, onConfirm){
   let earnQueue = [];
   function showAchievementPopup(ach){
     document.getElementById('achievementEarnEmoji').textContent = ach.emoji;
-    document.getElementById('achievementEarnName').textContent = ach.name;
-    document.getElementById('achievementEarnDesc').textContent = ach.desc + '！';
-    document.getElementById('achievementBrowserTip').style.display = (ach.id === 'first_meeting') ? 'block' : 'none';
+    const isFirstMeeting = (ach.id === 'first_meeting');
+    if (isFirstMeeting){
+      document.getElementById('achievementEarnName').textContent = 'はじめまして！';
+      document.getElementById('achievementEarnDesc').innerHTML =
+        '初めて宇宙どうぶつに<br>出会いました！<br>見てみましょう！<br>鳴き声をONにすると<br>お話がきこえるよ！';
+    } else {
+      document.getElementById('achievementEarnName').textContent = ach.name;
+      document.getElementById('achievementEarnDesc').textContent = ach.desc + '！';
+    }
+    document.getElementById('achievementBrowserTip').style.display = isFirstMeeting ? 'block' : 'none';
+    document.getElementById('achievementEarnHeader').style.display = isFirstMeeting ? 'none' : 'block';
     document.getElementById('achievementEarnOverlay').classList.add('show');
 
     launchAchievementEffect();
@@ -8004,6 +8012,7 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('achievementEarnName').textContent = next.name;
     document.getElementById('achievementEarnDesc').textContent = next.desc + '！';
     document.getElementById('achievementBrowserTip').style.display = 'none';
+        document.getElementById('achievementEarnHeader').style.display = 'block';
     document.getElementById('achievementEarnOverlay').classList.add('show');
     launchEventEffect();
   }
@@ -8482,6 +8491,7 @@ window.fqtConfirm = function(message, onConfirm){
         document.getElementById('achievementEarnName').textContent = entry.item.name;
         document.getElementById('achievementEarnDesc').textContent = entry.item.desc + '！';
         document.getElementById('achievementBrowserTip').style.display = 'none';
+        document.getElementById('achievementEarnHeader').style.display = 'block';
         document.getElementById('achievementEarnOverlay').classList.add('show');
       });
     } else {
@@ -9265,6 +9275,7 @@ window.fqtConfirm = function(message, onConfirm){
         document.getElementById('achievementEarnName').textContent = entry.item.name;
         document.getElementById('achievementEarnDesc').textContent = entry.item.name + 'を解除しました！';
         document.getElementById('achievementBrowserTip').style.display = 'none';
+        document.getElementById('achievementEarnHeader').style.display = 'block';
         document.getElementById('achievementEarnOverlay').classList.add('show');
       });
     }
