@@ -795,6 +795,12 @@
     color: var(--text-sub);
     margin-bottom: 18px;
   }
+  .badge-earn-desc.first-meeting-desc{
+    font-size: 16px;
+    font-weight: 800;
+    color: var(--text-main);
+    line-height: 1.6;
+  }
   .browser-tip-note{
     font-size: 12px;
     font-weight: 700;
@@ -815,7 +821,7 @@
   }
   .tutorial-item{
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     gap: 12px;
     text-align: left;
     background: var(--blue-pale);
@@ -825,6 +831,7 @@
   }
   .tutorial-icon{
     font-size: 22px;
+    line-height: 1.5;
     flex-shrink: 0;
   }
   .tutorial-text{
@@ -832,6 +839,8 @@
     font-weight: 700;
     color: var(--text-main);
     line-height: 1.5;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .badge-earn-ok-btn{
     width: 100%;
@@ -3128,10 +3137,10 @@
   </div>
 </div>
 
-<!-- 🚀 かんたんチュートリアル（「はじめまして」の直後に1回だけ、3ステップに分けて表示） -->
+<!-- 🚀 かんたんチュートリアル（「はじめまして」の直後に1回だけ、5ステップに分けて表示） -->
 <div class="badge-earn-overlay" id="tutorialOverlay">
   <div class="badge-earn-popup tutorial-popup">
-    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">1/3</span></p>
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">1/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🔮</div>
       <div class="tutorial-text">誕生日を入れると、いろんな占い結果が見られるよ</div>
@@ -3148,26 +3157,70 @@
   </div>
 </div>
 
-<!-- 🚀 かんたんチュートリアル（2/3） -->
+<!-- 🚀 かんたんチュートリアル（2/5） -->
 <div class="badge-earn-overlay" id="tutorialOverlay2">
   <div class="badge-earn-popup tutorial-popup">
-    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">2/3</span></p>
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">2/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🏅</div>
-      <div class="tutorial-text">使うたびに、バッジや実績がもらえるよ</div>
+      <div class="tutorial-text">使うたびに、バッジや実績がもらえるよ！</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🔥</div>
+      <div class="tutorial-text">毎日開くと、連続記録としてバッジがもらえるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🧊</div>
+      <div class="tutorial-text">1日お休みしても、連続記録を守ってくれる「フリーズ」もあるよ</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn2" type="button">次へ</button>
   </div>
 </div>
 
-<!-- 🚀 かんたんチュートリアル（3/3） -->
+<!-- 🚀 かんたんチュートリアル（3/5） -->
 <div class="badge-earn-overlay" id="tutorialOverlay3">
   <div class="badge-earn-popup tutorial-popup">
-    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/3</span></p>
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/5</span></p>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🎗</div>
+      <div class="tutorial-text">図鑑からお気に入りの子を「推し」に設定できるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🌟</div>
+      <div class="tutorial-text">何度も出会える特別などうぶつ「人気者」もいるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🎉</div>
+      <div class="tutorial-text">季節ごとに、期間限定の宇宙どうぶつも出現するよ</div>
+    </div>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn3" type="button">次へ</button>
+  </div>
+</div>
+
+<!-- 🚀 かんたんチュートリアル（4/5） -->
+<div class="badge-earn-overlay" id="tutorialOverlay4">
+  <div class="badge-earn-popup tutorial-popup">
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">4/5</span></p>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🎂</div>
+      <div class="tutorial-text">誕生日にアプリを開くと、特別な演出があるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">📤</div>
+      <div class="tutorial-text">お気に入りの結果は、SNSでシェアもできるよ</div>
+    </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">💾</div>
       <div class="tutorial-text">一度入力したデータや実績は、端末やブラウザを変えない限り保持されるよ</div>
     </div>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn4" type="button">次へ</button>
+  </div>
+</div>
+
+<!-- 🚀 かんたんチュートリアル（5/5） -->
+<div class="badge-earn-overlay" id="tutorialOverlay5">
+  <div class="badge-earn-popup tutorial-popup">
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">5/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">⚠️</div>
       <div class="tutorial-text">端末やブラウザを変えると、図鑑の宇宙どうぶつは消えてしまうよ</div>
@@ -3176,7 +3229,7 @@
       <div class="tutorial-icon">❓</div>
       <div class="tutorial-text">困ったら「ヘルプ・よくある質問」を見てね</div>
     </div>
-    <button class="badge-earn-ok-btn" id="tutorialCloseBtn3" type="button">はじめる！</button>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn5" type="button">はじめる！</button>
   </div>
 </div>
 
@@ -7776,9 +7829,11 @@ window.fqtConfirm = function(message, onConfirm){
     const isFirstMeeting = (ach.id === 'first_meeting');
     if (isFirstMeeting){
       document.getElementById('achievementEarnName').textContent = 'はじめまして！';
+      document.getElementById('achievementEarnDesc').classList.add('first-meeting-desc');
       document.getElementById('achievementEarnDesc').innerHTML =
-        '初めて宇宙どうぶつに<br>出会いました！<br>見てみましょう！<br>鳴き声をONにすると<br>お話がきこえるよ！';
+        '初めて宇宙どうぶつに<br>出会いました！<br>鳴き声をONにすると<br>お話がきこえるよ！<br>何を言っているか見てみよう！';
     } else {
+      document.getElementById('achievementEarnDesc').classList.remove('first-meeting-desc');
       document.getElementById('achievementEarnName').textContent = ach.name;
       document.getElementById('achievementEarnDesc').textContent = ach.desc + '！';
     }
@@ -7822,7 +7877,7 @@ window.fqtConfirm = function(message, onConfirm){
     }
   });
 
-  // 🚀 チュートリアル（3ステップ）：同期的に切り替えることで、他の待機中ポップアップが
+  // 🚀 チュートリアル（5ステップ）：同期的に切り替えることで、他の待機中ポップアップが
   //   割り込まないようにする（間にタイムラグを作らない）
   const tutorialCloseBtn = document.getElementById('tutorialCloseBtn');
   if (tutorialCloseBtn){
@@ -7842,6 +7897,20 @@ window.fqtConfirm = function(message, onConfirm){
   if (tutorialCloseBtn3){
     tutorialCloseBtn3.addEventListener('click', () => {
       document.getElementById('tutorialOverlay3').classList.remove('show');
+      document.getElementById('tutorialOverlay4').classList.add('show');
+    });
+  }
+  const tutorialCloseBtn4 = document.getElementById('tutorialCloseBtn4');
+  if (tutorialCloseBtn4){
+    tutorialCloseBtn4.addEventListener('click', () => {
+      document.getElementById('tutorialOverlay4').classList.remove('show');
+      document.getElementById('tutorialOverlay5').classList.add('show');
+    });
+  }
+  const tutorialCloseBtn5 = document.getElementById('tutorialCloseBtn5');
+  if (tutorialCloseBtn5){
+    tutorialCloseBtn5.addEventListener('click', () => {
+      document.getElementById('tutorialOverlay5').classList.remove('show');
       setTimeout(processEarnQueue, 300);
     });
   }
