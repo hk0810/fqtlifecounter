@@ -11326,6 +11326,99 @@ window.fqtConfirm = function(message, onConfirm){
   document.addEventListener('fqtCalculatePressed', renderDiagnosis);
 
 })();
+
+/* ==========================================================
+   🛡️ ポップアップ同時表示防止（追加実装のみ・既存機能には触れない）
+   ・バッジ獲得・実績解除・イベント演出など、複数の独立したモジュールが
+     それぞれ自分のタイミングで全画面ポップアップ（.badge-earn-overlay /
+     .dex-modal-overlay）を表示するため、条件が重なると2つ以上が同時に
+     開いてしまうことがある
+   ・片方だけ閉じても、もう片方が画面の下に残ったまま操作不能になり、
+     「ボタンを押しても反応がない」ように見えてしまう不具合の原因になる
+   ・ここでは各モジュールの表示ロジックには一切手を入れず、
+     「同時に1つしか表示させない」監視役を追加するだけで安全に解決する
+   ========================================================== */
+(function initOverlayGuard(){
+
+  const OVERLAY_SELECTOR = '.badge-earn-overlay, .dex-modal-overlay';
+  const pendingQueue = []; // 後回しにされたオーバーレイのidを順番に保持する
+  let isProcessing = false; // 監視役自身によるclassList操作中は再入しないようにするフラグ
+
+  function getVisibleOverlays(){
+    return Array.from(document.querySelectorAll(OVERLAY_SELECTOR))
+      .filter(el => el.classList.contains('show'));
+  }
+
+  function showNextPendingIfAny(){
+    if (isProcessing) return;
+    if (pendingQueue.length === 0) return;
+    if (getVisibleOverlays().length > 0) return; // 他が表示中なら、閉じられるまで待つ
+
+    const nextId = pendingQueue.shift();
+    const nextEl = document.getElementById(nextId);
+    if (!nextEl) { showNextPendingIfAny(); return; }
+
+    isProcessing = true;
+    // 直前のポップアップが閉じるアニメーションと重ならないよう、少し間を置いてから表示する
+    setTimeout(() => {
+      nextEl.classList.add('show');
+      isProcessing = false;
+    }, 260);
+  }
+
+  const observer = new MutationObserver((mutations) => {
+    if (isProcessing) return;
+
+    mutations.forEach((m) => {
+      const el = m.target;
+      if (!(el instanceof Element)) return;
+      if (!el.matches(OVERLAY_SELECTOR)) return;
+
+      const isShown = el.classList.contains('show');
+
+      if (isShown){
+        const visibleOverlays = getVisibleOverlays();
+        // このオーバーレイ以外にも表示中のものがあれば、重複表示なので即座に隠して順番待ちにする
+        if (visibleOverlays.length > 1){
+          isProcessing = true;
+          el.classList.remove('show');
+          isProcessing = false;
+          if (el.id && pendingQueue.indexOf(el.id) === -1){
+            pendingQueue.push(el.id);
+          }
+        }
+      } else {
+        // 何かが閉じられたら、順番待ちがあれば次を表示する
+        showNextPendingIfAny();
+      }
+    });
+  });
+
+  document.querySelectorAll(OVERLAY_SELECTOR).forEach(el => {
+    observer.observe(el, { attributes: true, attributeFilter: ['class'] });
+  });
+
+  // 監視を開始する前に、すでに複数のオーバーレイが開いてしまっているケースにも対応する
+  function fixInitialState(){
+    const visible = getVisibleOverlays();
+    if (visible.length > 1){
+      isProcessing = true;
+      // 一番最後（DOM順で最も下＝画面上は最前面に来やすいもの）だけ残し、他は隠して順番待ちにする
+      visible.slice(0, -1).forEach(el => {
+        el.classList.remove('show');
+        if (el.id && pendingQueue.indexOf(el.id) === -1){
+          pendingQueue.push(el.id);
+        }
+      });
+      isProcessing = false;
+    }
+  }
+  fixInitialState();
+  // 初期化タイミングによっては少し遅れて2つ目が表示されることもあるため、念のため少し後にも再チェックする
+  setTimeout(fixInitialState, 300);
+  setTimeout(fixInitialState, 1000);
+
+})();
 </script>
 
 
