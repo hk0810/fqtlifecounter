@@ -17,7 +17,8 @@
 
 <!-- ホーム画面に追加した際の見た目設定（PWA対応） -->
 <link rel="manifest" id="manifestLink" href="">
-<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="./favicon.ico">
+<link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="FQT LIFE COUNTER">
@@ -872,6 +873,91 @@
     padding: 18px 16px;
     margin-bottom: 16px;
   }
+  .diag-star-label{
+    font-size: 15px;
+    font-weight: 900;
+    color: #92700c;
+    margin: 0 0 2px;
+  }
+  .diag-star-caption{
+    font-size: 11.5px;
+    color: var(--text-sub);
+    margin: 0 0 12px;
+  }
+  .diag-other-stars-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #7c6ee0, #5b4bc4);
+    border: none;
+    border-radius: 12px;
+    padding: 11px;
+    margin-top: 14px;
+    cursor: pointer;
+  }
+  .diag-other-stars-btn:active{ transform: scale(0.98); }
+
+  .other-star-item{
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 14px;
+    margin-bottom: 12px;
+  }
+  .other-star-thumb{
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #ffffff;
+    flex-shrink: 0;
+    box-shadow: 0 0 0 2px #ffd873;
+  }
+  .other-star-thumb svg{ width: 100%; height: 100%; display: block; }
+  .other-star-text{ text-align: left; }
+  .other-star-label{
+    font-size: 13.5px;
+    font-weight: 900;
+    color: #92700c;
+    margin: 0 0 1px;
+  }
+  .other-star-caption{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    margin: 0 0 4px;
+  }
+  .other-star-name{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0;
+  }
+  .other-star-item{ cursor: pointer; }
+  .other-star-item:active{ opacity: 0.7; }
+  .star-meaning-star-label{
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 800;
+    color: #92700c;
+    background: linear-gradient(135deg, #fff7d6, #ffe066);
+    border-radius: 999px;
+    padding: 4px 14px;
+    margin: 0 0 8px;
+  }
+  .star-meaning-text{
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.8;
+    text-align: left;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 14px;
+    margin: 10px 0 18px;
+  }
   .diag-animal-thumb{
     width: 140px;
     height: 140px;
@@ -1192,6 +1278,22 @@
     color: var(--text-main);
     margin-bottom: 4px;
   }
+  .animal-signature-badge{
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    padding: 3px 12px;
+    border-radius: 999px;
+    margin-bottom: 8px;
+  }
+  .animal-signature-badge.common{
+    color: #92700c;
+    background: linear-gradient(135deg, #fff7d6, #ffe066);
+  }
+  .animal-signature-badge.rare{
+    color: #fff;
+    background: linear-gradient(135deg, #ff8a65, #ff6f91, #ffd873);
+  }
   .animal-met-note{
     font-size: 11.5px;
     color: var(--text-sub);
@@ -1356,8 +1458,18 @@
     margin: 0 auto 6px;
     background: #eef2ff;
     cursor: pointer;
+    position: relative;
   }
   .dex-item .dex-thumb svg{ width: 100%; height: 100%; display: block; }
+  .dex-signature-mark{
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    font-size: 14px;
+    line-height: 1;
+    filter: drop-shadow(0 1px 2px rgba(0,0,0,0.4));
+    pointer-events: none;
+  }
   .dex-item .dex-name{ cursor: pointer; }
   .dex-item .dex-name{
     font-size: 10.5px;
@@ -2494,6 +2606,8 @@
     color: var(--text-main);
     margin: 0;
     line-height: 1.6;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   /* ===== 不思議色鉛筆占い ===== */
@@ -2697,6 +2811,53 @@
     border-color: var(--blue);
   }
   .install-btn:active{ transform: scale(0.98); }
+
+  .faq-open-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border: 1.5px solid var(--blue-light);
+    border-radius: 14px;
+    padding: 13px;
+    margin-top: 14px;
+    cursor: pointer;
+  }
+  .faq-open-btn:active{ transform: scale(0.98); }
+
+  .faq-modal{
+    max-height: 80vh;
+    overflow-y: auto;
+  }
+  .faq-category{
+    font-size: 14px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    margin: 20px 0 10px;
+    padding-bottom: 4px;
+    border-bottom: 2px solid var(--blue-pale);
+  }
+  .faq-category:first-of-type{ margin-top: 6px; }
+  .faq-item{
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 12px;
+    margin-bottom: 8px;
+  }
+  .faq-q{
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    margin: 0 0 4px;
+  }
+  .faq-a{
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin: 0;
+  }
 
   .install-note{
     display: none;
@@ -2992,6 +3153,7 @@
   <div class="badge-earn-popup">
     <div class="oshi-detail-thumb" id="oshiDetailThumb"></div>
     <p class="badge-earn-name" id="oshiDetailName">-</p>
+    <div class="animal-signature-badge" id="oshiDetailSignatureBadge" style="display:none;">-</div>
     <p class="oshi-detail-rarity" id="oshiDetailRarity">-</p>
     <div class="oshi-detail-info-grid">
       <div class="oshi-detail-info-item">
@@ -3034,6 +3196,163 @@
       <button class="certificate-share-btn" id="certificateShareBtn" type="button">📤　シェアする</button>
     </div>
     <p class="certificate-note">※ 保存した画像は、Instagram・X・LINEなどに<br>そのまま投稿してシェアできます。</p>
+  </div>
+</div>
+
+<!-- 🌌 その他の詳しい診断（5つの星）モーダル -->
+<div class="dex-modal-overlay" id="otherStarsModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="otherStarsModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌌 その他の詳しい診断</p>
+    <p class="diag-intro">「魂の星」以外にも、あなたにはこんな一面があります。</p>
+    <div id="otherStarsList"></div>
+  </div>
+</div>
+
+<!-- 🔮 星の解釈ポップアップ（その他の星の各どうぶつをタップすると出る） -->
+<div class="badge-earn-overlay" id="starMeaningOverlay">
+  <div class="badge-earn-popup">
+    <div class="oshi-detail-thumb" id="starMeaningThumb"></div>
+    <p class="star-meaning-star-label" id="starMeaningStarLabel">-</p>
+    <p class="badge-earn-name" id="starMeaningName">-</p>
+    <p class="star-meaning-text" id="starMeaningText">-</p>
+    <button class="badge-earn-ok-btn" id="starMeaningCloseBtn" type="button">OK</button>
+  </div>
+</div>
+
+<!-- ❓ ヘルプ・FAQモーダル -->
+<div class="dex-modal-overlay" id="faqModalOverlay">
+  <div class="dex-modal faq-modal">
+    <button class="badge-modal-close" id="faqModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">❓ ヘルプ・よくある質問</p>
+
+    <p class="faq-category">🌍 基本の使い方</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. どうやって始めればいいですか？</p>
+      <p class="faq-a">A. 生年月日を入力して「計算する」を押すだけです。ログインや会員登録は一切不要です。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 生まれた時刻は入力しないといけませんか？</p>
+      <p class="faq-a">A. 任意です。入力すると経過時間（時・分・秒）がより正確になりますが、入力しなくても日数は計算されます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. ターゲット日数はどう決めればいいですか？</p>
+      <p class="faq-a">A. 好きな数字を自由に入力できます。候補ボタンから選ぶこともできます。一度入力すると次回以降も記憶されます。</p>
+    </div>
+
+    <p class="faq-category">💾 データについて</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 入力したデータはどこに保存されますか？</p>
+      <p class="faq-a">A. サーバーには送信されず、その端末・そのブラウザの中だけに保存されます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 機種変更したら、記録は引き継げますか？</p>
+      <p class="faq-a">A. 引き継げません。新しい端末では図鑑やバッジなどの記録はすべて0から始まります。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「バッジ記録をリセット」を押すと何が消えますか？</p>
+      <p class="faq-a">A. 消えるのは累計・連続アクセス日数と獲得済みバッジだけです。図鑑・実績・イベント・節目の記録には影響しません。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. ブラウザのキャッシュを削除すると記録は消えますか？</p>
+      <p class="faq-a">A. 「サイトデータ」も一緒に消す設定だった場合、記録も消えてしまう可能性があります。</p>
+    </div>
+
+    <p class="faq-category">🔮 占い・診断について</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「今日の運勢」は毎日変わりますか？</p>
+      <p class="faq-a">A. はい。誕生日と今日の日付の組み合わせで決まるので、日が変われば結果も変わります。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 同じランクが何日か続いたのですが、故障ですか？</p>
+      <p class="faq-a">A. 故障ではありません。ランダムな判定のため、数日連続で同じ結果になることは統計的に普通に起こります。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 旧暦の日にちが、実際と1日ずれることがあります。</p>
+      <p class="faq-a">A. 簡易的な計算のための誤差です。二十四節気・七十二候は天文計算のため実データと一致します。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 日の出・日の入りは、どこの地域基準ですか？</p>
+      <p class="faq-a">A. 初期設定は東京ですが、47都道府県から選べます。選んだ地域は端末に記憶されます。</p>
+    </div>
+
+    <p class="faq-category">🐾 宇宙どうぶつについて</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 同じ宇宙どうぶつに何度も会えますか？</p>
+      <p class="faq-a">A. はい。一度出会った子には再会することもあります。その時は「会ったことがあるよ！」と表示されます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 新しいどうぶつに出会ったのに、図鑑が0匹でした。</p>
+      <p class="faq-a">A. 「季節イベント限定」や「誕生日限定」だった可能性があります。その場合は通常の図鑑ではなく「イベント図鑑」「誕生日記録」に登録されています。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. コンプリート率はどう計算していますか？</p>
+      <p class="faq-a">A. 発見した匹数を、1,300匹を100%として計算しています。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「人気者」ってなんですか？</p>
+      <p class="faq-a">A. 見た目・名前が固定された13体の特別なキャラクターです。一定確率で優先的に出現します。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 鳴き声が鳴りません。</p>
+      <p class="faq-a">A. デフォルトでOFFです。ボタンでONにすると、「計算する」を押したタイミングで再生されます。</p>
+    </div>
+
+    <p class="faq-category">🏅 バッジ・実績について</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「フリーズ」とは何ですか？</p>
+      <p class="faq-a">A. 連続アクセスを1日休んでも記録が途切れないお守りアイテムです。連続バッジ獲得のたびに1個もらえます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 実績とバッジは何が違いますか？</p>
+      <p class="faq-a">A. バッジはアクセス頻度、実績は宇宙どうぶつ図鑑の集め具合に応じたものです。</p>
+    </div>
+
+    <p class="faq-category">🎉 イベントについて</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 季節イベントはいつ開催されますか？</p>
+      <p class="faq-a">A. 春・七夕・夏・秋・ハロウィン・クリスマス・お正月・冬の8つがあり、それぞれ決まった期間中だけ開催されます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. プレゼントBOXは何回開けられますか？</p>
+      <p class="faq-a">A. 今年の誕生日1回につき13回までです。翌年また13回分に戻ります。</p>
+    </div>
+
+    <p class="faq-category">🌍 人生節目について</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. すでに通り過ぎた節目は記録されませんか？</p>
+      <p class="faq-a">A. 誕生日を入力した時点で、通り過ぎている節目は自動的にさかのぼって記録されます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. タイムカプセル（手紙）はいつ開封できますか？</p>
+      <p class="faq-a">A. 手紙を書いた時点での「次の人生節目の日」まで開封できません。</p>
+    </div>
+
+    <p class="faq-category">🔔 通知について</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 通知が届きません。</p>
+      <p class="faq-a">A. 通知の許可・タブを開いたままにしているか・20時を過ぎているか・その日のワークが未完了かをご確認ください。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. アプリを閉じていても通知は届きますか？</p>
+      <p class="faq-a">A. 届きません。タブを開いている間だけの簡易的な通知です。</p>
+    </div>
+
+    <p class="faq-category">⚠️ 不具合・表示がおかしい時</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 画面の下の方が真っ黒になります。</p>
+      <p class="faq-a">A. ホーム画面のアイコンを一度削除し、ブラウザから開き直して再度「ホーム画面に追加」をお試しください。</p>
+    </div>
+
+    <p class="faq-category">💰 その他</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 課金や広告はありますか？</p>
+      <p class="faq-a">A. ありません。完全無料・ログイン不要で、すべての機能を使えます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 個人情報は外部に送信されますか？</p>
+      <p class="faq-a">A. されません。すべてのデータは端末の中だけで完結しています。</p>
+    </div>
   </div>
 </div>
 
@@ -3314,6 +3633,7 @@
     </div>
     <div class="animal-rarity" id="animalRarity">-</div>
     <div class="animal-name" id="animalName">-</div>
+    <div class="animal-signature-badge" id="animalSignatureBadge" style="display:none;">-</div>
     <div class="animal-met-note" id="animalMetNote"></div>
     <div class="animal-info-grid">
       <div class="animal-info-item">
@@ -3352,6 +3672,8 @@
     <p class="diag-intro">あなたの誕生日から導く、FQT独自の本質診断です。</p>
 
     <div class="diag-section diag-animal-section">
+      <p class="diag-star-label">🌟「魂の星」</p>
+      <p class="diag-star-caption">あなたの奥深くにある、本来のエネルギー</p>
       <div class="diag-animal-thumb" id="diagAnimalThumb"></div>
       <div class="diag-animal-name" id="diagAnimalName">-</div>
       <div class="diag-animal-info-grid">
@@ -3365,6 +3687,7 @@
         </div>
       </div>
       <p class="diag-animal-quote" id="diagAnimalQuote">-</p>
+      <button class="diag-other-stars-btn" id="diagOtherStarsBtn" type="button">🌌　その他の詳しい診断を見る</button>
     </div>
 
     <div class="diag-row">
@@ -3496,6 +3819,16 @@
       </div>
 
       <div class="fortune-row">
+        <div class="ic">🗿</div>
+        <div class="fortune-text">
+          <div class="label">マヤ暦占い（KIN<span id="fortuneMayaKin">-</span>）</div>
+          <div class="value" id="fortuneMayaSeal">-</div>
+          <div class="sub" id="fortuneMayaWavespell">-</div>
+          <div class="sub" id="fortuneMayaSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
         <div class="ic">🐉</div>
         <div class="fortune-text">
           <div class="label">干支・六十干支</div>
@@ -3536,7 +3869,7 @@
     <hr class="divider">
 
     <p class="section-title">📅 今日だけの運勢</p>
-    <p class="fortune-section-note">🌙🎌🌕は全員共通、他はあなたの誕生日で変わります</p>
+    <p class="fortune-section-note">🌅🌙🎌🌕は全員共通、他はあなたの誕生日で変わります</p>
 
     <div class="fortune-list">
       <div class="fortune-row">
@@ -3662,7 +3995,7 @@
         <div class="lookback-item-label">🌍 あの日の節目</div>
         <div class="lookback-item-value" id="lookbackMilestoneValue">-</div>
       </div>
-      <p class="lookback-empty" id="lookbackEmpty" style="display:none;">1年前はまだこのアプリを使っていなかったようです。これからの記録を楽しみに！</p>
+      <p class="lookback-empty" id="lookbackEmpty" style="display:none;">1年前はまだこのアプリを使っていなかったようです。<br>これからの記録を楽しみに！</p>
     </div>
 
     <hr class="divider">
@@ -3753,6 +4086,9 @@
       <div class="promo-arrow">›</div>
     </div>
   </a>
+
+  <!-- ❓ ヘルプ・FAQボタン -->
+  <button class="faq-open-btn" id="faqOpenBtn" type="button">❓　ヘルプ・よくある質問</button>
 
   <!-- ホーム画面に追加ボタン -->
   <button class="install-btn" id="installBtn">📲　ホーム画面に追加する</button>
@@ -4396,6 +4732,63 @@ function calcNineStar(birth){
   return star;
 }
 
+// ----- 🗿 マヤ暦占い（神聖暦ツォルキン、260日周期のKIN計算） -----
+// 基準日：2025年12月10日 = KIN1（現代マヤ暦。複数の情報源で「2026年3月10日＝KIN91・音13・青い猿」等と
+// 実際に一致することを確認済み）
+const MAYA_SEALS = [
+  { name: '赤い龍',       desc: '誕生と育みのエネルギー。命の大切さを実感する出来事に出会いやすいタイプです。' },
+  { name: '白い風',       desc: 'コミュニケーションと精神性のエネルギー。言葉や気配りで人と人をつなぐ力があります。' },
+  { name: '青い夜',       desc: '豊かさと夢のエネルギー。直感や潜在意識を大切にし、心の豊かさを育てるタイプです。' },
+  { name: '黄色い種',     desc: '開花と可能性のエネルギー。物事の芽を見つけ、丁寧に育てていく力があります。' },
+  { name: '赤い蛇',       desc: '生命力と情熱のエネルギー。本能的な感覚が鋭く、エネルギッシュに物事へ向かいます。' },
+  { name: '白い世界の橋渡し', desc: '橋渡しと手放しのエネルギー。異なる立場をつなぎ、円滑に物事を進める力があります。' },
+  { name: '青い手',       desc: '達成と癒しのエネルギー。手を動かし、実際に形にしていくことを得意とします。' },
+  { name: '黄色い星',     desc: '美と調和のエネルギー。芸術的なセンスがあり、美しいものを見極める目を持っています。' },
+  { name: '赤い月',       desc: '浄化と流れのエネルギー。感情豊かで、心の揺らぎを大切に受け止めるタイプです。' },
+  { name: '白い犬',       desc: '忠誠と愛のエネルギー。義理人情に厚く、大切な人を守ろうとする心を持っています。' },
+  { name: '青い猿',       desc: '遊び心と魔術のエネルギー。自由な発想とユーモアで、周りを楽しませる力があります。' },
+  { name: '黄色い人',     desc: '自由意志と知恵のエネルギー。自分の考えを大切にし、独自の視点を持つタイプです。' },
+  { name: '赤い空歩く人', desc: '探求と覚醒のエネルギー。空間を超えて広い視野で物事を捉える力があります。' },
+  { name: '白い魔法使い', desc: '魅了と気づきのエネルギー。物事の本質をそっと見抜く、静かな洞察力を持っています。' },
+  { name: '青い鷲',       desc: 'ビジョンと視野のエネルギー。全体を見渡す俯瞰力と、未来を見据える力があります。' },
+  { name: '黄色い戦士',   desc: '挑戦と知性のエネルギー。困難を乗り越えることで大きな喜びを感じるタイプです。' },
+  { name: '赤い地球',     desc: '共時性と仲間のエネルギー。仲間意識が強く、集団をまとめる才に長けています。' },
+  { name: '白い鏡',       desc: '秩序と真実のエネルギー。物事をありのままに映し出す、誠実な視点を持っています。' },
+  { name: '青い嵐',       desc: '変容と自己発生のエネルギー。変化を恐れず、自らを新しくしていく力があります。' },
+  { name: '黄色い太陽',   desc: '生命力と悟りのエネルギー。周囲を照らす存在感と、あたたかな包容力を持っています。' }
+];
+const MAYA_TONES = [
+  { name: '音1（磁気）',     desc: '目的を引き寄せる、すべての始まりの音。新しいことをスタートするのに向いています。' },
+  { name: '音2（月）',       desc: '課題や挑戦が浮かび上がる音。対立を通して物事を整えていく力が働きます。' },
+  { name: '音3（電気）',     desc: '協力と奉仕の音。人とのつながりの中でエネルギーが活性化していきます。' },
+  { name: '音4（自己存在）', desc: '土台や形を定める音。物事の枠組みをしっかり作っていくのに向いています。' },
+  { name: '音5（倍音）',     desc: '中心から輝きを放つ音。周囲を巻き込みながら物事を推し進めていく力です。' },
+  { name: '音6（リズム）',   desc: 'バランスを整える音。心と体、周囲との調和を意識するとうまくいきやすい日です。' },
+  { name: '音7（共振）',     desc: 'つながりを調律する音。直感が冴え、必要な情報や人とつながりやすくなります。' },
+  { name: '音8（銀河）',     desc: '調和を統合する音。物事の全体像がまとまり、完成に近づいていく力です。' },
+  { name: '音9（太陽）',     desc: '意図を実現する音。目的に向かって物事が形になっていく、達成のエネルギーです。' },
+  { name: '音10（惑星）',    desc: '目標を完成させる音。これまでの積み重ねが1つの成果として現れやすい日です。' },
+  { name: '音11（スペクトル）', desc: '不要なものを解放する音。手放すことで、次のサイクルへの道が開けていきます。' },
+  { name: '音12（水晶）',    desc: '協力によって形にする音。周囲と力を合わせることで大きな力を発揮できます。' },
+  { name: '音13（宇宙）',    desc: '一つの周期を締めくくる音。忍耐と包容力をもって、物事を超越していく力です。' }
+];
+function calcMayaKin(birth){
+  // 基準日：1971年2月3日 = KIN1
+  // （実際の鑑定サイトの結果「1971/08/10 → KIN189・赤い月・ウェイブスペル青い夜・銀河の音7」から逆算し、検証済み）
+  const anchor = new Date(Date.UTC(1971, 1, 3));
+  const b = new Date(Date.UTC(birth.getFullYear(), birth.getMonth(), birth.getDate()));
+  const diffDays = Math.round((b.getTime() - anchor.getTime()) / (1000 * 60 * 60 * 24));
+  const kin = ((diffDays % 260) + 260) % 260 + 1; // 1〜260に正規化
+  const sealIdx = ((kin - 1) % 20 + 20) % 20;
+  const toneIdx = ((kin - 1) % 13 + 13) % 13;
+  const seal = MAYA_SEALS[sealIdx];
+  const tone = MAYA_TONES[toneIdx];
+  // ウェイブスペル：このKINが属する13日サイクルの起点（音1の日）の太陽の紋章
+  const wavespellSealIdx = ((sealIdx - toneIdx) % 20 + 20) % 20;
+  const wavespell = MAYA_SEALS[wavespellSealIdx];
+  return { kin, seal, tone, wavespell };
+}
+
 // ----- 🌌 FQT 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
 const COSMIC_TYPES = [
   { emoji: '🌞', name: '恒星タイプ', desc: '周りを照らす光の存在。自然と人を引きつけ、希望や安心感を与えるリーダータイプ。' },
@@ -4966,6 +5359,15 @@ function renderFortune(birth, today){
   document.getElementById('fortuneCosmicType').textContent = cosmic.name;
   document.getElementById('fortuneCosmicSub').textContent = cosmic.desc;
 
+  // 🗿 マヤ暦占い
+  const maya = calcMayaKin(birth);
+  document.getElementById('fortuneMayaKin').textContent = maya.kin;
+  document.getElementById('fortuneMayaSeal').textContent =
+    `${maya.seal.name}／${maya.tone.name}`;
+  document.getElementById('fortuneMayaWavespell').textContent =
+    `ウェイブスペル：${maya.wavespell.name}`;
+  document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
+
   // 干支・六十干支
   const kanshi = calcKanshi(birth);
   document.getElementById('fortuneKanshi').textContent = `${kanshi.kanshi}（${kanshi.animalLabel}）`;
@@ -5189,6 +5591,19 @@ const manifest = {
 };
 const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
 document.getElementById('manifestLink').href = URL.createObjectURL(manifestBlob);
+
+// ❓ ヘルプ・FAQモーダルの開閉
+document.getElementById('faqOpenBtn').addEventListener('click', () => {
+  document.getElementById('faqModalOverlay').classList.add('show');
+});
+document.getElementById('faqModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('faqModalOverlay').classList.remove('show');
+});
+document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('faqModalOverlay')){
+    document.getElementById('faqModalOverlay').classList.remove('show');
+  }
+});
 
 const installBtn = document.getElementById('installBtn');
 const installNote = document.getElementById('installNote');
@@ -5945,9 +6360,9 @@ window.fqtConfirm = function(message, onConfirm){
 
     // ----- レア人気者3体（★5固定・出現率は控えめ） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
-      rarity: 5, name: 'コスモプリンス', personality: 'ロマンチスト', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
+      rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
-      rarity: 5, name: 'ギャラクシークイーン', personality: '芸術家肌', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
+      rarity: 5, name: 'ギャラクシーアーティスト', personality: '芸術家肌', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
     { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
       rarity: 5, name: 'レジェンドスター', personality: '負けず嫌い', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
   ];
@@ -6512,6 +6927,17 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('animalFavorite').textContent = currentAnimal.texts.favorite;
     document.getElementById('animalQuote').textContent = '「' + currentAnimal.texts.quote + '」';
 
+    // 🌟 人気者13体のどれかであれば、専用マークを表示する
+    const sigBadge = document.getElementById('animalSignatureBadge');
+    if (currentAnimal.texts.signatureKey){
+      const isRareSignature = currentAnimal.rarity === 5;
+      sigBadge.textContent = isRareSignature ? '👑 レア人気者' : '🌟 人気者';
+      sigBadge.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
+      sigBadge.style.display = 'inline-block';
+    } else {
+      sigBadge.style.display = 'none';
+    }
+
     const newBadge = document.getElementById('animalNewBadge');
     const metNote = document.getElementById('animalMetNote');
     const cardTitle = document.getElementById('animalCardTitle');
@@ -6519,9 +6945,7 @@ window.fqtConfirm = function(message, onConfirm){
       newBadge.style.display = 'block';
       metNote.textContent = '';
       if (cardTitle){
-        cardTitle.textContent = window.__fqtIsFirstEncounterThisSession
-          ? '🌌 新しい宇宙どうぶつに出会った！'
-          : '🌌さらに新しい宇宙どうぶつに出会った！';
+        cardTitle.textContent = window.__fqtPickEncounterTitle(!window.__fqtIsFirstEncounterThisSession);
       }
     } else {
       newBadge.style.display = 'none';
@@ -6603,8 +7027,11 @@ window.fqtConfirm = function(message, onConfirm){
       const isOshi = oshiAnimal && oshiAnimal.id === animal.id;
       item.className = 'dex-item' + (isOshi ? ' oshi' : '');
       const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
+      const sigMark = animal.signatureKey
+        ? `<div class="dex-signature-mark" title="人気者">${animal.rarity === 5 ? '👑' : '🌟'}</div>`
+        : '';
       item.innerHTML =
-        `<div class="dex-thumb" data-id="${animal.id}">${thumbSvg}</div>` +
+        `<div class="dex-thumb" data-id="${animal.id}">${thumbSvg}${sigMark}</div>` +
         `<button class="dex-oshi-btn ${isOshi ? 'active' : ''}" data-id="${animal.id}" type="button" title="推しにする">${isOshi ? '💖' : '🤍'}</button>` +
         `<div class="dex-name" data-id="${animal.id}">${animal.name}</div>` +
         `<div class="dex-rarity">${'★'.repeat(animal.rarity)}${'☆'.repeat(5 - animal.rarity)}</div>`;
@@ -6657,7 +7084,7 @@ window.fqtConfirm = function(message, onConfirm){
       // すでに推しならタップで解除する
       oshiAnimal = null;
     } else {
-      oshiAnimal = { id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite };
+      oshiAnimal = { id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite, signatureKey: animal.signatureKey || null };
     }
     saveOshiAnimal(oshiAnimal);
     renderOshiWidget();
@@ -6680,6 +7107,18 @@ window.fqtConfirm = function(message, onConfirm){
     // 既存データに古い形式（せいかく・すきなもの未保存）が残っている場合も落ちないようにする
     document.getElementById('oshiDetailPersonality').textContent = animal.personality || '-';
     document.getElementById('oshiDetailFavorite').textContent = animal.favorite || '-';
+
+    // 🌟 人気者13体のどれかであれば、専用マークを表示する
+    const sigBadgePopup = document.getElementById('oshiDetailSignatureBadge');
+    if (animal.signatureKey){
+      const isRareSignature = animal.rarity === 5;
+      sigBadgePopup.textContent = isRareSignature ? '👑 レア人気者' : '🌟 人気者';
+      sigBadgePopup.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
+      sigBadgePopup.style.display = 'inline-block';
+    } else {
+      sigBadgePopup.style.display = 'none';
+    }
+
     document.getElementById('oshiDetailOverlay').classList.add('show');
     currentDetailAnimal = animal;
     renderOshiDetailOshiBtn();
@@ -6713,7 +7152,8 @@ window.fqtConfirm = function(message, onConfirm){
         parts: currentDetailAnimal.parts,
         rarity: currentDetailAnimal.rarity,
         personality: currentDetailAnimal.personality,
-        favorite: currentDetailAnimal.favorite
+        favorite: currentDetailAnimal.favorite,
+        signatureKey: currentDetailAnimal.signatureKey || null
       };
     }
     saveOshiAnimal(oshiAnimal);
@@ -6841,8 +7281,8 @@ window.fqtConfirm = function(message, onConfirm){
   window.__fqtBuildAnimalShareText = buildAnimalShareText;
 
   // 画像＋テキストをシェアする（Web Share API対応端末は共有シート、非対応は画像ダウンロード＋テキストコピー）
-  async function shareAnimalCard(canvas, animalName){
-    const shareText = buildAnimalShareText(animalName);
+  async function shareAnimalCard(canvas, animalName, customText){
+    const shareText = customText || buildAnimalShareText(animalName);
     canvas.toBlob(async (blob) => {
       if (!blob) return;
       const file = new File([blob], `${animalName || 'fqt_animal'}.png`, { type: 'image/png' });
@@ -6909,7 +7349,7 @@ window.fqtConfirm = function(message, onConfirm){
     const id = target.dataset.id;
     const animal = dexData.discovered[id];
     if (!animal) return;
-    showAnimalDetailPopup({ id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite });
+    showAnimalDetailPopup({ id: id, name: animal.name, parts: animal.parts, rarity: animal.rarity, personality: animal.personality, favorite: animal.favorite, signatureKey: animal.signatureKey || null });
   });
 
   // 並び替えボタンの動作
@@ -7430,9 +7870,7 @@ window.fqtConfirm = function(message, onConfirm){
       newBadge.style.display = 'block';
       metNote.textContent = '🎉 イベント図鑑に登録されました';
       if (cardTitleEvent){
-        cardTitleEvent.textContent = window.__fqtIsFirstEncounterThisSession
-          ? '🌌 新しい宇宙どうぶつに出会った！'
-          : '🌌さらに新しい宇宙どうぶつに出会った！';
+        cardTitleEvent.textContent = window.__fqtPickEncounterTitle(!window.__fqtIsFirstEncounterThisSession);
       }
     } else {
       newBadge.style.display = 'none';
@@ -7949,9 +8387,7 @@ window.fqtConfirm = function(message, onConfirm){
       newBadge.style.display = 'block';
       metNote.textContent = '🎂 誕生日記録に登録されました';
       if (cardTitleBirthday){
-        cardTitleBirthday.textContent = window.__fqtIsFirstEncounterThisSession
-          ? '🌌 新しい宇宙どうぶつに出会った！'
-          : '🌌さらに新しい宇宙どうぶつに出会った！';
+        cardTitleBirthday.textContent = window.__fqtPickEncounterTitle(!window.__fqtIsFirstEncounterThisSession);
       }
       showBirthdayAnimalPopup(creature);
     } else {
@@ -8306,6 +8742,89 @@ window.fqtConfirm = function(message, onConfirm){
      ========================================================== */
   // 「ページを開いてから最初の1匹」かどうかを判定するフラグ
   // （2匹目以降は「さらに新しい」という文言に変えるため）
+  // 「宇宙どうぶつに出会った！」の文言バリエーション（ランダムに1つ選ばれる）
+  const ENCOUNTER_TITLE_VARIATIONS = [
+    '🌌 宇宙どうぶつに出会った！',
+    '🚀 宇宙どうぶつが飛び出してきた！',
+    '✨ 宇宙どうぶつが現れた！',
+    '🌠 宇宙どうぶつが飛び出した！',
+    '🐾 宇宙どうぶつが登場！',
+    '🛸 宇宙どうぶつがやってきた！',
+    '🌌 宇宙どうぶつが飛び出してきたよ！',
+    '🚀 宇宙どうぶつを発見！',
+    '✨ 宇宙どうぶつが現れた！',
+    '🌟 宇宙どうぶつが宇宙からやってきた！',
+    '🪐 宇宙どうぶつがひょっこり現れた！',
+    '🐾 宇宙どうぶつを発見しました！',
+    '🌌 宇宙どうぶつが飛び出してきたよ！',
+    '🚀 宇宙どうぶつがやってきた！',
+    '🌠 宇宙どうぶつと遭遇！',
+    '✨ 宇宙どうぶつが現れました！',
+    '🛸 宇宙どうぶつ、登場！',
+    '🌟 宇宙どうぶつが飛び出した！',
+    '🌌 宇宙どうぶつが宇宙の彼方からやってきた！',
+    '🐾 宇宙どうぶつ、見つけた！',
+    '🚀 宇宙どうぶつがひょこっと登場！',
+    '✨ 宇宙どうぶつを発見！',
+    '🌠 宇宙どうぶつが飛び込んできた！',
+    '🪐 宇宙どうぶつがやってきました！',
+    '🌌 宇宙どうぶつとご対面！',
+    '🛸 宇宙どうぶつが突然現れた！',
+    '🚀 宇宙どうぶつが宇宙から到着！',
+    '🐾 宇宙どうぶつが見つかった！',
+    '🌟 宇宙どうぶつがひょっこりやってきた！',
+    '✨ 宇宙どうぶつ、登場です！',
+    '🌌 宇宙どうぶつが画面から飛び出してきた！',
+    '🚀 宇宙どうぶつを発見しました！',
+    '🌠 宇宙どうぶつが目の前に現れた！',
+    '🐾 宇宙どうぶつがひょっこり登場！',
+    '🛸 宇宙どうぶつとの出会い！',
+    '🌟 宇宙どうぶつが現れました！',
+    '🌌 宇宙どうぶつ、見参！',
+    '🚀 宇宙どうぶつがひょっこり登場！',
+    '✨ 宇宙どうぶつをキャッチ！',
+    '🌠 宇宙どうぶつが飛び出してきた！',
+    '🪐 宇宙どうぶつを発見！',
+    '🐾 どんな宇宙どうぶつが現れた？',
+    '🌌 宇宙どうぶつが目の前に登場！',
+    '🛸 宇宙どうぶつ、到着！',
+    '🚀 宇宙どうぶつが突然飛び出した！',
+    '✨ 宇宙どうぶつと遭遇！',
+    '🌟 宇宙どうぶつが飛び込んできた！',
+    '🌌 宇宙どうぶつが飛び込んできた！',
+    '🐾 宇宙どうぶつが見つかった！',
+    '🚀 宇宙どうぶつがやってきた！',
+    '🌠 宇宙どうぶつ、ここに現る！',
+    '🛸 宇宙どうぶつが降り立った！',
+    '✨ 宇宙どうぶつが見つけてくれた！',
+    '🌌 宇宙どうぶつがひょっこり！',
+    '🚀 宇宙どうぶつがポンッと登場！',
+    '🌟 宇宙どうぶつが飛び出した！',
+    '🐾 宇宙どうぶつが宇宙からひとっ飛び！',
+    '🌠 宇宙どうぶつが舞い降りた！',
+    '🪐 宇宙どうぶつがやってきた！',
+    '🌌 宇宙どうぶつが宇宙から飛び出した！',
+    '🛸 宇宙どうぶつとの遭遇記念！',
+    '✨ 宇宙どうぶつ、ついに登場！',
+    '🚀 宇宙どうぶつが飛び出してきた！',
+    '🌟 不思議な宇宙どうぶつが現れた！',
+    '🐾 宇宙どうぶつが待っていた！',
+    '🌌 宇宙どうぶつが宇宙からやってきた！',
+    '🚀 宇宙どうぶつ、発射！……じゃなくて登場！',
+    '🌌✨ 宇宙どうぶつが飛び出してきた！'
+  ];
+
+  // ランダムに1つ選び、計算するボタンでの2匹目以降なら「さらに」を絵文字の直後に挿入する
+  window.__fqtPickEncounterTitle = function(isAdditional){
+    const phrase = ENCOUNTER_TITLE_VARIATIONS[Math.floor(Math.random() * ENCOUNTER_TITLE_VARIATIONS.length)];
+    if (!isAdditional) return phrase;
+    const spaceIdx = phrase.indexOf(' ');
+    if (spaceIdx === -1) return phrase;
+    const emojiPart = phrase.slice(0, spaceIdx);
+    const textPart = phrase.slice(spaceIdx + 1);
+    return `${emojiPart} さらに${textPart}`;
+  };
+
   window.__fqtIsFirstEncounterThisSession = true;
 
   window.__fqtRunEncounterCycle = function(){
@@ -9698,9 +10217,21 @@ window.fqtConfirm = function(message, onConfirm){
     }
   }
 
+  // iOS（iPhone/iPad）かどうかを判定する
+  // ※ iOS上のブラウザはSafariもChromeもすべて共通のWebKitエンジンを使う決まりのため、
+  //   iOSであれば通知機能（Notification API）は原則使えない
+  function isIOSDevice(){
+    return /iPad|iPhone|iPod/.test(navigator.userAgent) ||
+      (navigator.platform === 'MacIntel' && navigator.maxTouchPoints > 1); // iPadOS対策
+  }
+
   reminderBtn.addEventListener('click', () => {
     if (!('Notification' in window)){
-      alert('この端末・ブラウザは通知機能に対応していません。');
+      if (isIOSDevice()){
+        alert('iPhoneは対応しておりません。');
+      } else {
+        alert('この端末・ブラウザは通知機能に対応していません。');
+      }
       return;
     }
 
@@ -9714,7 +10245,10 @@ window.fqtConfirm = function(message, onConfirm){
     }
 
     // ONにする：まず許可をリクエストする
-    Notification.requestPermission().then(permission => {
+    // ※ Notification.requestPermission() は、ブラウザによってPromiseを返さず
+    //   コールバック引数のみに対応している場合がある。両方に対応しつつ、
+    //   モダンブラウザで二重に発火しないよう、Promiseが使えた場合はコールバック側を無視する
+    function handlePermissionResult(permission){
       if (permission === 'granted'){
         reminderEnabled = true;
         saveReminderEnabled(true);
@@ -9730,7 +10264,24 @@ window.fqtConfirm = function(message, onConfirm){
       } else {
         alert('通知が許可されませんでした。ブラウザの設定から通知を許可すると利用できます。');
       }
-    });
+    }
+
+    try{
+      const maybePromise = Notification.requestPermission(function(permission){
+        // Promiseに対応したモダンブラウザでは、下のthen()側だけで処理するため、
+        // ここでは「Promiseが使えなかった場合」だけ処理する
+        if (!(maybePromise && typeof maybePromise.then === 'function')){
+          handlePermissionResult(permission);
+        }
+      });
+      if (maybePromise && typeof maybePromise.then === 'function'){
+        maybePromise.then(handlePermissionResult).catch(() => {
+          alert('通知の許可を取得できませんでした。');
+        });
+      }
+    } catch(e){
+      alert('通知の許可を取得できませんでした。');
+    }
   });
 
   // ページを開いた時点ですでにONになっていれば、チェックを再開する
@@ -10396,6 +10947,24 @@ window.fqtConfirm = function(message, onConfirm){
     legend_star:   { name: 'リーダーシップ', desc: '人を導き、まとめ上げるリーダーシップに恵まれています。芯の強さと情熱が、多くの人を惹きつけ、共に前へ進む力になります。' }
   };
 
+  // ----- どの星（地球の星・行動の星・未来の星・月の星・使命の星）に出ても使える、
+  //       各どうぶつが持つ「エネルギーの意味」の解釈文 -----
+  const CREATURE_ENERGY_MEANING = {
+    moon_mochi:   'のんびりと、自分のペースを大切にするエネルギーです。焦らず、じっくり時間をかけて物事に向き合う落ち着きを象徴しています。',
+    san_san_poko: '太陽のように明るく、周りを元気づけるエネルギーです。前向きな言葉や笑顔で、場の空気をぱっと明るくする力を象徴しています。',
+    yume_purin:   '夢や想像力を大切にするエネルギーです。目に見えないものを信じ、理想を少しずつ形にしていく発想力を象徴しています。',
+    honey_puni:   '素直に甘え、心を開いていくエネルギーです。飾らない自分をさらけ出すことで、自然と人に愛される力を象徴しています。',
+    sakura_mochi: 'その場の空気をやわらげ、穏やかにまとめていくエネルギーです。争わず、みんなを自然につなげていく調和の力を象徴しています。',
+    puni_koro:    '状況に合わせて、柔軟に形を変えていくエネルギーです。こだわりすぎず受け流す軽やかさを象徴しています。',
+    kira_kiran:   'その場を明るく盛り上げていくエネルギーです。存在そのものが、周囲の雰囲気を前向きに変えていく力を象徴しています。',
+    mintoru:      '物事をすっきりと整理し、筋道立てて考えるエネルギーです。混乱した状況でも本質を見抜く冷静さを象徴しています。',
+    pofu_pofu:    'そばにいるだけで安心感を与える、やわらかなエネルギーです。人の肩の力をふっと抜かせてくれる存在感を象徴しています。',
+    paku_pakun:   '思い立ったらすぐに動く、力強い行動のエネルギーです。迷うより一歩踏み出すことを選ぶ推進力を象徴しています。',
+    cosmo_prince: '壮大な夢や理想を描く、ロマンチックなエネルギーです。現実にとどまらない発想で、周りにも夢を見る勇気を与える力を象徴しています。',
+    galaxy_queen: '美しいものを見極め、生み出していく芸術的なエネルギーです。独自の美意識で、唯一無二の世界観をつくり出す力を象徴しています。',
+    legend_star:  '人を導き、まとめ上げていくリーダーシップのエネルギーです。芯の強さと情熱で、周りを巻き込みながら前へ進む力を象徴しています。'
+  };
+
   // ----- ⑤ 相性理由（そのどうぶつが「相性の良い相手」として選ばれた時の理由） -----
   const COMPAT_REASONS = {
     moon_mochi:    'ムーンモチのおおらかさが、あなたの心にゆったりとした安心感をもたらしてくれます。',
@@ -10408,8 +10977,8 @@ window.fqtConfirm = function(message, onConfirm){
     mintoru:       'みんとるの几帳面さが、あなたの考えをすっきりと整理する助けになります。',
     pofu_pofu:     'ぽふぽふの温かい安心感が、あなたの心をふんわりと包んでくれます。',
     paku_pakun:    'パクパクンの行動力が、あなたの背中をそっと押してくれる存在です。',
-    cosmo_prince:  'コスモプリンスのロマンチストな一面が、あなたの夢に彩りを添えてくれます。',
-    galaxy_queen:  'ギャラクシークイーンの美意識が、あなたの世界をより美しく照らしてくれます。',
+    cosmo_prince:  'コスモドリーマーのロマンチストな一面が、あなたの夢に彩りを添えてくれます。',
+    galaxy_queen:  'ギャラクシーアーティストの美意識が、あなたの世界をより美しく照らしてくれます。',
     legend_star:   'レジェンドスターの芯の強さが、あなたに前へ進む勇気を分けてくれます。'
   };
 
@@ -10419,6 +10988,46 @@ window.fqtConfirm = function(message, onConfirm){
   function calcSpaceAnimalNumber(birth){
     const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
     let n = (y + m + d) % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+
+  // ----- 「その他の詳しい診断」4つの星の計算式 -----
+  // 🌍 地球の星（(月+日)%13）：地球で生きるあなたが見せている姿
+  function calcEarthStarNumber(birth){
+    const m = birth.getMonth() + 1, d = birth.getDate();
+    let n = (m + d) % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+  // 🚀 行動の星（(年+日)%13）：何かを選ぶとき、動くときに現れるエネルギー
+  function calcActionStarNumber(birth){
+    const y = birth.getFullYear(), d = birth.getDate();
+    let n = (y + d) % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+  // 🌈 未来の星（(年+月)%13）：心の奥で憧れている、自分が向かいたい方向
+  function calcFutureStarNumber(birth){
+    const y = birth.getFullYear(), m = birth.getMonth() + 1;
+    let n = (y + m) % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+  // 🌙 月の星（生年月日の各桁の合計%13）：普段は眠っているけれど、特別なときに現れるもう一つの自分
+  function calcMoonStarNumber(birth){
+    const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
+    const digitSum = String(y).split('').reduce((s, c) => s + Number(c), 0) +
+      String(m).split('').reduce((s, c) => s + Number(c), 0) +
+      String(d).split('').reduce((s, c) => s + Number(c), 0);
+    let n = digitSum % 13;
+    if (n === 0) n = 13;
+    return n;
+  }
+  // 🌌 使命の星（(年-月-日)%13）：この地球に持ってきた役割
+  function calcMissionStarNumber(birth){
+    const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
+    let n = ((y - m - d) % 13 + 13) % 13;
     if (n === 0) n = 13;
     return n;
   }
@@ -10541,33 +11150,123 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('diagOverallMessage').textContent = overallMessage;
 
     // シェアボタンから参照できるよう、直近の診断結果を保存しておく
-    lastDiagResult = { creature, earth, space, talent, theme, overallMessage };
+    lastDiagResult = { birth, creature, earth, space, talent, theme, overallMessage };
 
     card.style.display = 'block';
   }
+
+  // 🌌 その他の詳しい診断（4つの星）
+  const OTHER_STARS = [
+    { icon: '🌍', label: '地球の星', caption: '地球という舞台で、あなたが人との関わりや日常生活の中で自然と見せている姿を表す星です。家族や友人、職場など、身近な人たちと接する時にふと表れる振る舞いや口ぐせは、この星の性質と重なっているかもしれません。日々の暮らしの中で、意外と大きな影響を与えている一面です。', calc: calcEarthStarNumber },
+    { icon: '🚀', label: '行動の星', caption: '何かを選んだり、決断したり、一歩を踏み出したりするときに、あなたの中からふっと立ち上がってくるエネルギーを表す星です。迷ったときや大事な場面ほど、この星の性質があなたの背中をそっと押してくれます。行動のクセや、勝負どころでの判断にも表れやすい部分です。', calc: calcActionStarNumber },
+    { icon: '🌈', label: '未来の星', caption: 'あなたが心の奥でひそかに憧れ、無意識のうちに惹かれていく方向を表す星です。まだ言葉にできていない小さな理想やあこがれでも、この星の性質をヒントにすると、これから進みたい道が少しずつ見えてくるかもしれません。将来を思い描くときの指針になる星です。', calc: calcFutureStarNumber },
+    { icon: '🌙', label: '月の星', caption: '普段は静かに眠っていて、特別な瞬間や心を許せる相手の前でだけそっと顔を出す、もう一人のあなたを表す星です。誰にも見せていないやわらかな一面や、ふとした時にこぼれる本音が、この星の中に隠れています。自分でも気づいていない魅力かもしれません。', calc: calcMoonStarNumber },
+    { icon: '🌌', label: '使命の星', caption: 'あなたがこの地球に生まれてくる時に、あらかじめ持ってきた大きな役割を表す星です。この人生の中で何を体験し、何を学び、どんなものを周りの人たちに届けていくのか。その手がかりが、この使命の星の中に静かに込められています。', calc: calcMissionStarNumber }
+  ];
+
+  document.getElementById('diagOtherStarsBtn').addEventListener('click', () => {
+    if (!lastDiagResult || !lastDiagResult.birth) return;
+    const creatures = window.__fqtSignatureCreatures;
+    if (!Array.isArray(creatures)) return;
+
+    const listEl = document.getElementById('otherStarsList');
+    listEl.innerHTML = '';
+    OTHER_STARS.forEach(star => {
+      const number = star.calc(lastDiagResult.birth);
+      const creature = creatures[number - 1];
+      const svg = window.__fqtBuildAnimalSVG ? window.__fqtBuildAnimalSVG(creature.parts, 'otherstar' + star.label) : '';
+      const item = document.createElement('div');
+      item.className = 'other-star-item';
+      item.dataset.key = creature.key;
+      item.dataset.starIcon = star.icon;
+      item.dataset.starLabel = star.label;
+      item.dataset.starCaption = star.caption;
+      item.innerHTML =
+        `<div class="other-star-thumb">${svg}</div>` +
+        `<div class="other-star-text">` +
+          `<p class="other-star-label">${star.icon}「${star.label}」</p>` +
+          `<p class="other-star-caption">${star.caption}</p>` +
+          `<p class="other-star-name">${creature.name}（${creature.personality}）</p>` +
+        `</div>`;
+      listEl.appendChild(item);
+    });
+
+    document.getElementById('otherStarsModalOverlay').classList.add('show');
+  });
+
+  // その他の星の各どうぶつをタップすると、そのエネルギーの意味を解説するポップアップを表示する
+  document.getElementById('otherStarsList').addEventListener('click', (e) => {
+    const item = e.target.closest('.other-star-item');
+    if (!item) return;
+    const creatures = window.__fqtSignatureCreatures;
+    if (!Array.isArray(creatures)) return;
+    const creature = creatures.find(c => c.key === item.dataset.key);
+    if (!creature) return;
+
+    const svg = window.__fqtBuildAnimalSVG ? window.__fqtBuildAnimalSVG(creature.parts, 'meaning' + creature.key + Date.now()) : '';
+    document.getElementById('starMeaningThumb').innerHTML = svg;
+    document.getElementById('starMeaningStarLabel').textContent = `${item.dataset.starIcon}「${item.dataset.starLabel}」`;
+    document.getElementById('starMeaningName').textContent = creature.name;
+    const meaning = CREATURE_ENERGY_MEANING[creature.key] || '';
+    document.getElementById('starMeaningText').textContent =
+      `${item.dataset.starLabel}（${item.dataset.starCaption}）が「${creature.name}」だったあなたへ。\n\n${meaning}`;
+    document.getElementById('starMeaningOverlay').classList.add('show');
+  });
+  document.getElementById('starMeaningCloseBtn').addEventListener('click', () => {
+    document.getElementById('starMeaningOverlay').classList.remove('show');
+  });
+
+  document.getElementById('otherStarsModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('otherStarsModalOverlay').classList.remove('show');
+  });
+  document.getElementById('otherStarsModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('otherStarsModalOverlay')){
+      document.getElementById('otherStarsModalOverlay').classList.remove('show');
+    }
+  });
 
   // 📤 診断結果をシェアする
   let lastDiagResult = null;
   function buildDiagShareText(){
     if (!lastDiagResult) return '';
-    const { creature, earth, space, talent, theme, overallMessage } = lastDiagResult;
+    const { creature, earth, space, talent, theme } = lastDiagResult;
     return `🐾 FQT宇宙どうぶつ診断結果\n\n` +
       `私の宇宙どうぶつは「${creature.name}」\n` +
       `🌍地球人意識：${earth.name}\n` +
       `🚀宇宙意識：${space.name}\n` +
       `💎才能：${talent.name}\n` +
       `🌱今世のテーマ：${theme.name}\n\n` +
-      `${overallMessage}\n\n` +
       `あなたの宇宙どうぶつは何ですか？🌌\n` +
       `https://fqtlifecounter2.netlify.app\n\n` +
       `#FQTLIFECOUNTER\n` +
       `#宇宙どうぶつ診断`;
   }
 
-  document.getElementById('diagShareBtn').addEventListener('click', async () => {
+  document.getElementById('diagShareBtn').addEventListener('click', () => {
+    if (!lastDiagResult) return;
     const shareText = buildDiagShareText();
-    if (!shareText) return;
+    const { creature } = lastDiagResult;
+    const svgEl = document.querySelector('#diagAnimalThumb svg');
 
+    // 画像生成・共通シェア関数が使える場合は、宇宙どうぶつの画像も一緒にシェアする
+    if (svgEl && typeof window.__fqtBuildAnimalCardCanvas === 'function' && typeof window.__fqtShareAnimalCard === 'function'){
+      window.__fqtBuildAnimalCardCanvas(svgEl, {
+        name: creature.name, rarity: creature.rarity, personality: creature.personality, favorite: creature.favorite
+      }, (canvas) => {
+        if (!canvas){
+          shareDiagTextOnly(shareText);
+          return;
+        }
+        window.__fqtShareAnimalCard(canvas, creature.name, shareText);
+      });
+    } else {
+      shareDiagTextOnly(shareText);
+    }
+  });
+
+  // 画像が使えない場合のフォールバック（テキストのみのシェア）
+  async function shareDiagTextOnly(shareText){
+    if (!shareText) return;
     if (navigator.share){
       try{
         await navigator.share({ text: shareText, title: 'FQT宇宙どうぶつ診断' });
@@ -10582,7 +11281,7 @@ window.fqtConfirm = function(message, onConfirm){
         alert('コピーに失敗しました。手動で選択してコピーしてください。');
       }
     }
-  });
+  }
 
   document.addEventListener('fqtCalculatePressed', renderDiagnosis);
 
