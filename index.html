@@ -782,6 +782,16 @@
     color: var(--text-sub);
     margin-bottom: 18px;
   }
+  .browser-tip-note{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px;
+    line-height: 1.7;
+    margin: -6px 0 18px;
+  }
   .badge-earn-ok-btn{
     width: 100%;
     font-family: inherit;
@@ -3072,7 +3082,8 @@
     <div class="badge-earn-emoji" id="achievementEarnEmoji">🏆</div>
     <p class="badge-earn-name" id="achievementEarnName">-</p>
     <p class="badge-earn-desc" id="achievementEarnDesc">-</p>
-    <button class="badge-earn-ok-btn" id="achievementEarnOkBtn" type="button">OK</button>
+    <p class="browser-tip-note" id="achievementBrowserTip" style="display:none;">ブラウザで開き直して<br>ホーム画面に追加すると<br>アプリのように使えます！</p>
+    <button class="badge-earn-ok-btn" id="achievementEarnOkBtn" type="button">わかりました！</button>
   </div>
 </div>
 
@@ -4375,10 +4386,6 @@ function calculate(){
   // 入力が正しく確定したタイミングで一瞬だけ光るフラッシュ演出
   triggerFlash();
 
-  // 「計算する」が押されたことを他の独立モジュール（宇宙どうぶつなど）へ通知する
-  // ※ 直接関数を呼び出さず、カスタムイベントで疎結合に連携する
-  document.dispatchEvent(new CustomEvent('fqtCalculatePressed'));
-
   // この端末に生年月日を記憶（次回アクセス時に自動入力するため）
   saveBirthdateToStorage(birthValue);
   saveBirthTimeToStorage(birthTimeValue);
@@ -4412,6 +4419,13 @@ function calculate(){
 
   // 結果カードまで自動でスクロール移動
   resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+  // 「計算する」が押されたことを他の独立モジュール（宇宙どうぶつなど）へ通知する
+  // ※ 直接関数を呼び出さず、カスタムイベントで疎結合に連携する
+  // ※ 上のresultBox.scrollIntoView()より後に発火させることで、鳴き声モジュールが
+  //   宇宙どうぶつまでスクロールしても、この後で結果カードへのスクロールに
+  //   上書きされてしまわないようにしている
+  document.dispatchEvent(new CustomEvent('fqtCalculatePressed'));
 }
 
 // ----- 結果を画面に描画 -----
@@ -7587,6 +7601,7 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('achievementEarnEmoji').textContent = ach.emoji;
     document.getElementById('achievementEarnName').textContent = ach.name;
     document.getElementById('achievementEarnDesc').textContent = ach.desc + '！';
+    document.getElementById('achievementBrowserTip').style.display = (ach.id === 'first_meeting') ? 'block' : 'none';
     document.getElementById('achievementEarnOverlay').classList.add('show');
 
     launchAchievementEffect();
@@ -7988,6 +8003,7 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('achievementEarnEmoji').textContent = next.emoji;
     document.getElementById('achievementEarnName').textContent = next.name;
     document.getElementById('achievementEarnDesc').textContent = next.desc + '！';
+    document.getElementById('achievementBrowserTip').style.display = 'none';
     document.getElementById('achievementEarnOverlay').classList.add('show');
     launchEventEffect();
   }
@@ -8465,6 +8481,7 @@ window.fqtConfirm = function(message, onConfirm){
         document.getElementById('achievementEarnEmoji').textContent = entry.item.emoji;
         document.getElementById('achievementEarnName').textContent = entry.item.name;
         document.getElementById('achievementEarnDesc').textContent = entry.item.desc + '！';
+        document.getElementById('achievementBrowserTip').style.display = 'none';
         document.getElementById('achievementEarnOverlay').classList.add('show');
       });
     } else {
@@ -9247,6 +9264,7 @@ window.fqtConfirm = function(message, onConfirm){
         document.getElementById('achievementEarnEmoji').textContent = entry.item.emoji;
         document.getElementById('achievementEarnName').textContent = entry.item.name;
         document.getElementById('achievementEarnDesc').textContent = entry.item.name + 'を解除しました！';
+        document.getElementById('achievementBrowserTip').style.display = 'none';
         document.getElementById('achievementEarnOverlay').classList.add('show');
       });
     }
@@ -9694,33 +9712,73 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ③ レア度に応じて「鳴き声」を合成して再生する -----
   // ★が多いほど音が高く・きらびやかになる（倍音を1つ重ねる）
+  // さらに、どうぶつごとに見た目（SVG）から音程を少しずつ変化させ、
+  // 同じレア度でも「高い声の子」「低めの声の子」のバリエーションが出るようにする
+  function getCurrentAnimalPitchFactor(){
+    const svgWrap = document.getElementById('animalSvgWrap');
+    const seedSource = (svgWrap && svgWrap.innerHTML) || String(Math.random());
+    const seed = simpleHash(seedSource);
+    // 0.8倍（少し低め）〜1.8倍（かなり高め）の範囲でばらつかせる
+    return 0.8 + (seed % 1000) / 1000 * 1.0;
+  }
+
+  // ----- 声のニュアンス・プリセット（どうぶつごとにこの中から1つ選ばれる） -----
+  const VOICE_NUANCE_PRESETS = [
+    { name: 'ぽよぽよ',     lfoSpeed: 3.5, lfoDepth: 0.14, waveType: 'sine',     ampLfoSpeed: 2.6, durationMul: 1.00, pitchMul: 1.00 },
+    { name: 'ぷにょぷにょ', lfoSpeed: 3.0, lfoDepth: 0.20, waveType: 'sine',     ampLfoSpeed: 2.2, durationMul: 1.05, pitchMul: 0.95 },
+    { name: 'ふにゃふにゃ', lfoSpeed: 2.4, lfoDepth: 0.16, waveType: 'sine',     ampLfoSpeed: 1.8, durationMul: 1.10, pitchMul: 0.90 },
+    { name: 'ぴろぴろ',     lfoSpeed: 7.0, lfoDepth: 0.10, waveType: 'triangle', ampLfoSpeed: 5.0, durationMul: 0.90, pitchMul: 1.10 },
+    { name: 'むにゅむにゅ', lfoSpeed: 2.0, lfoDepth: 0.22, waveType: 'sine',     ampLfoSpeed: 1.6, durationMul: 1.15, pitchMul: 0.92 },
+    { name: 'ぽにょぽにょ', lfoSpeed: 4.5, lfoDepth: 0.15, waveType: 'sine',     ampLfoSpeed: 3.2, durationMul: 0.95, pitchMul: 1.02 },
+    { name: 'ふわふわ',     lfoSpeed: 1.8, lfoDepth: 0.08, waveType: 'sine',     ampLfoSpeed: 1.4, durationMul: 1.20, pitchMul: 0.98 },
+    { name: 'にゅるにゅる', lfoSpeed: 1.2, lfoDepth: 0.28, waveType: 'sine',     ampLfoSpeed: 1.0, durationMul: 1.15, pitchMul: 0.90 },
+    { name: 'きゅるきゅる', lfoSpeed: 9.0, lfoDepth: 0.12, waveType: 'triangle', ampLfoSpeed: 6.5, durationMul: 0.85, pitchMul: 1.15 },
+    { name: 'ほにょほにょ', lfoSpeed: 2.8, lfoDepth: 0.13, waveType: 'sine',     ampLfoSpeed: 2.0, durationMul: 1.05, pitchMul: 0.96 },
+    { name: 'もきゅもきゅ', lfoSpeed: 4.0, lfoDepth: 0.18, waveType: 'square',  ampLfoSpeed: 3.5, durationMul: 0.95, pitchMul: 1.00 },
+    { name: 'ぴょこぴょこ', lfoSpeed: 5.5, lfoDepth: 0.12, waveType: 'sine',     ampLfoSpeed: 4.5, durationMul: 0.90, pitchMul: 1.05 },
+    { name: '高速',         lfoSpeed: 6.5, lfoDepth: 0.14, waveType: 'sine',     ampLfoSpeed: 5.5, durationMul: 0.60, pitchMul: 1.10 },
+    { name: '超高速',       lfoSpeed: 10.0,lfoDepth: 0.12, waveType: 'triangle', ampLfoSpeed: 9.0, durationMul: 0.40, pitchMul: 1.15 },
+    { name: '超高音',       lfoSpeed: 4.5, lfoDepth: 0.15, waveType: 'sine',     ampLfoSpeed: 3.2, durationMul: 0.90, pitchMul: 1.70 }
+  ];
+
+  // 現在のどうぶつの見た目から、声質プリセットを1つ選ぶ（同じ子はいつも同じ声質になる）
+  function getCurrentVoicePreset(){
+    const svgWrap = document.getElementById('animalSvgWrap');
+    const seedSource = (svgWrap && svgWrap.innerHTML) || String(Math.random());
+    // ピッチ用のシードとは別の文字列でハッシュを取り、声質選びとピッチが連動しすぎないようにする
+    const seed = simpleHash('voice_nuance_' + seedSource);
+    return VOICE_NUANCE_PRESETS[seed % VOICE_NUANCE_PRESETS.length];
+  }
+
   function playCuteVoice(rarity){
     const ctx = ensureAudioContext();
     const now = ctx.currentTime;
-    const duration = 3.0; // むにょむにょと伸びる3秒間
+    const preset = getCurrentVoicePreset();
+    const duration = 3.0 * preset.durationMul; // 声質によって長さも変わる
 
     // レア度が高いほど基準の音を少し高くする（低め〜中音域で「むにょ」っぽさを出す）
     const baseFreqTable = { 1: 260, 2: 280, 3: 300, 4: 330, 5: 360 };
-    const baseFreq = baseFreqTable[rarity] || 280;
+    const pitchFactor = getCurrentAnimalPitchFactor();
+    const baseFreq = (baseFreqTable[rarity] || 280) * pitchFactor * preset.pitchMul;
 
     // ----- メインの音（伸びる音） -----
     const osc = ctx.createOscillator();
-    osc.type = 'sine';
+    osc.type = preset.waveType;
     osc.frequency.setValueAtTime(baseFreq, now);
 
-    // ピッチをゆっくり波打たせるLFO（これが「むにょむにょ」感の正体）
+    // ピッチを波打たせるLFO（声質プリセットごとに速さ・深さが変わる。これが鳴き声の個性の正体）
     const pitchLfo = ctx.createOscillator();
     pitchLfo.type = 'sine';
-    pitchLfo.frequency.setValueAtTime(4.2, now); // 1秒に4回程度、ゆらゆら揺れる速さ
+    pitchLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
     const pitchLfoGain = ctx.createGain();
-    pitchLfoGain.gain.setValueAtTime(baseFreq * 0.14, now); // 揺れの幅
+    pitchLfoGain.gain.setValueAtTime(baseFreq * preset.lfoDepth, now); // 揺れの幅
     pitchLfo.connect(pitchLfoGain);
     pitchLfoGain.connect(osc.frequency);
 
-    // 音量もゆっくり波打たせて、弾むような「むにょっ」を強調する
+    // 音量も波打たせて、声質ごとの弾み方・揺れ方を強調する
     const ampLfo = ctx.createOscillator();
     ampLfo.type = 'sine';
-    ampLfo.frequency.setValueAtTime(2.6, now);
+    ampLfo.frequency.setValueAtTime(preset.ampLfoSpeed, now);
     const ampLfoGain = ctx.createGain();
     ampLfoGain.gain.setValueAtTime(0.05, now);
     ampLfo.connect(ampLfoGain);
@@ -9728,8 +9786,8 @@ window.fqtConfirm = function(message, onConfirm){
     // 全体の音量エンベロープ（ゆっくり出てゆっくり消える）
     const mainGain = ctx.createGain();
     mainGain.gain.setValueAtTime(0, now);
-    mainGain.gain.linearRampToValueAtTime(0.16, now + 0.3);
-    mainGain.gain.setValueAtTime(0.16, now + duration - 0.6);
+    mainGain.gain.linearRampToValueAtTime(0.16, now + Math.min(0.3, duration * 0.2));
+    mainGain.gain.setValueAtTime(0.16, now + duration - Math.min(0.6, duration * 0.3));
     mainGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
     ampLfoGain.connect(mainGain.gain); // 音量エンベロープにゆらぎを加算する
 
@@ -9751,7 +9809,7 @@ window.fqtConfirm = function(message, onConfirm){
 
       const shimmerLfo = ctx.createOscillator();
       shimmerLfo.type = 'sine';
-      shimmerLfo.frequency.setValueAtTime(4.2, now);
+      shimmerLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
       const shimmerLfoGain = ctx.createGain();
       shimmerLfoGain.gain.setValueAtTime(baseFreq * 0.3, now);
       shimmerLfo.connect(shimmerLfoGain);
@@ -9759,8 +9817,8 @@ window.fqtConfirm = function(message, onConfirm){
 
       const shimmerGain = ctx.createGain();
       shimmerGain.gain.setValueAtTime(0, now);
-      shimmerGain.gain.linearRampToValueAtTime(0.06, now + 0.3);
-      shimmerGain.gain.setValueAtTime(0.06, now + duration - 0.6);
+      shimmerGain.gain.linearRampToValueAtTime(0.06, now + Math.min(0.3, duration * 0.2));
+      shimmerGain.gain.setValueAtTime(0.06, now + duration - Math.min(0.6, duration * 0.3));
       shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
 
       shimmer.connect(shimmerGain);
@@ -9770,6 +9828,8 @@ window.fqtConfirm = function(message, onConfirm){
       shimmer.stop(now + duration);
       shimmerLfo.stop(now + duration);
     }
+
+    return duration; // 呼び出し元が「鳴き終わるタイミング」を知れるように、再生時間（秒）を返す
   }
 
   // ----- ④ 現在表示されている宇宙どうぶつのレア度を、DOMのクラス名から読み取る -----
@@ -9778,6 +9838,22 @@ window.fqtConfirm = function(message, onConfirm){
     if (!svgWrap) return null;
     const match = svgWrap.className.match(/rarity-(\d)/);
     return match ? Number(match[1]) : null;
+  }
+
+  // 鳴き声を再生している間だけ宇宙どうぶつのところまでスクロールし、
+  // 鳴き終わる頃に占い結果（占いカード）まで自動で戻ってくる演出
+  function playCuteVoiceWithScroll(rarity){
+    const animalStage = document.getElementById('animalStage');
+    if (animalStage){
+      animalStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    const duration = playCuteVoice(rarity);
+    setTimeout(() => {
+      const returnTarget = document.getElementById('result'); // 「あなたは地球に来て◯◯日目」の結果ボックス
+      if (returnTarget){
+        returnTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }, (duration || 3) * 1000);
   }
 
   // ----- ⑤ トグルボタンの表示・動作 -----
@@ -9802,7 +9878,7 @@ window.fqtConfirm = function(message, onConfirm){
       // ONにした操作自体がユーザー操作なので、ここで軽く1回鳴らして確認できるようにする
       const rarity = getCurrentRarityFromDom();
       if (rarity){
-        playCuteVoice(rarity);
+        playCuteVoiceWithScroll(rarity);
       }
     }
   });
@@ -9814,7 +9890,7 @@ window.fqtConfirm = function(message, onConfirm){
     if (!voiceEnabled) return;
     const rarity = getCurrentRarityFromDom();
     if (rarity){
-      playCuteVoice(rarity);
+      playCuteVoiceWithScroll(rarity);
     }
   });
 
