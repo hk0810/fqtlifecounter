@@ -483,6 +483,19 @@
     color: var(--text-sub);
     margin: -6px 0 10px;
   }
+  .fortune-subgroup-title{
+    font-size: 11.5px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 12px;
+    margin: 14px 0 10px;
+  }
+  .fortune-list + .fortune-subgroup-title{
+    margin-top: 4px;
+  }
 
   /* ==========================================================
      🏅 バッジシステム
@@ -791,6 +804,34 @@
     padding: 12px;
     line-height: 1.7;
     margin: -6px 0 18px;
+  }
+  .tutorial-header{
+    margin-bottom: 16px;
+  }
+  .tutorial-step{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
+  .tutorial-item{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    text-align: left;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px;
+    margin-bottom: 10px;
+  }
+  .tutorial-icon{
+    font-size: 22px;
+    flex-shrink: 0;
+  }
+  .tutorial-text{
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.5;
   }
   .badge-earn-ok-btn{
     width: 100%;
@@ -3087,6 +3128,58 @@
   </div>
 </div>
 
+<!-- 🚀 かんたんチュートリアル（「はじめまして」の直後に1回だけ、3ステップに分けて表示） -->
+<div class="badge-earn-overlay" id="tutorialOverlay">
+  <div class="badge-earn-popup tutorial-popup">
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">1/3</span></p>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🔮</div>
+      <div class="tutorial-text">誕生日を入れると、いろんな占い結果が見られるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🐾</div>
+      <div class="tutorial-text">「計算する」を押すたびに、宇宙どうぶつに出会えるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🌌</div>
+      <div class="tutorial-text">出会った宇宙どうぶつは自動的に図鑑に登録されるよ</div>
+    </div>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn" type="button">次へ</button>
+  </div>
+</div>
+
+<!-- 🚀 かんたんチュートリアル（2/3） -->
+<div class="badge-earn-overlay" id="tutorialOverlay2">
+  <div class="badge-earn-popup tutorial-popup">
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">2/3</span></p>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">🏅</div>
+      <div class="tutorial-text">使うたびに、バッジや実績がもらえるよ</div>
+    </div>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn2" type="button">次へ</button>
+  </div>
+</div>
+
+<!-- 🚀 かんたんチュートリアル（3/3） -->
+<div class="badge-earn-overlay" id="tutorialOverlay3">
+  <div class="badge-earn-popup tutorial-popup">
+    <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/3</span></p>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">💾</div>
+      <div class="tutorial-text">一度入力したデータや実績は、端末やブラウザを変えない限り保持されるよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">⚠️</div>
+      <div class="tutorial-text">端末やブラウザを変えると、図鑑の宇宙どうぶつは消えてしまうよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">❓</div>
+      <div class="tutorial-text">困ったら「ヘルプ・よくある質問」を見てね</div>
+    </div>
+    <button class="badge-earn-ok-btn" id="tutorialCloseBtn3" type="button">はじめる！</button>
+  </div>
+</div>
+
 <!-- 🎉 イベント図鑑モーダル -->
 <div class="dex-modal-overlay" id="eventDexModalOverlay">
   <div class="dex-modal">
@@ -3868,8 +3961,8 @@
     <hr class="divider">
 
     <p class="section-title">📅 今日だけの運勢</p>
-    <p class="fortune-section-note">🌅🌙🎌🌕は全員共通、他はあなたの誕生日で変わります</p>
 
+    <p class="fortune-subgroup-title">🌍 全員共通</p>
     <div class="fortune-list">
       <div class="fortune-row">
         <div class="ic">🌅</div>
@@ -3907,16 +4000,10 @@
           <div class="value" id="fortuneLunarDate">-</div>
         </div>
       </div>
+    </div>
 
-      <div class="fortune-row">
-        <div class="ic">💰</div>
-        <div class="fortune-text">
-          <div class="label">今日の金運</div>
-          <div class="value" id="fortuneMoney">-</div>
-          <div class="sub" id="fortuneMoneySub">-</div>
-        </div>
-      </div>
-
+    <p class="fortune-subgroup-title">🎂 あなたの誕生日で変わる</p>
+    <div class="fortune-list">
       <div class="fortune-row">
         <div class="ic">🧭</div>
         <div class="fortune-text">
@@ -3931,6 +4018,42 @@
           <div class="label">今日の一枚タロット</div>
           <div class="value" id="fortuneTarot">-</div>
           <div class="sub" id="fortuneTarotSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">💰</div>
+        <div class="fortune-text">
+          <div class="label">今日の金運</div>
+          <div class="value" id="fortuneMoney">-</div>
+          <div class="sub" id="fortuneMoneySub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">💪</div>
+        <div class="fortune-text">
+          <div class="label">健康運（身体バイオリズム連動）</div>
+          <div class="value" id="fortuneHealth">-</div>
+          <div class="sub" id="fortuneHealthSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">💕</div>
+        <div class="fortune-text">
+          <div class="label">恋愛運（感情バイオリズム連動）</div>
+          <div class="value" id="fortuneLove">-</div>
+          <div class="sub" id="fortuneLoveSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">💼</div>
+        <div class="fortune-text">
+          <div class="label">仕事運（知性バイオリズム連動）</div>
+          <div class="value" id="fortuneWork">-</div>
+          <div class="sub" id="fortuneWorkSub">-</div>
         </div>
       </div>
     </div>
@@ -4079,7 +4202,7 @@
     <div class="promo-inner">
       <div class="promo-emoji">🌍</div>
       <div class="promo-text">
-        <div class="promo-sub">公式サイトはこちら</div>
+        <div class="promo-sub">地球人のアセンションを加速することに貢献する。<br>（株）オルタナティブライフジャパン</div>
         <div class="promo-main">alternative-life-japan.com</div>
       </div>
       <div class="promo-arrow">›</div>
@@ -5179,6 +5302,43 @@ function biorhythmLabel(value){
   return '要注意';
 }
 
+// ----- 💕 恋愛運・💼 仕事運・💪 健康運 -----
+// ランダムではなく、既存のバイオリズム計算（身体23日・感情28日・知性33日の周期の実測値）と直接連動させる
+// 恋愛運＝感情の波、仕事運＝知性の波、健康運＝身体の波を、そのままランク判定に使う
+const LOVE_LUCK_MESSAGES = {
+  '絶好調': '気持ちがまっすぐ伝わりやすい日。素直な言葉が距離を縮めてくれます。',
+  '好調':   '心が安定していて、相手の気持ちにも寄り添いやすい日です。',
+  '普通':   'いつも通りの穏やかな関係を大切にすると良い日。',
+  '低調':   '感情が揺れやすいので、大事な話は少し落ち着いてから。',
+  '要注意': 'すれ違いが起きやすい日。一呼吸おいてから言葉を選んで。'
+};
+const WORK_LUCK_MESSAGES = {
+  '絶好調': '頭が冴えていて、難しい判断もスムーズにこなせる日。',
+  '好調':   '集中力が高まりやすく、作業がはかどりやすい日です。',
+  '普通':   'いつも通りのペースで、着実に進めるのが吉。',
+  '低調':   'ケアレスミスが出やすいので、確認作業を丁寧に。',
+  '要注意': '判断力が鈍りやすい日。大事な決断は先延ばしにしても◎。'
+};
+const HEALTH_LUCK_MESSAGES = {
+  '絶好調': '体力・気力ともに充実。新しいことにも挑戦しやすい日。',
+  '好調':   '体調が安定していて、動きやすさを感じられる日です。',
+  '普通':   'いつも通りのコンディション。無理のない範囲で過ごして。',
+  '低調':   '疲れが出やすい日。こまめな休憩を心がけて。',
+  '要注意': '体調を崩しやすい日。無理せず、早めの休息を。'
+};
+function calcLoveLuck(bio){
+  const label = biorhythmLabel(bio.emotional);
+  return { label, message: LOVE_LUCK_MESSAGES[label], value: bio.emotional };
+}
+function calcWorkLuck(bio){
+  const label = biorhythmLabel(bio.intellectual);
+  return { label, message: WORK_LUCK_MESSAGES[label], value: bio.intellectual };
+}
+function calcHealthLuck(bio){
+  const label = biorhythmLabel(bio.physical);
+  return { label, message: HEALTH_LUCK_MESSAGES[label], value: bio.physical };
+}
+
 // ----- 💰 今日の金運 -----
 const MONEY_RANKS = ['絶好調', '好調', '普通', 'やや注意', '要注意'];
 const MONEY_MESSAGES = [
@@ -5460,6 +5620,19 @@ function renderFortune(birth, today){
     document.getElementById(item.valueId).textContent =
       `${item.value > 0 ? '+' : ''}${item.value}%`;
   });
+
+  // 💕💼💪 恋愛運・仕事運・健康運（バイオリズムの実測値と直接連動、ランダムではない）
+  const love = calcLoveLuck(bio);
+  document.getElementById('fortuneLove').textContent = love.label;
+  document.getElementById('fortuneLoveSub').textContent = love.message;
+
+  const work = calcWorkLuck(bio);
+  document.getElementById('fortuneWork').textContent = work.label;
+  document.getElementById('fortuneWorkSub').textContent = work.message;
+
+  const health = calcHealthLuck(bio);
+  document.getElementById('fortuneHealth').textContent = health.label;
+  document.getElementById('fortuneHealthSub').textContent = health.message;
 
   // 今日の運勢（ランクは金運・吉方位・タロット・バイオリズムを合成して算出）
   const fortune = calcTodayFortune(birth, today);
@@ -7597,6 +7770,7 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ⑨ 実績解除ポップアップを1件表示する -----
   let earnQueue = [];
+  let justShowedFirstMeeting = false; // 「はじめまして」ポップアップの直後にチュートリアルを続けて出すためのフラグ
   function showAchievementPopup(ach){
     document.getElementById('achievementEarnEmoji').textContent = ach.emoji;
     const isFirstMeeting = (ach.id === 'first_meeting');
@@ -7611,6 +7785,7 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('achievementBrowserTip').style.display = isFirstMeeting ? 'block' : 'none';
     document.getElementById('achievementEarnHeader').style.display = isFirstMeeting ? 'none' : 'block';
     document.getElementById('achievementEarnOverlay').classList.add('show');
+    justShowedFirstMeeting = isFirstMeeting;
 
     launchAchievementEffect();
 
@@ -7635,8 +7810,41 @@ window.fqtConfirm = function(message, onConfirm){
 
   achievementEarnOkBtn.addEventListener('click', () => {
     achievementEarnOverlay.classList.remove('show');
-    setTimeout(processEarnQueue, 300);
+    if (justShowedFirstMeeting){
+      justShowedFirstMeeting = false;
+      // ここでタイムラグを作ると、その間に他の待機中ポップアップ（バッジなど）が
+      // 「同時に1つしか表示しない」安全装置によって先に割り込んでしまうことがある。
+      // 同期的に（間を置かず）切り替えることで、必ずチュートリアルを優先して表示する。
+      const tutorialOverlay = document.getElementById('tutorialOverlay');
+      if (tutorialOverlay) tutorialOverlay.classList.add('show');
+    } else {
+      setTimeout(processEarnQueue, 300);
+    }
   });
+
+  // 🚀 チュートリアル（3ステップ）：同期的に切り替えることで、他の待機中ポップアップが
+  //   割り込まないようにする（間にタイムラグを作らない）
+  const tutorialCloseBtn = document.getElementById('tutorialCloseBtn');
+  if (tutorialCloseBtn){
+    tutorialCloseBtn.addEventListener('click', () => {
+      document.getElementById('tutorialOverlay').classList.remove('show');
+      document.getElementById('tutorialOverlay2').classList.add('show');
+    });
+  }
+  const tutorialCloseBtn2 = document.getElementById('tutorialCloseBtn2');
+  if (tutorialCloseBtn2){
+    tutorialCloseBtn2.addEventListener('click', () => {
+      document.getElementById('tutorialOverlay2').classList.remove('show');
+      document.getElementById('tutorialOverlay3').classList.add('show');
+    });
+  }
+  const tutorialCloseBtn3 = document.getElementById('tutorialCloseBtn3');
+  if (tutorialCloseBtn3){
+    tutorialCloseBtn3.addEventListener('click', () => {
+      document.getElementById('tutorialOverlay3').classList.remove('show');
+      setTimeout(processEarnQueue, 300);
+    });
+  }
 
   // 宇宙どうぶつに出会うたびに（新規発見でも再会でも）実績条件を再チェックする
   document.addEventListener('fqtAnimalEncountered', (e) => {
