@@ -783,6 +783,8 @@
     text-align: center;
     max-width: 320px;
     width: 100%;
+    max-height: 85vh;
+    overflow-y: auto;
     animation: badge-earn-zoom .45s cubic-bezier(.34,1.56,.64,1);
   }
   @keyframes badge-earn-zoom{
@@ -947,6 +949,16 @@
     border-radius: 999px;
     padding: 4px 14px;
     margin: 0 0 8px;
+  }
+  .star-meaning-intro{
+    font-size: 12px;
+    color: #92700c;
+    line-height: 1.7;
+    text-align: left;
+    background: linear-gradient(135deg, #fff7d6, #ffe6f0);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 10px 0 10px;
   }
   .star-meaning-text{
     font-size: 13px;
@@ -2534,6 +2546,12 @@
     align-items: center;
     gap: 8px;
   }
+  .fortune-row .value.maya-signature{
+    font-size: 13px;
+    color: var(--blue-dark);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
   .fortune-row .sub{
     font-size: 12px;
     color: var(--text-sub);
@@ -3215,6 +3233,7 @@
     <div class="oshi-detail-thumb" id="starMeaningThumb"></div>
     <p class="star-meaning-star-label" id="starMeaningStarLabel">-</p>
     <p class="badge-earn-name" id="starMeaningName">-</p>
+    <p class="star-meaning-intro" id="starMeaningIntro">-</p>
     <p class="star-meaning-text" id="starMeaningText">-</p>
     <button class="badge-earn-ok-btn" id="starMeaningCloseBtn" type="button">OK</button>
   </div>
@@ -3821,9 +3840,9 @@
       <div class="fortune-row">
         <div class="ic">🗿</div>
         <div class="fortune-text">
-          <div class="label">マヤ暦占い（KIN<span id="fortuneMayaKin">-</span>）</div>
-          <div class="value" id="fortuneMayaSeal">-</div>
-          <div class="sub" id="fortuneMayaWavespell">-</div>
+          <div class="label">マヤ暦占い（銀河の署名）</div>
+          <div class="value" id="fortuneMayaKinLine">-</div>
+          <div class="value maya-signature" id="fortuneMayaSeal">-</div>
           <div class="sub" id="fortuneMayaSub">-</div>
         </div>
       </div>
@@ -4786,7 +4805,15 @@ function calcMayaKin(birth){
   // ウェイブスペル：このKINが属する13日サイクルの起点（音1の日）の太陽の紋章
   const wavespellSealIdx = ((sealIdx - toneIdx) % 20 + 20) % 20;
   const wavespell = MAYA_SEALS[wavespellSealIdx];
-  return { kin, seal, tone, wavespell };
+
+  // 銀河の署名：[紋章の色]+[音の短い名前]+の+[紋章の名詞部分]（例：赤い龍＋音7「共振」→「赤い共振の龍」）
+  const MAYA_SEAL_COLORS = ['赤い', '白い', '青い', '黄色い'];
+  const sealColor = MAYA_SEAL_COLORS.find(c => seal.name.startsWith(c)) || '';
+  const sealNoun = seal.name.slice(sealColor.length);
+  const toneShortName = (tone.name.match(/（(.+)）/) || [, ''])[1];
+  const galacticSignature = `${sealColor}${toneShortName}の${sealNoun}`;
+
+  return { kin, seal, tone, wavespell, galacticSignature };
 }
 
 // ----- 🌌 FQT 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
@@ -5361,11 +5388,9 @@ function renderFortune(birth, today){
 
   // 🗿 マヤ暦占い
   const maya = calcMayaKin(birth);
-  document.getElementById('fortuneMayaKin').textContent = maya.kin;
+  document.getElementById('fortuneMayaKinLine').textContent = `KIN${maya.kin}`;
   document.getElementById('fortuneMayaSeal').textContent =
-    `${maya.seal.name}／${maya.tone.name}`;
-  document.getElementById('fortuneMayaWavespell').textContent =
-    `ウェイブスペル：${maya.wavespell.name}`;
+    `${maya.tone.name}／${maya.seal.name}／${maya.wavespell.name}／${maya.galacticSignature}`;
   document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
 
   // 干支・六十干支
@@ -10950,19 +10975,29 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- どの星（地球の星・行動の星・未来の星・月の星・使命の星）に出ても使える、
   //       各どうぶつが持つ「エネルギーの意味」の解釈文 -----
   const CREATURE_ENERGY_MEANING = {
-    moon_mochi:   'のんびりと、自分のペースを大切にするエネルギーです。焦らず、じっくり時間をかけて物事に向き合う落ち着きを象徴しています。',
-    san_san_poko: '太陽のように明るく、周りを元気づけるエネルギーです。前向きな言葉や笑顔で、場の空気をぱっと明るくする力を象徴しています。',
-    yume_purin:   '夢や想像力を大切にするエネルギーです。目に見えないものを信じ、理想を少しずつ形にしていく発想力を象徴しています。',
-    honey_puni:   '素直に甘え、心を開いていくエネルギーです。飾らない自分をさらけ出すことで、自然と人に愛される力を象徴しています。',
-    sakura_mochi: 'その場の空気をやわらげ、穏やかにまとめていくエネルギーです。争わず、みんなを自然につなげていく調和の力を象徴しています。',
-    puni_koro:    '状況に合わせて、柔軟に形を変えていくエネルギーです。こだわりすぎず受け流す軽やかさを象徴しています。',
-    kira_kiran:   'その場を明るく盛り上げていくエネルギーです。存在そのものが、周囲の雰囲気を前向きに変えていく力を象徴しています。',
-    mintoru:      '物事をすっきりと整理し、筋道立てて考えるエネルギーです。混乱した状況でも本質を見抜く冷静さを象徴しています。',
-    pofu_pofu:    'そばにいるだけで安心感を与える、やわらかなエネルギーです。人の肩の力をふっと抜かせてくれる存在感を象徴しています。',
-    paku_pakun:   '思い立ったらすぐに動く、力強い行動のエネルギーです。迷うより一歩踏み出すことを選ぶ推進力を象徴しています。',
-    cosmo_prince: '壮大な夢や理想を描く、ロマンチックなエネルギーです。現実にとどまらない発想で、周りにも夢を見る勇気を与える力を象徴しています。',
-    galaxy_queen: '美しいものを見極め、生み出していく芸術的なエネルギーです。独自の美意識で、唯一無二の世界観をつくり出す力を象徴しています。',
-    legend_star:  '人を導き、まとめ上げていくリーダーシップのエネルギーです。芯の強さと情熱で、周りを巻き込みながら前へ進む力を象徴しています。'
+    moon_mochi:   'のんびりと、自分のペースを大切にするエネルギーです。周りの速さに合わせて焦る必要はなく、あなた自身の内側にある時計に従って、じっくりと物事に向き合っていく落ち着きを象徴しています。急かされるような場面でも、深呼吸をひとつして、自分のリズムを取り戻すことができる力です。そのゆったりとした佇まいが、実は周囲の人たちにも安心感を与えていることを、忘れないでください。',
+    san_san_poko: '太陽のように明るく、周りを元気づけるエネルギーです。前向きな言葉や屈託のない笑顔で、沈みがちな場の空気をぱっと明るくする力を象徴しています。誰かが落ち込んでいる時、あなたのその明るさが、気づかないうちに救いになっていることも少なくありません。自分自身が元気でいることが、そのまま周りへの一番のギフトになる、そんなエネルギーです。',
+    yume_purin:   '夢や想像力を大切にするエネルギーです。目に見えないものを信じ、まだ形になっていない理想やアイデアを、少しずつ現実に近づけていく発想力を象徴しています。周りから「非現実的」と言われることがあったとしても、その夢見る力こそが、誰も思いつかなかった新しい可能性を切り拓く原動力になります。心の中の小さな灯りを、大切に育てていってください。',
+    honey_puni:   '素直に甘え、心を開いていくエネルギーです。強がったり飾ったりせず、ありのままの自分をさらけ出すことで、自然と人から愛され、大切にされていく力を象徴しています。弱さを見せることは、決して恥ずかしいことではありません。むしろ、その素直さこそが、人との間に本当の信頼関係を築いていく、かけがえのない才能なのです。',
+    sakura_mochi: 'その場の空気をやわらげ、穏やかにまとめていくエネルギーです。誰かと誰かがぶつかりそうな場面でも、争うことなく、双方の気持ちにそっと寄り添いながら、みんなを自然につなげていく調和の力を象徴しています。あなたがそこにいるだけで、ぴりついた空気がふっとやわらぐ、そんな穏やかな存在感が、周囲にとって大きな支えになっています。',
+    puni_koro:    '状況に合わせて、柔軟に形を変えていくエネルギーです。一つのやり方やこだわりに固執せず、その時々の流れを受け止めながら軽やかに対応していく、しなやかさを象徴しています。予定通りにいかないことがあっても、ころころと転がるように、案外あっさりと次の形を見つけられるのが、あなたの強みです。無理に力を入れすぎず、受け流す軽さを大切にしてください。',
+    kira_kiran:   'その場を明るく盛り上げていくエネルギーです。あなたが加わるだけで、それまで静かだった空気がふわっと華やぎ、周囲の雰囲気が前向きに変わっていく力を象徴しています。特別なことをしていなくても、存在そのものがみんなの気持ちを明るくするスパイスになっている、そんなきらめきを持っています。その輝きを、遠慮せずに発揮していってください。',
+    mintoru:      '物事をすっきりと整理し、筋道立てて考えるエネルギーです。散らかった状況や情報の中からも、迷わず本質を見抜き、無駄なく整えていく冷静さを象徴しています。周りが混乱している時ほど、あなたの落ち着いた視点が頼りにされます。感情に流されすぎず、一歩引いて物事を見つめる力が、多くの場面であなた自身と周囲を助けてくれるでしょう。',
+    pofu_pofu:    'そばにいるだけで安心感を与える、やわらかなエネルギーです。特別な言葉をかけなくても、あなたが隣にいるというだけで、人はふっと肩の力を抜くことができます。緊張した空気の中にも、ほっとできる居場所をつくり出す存在感を象徴しています。その優しさに気づいていないかもしれませんが、それは誰にでも持てるものではない、貴重な才能です。',
+    paku_pakun:   '思い立ったらすぐに動く、力強い行動のエネルギーです。あれこれ迷って足踏みするよりも、まず一歩を踏み出すことを選ぶ、素直な推進力を象徴しています。完璧な準備が整うのを待つよりも、動きながら考え、修正していくスタイルの方が、あなたには合っているのかもしれません。その軽やかなフットワークが、思いがけないチャンスを引き寄せていきます。',
+    cosmo_prince: '壮大な夢や理想を描く、ロマンチックなエネルギーです。現実の枠にとどまらない自由な発想で、まだ誰も見たことのない景色を思い描く力を象徴しています。その夢を語る姿は、周りの人々の心にも小さな火を灯し、自分も何かに挑戦してみようという勇気を分け与えていきます。理想を語ることを恥ずかしがらず、堂々と胸を張っていてください。',
+    galaxy_queen: '美しいものを見極め、生み出していく芸術的なエネルギーです。誰もが見過ごしてしまうような小さな美しさにも敏感に気づき、それを自分だけの表現として形にしていく独自の美意識を象徴しています。周りと同じである必要はありません。あなたの目に映る世界そのものが、唯一無二の作品であり、その感性を信じて磨き続けることに大きな意味があります。',
+    legend_star:  '人を導き、まとめ上げていくリーダーシップのエネルギーです。困難な場面に直面した時ほど発揮される芯の強さと情熱で、周りを巻き込みながら前へと進んでいく力を象徴しています。誰かがためらっている時、一歩前に出て道を示すのがあなたの役目かもしれません。その堂々とした姿勢が、多くの人にとっての心強い支えになっています。'
+  };
+
+  // ----- どの星（地球・行動・未来・月・使命）として出たかによって、
+  //       同じどうぶつでも意味の焦点が変わるようにする「文脈テンプレート」 -----
+  const STAR_CONTEXT_TEMPLATES = {
+    earth:   (name) => `${name}が持つこのエネルギーは、地球という舞台の上、日常の何気ないやりとりや身近な人との関わりの中でこそ、いちばん自然な形で表れています。家族と過ごす時間、友人との雑談、職場でのふとしたひと言。特別に意識していなくても、${name}らしさは、そうした毎日の暮らしの端々ににじみ出ています。周りの人たちは、あなたのその素の姿にこそ、安心感や心地よさを感じ取っているはずです。`,
+    action:  (name) => `${name}が持つこのエネルギーは、何かを決断したり、一歩踏み出したりする瞬間にこそ、いちばん力強く発揮されています。頭で考えるよりも先に、体や心がすっと動き出す。そんな咄嗟の判断や振る舞いにこそ、${name}らしいエネルギーが宿っています。迷いが生まれた時ほど、このエネルギーがそっと背中を押し、あなたを前へと進ませてくれるでしょう。`,
+    future:  (name) => `${name}が持つこのエネルギーは、これから歩んでいきたい未来への、静かな道しるべとして働いています。まだ誰にも話していない小さな理想や、心の奥でひそかに憧れている景色。そうした「まだ言葉になっていないもの」の中に、${name}らしいエネルギーは息づいています。焦らずその声に耳を傾けることで、進みたい方向が少しずつ形になっていくはずです。`,
+    moon:    (name) => `${name}が持つこのエネルギーは、普段は表に出さない、あなただけの秘めた一面としてそっと息づいています。心を許した人の前や、ひとりきりの静かな時間にだけ、ふっと顔をのぞかせる本当の自分。それが${name}らしいエネルギーの正体かもしれません。誰にも見せていないその一面こそ、実はあなた自身をいちばん深く支えている力なのです。`,
+    mission: (name) => `${name}が持つこのエネルギーは、この人生であなたが果たしていく大きな役割そのものを映し出しています。何を体験し、何を学び、何を周りの人たちに手渡していくのか。その手がかりが、${name}らしいエネルギーの中に静かに込められています。大きな使命と聞くと身構えてしまうかもしれませんが、日々の中でこのエネルギーを大切にすること自体が、すでにその使命を生きていることの証なのです。`
   };
 
   // ----- ⑤ 相性理由（そのどうぶつが「相性の良い相手」として選ばれた時の理由） -----
@@ -11157,11 +11192,11 @@ window.fqtConfirm = function(message, onConfirm){
 
   // 🌌 その他の詳しい診断（4つの星）
   const OTHER_STARS = [
-    { icon: '🌍', label: '地球の星', caption: '地球という舞台で、あなたが人との関わりや日常生活の中で自然と見せている姿を表す星です。家族や友人、職場など、身近な人たちと接する時にふと表れる振る舞いや口ぐせは、この星の性質と重なっているかもしれません。日々の暮らしの中で、意外と大きな影響を与えている一面です。', calc: calcEarthStarNumber },
-    { icon: '🚀', label: '行動の星', caption: '何かを選んだり、決断したり、一歩を踏み出したりするときに、あなたの中からふっと立ち上がってくるエネルギーを表す星です。迷ったときや大事な場面ほど、この星の性質があなたの背中をそっと押してくれます。行動のクセや、勝負どころでの判断にも表れやすい部分です。', calc: calcActionStarNumber },
-    { icon: '🌈', label: '未来の星', caption: 'あなたが心の奥でひそかに憧れ、無意識のうちに惹かれていく方向を表す星です。まだ言葉にできていない小さな理想やあこがれでも、この星の性質をヒントにすると、これから進みたい道が少しずつ見えてくるかもしれません。将来を思い描くときの指針になる星です。', calc: calcFutureStarNumber },
-    { icon: '🌙', label: '月の星', caption: '普段は静かに眠っていて、特別な瞬間や心を許せる相手の前でだけそっと顔を出す、もう一人のあなたを表す星です。誰にも見せていないやわらかな一面や、ふとした時にこぼれる本音が、この星の中に隠れています。自分でも気づいていない魅力かもしれません。', calc: calcMoonStarNumber },
-    { icon: '🌌', label: '使命の星', caption: 'あなたがこの地球に生まれてくる時に、あらかじめ持ってきた大きな役割を表す星です。この人生の中で何を体験し、何を学び、どんなものを周りの人たちに届けていくのか。その手がかりが、この使命の星の中に静かに込められています。', calc: calcMissionStarNumber }
+    { key: 'earth', icon: '🌍', label: '地球の星', caption: '地球という舞台で、あなたが人との関わりや日常生活の中で自然と見せている姿を表す星です。家族や友人、職場など、身近な人たちと接する時にふと表れる振る舞いや口ぐせは、この星の性質と重なっているかもしれません。日々の暮らしの中で、意外と大きな影響を与えている一面です。', calc: calcEarthStarNumber },
+    { key: 'action', icon: '🚀', label: '行動の星', caption: '何かを選んだり、決断したり、一歩を踏み出したりするときに、あなたの中からふっと立ち上がってくるエネルギーを表す星です。迷ったときや大事な場面ほど、この星の性質があなたの背中をそっと押してくれます。行動のクセや、勝負どころでの判断にも表れやすい部分です。', calc: calcActionStarNumber },
+    { key: 'future', icon: '🌈', label: '未来の星', caption: 'あなたが心の奥でひそかに憧れ、無意識のうちに惹かれていく方向を表す星です。まだ言葉にできていない小さな理想やあこがれでも、この星の性質をヒントにすると、これから進みたい道が少しずつ見えてくるかもしれません。将来を思い描くときの指針になる星です。', calc: calcFutureStarNumber },
+    { key: 'moon', icon: '🌙', label: '月の星', caption: '普段は静かに眠っていて、特別な瞬間や心を許せる相手の前でだけそっと顔を出す、もう一人のあなたを表す星です。誰にも見せていないやわらかな一面や、ふとした時にこぼれる本音が、この星の中に隠れています。自分でも気づいていない魅力かもしれません。', calc: calcMoonStarNumber },
+    { key: 'mission', icon: '🌌', label: '使命の星', caption: 'あなたがこの地球に生まれてくる時に、あらかじめ持ってきた大きな役割を表す星です。この人生の中で何を体験し、何を学び、どんなものを周りの人たちに届けていくのか。その手がかりが、この使命の星の中に静かに込められています。', calc: calcMissionStarNumber }
   ];
 
   document.getElementById('diagOtherStarsBtn').addEventListener('click', () => {
@@ -11178,6 +11213,7 @@ window.fqtConfirm = function(message, onConfirm){
       const item = document.createElement('div');
       item.className = 'other-star-item';
       item.dataset.key = creature.key;
+      item.dataset.starKey = star.key;
       item.dataset.starIcon = star.icon;
       item.dataset.starLabel = star.label;
       item.dataset.starCaption = star.caption;
@@ -11207,9 +11243,13 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('starMeaningThumb').innerHTML = svg;
     document.getElementById('starMeaningStarLabel').textContent = `${item.dataset.starIcon}「${item.dataset.starLabel}」`;
     document.getElementById('starMeaningName').textContent = creature.name;
-    const meaning = CREATURE_ENERGY_MEANING[creature.key] || '';
+    const baseMeaning = CREATURE_ENERGY_MEANING[creature.key] || '';
+    const contextFn = STAR_CONTEXT_TEMPLATES[item.dataset.starKey];
+    const contextSentence = contextFn ? contextFn(creature.name) : '';
+    document.getElementById('starMeaningIntro').textContent =
+      `${item.dataset.starLabel}（${item.dataset.starCaption}）が「${creature.name}」だったあなたへ。`;
     document.getElementById('starMeaningText').textContent =
-      `${item.dataset.starLabel}（${item.dataset.starCaption}）が「${creature.name}」だったあなたへ。\n\n${meaning}`;
+      contextSentence ? `${contextSentence}\n\n${baseMeaning}` : baseMeaning;
     document.getElementById('starMeaningOverlay').classList.add('show');
   });
   document.getElementById('starMeaningCloseBtn').addEventListener('click', () => {
