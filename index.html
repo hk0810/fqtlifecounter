@@ -3028,6 +3028,76 @@
   }
   .install-btn:active{ transform: scale(0.98); }
 
+  /* ============================================================
+     🚀 ホーム画面追加を促すポップアップ（PWAプロンプト）
+     ・宇宙船のコックピットをイメージした、既存の世界観に合わせたデザイン
+     ・画面下からスライドインする、控えめなバナー型
+     ============================================================ */
+  .pwa-prompt-overlay{
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    z-index: 9999;
+    display: flex;
+    justify-content: center;
+    padding: 16px;
+    pointer-events: none; /* 背景は操作可能にしておき、カード部分だけ操作を受け付ける */
+  }
+  .pwa-prompt-card{
+    width: 100%;
+    max-width: 420px;
+    background: linear-gradient(160deg, #1b2a55, #0b1230);
+    border: 1px solid rgba(255, 216, 115, 0.35);
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    padding: 20px 20px 16px;
+    text-align: center;
+    pointer-events: auto;
+    transform: translateY(140%);
+    opacity: 0;
+    transition: transform .35s ease, opacity .35s ease;
+  }
+  .pwa-prompt-overlay.show .pwa-prompt-card{
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .pwa-prompt-icon{
+    font-size: 32px;
+    margin-bottom: 8px;
+  }
+  .pwa-prompt-message{
+    font-size: 14px;
+    font-weight: 700;
+    color: #ffffff;
+    line-height: 1.6;
+    margin: 0 0 16px;
+  }
+  .pwa-prompt-btn-row{
+    display: flex;
+    gap: 10px;
+  }
+  .pwa-prompt-btn{
+    flex: 1 1 0%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    border-radius: 12px;
+    padding: 12px;
+    cursor: pointer;
+    border: none;
+  }
+  .pwa-prompt-btn-later{
+    background: rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.85);
+  }
+  .pwa-prompt-btn-later:active{ transform: scale(0.97); }
+  .pwa-prompt-btn-added{
+    background: linear-gradient(135deg, #ffd873, #ff8a65);
+    color: #1b2a55;
+  }
+  .pwa-prompt-btn-added:active{ transform: scale(0.97); }
+
   .faq-open-btn{
     width: 100%;
     font-family: inherit;
@@ -3042,6 +3112,43 @@
     cursor: pointer;
   }
   .faq-open-btn:active{ transform: scale(0.98); }
+
+  .video-open-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    color: #fff;
+    background: linear-gradient(135deg, #ff5f6d, #ff8a65);
+    border: none;
+    border-radius: 14px;
+    padding: 13px;
+    margin-top: 14px;
+    cursor: pointer;
+  }
+  .video-open-btn:active{ transform: scale(0.98); }
+
+  .video-modal{
+    max-width: 480px;
+  }
+  .video-embed-wrap{
+    position: relative;
+    width: 100%;
+    aspect-ratio: 9 / 16;
+    max-height: 70vh;
+    margin: 12px 0 4px;
+    border-radius: 14px;
+    overflow: hidden;
+    background: #000;
+  }
+  .video-embed-wrap iframe{
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    border: none;
+  }
 
   .faq-modal{
     max-height: 80vh;
@@ -3356,11 +3463,11 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎗</div>
-      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお気に入りの子を<br>「推し」に設定できるよ</div>
+      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお氣に入りの子を<br>「推し」に設定できるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🌟</div>
-      <div class="tutorial-text">何度も出会える特別などうぶつ<br>「人気者」もいるよ</div>
+      <div class="tutorial-text">何度も出会える特別などうぶつ<br>「人氣者」もいるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎉</div>
@@ -3380,7 +3487,7 @@
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">📤</div>
-      <div class="tutorial-text">お気に入りの結果は、SNSでシェアもできるよ</div>
+      <div class="tutorial-text">お氣に入りの結果は、SNSでシェアもできるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">💾</div>
@@ -3544,6 +3651,15 @@
   </div>
 </div>
 
+<!-- 🎥 おすすめ動画モーダル -->
+<div class="dex-modal-overlay" id="videoModalOverlay">
+  <div class="dex-modal video-modal">
+    <button class="badge-modal-close" id="videoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎥 おすすめ動画</p>
+    <div class="video-embed-wrap" id="videoEmbedWrap"></div>
+  </div>
+</div>
+
 <!-- ❓ ヘルプ・FAQモーダル -->
 <div class="dex-modal-overlay" id="faqModalOverlay">
   <div class="dex-modal faq-modal">
@@ -3593,7 +3709,7 @@
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 旧暦の日にちが、実際と1日ずれることがあります。</p>
-      <p class="faq-a">A. 簡易的な計算のための誤差です。二十四節気・七十二候は天文計算のため実データと一致します。</p>
+      <p class="faq-a">A. 簡易的な計算のための誤差です。二十四節氣・七十二候は天文計算のため実データと一致します。</p>
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 日の出・日の入りは、どこの地域基準ですか？</p>
@@ -3614,7 +3730,7 @@
       <p class="faq-a">A. 発見した匹数を、1,300匹を100%として計算しています。</p>
     </div>
     <div class="faq-item">
-      <p class="faq-q">Q. 「人気者」ってなんですか？</p>
+      <p class="faq-q">Q. 「人氣者」ってなんですか？</p>
       <p class="faq-a">A. 見た目・名前が固定された13体の特別なキャラクターです。一定確率で優先的に出現します。</p>
     </div>
     <div class="faq-item">
@@ -3821,7 +3937,7 @@
       <option value="solfeggio528">528Hz｜愛・DNA修復</option>
       <option value="solfeggio639">639Hz｜人間関係・調和</option>
       <option value="solfeggio741">741Hz｜表現力・浄化</option>
-      <option value="solfeggio852">852Hz｜直感・気づき</option>
+      <option value="solfeggio852">852Hz｜直感・氣づき</option>
       <option value="solfeggio963">963Hz｜高次意識・統合</option>
     </select>
     <select class="bgm-preset-select" id="bgmSleepTimerSelect">
@@ -3915,7 +4031,7 @@
       <!-- 手紙を書くフォーム（未封印の時だけ表示） -->
       <div id="capsuleWriteForm" style="display:none;">
         <p class="capsule-desc" id="capsuleWriteDesc">次の節目の日まで開封できない手紙を、未来の自分に書いてみましょう。</p>
-        <textarea class="capsule-textarea" id="capsuleTextarea" maxlength="500" placeholder="未来のあなたへ、今の気持ちを書いてみてください"></textarea>
+        <textarea class="capsule-textarea" id="capsuleTextarea" maxlength="500" placeholder="未来のあなたへ、今の氣持ちを書いてみてください"></textarea>
         <button class="capsule-seal-btn" id="capsuleSealBtn" type="button">🔒　封印する</button>
       </div>
 
@@ -4189,7 +4305,7 @@
       <div class="fortune-row">
         <div class="ic">⭐</div>
         <div class="fortune-text">
-          <div class="label">九星気学</div>
+          <div class="label">九星氣学</div>
           <div class="value" id="fortuneNineStar">-</div>
           <div class="sub" id="fortuneNineStarSub">-</div>
         </div>
@@ -4281,7 +4397,7 @@
       <div class="fortune-row">
         <div class="ic">🎌</div>
         <div class="fortune-text">
-          <div class="label">今日の二十四節気・七十二候</div>
+          <div class="label">今日の二十四節氣・七十二候</div>
           <div class="value" id="fortuneSekki">-</div>
           <div class="sub" id="fortuneKou">-</div>
         </div>
@@ -4491,6 +4607,9 @@
     </div>
   </a>
 
+  <!-- 🎥 おすすめ動画ボタン -->
+  <button class="video-open-btn" id="videoOpenBtn" type="button">🎥　おすすめ動画を見る</button>
+
   <!-- ❓ ヘルプ・FAQボタン -->
   <button class="faq-open-btn" id="faqOpenBtn" type="button">❓　ヘルプ・よくある質問</button>
 
@@ -4502,6 +4621,199 @@
   <p class="install-note" id="installNote"></p>
 
 </div>
+
+<!-- ============================================================
+     🚀 ホーム画面追加を促すポップアップ（PWAプロンプト）
+     ・通常のブラウザアクセス時のみ表示（standalone起動時は表示しない）
+     ・初回訪問では出さず、2回目以降のアクセスで表示
+     ・「追加しました」「あとで」の2択。しつこく出ないよう配慮
+     ============================================================ -->
+<div class="pwa-prompt-overlay" id="pwaPromptOverlay">
+  <div class="pwa-prompt-card">
+    <div class="pwa-prompt-icon">🛸</div>
+    <p class="pwa-prompt-message" id="pwaPromptMessage">-</p>
+    <div class="pwa-prompt-btn-row">
+      <button class="pwa-prompt-btn pwa-prompt-btn-later" id="pwaPromptLaterBtn" type="button">あとで</button>
+      <button class="pwa-prompt-btn pwa-prompt-btn-added" id="pwaPromptAddedBtn" type="button">追加しました</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* ============================================================
+     🚀 ホーム画面追加を促すポップアップ（PWAプロンプト）ロジック
+     ・既存の isStandalone() / installBtn とは独立したモジュールとして実装。
+       既存機能には一切手を加えていない。
+     ・ご指定の関数名（isStandaloneMode / shouldShowPwaPrompt など）で
+       分割し、そのまま他ファイルへも移植しやすい構成にしている。
+     ============================================================ */
+  (function initPwaPrompt(){
+
+    // ----- localStorageキー（既存アプリの命名規則 fqtLifeCounter_ に合わせている） -----
+    const KEY_ADDED = 'fqtLifeCounter_pwaAdded';           // ホーム画面に追加済みか
+    const KEY_LATER = 'fqtLifeCounter_pwaLater';            // 「あとで」を押した日時
+    const KEY_VISIT_COUNT = 'fqtLifeCounter_pwaVisitCount'; // これまでの訪問回数
+    const KEY_LAST_MESSAGE_INDEX = 'fqtLifeCounter_pwaLastMessageIndex'; // 直前に見せた文言の番号
+    const KEY_LAST_MESSAGE_DATE = 'fqtLifeCounter_pwaLastMessageDate';   // その番号を選んだ日付
+    const KEY_LAST_SHOWN_DATE = 'fqtLifeCounter_pwaLastShownDate';       // ポップアップを最後に表示した日付
+
+    // 「あとで」を押してから、次に案内を出してよくなるまでの日数
+    const LATER_COOLDOWN_DAYS = 3;
+    // 何回目の訪問から表示してよいか（1回目＝初回訪問では出さない）
+    const MIN_VISIT_COUNT_TO_SHOW = 2;
+    // ページ読み込みから何ミリ秒後に表示するか（訪問直後の押し付け感を避けるための間）
+    const SHOW_DELAY_MS = 4000;
+
+    // ----- 🌌 ホーム画面追加を促すメッセージ（13種類・配列管理） -----
+    const pwaMessages = [
+      '🌏もうホーム画面に追加しましたか？毎日「地球に来て何日目？」を楽しもう🚀',
+      '🌌もうホーム画面に追加して、あなた専用の宇宙カウンターを持っていますか？✨',
+      '🐾もうホーム画面に追加しましたか？毎日変わる宇宙どうぶつに会いに行こう🚀',
+      '🌏あなたは今日、地球に来て何日目？すぐ確認できるようにホーム画面に追加✨',
+      '🚀もうホーム画面に追加しましたか？あなたの宇宙旅をいつでもスタートできます🌌',
+      '⭐まだなら今すぐホーム画面に追加。毎日の楽しみをスマホに🌈',
+      '🌍あなた専用の地球生活カウンター、もうホーム画面に追加しましたか？✨',
+      '🪐宇宙への入口は準備できていますか？ホーム画面に追加して毎日アクセス🚀',
+      '🌈毎日の小さな奇跡を見逃さないためにホーム画面に追加しましたか？✨',
+      '🔮今日の運勢・宇宙占いをすぐ見るためにホーム画面に追加しよう🌌',
+      '🐾次の宇宙どうぶつとの出会いの準備はできましたか？ホーム画面に追加🚀',
+      '🌟FQT LIFE COUNTERを毎日の相棒に。もうホーム画面に追加しましたか？🌏',
+      '💎あなたの地球旅行記をいつでも開けるようにホーム画面に追加✨'
+    ];
+
+    // ----- PWA判定 -----
+    function isStandaloneMode(){
+      return window.matchMedia('(display-mode: standalone)').matches ||
+             window.navigator.standalone === true;
+    }
+
+    // ----- localStorage管理 -----
+    function setPwaAdded(){
+      try{ window.localStorage.setItem(KEY_ADDED, 'true'); } catch(e){}
+    }
+    function setPwaLater(){
+      try{ window.localStorage.setItem(KEY_LATER, new Date().toISOString()); } catch(e){}
+    }
+    function getPwaStatus(){
+      try{
+        return {
+          added: window.localStorage.getItem(KEY_ADDED) === 'true',
+          laterAt: window.localStorage.getItem(KEY_LATER) // null または ISO日時文字列
+        };
+      } catch(e){
+        return { added: false, laterAt: null };
+      }
+    }
+
+    // 訪問回数を1つ進めて、進めた後の回数を返す
+    function bumpVisitCount(){
+      try{
+        const current = Number(window.localStorage.getItem(KEY_VISIT_COUNT) || '0');
+        const next = current + 1;
+        window.localStorage.setItem(KEY_VISIT_COUNT, String(next));
+        return next;
+      } catch(e){
+        return MIN_VISIT_COUNT_TO_SHOW; // localStorageが使えない環境では、条件を満たした扱いにする
+      }
+    }
+
+    // ----- 表示可否チェック -----
+    function shouldShowPwaPrompt(){
+      // standalone（ホーム画面から起動）の場合は、案内済み扱いにして即終了
+      if (isStandaloneMode()){
+        setPwaAdded();
+        return false;
+      }
+
+      const status = getPwaStatus();
+
+      // すでに「追加しました」を押している場合は表示しない
+      if (status.added) return false;
+
+      // 「あとで」から一定日数（LATER_COOLDOWN_DAYS）経っていなければ表示しない
+      if (status.laterAt){
+        const laterDate = new Date(status.laterAt);
+        const daysSinceLater = (Date.now() - laterDate.getTime()) / (1000 * 60 * 60 * 24);
+        if (daysSinceLater < LATER_COOLDOWN_DAYS) return false;
+      }
+
+      // 同じ日にすでに1回見せていれば、その日はもう出さない
+      // （1日に何度もアプリを開く人に、毎回表示されてしつこくならないようにする）
+      try{
+        const lastShownDate = window.localStorage.getItem(KEY_LAST_SHOWN_DATE);
+        if (lastShownDate === getTodayDateStringForPwaMessage()) return false;
+      } catch(e){}
+
+      // 訪問回数が既定回数に達していなければ表示しない（初回訪問では出さない）
+      const visitCount = bumpVisitCount();
+      if (visitCount < MIN_VISIT_COUNT_TO_SHOW) return false;
+
+      return true;
+    }
+
+    // 前日と同じ文言が連続しないように、日付ごとに1つずつ順番に進める
+    // （今日の名言・格言と同じ「1日1つ・順番通り」の仕組み）
+    function getTodayDateStringForPwaMessage(){
+      const now = new Date();
+      return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+    }
+    function pickPwaMessage(){
+      const today = getTodayDateStringForPwaMessage();
+      let lastDate = null;
+      let lastIndex = -1;
+      try{
+        lastDate = window.localStorage.getItem(KEY_LAST_MESSAGE_DATE);
+        lastIndex = Number(window.localStorage.getItem(KEY_LAST_MESSAGE_INDEX));
+      } catch(e){}
+
+      // 今日まだ選んでいなければ、番号を1つ進める（前日と同じにならない＝順番通り）
+      let nextIndex = (lastDate === today && !isNaN(lastIndex))
+        ? lastIndex
+        : (((isNaN(lastIndex) ? -1 : lastIndex) + 1) % pwaMessages.length);
+
+      try{
+        window.localStorage.setItem(KEY_LAST_MESSAGE_INDEX, String(nextIndex));
+        window.localStorage.setItem(KEY_LAST_MESSAGE_DATE, today);
+      } catch(e){}
+      return pwaMessages[nextIndex];
+    }
+
+    // ----- ポップアップ表示 -----
+    function showPwaPrompt(){
+      document.getElementById('pwaPromptMessage').textContent = pickPwaMessage();
+      document.getElementById('pwaPromptOverlay').classList.add('show');
+      try{ window.localStorage.setItem(KEY_LAST_SHOWN_DATE, getTodayDateStringForPwaMessage()); } catch(e){}
+    }
+
+    // ----- ポップアップ非表示 -----
+    function hidePwaPrompt(){
+      document.getElementById('pwaPromptOverlay').classList.remove('show');
+    }
+
+    // ----- ボタンの動作 -----
+    document.getElementById('pwaPromptAddedBtn').addEventListener('click', () => {
+      setPwaAdded();
+      hidePwaPrompt();
+    });
+    document.getElementById('pwaPromptLaterBtn').addEventListener('click', () => {
+      setPwaLater();
+      hidePwaPrompt();
+    });
+    // 背景タップでも「あとで」と同じ扱いにする
+    document.getElementById('pwaPromptOverlay').addEventListener('click', (e) => {
+      if (e.target === document.getElementById('pwaPromptOverlay')){
+        setPwaLater();
+        hidePwaPrompt();
+      }
+    });
+
+    // ----- 初期化：条件を満たしていれば、少し間を置いてから表示する -----
+    if (shouldShowPwaPrompt()){
+      setTimeout(showPwaPrompt, SHOW_DELAY_MS);
+    }
+
+  })();
+</script>
 
 <script>
 /* ==========================================================
@@ -5098,7 +5410,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
 
 /* ==========================================================
    誕生日でみるあなたの占い
-   ・数秘術／九星気学／干支・六十干支／誕生花／誕生石／誕生色
+   ・数秘術／九星氣学／干支・六十干支／誕生花／誕生石／誕生色
    ・今日の運勢は「生年月日×今日の日付」から毎日変わる簡易占い
    ※ すべてエンターテインメント目的の簡易ロジックです
    ========================================================== */
@@ -5129,7 +5441,7 @@ function calcLifePathNumber(birth){
   return reduceToNumber(raw);
 }
 
-// ----- 九星気学 -----
+// ----- 九星氣学 -----
 const NINE_STAR_NAMES = {
   1: '一白水星', 2: '二黒土星', 3: '三碧木星', 4: '四緑木星', 5: '五黄土星',
   6: '六白金星', 7: '七赤金星', 8: '八白土星', 9: '九紫火星'
@@ -5170,7 +5482,7 @@ function calcNineStar(birth){
 // 実際に一致することを確認済み）
 const MAYA_SEALS = [
   { name: '赤い龍',       desc: '誕生と育みのエネルギー。命の大切さを実感する出来事に出会いやすいタイプです。' },
-  { name: '白い風',       desc: 'コミュニケーションと精神性のエネルギー。言葉や気配りで人と人をつなぐ力があります。' },
+  { name: '白い風',       desc: 'コミュニケーションと精神性のエネルギー。言葉や氣配りで人と人をつなぐ力があります。' },
   { name: '青い夜',       desc: '豊かさと夢のエネルギー。直感や潜在意識を大切にし、心の豊かさを育てるタイプです。' },
   { name: '黄色い種',     desc: '開花と可能性のエネルギー。物事の芽を見つけ、丁寧に育てていく力があります。' },
   { name: '赤い蛇',       desc: '生命力と情熱のエネルギー。本能的な感覚が鋭く、エネルギッシュに物事へ向かいます。' },
@@ -5182,7 +5494,7 @@ const MAYA_SEALS = [
   { name: '青い猿',       desc: '遊び心と魔術のエネルギー。自由な発想とユーモアで、周りを楽しませる力があります。' },
   { name: '黄色い人',     desc: '自由意志と知恵のエネルギー。自分の考えを大切にし、独自の視点を持つタイプです。' },
   { name: '赤い空歩く人', desc: '探求と覚醒のエネルギー。空間を超えて広い視野で物事を捉える力があります。' },
-  { name: '白い魔法使い', desc: '魅了と気づきのエネルギー。物事の本質をそっと見抜く、静かな洞察力を持っています。' },
+  { name: '白い魔法使い', desc: '魅了と氣づきのエネルギー。物事の本質をそっと見抜く、静かな洞察力を持っています。' },
   { name: '青い鷲',       desc: 'ビジョンと視野のエネルギー。全体を見渡す俯瞰力と、未来を見据える力があります。' },
   { name: '黄色い戦士',   desc: '挑戦と知性のエネルギー。困難を乗り越えることで大きな喜びを感じるタイプです。' },
   { name: '赤い地球',     desc: '共時性と仲間のエネルギー。仲間意識が強く、集団をまとめる才に長けています。' },
@@ -5191,9 +5503,9 @@ const MAYA_SEALS = [
   { name: '黄色い太陽',   desc: '生命力と悟りのエネルギー。周囲を照らす存在感と、あたたかな包容力を持っています。' }
 ];
 const MAYA_TONES = [
-  { name: '音1（磁気）',     desc: '目的を引き寄せる、すべての始まりの音。新しいことをスタートするのに向いています。' },
+  { name: '音1（磁氣）',     desc: '目的を引き寄せる、すべての始まりの音。新しいことをスタートするのに向いています。' },
   { name: '音2（月）',       desc: '課題や挑戦が浮かび上がる音。対立を通して物事を整えていく力が働きます。' },
-  { name: '音3（電気）',     desc: '協力と奉仕の音。人とのつながりの中でエネルギーが活性化していきます。' },
+  { name: '音3（電氣）',     desc: '協力と奉仕の音。人とのつながりの中でエネルギーが活性化していきます。' },
   { name: '音4（自己存在）', desc: '土台や形を定める音。物事の枠組みをしっかり作っていくのに向いています。' },
   { name: '音5（倍音）',     desc: '中心から輝きを放つ音。周囲を巻き込みながら物事を推し進めていく力です。' },
   { name: '音6（リズム）',   desc: 'バランスを整える音。心と体、周囲との調和を意識するとうまくいきやすい日です。' },
@@ -5307,14 +5619,14 @@ function calcMayaKin(birth){
 const COSMIC_TYPES = [
   { emoji: '🌞', name: '恒星タイプ', desc: '周りを照らす光の存在。自然と人を引きつけ、希望や安心感を与えるリーダータイプ。' },
   { emoji: '🌍', name: '惑星タイプ', desc: '安定と成長を大切にする存在。一歩ずつ積み重ねることで、大きな成果を育てるタイプ。' },
-  { emoji: '🌙', name: '月タイプ', desc: '感性と優しさを持つ存在。人の気持ちを感じ取り、癒やしや安心を届けるタイプ。' },
+  { emoji: '🌙', name: '月タイプ', desc: '感性と優しさを持つ存在。人の氣持ちを感じ取り、癒やしや安心を届けるタイプ。' },
   { emoji: '☄️', name: '彗星タイプ', desc: '変化を呼び込む挑戦者。新しい流れをつくり、周囲に刺激やチャンスを与えるタイプ。' },
   { emoji: '🌌', name: '銀河タイプ', desc: '広い視野を持つ調和の存在。多くの人や出来事をつなぎ、大きな流れを生み出すタイプ。' },
   { emoji: '⭐', name: '流れ星タイプ', desc: '願いを形にする行動派。ひらめきを大切にし、タイミングをつかむのが得意なタイプ。' },
   { emoji: '🌠', name: '星雲タイプ', desc: '可能性を育む創造者。アイデアや夢を少しずつ形にしていくタイプ。' },
   { emoji: '🪐', name: '土星リングタイプ', desc: '努力を積み重ねる達人。コツコツ続けることで、大きな信頼と実力を築くタイプ。' },
-  { emoji: '🕳️', name: 'ブラックホールタイプ', desc: '深い探究心を持つ研究者。物事の本質を見抜き、誰も気づかない価値を発見するタイプ。' },
-  { emoji: '🌈', name: 'オーロラタイプ', desc: '希望と癒やしを届ける存在。美しい感性で周囲の心を明るくし、前向きな気持ちを広げるタイプ。' },
+  { emoji: '🕳️', name: 'ブラックホールタイプ', desc: '深い探究心を持つ研究者。物事の本質を見抜き、誰も氣づかない価値を発見するタイプ。' },
+  { emoji: '🌈', name: 'オーロラタイプ', desc: '希望と癒やしを届ける存在。美しい感性で周囲の心を明るくし、前向きな氣持ちを広げるタイプ。' },
   { emoji: '💫', name: '超新星タイプ', desc: '大きな変化を起こす革命家。人生の転機を力に変え、新しい未来を切り開くタイプ。' },
   { emoji: '🛰️', name: '人工衛星タイプ', desc: '情報とご縁をつなぐ存在。人・知識・チャンスを結びつけ、多くの人をサポートするタイプ。' },
   { emoji: '🚀', name: '宇宙船タイプ', desc: '未知へ挑戦する冒険者。好奇心が旺盛で、新しい世界へ進み続けるタイプ。' }
@@ -5322,7 +5634,7 @@ const COSMIC_TYPES = [
 
 // ----- 🌟 生まれた曜日のエネルギー（日本語の曜日名の由来である七曜・天体と対応） -----
 const WEEKDAY_ENERGY = [
-  { name: '太陽のエネルギー', desc: '明るく堂々とした存在感を持ち、周りを自然と照らすリーダー気質。' },   // 0:日曜日
+  { name: '太陽のエネルギー', desc: '明るく堂々とした存在感を持ち、周りを自然と照らすリーダー氣質。' },   // 0:日曜日
   { name: '月のエネルギー',   desc: '繊細で感受性豊か、人の心にそっと寄り添うやさしさを持つタイプ。' },     // 1:月曜日
   { name: '火星のエネルギー', desc: '情熱的でエネルギッシュ、目標に向かって突き進む行動力の持ち主。' },     // 2:火曜日
   { name: '水星のエネルギー', desc: '好奇心旺盛で頭の回転が速く、コミュニケーション上手なタイプ。' },       // 3:水曜日
@@ -5426,15 +5738,15 @@ const FORTUNE_MESSAGES = [
   '普段より直感が冴える日。心の声を信じて。',
   '身近な人との会話にヒントが隠れています。',
   '焦らずマイペースに進むのが吉。',
-  '片付けや整理をすると運気が上向きに。',
-  '感謝の気持ちを伝えると良いことが起こりそう。',
+  '片付けや整理をすると運氣が上向きに。',
+  '感謝の氣持ちを伝えると良いことが起こりそう。',
   '新しいことを始めるのに良いタイミング。',
   '休息を取ることで、より力を発揮できる日。',
   '笑顔でいると自然と運が味方してくれます。',
   '誰かのために動くと、自分にも幸運が返ってくる日。',
   '計画を見直すことで道が開けそう。'
 ];
-const LUCKY_ITEMS = ['ハンカチ', '手帳', '観葉植物', 'マグカップ', 'アロマキャンドル', 'お気に入りの音楽', '読みかけの本', '折りたたみ傘', '手紙', '写真'];
+const LUCKY_ITEMS = ['ハンカチ', '手帳', '観葉植物', 'マグカップ', 'アロマキャンドル', 'お氣に入りの音楽', '読みかけの本', '折りたたみ傘', '手紙', '写真'];
 
 // 文字列から決定的な数値を作る簡易ハッシュ関数
 function simpleHash(str){
@@ -5464,12 +5776,12 @@ function calcTodayFortune(birth, today){
 
 // ----- 誕生日×今日の日付を掛け合わせて毎日変化するパーソナルナンバー占い -----
 const DAILY_NUMBER_MESSAGES = {
-  1: '新しいことを始める勇気が湧く日。第一歩を踏み出して。',
+  1: '新しいことを始める勇氣が湧く日。第一歩を踏み出して。',
   2: '協力や対話が鍵になる日。誰かと力を合わせてみて。',
   3: 'アイデアやひらめきが冴える日。素直に表現してみて。',
   4: '地道な積み重ねが実を結ぶ日。丁寧に取り組んで。',
   5: '変化を楽しめる自由な日。新しい風を歓迎して。',
-  6: '思いやりが幸運を呼ぶ日。大切な人を気にかけて。',
+  6: '思いやりが幸運を呼ぶ日。大切な人を氣にかけて。',
   7: '静かに自分と向き合うと答えが見える日。',
   8: '行動力が結果に直結する日。積極的に動いてみて。',
   9: '手放すことで新しい流れが生まれる日。'
@@ -5585,7 +5897,7 @@ function calcMoonPhase(date){
   return { age, name: phase.name, message: phase.message };
 }
 
-// ----- 🎌 今日の二十四節気・七十二候（太陽黄経から算出） -----
+// ----- 🎌 今日の二十四節氣・七十二候（太陽黄経から算出） -----
 
 // ユリウス通日を計算（グレゴリオ暦→JD変換の標準アルゴリズム）
 function toJulianDay(date){
@@ -5614,14 +5926,14 @@ function calcSolarLongitude(date){
   return trueLong;
 }
 
-// 二十四節気の名称（黄経0度＝春分を起点に15度ごと）
+// 二十四節氣の名称（黄経0度＝春分を起点に15度ごと）
 const SEKKI_NAMES = [
   '春分', '清明', '穀雨', '立夏', '小満', '芒種', '夏至', '小暑', '大暑',
   '立秋', '処暑', '白露', '秋分', '寒露', '霜降', '立冬', '小雪', '大雪',
   '冬至', '小寒', '大寒', '立春', '雨水', '啓蟄'
 ];
 
-// 七十二候データ（各節気の初候・次候・末候／明治7年『略本暦』準拠）
+// 七十二候データ（各節氣の初候・次候・末候／明治7年『略本暦』準拠）
 const KOU_DATA = {
   '立春': [{ name: '東風解凍', reading: 'はるかぜこおりをとく' }, { name: '黄鶯睍睆', reading: 'うぐいすなく' }, { name: '魚上氷', reading: 'うおこおりをいずる' }],
   '雨水': [{ name: '土脉潤起', reading: 'つちのしょううるおいおこる' }, { name: '霞始靆', reading: 'かすみはじめてたなびく' }, { name: '草木萠動', reading: 'そうもくめばえいずる' }],
@@ -5653,7 +5965,7 @@ function calcSekkiAndKou(date){
   const longitude = calcSolarLongitude(date);
   const sekkiIndex = Math.floor(longitude / 15) % 24;
   const sekkiName = SEKKI_NAMES[sekkiIndex];
-  const withinTerm = longitude - sekkiIndex * 15; // 節気内での経過角度（0〜15度）
+  const withinTerm = longitude - sekkiIndex * 15; // 節氣内での経過角度（0〜15度）
   let kouIndex = Math.floor(withinTerm / 5); // 5度ごとに初候・次候・末候
   if (kouIndex > 2) kouIndex = 2;
   const kou = KOU_DATA[sekkiName][kouIndex];
@@ -5663,11 +5975,11 @@ function calcSekkiAndKou(date){
 
 // ----- 🌕 旧暦の日付（簡易計算・閏月は考慮していません） -----
 
-// 二十四節気のうち「中気」（偶数インデックス＝12種）と旧暦月の対応
+// 二十四節氣のうち「中氣」（偶数インデックス＝12種）と旧暦月の対応
 const CHUUKI_TO_MONTH = { 22: 1, 0: 2, 2: 3, 4: 4, 6: 5, 8: 6, 10: 7, 12: 8, 14: 9, 16: 10, 18: 11, 20: 12 };
 
 function calcLunarDate(date, sekkiIndex){
-  // 直近の中気（偶数インデックスの節気）が示す月を採用する簡易方式
+  // 直近の中氣（偶数インデックスの節氣）が示す月を採用する簡易方式
   const chuukiIndex = (sekkiIndex % 2 === 0) ? sekkiIndex : (sekkiIndex - 1 + 24) % 24;
   const month = CHUUKI_TO_MONTH[chuukiIndex];
 
@@ -5701,8 +6013,8 @@ function biorhythmLabel(value){
 // ランダムではなく、既存のバイオリズム計算（身体23日・感情28日・知性33日の周期の実測値）と直接連動させる
 // 恋愛運＝感情の波、仕事運＝知性の波、健康運＝身体の波を、そのままランク判定に使う
 const LOVE_LUCK_MESSAGES = {
-  '絶好調': '気持ちがまっすぐ伝わりやすい日。素直な言葉が距離を縮めてくれます。',
-  '好調':   '心が安定していて、相手の気持ちにも寄り添いやすい日です。',
+  '絶好調': '氣持ちがまっすぐ伝わりやすい日。素直な言葉が距離を縮めてくれます。',
+  '好調':   '心が安定していて、相手の氣持ちにも寄り添いやすい日です。',
   '普通':   'いつも通りの穏やかな関係を大切にすると良い日。',
   '低調':   '感情が揺れやすいので、大事な話は少し落ち着いてから。',
   '要注意': 'すれ違いが起きやすい日。一呼吸おいてから言葉を選んで。'
@@ -5715,7 +6027,7 @@ const WORK_LUCK_MESSAGES = {
   '要注意': '判断力が鈍りやすい日。大事な決断は先延ばしにしても◎。'
 };
 const HEALTH_LUCK_MESSAGES = {
-  '絶好調': '体力・気力ともに充実。新しいことにも挑戦しやすい日。',
+  '絶好調': '体力・氣力ともに充実。新しいことにも挑戦しやすい日。',
   '好調':   '体調が安定していて、動きやすさを感じられる日です。',
   '普通':   'いつも通りのコンディション。無理のない範囲で過ごして。',
   '低調':   '疲れが出やすい日。こまめな休憩を心がけて。',
@@ -5739,12 +6051,12 @@ const MONEY_RANKS = ['絶好調', '好調', '普通', 'やや注意', '要注意
 const MONEY_MESSAGES = [
   '思わぬ臨時収入があるかも。',
   '欲しかったものが手に入りやすい日。',
-  '無駄遣いに気をつけて、計画的に。',
+  '無駄遣いに氣をつけて、計画的に。',
   '人との縁がお金を呼び込みそう。',
   '節約を意識すると後で役立ちます。',
   '自己投資にお金を使うと吉。',
-  'お財布の中を整理すると運気アップ。',
-  '感謝の気持ちが金運を支えます。'
+  'お財布の中を整理すると運氣アップ。',
+  '感謝の氣持ちが金運を支えます。'
 ];
 
 function calcMoneyLuck(birth, today){
@@ -5784,8 +6096,8 @@ const TAROT_CARDS = [
   { name: '吊るされた男', meaning: '視点を変えると見えるもの' },
   { name: '死神', meaning: '終わりと再生', alwaysReversed: true, reversedMeaning: '無理に手放さず、自分のペースで変化を受け入れる時' },
   { name: '節制', meaning: 'バランスと調和' },
-  { name: '悪魔', meaning: '誘惑への気づき', alwaysReversed: true, reversedMeaning: '執着や束縛から解放され、身軽になれる兆し' },
-  { name: '塔', meaning: '急な変化と気づき', alwaysReversed: true, reversedMeaning: '大きな崩れを避け、穏やかに立て直せる時' },
+  { name: '悪魔', meaning: '誘惑への氣づき', alwaysReversed: true, reversedMeaning: '執着や束縛から解放され、身軽になれる兆し' },
+  { name: '塔', meaning: '急な変化と氣づき', alwaysReversed: true, reversedMeaning: '大きな崩れを避け、穏やかに立て直せる時' },
   { name: '星', meaning: '希望と癒し' },
   { name: '月', meaning: '不安と直感' },
   { name: '太陽', meaning: '成功と喜び' },
@@ -5869,7 +6181,7 @@ const IROENPITSU_COLORS = [
   {
     name: '黄色（金運）', hex: '#f5c518', textColor: '#1f2937',
     deity: '皇帝・八大龍王の色。豊かさを呼び込む',
-    description: '希望・創造力・自己肯定感を呼び覚まし、人生を堂々と歩む勇気を与える色。'
+    description: '希望・創造力・自己肯定感を呼び覚まし、人生を堂々と歩む勇氣を与える色。'
   },
   {
     name: '肌色（ワクワク）', hex: '#f4c9a0', textColor: '#1f2937',
@@ -5879,7 +6191,7 @@ const IROENPITSU_COLORS = [
   {
     name: 'オレンジ（感謝）', hex: '#f0842c', textColor: '#ffffff',
     deity: '大物主神の色',
-    description: '気分が落ち込んでいる人に効果的。沈んでいた心に再び情熱の火を灯す"再生"の色。新しい挑戦を後押しし、「やってみよう」という前向きな気持ちを呼び覚まします。停滞したエネルギーを流し、創造力を活性化。人とのつながりや笑顔を取り戻すサポートにも。'
+    description: '氣分が落ち込んでいる人に効果的。沈んでいた心に再び情熱の火を灯す"再生"の色。新しい挑戦を後押しし、「やってみよう」という前向きな氣持ちを呼び覚まします。停滞したエネルギーを流し、創造力を活性化。人とのつながりや笑顔を取り戻すサポートにも。'
   },
   {
     name: '赤（情熱）', hex: '#e5383b', textColor: '#ffffff',
@@ -5921,7 +6233,7 @@ function renderFortune(birth, today){
   document.getElementById('fortuneNumerology').textContent =
     `${lifePath} — ${NUMEROLOGY_MEANINGS[lifePath]}`;
 
-  // 九星気学
+  // 九星氣学
   const star = calcNineStar(birth);
   document.getElementById('fortuneNineStar').textContent = NINE_STAR_NAMES[star];
   document.getElementById('fortuneNineStarSub').textContent = NINE_STAR_TRAITS[star];
@@ -5970,7 +6282,7 @@ function renderFortune(birth, today){
     `${moon.name}（月齢${moon.age.toFixed(1)}）`;
   document.getElementById('fortuneMoonMessage').textContent = moon.message;
 
-  // 🎌 今日の二十四節気・七十二候
+  // 🎌 今日の二十四節氣・七十二候
   const sekki = calcSekkiAndKou(today);
   document.getElementById('fortuneSekki').textContent = sekki.sekkiName;
   document.getElementById('fortuneKou').textContent =
@@ -6189,6 +6501,27 @@ document.getElementById('faqModalCloseBtn').addEventListener('click', () => {
 document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('faqModalOverlay')){
     document.getElementById('faqModalOverlay').classList.remove('show');
+  }
+});
+
+// 🎥 おすすめ動画モーダルの開閉（YouTube公式のiframe埋め込みを使用）
+const RECOMMENDED_VIDEO_IDS = ['6BgOM9VPtYQ'];
+document.getElementById('videoOpenBtn').addEventListener('click', () => {
+  const videoId = RECOMMENDED_VIDEO_IDS[Math.floor(Math.random() * RECOMMENDED_VIDEO_IDS.length)];
+  document.getElementById('videoEmbedWrap').innerHTML =
+    `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" ` +
+    `title="おすすめ動画" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ` +
+    `allowfullscreen></iframe>`;
+  document.getElementById('videoModalOverlay').classList.add('show');
+});
+document.getElementById('videoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('videoModalOverlay').classList.remove('show');
+  document.getElementById('videoEmbedWrap').innerHTML = ''; // 再生を止めるため中身を空にする
+});
+document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('videoModalOverlay')){
+    document.getElementById('videoModalOverlay').classList.remove('show');
+    document.getElementById('videoEmbedWrap').innerHTML = '';
   }
 });
 
@@ -7021,19 +7354,19 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ③ シード生成：日付・時刻・アクセス日数・生年月日から決定的な乱数の種を作る -----
   /* ==========================================================
-     🌟 人気者の宇宙どうぶつ（固定デザイン・出現率アップ）
+     🌟 人氣者の宇宙どうぶつ（固定デザイン・出現率アップ）
      ・ピカチュウのように「よく見かける、覚えやすい」看板キャラクターを
-       あえて13体（人気者10体＋レア人気者3体）用意する
+       あえて13体（人氣者10体＋レア人氣者3体）用意する
      ・パーツ構成を固定することで、毎回同じ見た目・同じ名前で登場する
      ・通常のランダム生成とは別枠で、一定確率で優先的に出現させる
      ========================================================== */
   const SIGNATURE_CREATURES = [
-    // ----- 人気者10体（★2固定・出現率アップ） -----
+    // ----- 人氣者10体（★2固定・出現率アップ） -----
     // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
     { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
       rarity: 2, name: 'ムーンモチ', personality: 'のんびり屋', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
     { key: 'san_san_poko', parts: { body:18, ear:10, eye:1,  mouth:4,  nose:6, tail:18, wing:2, horn:1, antenna:0, hand:4,  foot:6,  pattern:5,  background:18, color:2,  star:2 },
-      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う', favorite: '朝日', quote: '今日もいい天気！元気にいこう☀️' },
+      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
     { key: 'yume_purin', parts: { body:8,  ear:3,  eye:7,  mouth:0,  nose:5, tail:4,  wing:7, horn:9, antenna:6, hand:11, foot:11, pattern:12, background:0,  color:13, star:2 },
       rarity: 2, name: 'ゆめプリン', personality: '夢見がち', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
     { key: 'honey_puni', parts: { body:10, ear:12, eye:14, mouth:1,  nose:7, tail:10, wing:4, horn:0, antenna:2, hand:10, foot:12, pattern:7,  background:16, color:1,  star:12 },
@@ -7045,13 +7378,13 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'kira_kiran', parts: { body:6,  ear:16, eye:14, mouth:9,  nose:0, tail:18, wing:8, horn:4, antenna:4, hand:6,  foot:14, pattern:4,  background:13, color:26, star:4 },
       rarity: 2, name: 'きらきらん', personality: 'ムードメーカー', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
     { key: 'mintoru', parts: { body:3,  ear:14, eye:4,  mouth:8,  nose:1, tail:0,  wing:7, horn:3, antenna:0, hand:10, foot:9,  pattern:8,  background:14, color:5,  star:1 },
-      rarity: 2, name: 'みんとる', personality: '几帳面', favorite: 'ハーブティー', quote: 'すっきり爽やかな気分だよ' },
+      rarity: 2, name: 'みんとる', personality: '几帳面', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
     { key: 'pofu_pofu', parts: { body:3,  ear:15, eye:5,  mouth:8,  nose:1, tail:0,  wing:3, horn:5, antenna:6, hand:11, foot:11, pattern:22, background:15, color:0,  star:0 },
       rarity: 2, name: 'ぽふぽふ', personality: '甘党', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
     { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
       rarity: 2, name: 'パクパクン', personality: '食いしん坊', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
 
-    // ----- レア人気者3体（★5固定・出現率は控えめ） -----
+    // ----- レア人氣者3体（★5固定・出現率は控えめ） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
       rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
@@ -7059,7 +7392,7 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
       rarity: 5, name: 'レジェンドスター', personality: '負けず嫌い', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
   ];
-  // 「宇宙どうぶつ占い」など今後の機能から、人気者13体のデータ（key・パーツ・名前等）を
+  // 「宇宙どうぶつ占い」など今後の機能から、人氣者13体のデータ（key・パーツ・名前等）を
   // そのまま参照できるよう公開しておく
   window.__fqtSignatureCreatures = SIGNATURE_CREATURES;
 
@@ -7266,7 +7599,7 @@ window.fqtConfirm = function(message, onConfirm){
       (cx) => `<circle cx="${cx}" cy="95" r="${r}" fill="#2b2b2b"/><circle cx="${cx - 2}" cy="${92}" r="${r * 0.32}" fill="#ffffff"/>`,
       // たれ目（やさしい）
       (cx) => `<ellipse cx="${cx}" cy="97" rx="${r}" ry="${r * 0.8}" fill="#2b2b2b"/><circle cx="${cx - 2}" cy="94" r="${r * 0.3}" fill="#ffffff"/>`,
-      // つり目（元気）
+      // つり目（元氣）
       (cx) => `<ellipse cx="${cx}" cy="93" rx="${r}" ry="${r * 0.85}" fill="#2b2b2b" transform="rotate(-8 ${cx} 93)"/><circle cx="${cx - 1}" cy="90" r="${r * 0.3}" fill="#ffffff"/>`,
       // キラキラおめめ（大きめハイライト2つ）
       (cx) => `<circle cx="${cx}" cy="95" r="${r * 1.05}" fill="#2b2b2b"/><circle cx="${cx - 3}" cy="91" r="${r * 0.35}" fill="#ffffff"/><circle cx="${cx + 2}" cy="97" r="${r * 0.2}" fill="#ffffff"/>`
@@ -7432,7 +7765,7 @@ window.fqtConfirm = function(message, onConfirm){
     '宇宙探検家', 'お昼寝好き', 'おしゃべり', 'てれ屋', 'いたずら好き', 'がんばり屋', '夢見がち',
     'マイペース', '几帳面', '大胆', '心配性', 'ムードメーカー', '一途', '頑固', '天真爛漫',
     '芸術家肌', 'おっとり', '負けず嫌い', '甘党', '寒がり', '暑がり', '朝型', '夜型', '記憶力抜群',
-    '方向音痴', '踊り好き', '歌好き', '読書家', 'コレクター気質', '几帳面すぎる', '楽天家', '慎重派',
+    '方向音痴', '踊り好き', '歌好き', '読書家', 'コレクター氣質', '几帳面すぎる', '楽天家', '慎重派',
     'ロマンチスト', '現実主義', '好奇心旺盛', 'お世話好き', 'ひとり時間が好き', '仲間思い', '流行に敏感',
     'マイブーム多め', 'よく笑う', '静かに燃えるタイプ', '直感型'
   ];
@@ -7455,7 +7788,7 @@ window.fqtConfirm = function(message, onConfirm){
     '誰かの笑顔があなたの力になる。', '今日という日は二度と来ない特別な日。', '小さな一歩も立派な前進。',
     '休むことも大切な仕事のうち。', '今日出会えてうれしいよ。', 'あなたのペースでいいんだよ。',
     '星はいつもあなたを見守っているよ。', '雨の日も虹への準備期間。', '今日の空はどんな色かな？',
-    '好きなことをする時間を大切に。', '無理はしすぎないでね。', 'ちいさな勇気が世界を変える。',
+    '好きなことをする時間を大切に。', '無理はしすぎないでね。', 'ちいさな勇氣が世界を変える。',
     '今日のごはんはおいしかった？', '誰かに優しくすると自分も温かくなるよ。', '夜はゆっくり眠ってね。',
     '今日の自分に「おつかれさま」を。', '新しいことを始めるのに遅すぎることはないよ。',
     '完璧じゃなくても大丈夫。', 'あなたのままで十分素敵。', '今日も一日ありがとう。',
@@ -7465,7 +7798,7 @@ window.fqtConfirm = function(message, onConfirm){
     '今日という日を楽しんでね。', 'あなたの時間はあなたのもの。', '心の声に耳をすませてみよう。',
     '今日のひとときを大切に。', 'すこし立ち止まってもいいんだよ。', '応援しているよ。',
     'あなたの笑顔が見たいな。', '今日も一緒にいられてうれしい。', '明日はきっといい日になるよ。',
-    '好きなものに囲まれて過ごそう。', '今日の空気を胸いっぱい吸ってみて。', 'できたことを数えてみよう。',
+    '好きなものに囲まれて過ごそう。', '今日の空氣を胸いっぱい吸ってみて。', 'できたことを数えてみよう。',
     '今日という贈り物を大切に。', '自分にやさしくしてあげてね。', '今日のあなたを応援してるよ。',
     'ちいさな発見を楽しんでね。', '今日はどんな一日だった？', 'あなたのペースで歩いていこう。',
     '今日も宇宙のどこかで誰かが笑ってるよ。', 'ちょっとした冒険に出てみよう。',
@@ -7536,8 +7869,8 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ⑭ 新しい宇宙どうぶつを1匹生成して画面に表示する -----
   function encounterNewAnimal(){
-    // 🌟 人気者チェック：一定確率で、固定デザインの「人気者」を優先的に出現させる
-    // （レア人気者3体＝0.5%、人気者10体＝14.5%、残り85%は通常のランダム生成）
+    // 🌟 人氣者チェック：一定確率で、固定デザインの「人氣者」を優先的に出現させる
+    // （レア人氣者3体＝0.5%、人氣者10体＝14.5%、残り85%は通常のランダム生成）
     const signatureRoll = Math.random();
     let seed, parts, rarity, texts;
 
@@ -7558,7 +7891,7 @@ window.fqtConfirm = function(message, onConfirm){
       parts = pickPartIndices(seed);
       rarity = pickRarity(seed);
       texts = generateAnimalTexts(seed);
-      texts.signatureKey = null; // 通常生成のどうぶつには人気者キーは付かない
+      texts.signatureKey = null; // 通常生成のどうぶつには人氣者キーは付かない
     }
 
     const animalId = buildAnimalId(parts);
@@ -7575,7 +7908,7 @@ window.fqtConfirm = function(message, onConfirm){
         favorite: texts.favorite,
         parts: parts,
         firstMetDate: getTodayDateStringForDex(),
-        signatureKey: texts.signatureKey || null // 「人気者13体」のどれかであれば、そのkeyを記録（宇宙どうぶつ占い等で使用予定）
+        signatureKey: texts.signatureKey || null // 「人氣者13体」のどれかであれば、そのkeyを記録（宇宙どうぶつ占い等で使用予定）
       };
       saveDexData(dexData);
     }
@@ -7620,11 +7953,11 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('animalFavorite').textContent = currentAnimal.texts.favorite;
     document.getElementById('animalQuote').textContent = '「' + currentAnimal.texts.quote + '」';
 
-    // 🌟 人気者13体のどれかであれば、専用マークを表示する
+    // 🌟 人氣者13体のどれかであれば、専用マークを表示する
     const sigBadge = document.getElementById('animalSignatureBadge');
     if (currentAnimal.texts.signatureKey){
       const isRareSignature = currentAnimal.rarity === 5;
-      sigBadge.textContent = isRareSignature ? '👑 レア人気者' : '🌟 人気者';
+      sigBadge.textContent = isRareSignature ? '👑 レア人氣者' : '🌟 人氣者';
       sigBadge.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
       sigBadge.style.display = 'inline-block';
     } else {
@@ -7757,7 +8090,7 @@ window.fqtConfirm = function(message, onConfirm){
       item.className = 'dex-item' + (isOshi ? ' oshi' : '');
       const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
       const sigMark = animal.signatureKey
-        ? `<div class="dex-signature-mark" title="人気者">${animal.rarity === 5 ? '👑' : '🌟'}</div>`
+        ? `<div class="dex-signature-mark" title="人氣者">${animal.rarity === 5 ? '👑' : '🌟'}</div>`
         : '';
       item.innerHTML =
         `<div class="dex-thumb" data-id="${animal.id}">${thumbSvg}${sigMark}</div>` +
@@ -7837,11 +8170,11 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('oshiDetailPersonality').textContent = animal.personality || '-';
     document.getElementById('oshiDetailFavorite').textContent = animal.favorite || '-';
 
-    // 🌟 人気者13体のどれかであれば、専用マークを表示する
+    // 🌟 人氣者13体のどれかであれば、専用マークを表示する
     const sigBadgePopup = document.getElementById('oshiDetailSignatureBadge');
     if (animal.signatureKey){
       const isRareSignature = animal.rarity === 5;
-      sigBadgePopup.textContent = isRareSignature ? '👑 レア人気者' : '🌟 人気者';
+      sigBadgePopup.textContent = isRareSignature ? '👑 レア人氣者' : '🌟 人氣者';
       sigBadgePopup.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
       sigBadgePopup.style.display = 'inline-block';
     } else {
@@ -11633,7 +11966,7 @@ window.fqtConfirm = function(message, onConfirm){
 
   const DAILY_QUOTE_KEY = 'fqtLifeCounter_dailyQuote';
 
-  // 50種類のオリジナル格言（人生・成長・勇気・感謝などをテーマに）
+  // 50種類のオリジナル格言（人生・成長・勇氣・感謝などをテーマに）
   const DAILY_QUOTES = [
     '焦らなくていい。種は、芽を出す時期を自分で知っている。',
     '小さな一歩も、続ければ大きな道になる。',
@@ -11643,13 +11976,13 @@ window.fqtConfirm = function(message, onConfirm){
     '休むことは、止まることではなく整えること。',
     '完璧を目指すより、続けることを目指そう。',
     '失敗は、次に向かうための地図になる。',
-    '誰かの一歩が、自分の勇気になることがある。',
+    '誰かの一歩が、自分の勇氣になることがある。',
     '花は咲く時期を焦らない。あなたも同じでいい。',
     '今日という日は、二度と戻ってこない贈り物。',
     '迷ったときほど、自分の心の声を聞いてみよう。',
     '小さな親切は、思っている以上に遠くまで届く。',
     'できないことより、できたことを数えよう。',
-    '変わる勇気より、続ける勇気の方が難しいこともある。',
+    '変わる勇氣より、続ける勇氣の方が難しいこともある。',
     '心が疲れたときは、頑張るより休むを選んでいい。',
     '未来は、今日の小さな選択の積み重ねでできている。',
     '自分を責める時間を、自分を励ます時間に変えよう。',
@@ -11771,7 +12104,7 @@ window.fqtConfirm = function(message, onConfirm){
 /* ==========================================================
    🐾 FQT宇宙どうぶつ診断（追加実装のみ・既存機能には触れない）
    ・生年月日から一意に決まる、FQTオリジナルの本質診断
-   ・「人気者13体」（window.__fqtSignatureCreatures）をそのまま
+   ・「人氣者13体」（window.__fqtSignatureCreatures）をそのまま
      診断結果の「宇宙どうぶつ」として使う
    ========================================================== */
 (function initSpaceAnimalDiagnosis(){
@@ -11780,7 +12113,7 @@ window.fqtConfirm = function(message, onConfirm){
   const EARTH_CONSCIOUSNESS = {
     1: { name: '安定', desc: '地に足をつけ、着実に積み重ねることを大切にするタイプです。焦らず一歩ずつ進むことで、周りからの信頼を得て、揺るがない基盤を築いていきます。' },
     2: { name: '行動', desc: '考えるよりまず動く、フットワークの軽さが持ち味です。新しい環境や挑戦を恐れず、行動しながら学び、道を切り拓いていく力を持っています。' },
-    3: { name: '共感', desc: '人の気持ちに寄り添う力に長けています。相手の立場に立って考えられるやさしさが、多くの人との深いつながりを生み出していきます。' },
+    3: { name: '共感', desc: '人の氣持ちに寄り添う力に長けています。相手の立場に立って考えられるやさしさが、多くの人との深いつながりを生み出していきます。' },
     0: { name: '探究', desc: '物事の本質を知りたいという好奇心が原動力です。表面的な答えでは満足せず、深く掘り下げて理解しようとする探究心を持っています。' }
   };
 
@@ -11790,34 +12123,34 @@ window.fqtConfirm = function(message, onConfirm){
     2: { name: '創造', desc: '何もないところから新しいものを生み出す力を宿しています。既存の枠にとらわれない発想が、あなたらしい世界を形づくっていきます。' },
     3: { name: '調和', desc: '対立よりも調和を大切にする意識を持っています。異なる意見や個性をやさしくつなぎ合わせ、心地よい場をつくる力があります。' },
     4: { name: '自由', desc: '誰にも縛られず、自分らしくあることを大切にする意識です。既成概念にとらわれない自由な発想が、あなたの魅力の源になっています。' },
-    0: { name: '覚醒', desc: '物事の本質に気づき、目覚めていく意識を持っています。経験を通して少しずつ視野が広がり、深い気づきを得ていくタイプです。' }
+    0: { name: '覚醒', desc: '物事の本質に氣づき、目覚めていく意識を持っています。経験を通して少しずつ視野が広がり、深い氣づきを得ていくタイプです。' }
   };
 
   // ----- ③ 今世のテーマ（8種）※ (月×日)%8 -----
   const LIFE_THEME = {
-    1: { name: '愛', desc: '今世でのテーマは「愛すること・愛されること」です。素直に気持ちを伝え合う経験を通して、あなたの心はより豊かに満たされていきます。' },
-    2: { name: '挑戦', desc: '今世でのテーマは「挑戦」です。未知の領域に一歩踏み出す勇気が、あなたにしか描けない物語を紡いでいくきっかけになります。' },
+    1: { name: '愛', desc: '今世でのテーマは「愛すること・愛されること」です。素直に氣持ちを伝え合う経験を通して、あなたの心はより豊かに満たされていきます。' },
+    2: { name: '挑戦', desc: '今世でのテーマは「挑戦」です。未知の領域に一歩踏み出す勇氣が、あなたにしか描けない物語を紡いでいくきっかけになります。' },
     3: { name: '信頼', desc: '今世でのテーマは「信頼」です。人を信じ、また自分自身を信じることで、揺るがない安心感に満ちた関係を築いていくでしょう。' },
     4: { name: '成長', desc: '今世でのテーマは「成長」です。小さな変化の積み重ねが、やがて大きな自分らしさへとつながっていく道のりを歩んでいきます。' },
     5: { name: '創造', desc: '今世でのテーマは「創造」です。あなただけの発想やアイデアを形にしていくことが、人生に彩りと充実感をもたらしてくれます。' },
     6: { name: '調和', desc: '今世でのテーマは「調和」です。自分と周囲、心と体、そのバランスを整えていくことが、穏やかな毎日への近道になります。' },
-    7: { name: '勇気', desc: '今世でのテーマは「勇気」です。一歩踏み出す小さな勇気の積み重ねが、あなたの人生を大きく前に進めてくれるはずです。' },
-    0: { name: '感謝', desc: '今世でのテーマは「感謝」です。当たり前の日常に目を向け、感謝の気持ちを持つことで、心穏やかな豊かさを感じられるでしょう。' }
+    7: { name: '勇氣', desc: '今世でのテーマは「勇氣」です。一歩踏み出す小さな勇氣の積み重ねが、あなたの人生を大きく前に進めてくれるはずです。' },
+    0: { name: '感謝', desc: '今世でのテーマは「感謝」です。当たり前の日常に目を向け、感謝の氣持ちを持つことで、心穏やかな豊かさを感じられるでしょう。' }
   };
 
   // ----- ④ 宇宙どうぶつごとの才能（固定） -----
   const TALENTS = {
     moon_mochi:    { name: '癒し', desc: 'あなたには、そばにいるだけで人をほっとさせる癒しの力があります。静かなやさしさが、疲れた心をそっとゆるめてくれる存在です。' },
-    san_san_poko:  { name: '元気を与える', desc: '太陽のような明るさで、周りに元気を届ける力を持っています。あなたの笑顔や前向きな言葉が、誰かの一日を照らすきっかけになります。' },
+    san_san_poko:  { name: '元氣を与える', desc: '太陽のような明るさで、周りに元氣を届ける力を持っています。あなたの笑顔や前向きな言葉が、誰かの一日を照らすきっかけになります。' },
     yume_purin:    { name: '想像力', desc: '現実にはない世界を思い描く、豊かな想像力があなたの才能です。夢や理想を形にする発想力が、新しい可能性を切り拓いていきます。' },
-    honey_puni:    { name: '愛され力', desc: '素直な甘えん坊気質が、自然と周りから愛される力になっています。飾らないあなたらしさが、多くの人の心を惹きつけていきます。' },
-    sakura_mochi:  { name: '調和力', desc: 'その場の空気をやわらげ、みんなを自然につなげる調和力を持っています。あなたがいるだけで、場が穏やかにまとまっていきます。' },
+    honey_puni:    { name: '愛され力', desc: '素直な甘えん坊氣質が、自然と周りから愛される力になっています。飾らないあなたらしさが、多くの人の心を惹きつけていきます。' },
+    sakura_mochi:  { name: '調和力', desc: 'その場の空氣をやわらげ、みんなを自然につなげる調和力を持っています。あなたがいるだけで、場が穏やかにまとまっていきます。' },
     puni_koro:     { name: '柔軟性', desc: '状況に合わせて自在に形を変えられる柔軟性が持ち味です。こだわりすぎず受け流す力が、多くの場面であなたを助けてくれます。' },
-    kira_kiran:    { name: '場を明るくする力', desc: 'その場にいるだけで空気を明るくする力を持っています。あなたの存在そのものが、周囲を前向きな雰囲気に変えていきます。' },
+    kira_kiran:    { name: '場を明るくする力', desc: 'その場にいるだけで空氣を明るくする力を持っています。あなたの存在そのものが、周囲を前向きな雰囲氣に変えていきます。' },
     mintoru:       { name: '整理力', desc: '物事をすっきりと整理し、筋道立てて考える力に長けています。混乱した状況でも、冷静に本質を見抜くことができるタイプです。' },
     pofu_pofu:     { name: '安心感を与える力', desc: 'そばにいるだけで安心感を与える、やわらかな存在感が才能です。あなたと一緒にいると、多くの人が肩の力を抜くことができます。' },
     paku_pakun:    { name: '行動力', desc: '思い立ったらすぐに動く、力強い行動力があなたの才能です。迷いよりも一歩踏み出すことを選ぶ姿勢が、道を切り拓いていきます。' },
-    cosmo_prince:  { name: 'ロマン・理想を描く力', desc: '壮大な夢や理想を描く力に恵まれています。現実にとどまらない発想が、周囲の人々にも夢を見る勇気を与えていきます。' },
+    cosmo_prince:  { name: 'ロマン・理想を描く力', desc: '壮大な夢や理想を描く力に恵まれています。現実にとどまらない発想が、周囲の人々にも夢を見る勇氣を与えていきます。' },
     galaxy_queen:  { name: '芸術・美的センス', desc: '美しいものを見極め、生み出す芸術的なセンスがあなたの才能です。独自の美意識が、唯一無二の世界観をつくり出していきます。' },
     legend_star:   { name: 'リーダーシップ', desc: '人を導き、まとめ上げるリーダーシップに恵まれています。芯の強さと情熱が、多くの人を惹きつけ、共に前へ進む力になります。' }
   };
@@ -11826,24 +12159,24 @@ window.fqtConfirm = function(message, onConfirm){
   //       各どうぶつが持つ「エネルギーの意味」の解釈文 -----
   const CREATURE_ENERGY_MEANING = {
     moon_mochi:   'のんびりと、自分のペースを大切にするエネルギーです。周りの速さに合わせて焦る必要はなく、あなた自身の内側にある時計に従って、じっくりと物事に向き合っていく落ち着きを象徴しています。急かされるような場面でも、深呼吸をひとつして、自分のリズムを取り戻すことができる力です。そのゆったりとした佇まいが、実は周囲の人たちにも安心感を与えていることを、忘れないでください。',
-    san_san_poko: '太陽のように明るく、周りを元気づけるエネルギーです。前向きな言葉や屈託のない笑顔で、沈みがちな場の空気をぱっと明るくする力を象徴しています。誰かが落ち込んでいる時、あなたのその明るさが、気づかないうちに救いになっていることも少なくありません。自分自身が元気でいることが、そのまま周りへの一番のギフトになる、そんなエネルギーです。',
+    san_san_poko: '太陽のように明るく、周りを元氣づけるエネルギーです。前向きな言葉や屈託のない笑顔で、沈みがちな場の空氣をぱっと明るくする力を象徴しています。誰かが落ち込んでいる時、あなたのその明るさが、氣づかないうちに救いになっていることも少なくありません。自分自身が元氣でいることが、そのまま周りへの一番のギフトになる、そんなエネルギーです。',
     yume_purin:   '夢や想像力を大切にするエネルギーです。目に見えないものを信じ、まだ形になっていない理想やアイデアを、少しずつ現実に近づけていく発想力を象徴しています。周りから「非現実的」と言われることがあったとしても、その夢見る力こそが、誰も思いつかなかった新しい可能性を切り拓く原動力になります。心の中の小さな灯りを、大切に育てていってください。',
     honey_puni:   '素直に甘え、心を開いていくエネルギーです。強がったり飾ったりせず、ありのままの自分をさらけ出すことで、自然と人から愛され、大切にされていく力を象徴しています。弱さを見せることは、決して恥ずかしいことではありません。むしろ、その素直さこそが、人との間に本当の信頼関係を築いていく、かけがえのない才能なのです。',
-    sakura_mochi: 'その場の空気をやわらげ、穏やかにまとめていくエネルギーです。誰かと誰かがぶつかりそうな場面でも、争うことなく、双方の気持ちにそっと寄り添いながら、みんなを自然につなげていく調和の力を象徴しています。あなたがそこにいるだけで、ぴりついた空気がふっとやわらぐ、そんな穏やかな存在感が、周囲にとって大きな支えになっています。',
+    sakura_mochi: 'その場の空氣をやわらげ、穏やかにまとめていくエネルギーです。誰かと誰かがぶつかりそうな場面でも、争うことなく、双方の氣持ちにそっと寄り添いながら、みんなを自然につなげていく調和の力を象徴しています。あなたがそこにいるだけで、ぴりついた空氣がふっとやわらぐ、そんな穏やかな存在感が、周囲にとって大きな支えになっています。',
     puni_koro:    '状況に合わせて、柔軟に形を変えていくエネルギーです。一つのやり方やこだわりに固執せず、その時々の流れを受け止めながら軽やかに対応していく、しなやかさを象徴しています。予定通りにいかないことがあっても、ころころと転がるように、案外あっさりと次の形を見つけられるのが、あなたの強みです。無理に力を入れすぎず、受け流す軽さを大切にしてください。',
-    kira_kiran:   'その場を明るく盛り上げていくエネルギーです。あなたが加わるだけで、それまで静かだった空気がふわっと華やぎ、周囲の雰囲気が前向きに変わっていく力を象徴しています。特別なことをしていなくても、存在そのものがみんなの気持ちを明るくするスパイスになっている、そんなきらめきを持っています。その輝きを、遠慮せずに発揮していってください。',
+    kira_kiran:   'その場を明るく盛り上げていくエネルギーです。あなたが加わるだけで、それまで静かだった空氣がふわっと華やぎ、周囲の雰囲氣が前向きに変わっていく力を象徴しています。特別なことをしていなくても、存在そのものがみんなの氣持ちを明るくするスパイスになっている、そんなきらめきを持っています。その輝きを、遠慮せずに発揮していってください。',
     mintoru:      '物事をすっきりと整理し、筋道立てて考えるエネルギーです。散らかった状況や情報の中からも、迷わず本質を見抜き、無駄なく整えていく冷静さを象徴しています。周りが混乱している時ほど、あなたの落ち着いた視点が頼りにされます。感情に流されすぎず、一歩引いて物事を見つめる力が、多くの場面であなた自身と周囲を助けてくれるでしょう。',
-    pofu_pofu:    'そばにいるだけで安心感を与える、やわらかなエネルギーです。特別な言葉をかけなくても、あなたが隣にいるというだけで、人はふっと肩の力を抜くことができます。緊張した空気の中にも、ほっとできる居場所をつくり出す存在感を象徴しています。その優しさに気づいていないかもしれませんが、それは誰にでも持てるものではない、貴重な才能です。',
+    pofu_pofu:    'そばにいるだけで安心感を与える、やわらかなエネルギーです。特別な言葉をかけなくても、あなたが隣にいるというだけで、人はふっと肩の力を抜くことができます。緊張した空氣の中にも、ほっとできる居場所をつくり出す存在感を象徴しています。その優しさに氣づいていないかもしれませんが、それは誰にでも持てるものではない、貴重な才能です。',
     paku_pakun:   '思い立ったらすぐに動く、力強い行動のエネルギーです。あれこれ迷って足踏みするよりも、まず一歩を踏み出すことを選ぶ、素直な推進力を象徴しています。完璧な準備が整うのを待つよりも、動きながら考え、修正していくスタイルの方が、あなたには合っているのかもしれません。その軽やかなフットワークが、思いがけないチャンスを引き寄せていきます。',
-    cosmo_prince: '壮大な夢や理想を描く、ロマンチックなエネルギーです。現実の枠にとどまらない自由な発想で、まだ誰も見たことのない景色を思い描く力を象徴しています。その夢を語る姿は、周りの人々の心にも小さな火を灯し、自分も何かに挑戦してみようという勇気を分け与えていきます。理想を語ることを恥ずかしがらず、堂々と胸を張っていてください。',
-    galaxy_queen: '美しいものを見極め、生み出していく芸術的なエネルギーです。誰もが見過ごしてしまうような小さな美しさにも敏感に気づき、それを自分だけの表現として形にしていく独自の美意識を象徴しています。周りと同じである必要はありません。あなたの目に映る世界そのものが、唯一無二の作品であり、その感性を信じて磨き続けることに大きな意味があります。',
+    cosmo_prince: '壮大な夢や理想を描く、ロマンチックなエネルギーです。現実の枠にとどまらない自由な発想で、まだ誰も見たことのない景色を思い描く力を象徴しています。その夢を語る姿は、周りの人々の心にも小さな火を灯し、自分も何かに挑戦してみようという勇氣を分け与えていきます。理想を語ることを恥ずかしがらず、堂々と胸を張っていてください。',
+    galaxy_queen: '美しいものを見極め、生み出していく芸術的なエネルギーです。誰もが見過ごしてしまうような小さな美しさにも敏感に氣づき、それを自分だけの表現として形にしていく独自の美意識を象徴しています。周りと同じである必要はありません。あなたの目に映る世界そのものが、唯一無二の作品であり、その感性を信じて磨き続けることに大きな意味があります。',
     legend_star:  '人を導き、まとめ上げていくリーダーシップのエネルギーです。困難な場面に直面した時ほど発揮される芯の強さと情熱で、周りを巻き込みながら前へと進んでいく力を象徴しています。誰かがためらっている時、一歩前に出て道を示すのがあなたの役目かもしれません。その堂々とした姿勢が、多くの人にとっての心強い支えになっています。'
   };
 
   // ----- どの星（地球・行動・未来・月・使命）として出たかによって、
   //       同じどうぶつでも意味の焦点が変わるようにする「文脈テンプレート」 -----
   const STAR_CONTEXT_TEMPLATES = {
-    earth:   (name) => `${name}が持つこのエネルギーは、地球という舞台の上、日常の何気ないやりとりや身近な人との関わりの中でこそ、いちばん自然な形で表れています。家族と過ごす時間、友人との雑談、職場でのふとしたひと言。特別に意識していなくても、${name}らしさは、そうした毎日の暮らしの端々ににじみ出ています。周りの人たちは、あなたのその素の姿にこそ、安心感や心地よさを感じ取っているはずです。`,
+    earth:   (name) => `${name}が持つこのエネルギーは、地球という舞台の上、日常の何氣ないやりとりや身近な人との関わりの中でこそ、いちばん自然な形で表れています。家族と過ごす時間、友人との雑談、職場でのふとしたひと言。特別に意識していなくても、${name}らしさは、そうした毎日の暮らしの端々ににじみ出ています。周りの人たちは、あなたのその素の姿にこそ、安心感や心地よさを感じ取っているはずです。`,
     action:  (name) => `${name}が持つこのエネルギーは、何かを決断したり、一歩踏み出したりする瞬間にこそ、いちばん力強く発揮されています。頭で考えるよりも先に、体や心がすっと動き出す。そんな咄嗟の判断や振る舞いにこそ、${name}らしいエネルギーが宿っています。迷いが生まれた時ほど、このエネルギーがそっと背中を押し、あなたを前へと進ませてくれるでしょう。`,
     future:  (name) => `${name}が持つこのエネルギーは、これから歩んでいきたい未来への、静かな道しるべとして働いています。まだ誰にも話していない小さな理想や、心の奥でひそかに憧れている景色。そうした「まだ言葉になっていないもの」の中に、${name}らしいエネルギーは息づいています。焦らずその声に耳を傾けることで、進みたい方向が少しずつ形になっていくはずです。`,
     moon:    (name) => `${name}が持つこのエネルギーは、普段は表に出さない、あなただけの秘めた一面としてそっと息づいています。心を許した人の前や、ひとりきりの静かな時間にだけ、ふっと顔をのぞかせる本当の自分。それが${name}らしいエネルギーの正体かもしれません。誰にも見せていないその一面こそ、実はあなた自身をいちばん深く支えている力なのです。`,
@@ -11864,12 +12197,12 @@ window.fqtConfirm = function(message, onConfirm){
     paku_pakun:    'パクパクンの行動力が、あなたの背中をそっと押してくれる存在です。',
     cosmo_prince:  'コスモドリーマーのロマンチストな一面が、あなたの夢に彩りを添えてくれます。',
     galaxy_queen:  'ギャラクシーアーティストの美意識が、あなたの世界をより美しく照らしてくれます。',
-    legend_star:   'レジェンドスターの芯の強さが、あなたに前へ進む勇気を分けてくれます。'
+    legend_star:   'レジェンドスターの芯の強さが、あなたに前へ進む勇氣を分けてくれます。'
   };
 
   // ----- 計算ロジック -----
 
-  // ①宇宙番号：(YYYY+MM+DD)%13、余り0は13。1〜13の番号を人気者13体の配列インデックスに対応させる
+  // ①宇宙番号：(YYYY+MM+DD)%13、余り0は13。1〜13の番号を人氣者13体の配列インデックスに対応させる
   function calcSpaceAnimalNumber(birth){
     const y = birth.getFullYear(), m = birth.getMonth() + 1, d = birth.getDate();
     let n = (y + m + d) % 13;
@@ -12045,7 +12378,7 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'earth', icon: '🌍', label: '地球の星', caption: '地球という舞台で、あなたが人との関わりや日常生活の中で自然と見せている姿を表す星です。家族や友人、職場など、身近な人たちと接する時にふと表れる振る舞いや口ぐせは、この星の性質と重なっているかもしれません。日々の暮らしの中で、意外と大きな影響を与えている一面です。', calc: calcEarthStarNumber },
     { key: 'action', icon: '🚀', label: '行動の星', caption: '何かを選んだり、決断したり、一歩を踏み出したりするときに、あなたの中からふっと立ち上がってくるエネルギーを表す星です。迷ったときや大事な場面ほど、この星の性質があなたの背中をそっと押してくれます。行動のクセや、勝負どころでの判断にも表れやすい部分です。', calc: calcActionStarNumber },
     { key: 'future', icon: '🌈', label: '未来の星', caption: 'あなたが心の奥でひそかに憧れ、無意識のうちに惹かれていく方向を表す星です。まだ言葉にできていない小さな理想やあこがれでも、この星の性質をヒントにすると、これから進みたい道が少しずつ見えてくるかもしれません。将来を思い描くときの指針になる星です。', calc: calcFutureStarNumber },
-    { key: 'moon', icon: '🌙', label: '月の星', caption: '普段は静かに眠っていて、特別な瞬間や心を許せる相手の前でだけそっと顔を出す、もう一人のあなたを表す星です。誰にも見せていないやわらかな一面や、ふとした時にこぼれる本音が、この星の中に隠れています。自分でも気づいていない魅力かもしれません。', calc: calcMoonStarNumber },
+    { key: 'moon', icon: '🌙', label: '月の星', caption: '普段は静かに眠っていて、特別な瞬間や心を許せる相手の前でだけそっと顔を出す、もう一人のあなたを表す星です。誰にも見せていないやわらかな一面や、ふとした時にこぼれる本音が、この星の中に隠れています。自分でも氣づいていない魅力かもしれません。', calc: calcMoonStarNumber },
     { key: 'mission', icon: '🌌', label: '使命の星', caption: 'あなたがこの地球に生まれてくる時に、あらかじめ持ってきた大きな役割を表す星です。この人生の中で何を体験し、何を学び、どんなものを周りの人たちに届けていくのか。その手がかりが、この使命の星の中に静かに込められています。', calc: calcMissionStarNumber }
   ];
 
