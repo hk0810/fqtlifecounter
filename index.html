@@ -60,6 +60,12 @@
     line-height: 1.6;
     min-height: 100vh;
     overflow-x: hidden;
+    /* アプリ全体で、単語の途中に不自然な改行が入らないようにする共通ルール
+       （句読点や単語の切れ目を優先し、それでも長すぎる場合だけ折り返す） */
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    /* 「。」「、」などの句読点だけが行の先頭に取り残されないようにする禁則処理 */
+    line-break: strict;
 
     /* 深宇宙のグラデーション + 星雲のような淡い色のにじみ */
     background:
@@ -1098,6 +1104,10 @@
     padding: 12px 14px;
     margin-bottom: 10px;
   }
+  .diag-row-text{
+    flex: 1 1 0%;
+    min-width: 0;
+  }
   .diag-row-icon{
     font-size: 20px;
     line-height: 1.3;
@@ -1178,6 +1188,20 @@
     cursor: pointer;
   }
   .diag-share-btn:active{ transform: scale(0.98); }
+  .diag-copy-btn{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+    padding: 11px;
+    margin-top: 8px;
+    cursor: pointer;
+  }
+  .diag-copy-btn:active{ transform: scale(0.98); }
   .oshi-widget{
     cursor: pointer;
   }
@@ -1477,6 +1501,47 @@
     gap: 8px;
     margin-bottom: 18px;
   }
+  .dex-rarity-breakdown{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    margin-bottom: 18px;
+  }
+  .dex-rarity-row{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dex-rarity-row-label{
+    font-size: 12px;
+    font-weight: 800;
+    color: #ffb703;
+    width: 52px;
+    flex-shrink: 0;
+    text-align: right;
+  }
+  .dex-rarity-row-bar-wrap{
+    flex: 1 1 0%;
+    min-width: 0;
+    background: var(--blue-pale);
+    border-radius: 999px;
+    overflow: hidden;
+    height: 16px;
+  }
+  .dex-rarity-row-bar{
+    height: 100%;
+    border-radius: 999px;
+    background: linear-gradient(90deg, #ffd873, #ff8a65);
+    transition: width .4s ease;
+  }
+  .dex-rarity-row-count{
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--text-sub);
+    width: 46px;
+    flex-shrink: 0;
+    text-align: left;
+  }
   .dex-search-input{
     width: 100%;
     font-family: inherit;
@@ -1499,6 +1564,13 @@
     flex-wrap: wrap;
     gap: 6px;
     margin-bottom: 10px;
+  }
+  .dex-rainbow-bar{
+    height: 10px;
+    border-radius: 999px;
+    margin: -2px 0 10px;
+    background: linear-gradient(90deg,
+      #ff6b6b, #ffb703, #ffe066, #8ce99a, #63e6be, #74c0fc, #91a7ff, #d0bfff, #f783ac);
   }
   .dex-sort-btn{
     flex: 1;
@@ -1625,9 +1697,8 @@
     font-size: 13.5px;
     font-weight: 800;
     color: var(--text-main);
-    display: flex;
-    align-items: center;
-    gap: 4px;
+    /* .fortune-row .value と同じ理由で、flexboxではなく通常のブロック表示にする
+       （✔マークは.ach-check側をinline-blockにして横に添える） */
   }
   .achievement-row .ach-desc{
     font-size: 11px;
@@ -1656,9 +1727,11 @@
     opacity: 0.55;
   }
   .ach-check{
+    display: inline-block;
     color: #16a34a;
     font-weight: 900;
     font-size: 13px;
+    margin-left: 4px;
   }
 
   /* 実績解除演出（バッジ獲得演出と同じ土台デザインを再利用） */
@@ -2664,9 +2737,10 @@
     font-size: 15px;
     font-weight: 800;
     color: var(--text-main);
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    /* flexboxでのテキスト折り返しは、端末やブラウザによって挙動が不安定なことがあるため、
+       あえてdisplay:flexを使わず、通常のブロック要素として自然に折り返させる。
+       誕生色のように複数の子要素（色見本＋テキスト）を持つ場合は、
+       .color-swatch側をinline-block+vertical-alignで横並びにする */
   }
   .fortune-row .value.maya-signature{
     font-size: 13px;
@@ -2687,6 +2761,8 @@
     border-radius: 50%;
     border: 1px solid rgba(0,0,0,0.08);
     flex-shrink: 0;
+    vertical-align: middle;
+    margin-right: 6px;
   }
 
   .fortune-today{
@@ -3200,6 +3276,10 @@
       </div>
     </div>
 
+    <!-- 📊 レア度別の内訳グラフ -->
+    <p class="badge-list-title">📊 レア度別の内訳</p>
+    <div class="dex-rarity-breakdown" id="dexRarityBreakdown"></div>
+
     <!-- 🏆 実績（Achievements） -->
     <p class="badge-list-title">🏆 実績</p>
     <div class="achievement-list" id="achievementList"></div>
@@ -3213,6 +3293,7 @@
       <button class="dex-sort-btn" data-sort="rarity" type="button">レア度順</button>
       <button class="dex-sort-btn" data-sort="color" type="button">色順</button>
     </div>
+    <div class="dex-rainbow-bar" id="dexRainbowBar" style="display:none;"></div>
     <div class="dex-grid" id="dexGrid"></div>
   </div>
 </div>
@@ -3743,6 +3824,13 @@
       <option value="solfeggio852">852Hz｜直感・気づき</option>
       <option value="solfeggio963">963Hz｜高次意識・統合</option>
     </select>
+    <select class="bgm-preset-select" id="bgmSleepTimerSelect">
+      <option value="0">⏱ スリープタイマー：なし</option>
+      <option value="10">⏱ 10分で停止</option>
+      <option value="20">⏱ 20分で停止</option>
+      <option value="30">⏱ 30分で停止</option>
+      <option value="60">⏱ 60分で停止</option>
+    </select>
   </div>
 
   <!-- 🌕 満月・新月お知らせバナー（実際の天文計算による本物の月齢を使用） -->
@@ -3984,6 +4072,7 @@
     <p class="diag-sub-title">🌌 総合メッセージ</p>
     <p class="diag-overall-message" id="diagOverallMessage">-</p>
     <button class="diag-share-btn" id="diagShareBtn" type="button">📤　診断結果をシェアする</button>
+    <button class="diag-copy-btn" id="diagCopyBtn" type="button">📋　テキストでコピー</button>
   </div>
 
   <!-- ✨ 星のかけらメッセージ（68種類、毎日1つずつ順番に表示。宇宙どうぶつカードの直下、計算する押下時に表示） -->
@@ -6163,6 +6252,7 @@ installBtn.addEventListener('click', async () => {
    ========================================================== */
 const bgmBtn = document.getElementById('bgmBtn');
 const bgmPresetSelect = document.getElementById('bgmPresetSelect');
+const bgmSleepTimerSelect = document.getElementById('bgmSleepTimerSelect');
 
 // 🎵 BGMの音色バリエーション（ドローンの周波数・フィルター・チャイムの音階が異なる）
 const BGM_PRESETS = {
@@ -6364,10 +6454,12 @@ bgmBtn.addEventListener('click', () => {
     stopBgm();
     bgmBtn.textContent = '🎵　癒しのBGMを再生';
     bgmBtn.classList.remove('active');
+    clearBgmSleepTimer();
   } else {
     startBgm();
     bgmBtn.textContent = '🔇　BGMを停止';
     bgmBtn.classList.add('active');
+    applyBgmSleepTimer();
   }
 });
 
@@ -6382,6 +6474,34 @@ bgmPresetSelect.addEventListener('change', () => {
     bgm.master.gain.linearRampToValueAtTime(0.4, now + 2);
     if (bgm.chimeTimer) clearTimeout(bgm.chimeTimer);
     playChime();
+  }
+});
+
+// ⏱ スリープタイマー：指定分数が経過したら自動でBGMを止める
+let bgmSleepTimeoutId = null;
+function clearBgmSleepTimer(){
+  if (bgmSleepTimeoutId){
+    clearTimeout(bgmSleepTimeoutId);
+    bgmSleepTimeoutId = null;
+  }
+}
+function applyBgmSleepTimer(){
+  clearBgmSleepTimer();
+  const minutes = Number(bgmSleepTimerSelect.value);
+  if (!minutes) return; // 「なし」が選ばれていれば何もしない
+  bgmSleepTimeoutId = setTimeout(() => {
+    if (bgm.playing){
+      stopBgm();
+      bgmBtn.textContent = '🎵　癒しのBGMを再生';
+      bgmBtn.classList.remove('active');
+    }
+    bgmSleepTimeoutId = null;
+  }, minutes * 60 * 1000);
+}
+// 再生中にタイマーの設定を変えたら、その場で新しい時間から数え直す
+bgmSleepTimerSelect.addEventListener('change', () => {
+  if (bgm.playing){
+    applyBgmSleepTimer();
   }
 });
 
@@ -7586,15 +7706,39 @@ window.fqtConfirm = function(message, onConfirm){
     const completeRate = Math.min(100, Math.round((discoveredCount / 1300) * 100));
     document.getElementById('dexCompleteRate').textContent = completeRate + '%';
 
+    // 📊 レア度別の内訳（★1〜★5がそれぞれ何匹か）
+    const rarityCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    discoveredList.forEach(animal => {
+      if (rarityCounts[animal.rarity] !== undefined) rarityCounts[animal.rarity]++;
+    });
+    const maxRarityCount = Math.max(1, ...Object.values(rarityCounts)); // 0除算を避ける
+    const breakdownEl = document.getElementById('dexRarityBreakdown');
+    breakdownEl.innerHTML = [5, 4, 3, 2, 1].map(rarity => {
+      const count = rarityCounts[rarity];
+      const widthPercent = Math.round((count / maxRarityCount) * 100);
+      const stars = '★'.repeat(rarity) + '☆'.repeat(5 - rarity);
+      return (
+        `<div class="dex-rarity-row">` +
+          `<div class="dex-rarity-row-label">${stars}</div>` +
+          `<div class="dex-rarity-row-bar-wrap"><div class="dex-rarity-row-bar" style="width:${widthPercent}%"></div></div>` +
+          `<div class="dex-rarity-row-count">${count}匹</div>` +
+        `</div>`
+      );
+    }).join('');
+
     const grid = document.getElementById('dexGrid');
     grid.innerHTML = '';
 
     if (discoveredCount === 0){
       grid.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; font-size:12px; color:var(--text-sub);">まだ宇宙どうぶつに出会っていません。アプリを開くと出会えるよ！</p>';
+      document.getElementById('dexRainbowBar').style.display = 'none';
       return;
     }
 
     const sortedList = sortDiscoveredList(discoveredList, dexSortMode);
+
+    // 🌈 色順で見ている時だけ、虹色のグラデーションバーを表示する
+    document.getElementById('dexRainbowBar').style.display = (dexSortMode === 'color') ? 'block' : 'none';
 
     // 🔍 検索クエリで名前を絞り込む（未入力なら全件表示）
     const query = dexSearchQuery.trim();
@@ -12007,6 +12151,31 @@ window.fqtConfirm = function(message, onConfirm){
       });
     } else {
       shareDiagTextOnly(shareText);
+    }
+  });
+
+  // 📋 診断結果をまるごとテキストでコピーする（シェア用の短い文言とは別に、全項目を含む）
+  document.getElementById('diagCopyBtn').addEventListener('click', async () => {
+    if (!lastDiagResult) return;
+    const { creature, earth, space, talent, theme, overallMessage } = lastDiagResult;
+    const fullText =
+      `🐾 FQT宇宙どうぶつ診断結果\n\n` +
+      `【宇宙どうぶつ（本質）】${creature.name}\n` +
+      `せいかく：${creature.personality}\n` +
+      `すきなもの：${creature.favorite}\n` +
+      `ひとこと：「${creature.quote}」\n\n` +
+      `【🌍地球人意識】${earth.name}\n${earth.desc}\n\n` +
+      `【🚀宇宙意識】${space.name}\n${space.desc}\n\n` +
+      `【💎あなたの才能】${talent.name}\n${talent.desc}\n\n` +
+      `【🌱今世のテーマ】${theme.name}\n${theme.desc}\n\n` +
+      `【🌌総合メッセージ】\n${overallMessage}\n\n` +
+      `https://fqtlifecounter2.netlify.app`;
+
+    try{
+      await navigator.clipboard.writeText(fullText);
+      alert('診断結果をコピーしました。メモやメッセージに貼り付けてご利用ください。');
+    } catch(e){
+      alert('コピーに失敗しました。手動で選択してコピーしてください。');
     }
   });
 
