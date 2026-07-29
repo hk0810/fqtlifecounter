@@ -470,6 +470,30 @@
   .milestone-card .m-text .m-main .m-accent{
     color: var(--blue);
   }
+  .countdown-mini-grid{
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    margin-top: 10px;
+  }
+  .countdown-mini-box{
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 6px;
+    text-align: center;
+  }
+  .countdown-mini-label{
+    font-size: 10px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+  .countdown-mini-value{
+    font-size: 15px;
+    font-weight: 900;
+    color: var(--blue-dark);
+  }
 
   .section-title{
     font-size: 13px;
@@ -2208,7 +2232,7 @@
   }
   .certificate-canvas-wrap{
     width: 100%;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: 210 / 297;
     border-radius: 14px;
     overflow: hidden;
     box-shadow: 0 8px 24px rgba(0,0,0,0.2);
@@ -2567,6 +2591,10 @@
     font-size: 20px;
     line-height: 1.3;
     flex-shrink: 0;
+  }
+  .fortune-text{
+    flex: 1 1 0%;
+    min-width: 0;
   }
   .fortune-row .label{
     font-size: 11px;
@@ -3148,11 +3176,11 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">1/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🔮</div>
-      <div class="tutorial-text">誕生日を入れると、いろんな占い結果が見られるよ</div>
+      <div class="tutorial-text">誕生日を入れると、<br>いろんな占い結果が見られるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🐾</div>
-      <div class="tutorial-text">「計算する」を押すたびに、宇宙どうぶつに出会えるよ</div>
+      <div class="tutorial-text">「計算する」を押すたびに、<br>宇宙どうぶつに出会えるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🌌</div>
@@ -3168,11 +3196,11 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">2/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🏅</div>
-      <div class="tutorial-text">使うたびに、バッジや実績がもらえるよ！</div>
+      <div class="tutorial-text">使うたびに、バッジや実績が<br>もらえるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🔥</div>
-      <div class="tutorial-text">毎日開くと、連続記録としてバッジがもらえるよ</div>
+      <div class="tutorial-text">毎日開くと、連続記録として<br>バッジがもらえるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🧊</div>
@@ -3188,15 +3216,15 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎗</div>
-      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお気に入りの子を「推し」に設定できるよ</div>
+      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお気に入りの子を<br>「推し」に設定できるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🌟</div>
-      <div class="tutorial-text">何度も出会える特別などうぶつ「人気者」もいるよ</div>
+      <div class="tutorial-text">何度も出会える特別などうぶつ<br>「人気者」もいるよ</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎉</div>
-      <div class="tutorial-text">季節ごとに、期間限定の宇宙どうぶつも出現するよ</div>
+      <div class="tutorial-text">季節ごとに、期間限定の<br>宇宙どうぶつも出現するよ</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn3" type="button">次へ</button>
   </div>
@@ -3228,7 +3256,11 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">5/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">⚠️</div>
-      <div class="tutorial-text">端末やブラウザを変えると、<span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えてしまうよ</div>
+      <div class="tutorial-text">端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えてしまうよ</div>
+    </div>
+    <div class="tutorial-item">
+      <div class="tutorial-icon">✨</div>
+      <div class="tutorial-text">その儚さも含めて楽しんでください。<br>できるだけシェアして保存してね。</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">❓</div>
@@ -3340,7 +3372,7 @@
     <button class="badge-modal-close" id="certificateModalCloseBtn" type="button">✕</button>
     <p class="badge-modal-title">🌏 地球滞在証明書</p>
     <div class="certificate-canvas-wrap">
-      <canvas id="certificateCanvas" width="1080" height="1080"></canvas>
+      <canvas id="certificateCanvas" width="1240" height="1754"></canvas>
     </div>
     <div class="certificate-btn-row">
       <button class="certificate-download-btn" id="certificateDownloadBtn" type="button">💾　画像を保存</button>
@@ -3896,6 +3928,20 @@
         <div class="m-main">あと <span class="m-accent" id="milestoneDays">-</span> 日</div>
       </div>
     </div>
+    <div class="countdown-mini-grid">
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">🎂 次の誕生日まで</div>
+        <div class="countdown-mini-value"><span id="countdownNextBirthday">-</span>日</div>
+      </div>
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">🎊 今年の終わりまで</div>
+        <div class="countdown-mini-value"><span id="countdownYearEnd">-</span>日</div>
+      </div>
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">📅 月末まで</div>
+        <div class="countdown-mini-value"><span id="countdownMonthEnd">-</span>日</div>
+      </div>
+    </div>
   </div>
 
   <!-- リアルタイム経過カード -->
@@ -3942,6 +3988,15 @@
     <p class="section-title">🔮 誕生日でみるあなたの占い</p>
 
     <div class="fortune-list">
+      <div class="fortune-row">
+        <div class="ic">🌟</div>
+        <div class="fortune-text">
+          <div class="label">生まれた曜日のエネルギー</div>
+          <div class="value" id="fortuneWeekdayEnergy">-</div>
+          <div class="sub" id="fortuneWeekdaySub">-</div>
+        </div>
+      </div>
+
       <div class="fortune-row">
         <div class="ic">🔢</div>
         <div class="fortune-text">
@@ -4270,6 +4325,9 @@
   <!-- ❓ ヘルプ・FAQボタン -->
   <button class="faq-open-btn" id="faqOpenBtn" type="button">❓　ヘルプ・よくある質問</button>
 
+  <!-- 🚀 チュートリアルをもう一度見るボタン -->
+  <button class="faq-open-btn" id="tutorialReopenBtn" type="button">🚀　チュートリアルを見る</button>
+
   <!-- ホーム画面に追加ボタン -->
   <button class="install-btn" id="installBtn">📲　ホーム画面に追加する</button>
   <p class="install-note" id="installNote"></p>
@@ -4589,7 +4647,7 @@ function calculate(){
   const progress = Math.max(0, Math.min(999, (currentDay / targetDays) * 100));
 
   renderResult({ currentDay, targetDays, targetDate, remain, progress });
-  renderNextMilestone(currentDay);
+  renderNextMilestone(currentDay, birthDate, today);
   renderAnniversary(today);
   renderShare({ currentDay, targetDays, targetDate, remain, progress, birthDate, today });
   renderFortune(birthDate, today);
@@ -4656,7 +4714,7 @@ function renderResult({ currentDay, targetDays, targetDate, remain, progress }){
 
 // ----- 次に訪れる人生の節目を表示 -----
 // ----- 次の人生の節目を「今日から数えて100日単位」で算出 -----
-function renderNextMilestone(currentDay){
+function renderNextMilestone(currentDay, birthDate, today){
   // 現在の日数より大きい、直近の100の倍数を求める
   const nextMilestoneDay = Math.ceil((currentDay + 1) / 100) * 100;
   const daysUntil = nextMilestoneDay - currentDay;
@@ -4667,6 +4725,29 @@ function renderNextMilestone(currentDay){
   document.getElementById('milestoneDays').textContent = daysUntil.toLocaleString('ja-JP');
 
   milestoneCard.style.display = 'block';
+
+  // 🎂 次の誕生日まで／🎊 今年の終わりまで／📅 月末まで（いずれも「今日」基準で計算）
+  const todayMidnight = new Date(today);
+  todayMidnight.setHours(0, 0, 0, 0);
+
+  // 次の誕生日：今年の誕生日がまだなら今年、もう過ぎていれば来年
+  let nextBirthday = new Date(todayMidnight.getFullYear(), birthDate.getMonth(), birthDate.getDate());
+  nextBirthday.setHours(0, 0, 0, 0);
+  if (nextBirthday.getTime() < todayMidnight.getTime()){
+    nextBirthday = new Date(todayMidnight.getFullYear() + 1, birthDate.getMonth(), birthDate.getDate());
+  }
+  const daysUntilBirthday = Math.round((nextBirthday.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
+  document.getElementById('countdownNextBirthday').textContent = daysUntilBirthday.toLocaleString('ja-JP');
+
+  // 今年の終わりまで（12月31日）
+  const yearEnd = new Date(todayMidnight.getFullYear(), 11, 31);
+  const daysUntilYearEnd = Math.round((yearEnd.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
+  document.getElementById('countdownYearEnd').textContent = daysUntilYearEnd.toLocaleString('ja-JP');
+
+  // 月末まで（翌月の0日目＝当月最終日）
+  const monthEnd = new Date(todayMidnight.getFullYear(), todayMidnight.getMonth() + 1, 0);
+  const daysUntilMonthEnd = Math.round((monthEnd.getTime() - todayMidnight.getTime()) / (1000 * 60 * 60 * 24));
+  document.getElementById('countdownMonthEnd').textContent = daysUntilMonthEnd.toLocaleString('ja-JP');
 }
 
 // ----- ③記念日（任意）までの日数を表示 -----
@@ -4955,13 +5036,86 @@ const MAYA_TONES = [
   { name: '音12（水晶）',    desc: '協力によって形にする音。周囲と力を合わせることで大きな力を発揮できます。' },
   { name: '音13（宇宙）',    desc: '一つの周期を締めくくる音。忍耐と包容力をもって、物事を超越していく力です。' }
 ];
+// KIN早見表（実際の鑑定サイト unkoi.com のマヤ暦占い記事に掲載されている早見表を、
+// そのまま実装したもの。52年周期で繰り返す。1971/8/10=KIN189、1958/12/28=KIN4という
+// 2つの実データと突き合わせ、完全に一致することを確認済み）
+const MAYA_KIN_TABLE = {
+1910: [62,93,121,152,182,213,243,14,45,75,106,136],
+  1911: [167,198,226,257,27,58,88,119,150,180,211,241],
+  1912: [12,43,71,102,132,163,193,224,255,25,56,86],
+  1913: [117,148,176,207,237,8,38,69,100,130,161,191],
+  1914: [222,253,21,52,82,113,143,174,205,235,6,36],
+  1915: [67,98,126,157,187,218,248,19,50,80,111,141],
+  1916: [172,203,231,2,32,63,93,124,155,185,216,246],
+  1917: [17,48,76,107,137,168,198,229,0,30,61,91],
+  1918: [122,153,181,212,242,13,43,74,105,135,166,196],
+  1919: [227,258,26,57,87,118,148,179,210,240,11,41],
+  1920: [72,103,131,162,192,223,253,24,55,85,116,146],
+  1921: [177,208,236,7,37,68,98,129,160,190,221,251],
+  1922: [22,53,81,112,142,173,203,234,5,35,66,96],
+  1923: [127,158,186,217,247,18,48,79,110,140,171,201],
+  1924: [232,3,31,62,92,123,153,184,215,245,16,46],
+  1925: [77,108,136,167,197,228,258,29,60,90,121,151],
+  1926: [182,213,241,12,42,73,103,134,165,195,226,256],
+  1927: [27,58,86,117,147,178,208,239,10,40,71,101],
+  1928: [132,163,191,222,252,23,53,84,115,145,176,206],
+  1929: [237,8,36,67,97,128,158,189,220,250,21,51],
+  1930: [82,113,141,172,202,233,3,34,65,95,126,156],
+  1931: [187,218,246,17,47,78,108,139,170,200,231,1],
+  1932: [32,63,91,122,152,183,213,244,15,45,76,106],
+  1933: [137,168,196,227,257,28,58,89,120,150,181,211],
+  1934: [242,13,41,72,102,133,163,194,225,255,26,56],
+  1935: [87,118,146,177,207,238,8,39,70,100,131,161],
+  1936: [192,223,251,22,52,83,113,144,175,205,236,6],
+  1937: [37,68,96,127,157,188,218,249,20,50,81,111],
+  1938: [142,173,201,232,2,33,63,94,125,155,186,216],
+  1939: [247,18,46,77,107,138,168,199,230,0,31,61],
+  1940: [92,123,151,182,212,243,13,44,75,105,136,166],
+  1941: [197,228,256,27,57,88,118,149,180,210,241,11],
+  1942: [42,73,101,132,162,193,223,254,25,55,86,116],
+  1943: [147,178,206,237,7,38,68,99,130,160,191,221],
+  1944: [252,23,51,82,112,143,173,204,235,5,36,66],
+  1945: [97,128,156,187,217,248,18,49,80,110,141,171],
+  1946: [202,233,1,32,62,93,123,154,185,215,246,16],
+  1947: [47,78,106,137,167,198,228,259,30,60,91,121],
+  1948: [152,183,211,242,12,43,73,104,135,165,196,226],
+  1949: [257,28,56,87,117,148,178,209,240,10,41,71],
+  1950: [102,133,161,192,222,253,23,54,85,115,146,176],
+  1951: [207,238,6,37,67,98,128,159,190,220,251,21],
+  1952: [52,83,111,142,172,203,233,4,35,65,96,126],
+  1953: [157,188,216,247,17,48,78,109,140,170,201,231],
+  1954: [2,33,61,92,122,153,183,214,245,15,46,76],
+  1955: [107,138,166,197,227,258,28,59,90,120,151,181],
+  1956: [212,243,11,42,72,103,133,164,195,225,256,26],
+  1957: [57,88,116,147,177,208,238,9,40,70,101,131],
+  1958: [162,193,221,252,22,53,83,114,145,175,206,236],
+  1959: [7,38,66,97,127,158,188,219,250,20,51,81],
+  1960: [112,143,171,202,232,3,33,64,95,125,156,186],
+  1961: [217,248,16,47,77,108,138,169,200,230,1,31]
+};
+
 function calcMayaKin(birth){
-  // 基準日：1971年2月3日 = KIN1
-  // （実際の鑑定サイトの結果「1971/08/10 → KIN189・赤い月・ウェイブスペル青い夜・銀河の音7」から逆算し、検証済み）
-  const anchor = new Date(Date.UTC(1971, 1, 3));
-  const b = new Date(Date.UTC(birth.getFullYear(), birth.getMonth(), birth.getDate()));
-  const diffDays = Math.round((b.getTime() - anchor.getTime()) / (1000 * 60 * 60 * 24));
-  const kin = ((diffDays % 260) + 260) % 260 + 1; // 1〜260に正規化
+  const year = birth.getFullYear();
+  const month = birth.getMonth() + 1; // 1〜12
+  const day = birth.getDate();
+
+  // 早見表は52年周期で繰り返すため、表にある年（1910〜1961）のいずれかに正規化する
+  const tableBaseYear = 1910 + (((year - 1910) % 52) + 52) % 52;
+  const monthValues = MAYA_KIN_TABLE[tableBaseYear];
+  const monthValue = monthValues[month - 1];
+
+  let kin = monthValue + day;
+
+  // うるう年の3月生まれは+1する特別ルール（早見表の記事内で明記されている仕様）
+  const isLeapYear = (year % 4 === 0 && year % 100 !== 0) || (year % 400 === 0);
+  if (isLeapYear && month === 3){
+    kin += 1;
+  }
+
+  // 1〜260の範囲に正規化
+  if (kin > 260) kin -= 260;
+  if (kin <= 0) kin += 260;
+
   const sealIdx = ((kin - 1) % 20 + 20) % 20;
   const toneIdx = ((kin - 1) % 13 + 13) % 13;
   const seal = MAYA_SEALS[sealIdx];
@@ -4996,6 +5150,20 @@ const COSMIC_TYPES = [
   { emoji: '🛰️', name: '人工衛星タイプ', desc: '情報とご縁をつなぐ存在。人・知識・チャンスを結びつけ、多くの人をサポートするタイプ。' },
   { emoji: '🚀', name: '宇宙船タイプ', desc: '未知へ挑戦する冒険者。好奇心が旺盛で、新しい世界へ進み続けるタイプ。' }
 ];
+
+// ----- 🌟 生まれた曜日のエネルギー（日本語の曜日名の由来である七曜・天体と対応） -----
+const WEEKDAY_ENERGY = [
+  { name: '太陽のエネルギー', desc: '明るく堂々とした存在感を持ち、周りを自然と照らすリーダー気質。' },   // 0:日曜日
+  { name: '月のエネルギー',   desc: '繊細で感受性豊か、人の心にそっと寄り添うやさしさを持つタイプ。' },     // 1:月曜日
+  { name: '火星のエネルギー', desc: '情熱的でエネルギッシュ、目標に向かって突き進む行動力の持ち主。' },     // 2:火曜日
+  { name: '水星のエネルギー', desc: '好奇心旺盛で頭の回転が速く、コミュニケーション上手なタイプ。' },       // 3:水曜日
+  { name: '木星のエネルギー', desc: '寛大でおおらか、周りに幸運と安心感をもたらす存在。' },                 // 4:木曜日
+  { name: '金星のエネルギー', desc: '美しいものを愛し、人との調和を大切にする魅力的なタイプ。' },           // 5:金曜日
+  { name: '土星のエネルギー', desc: '忍耐強く責任感が強い、コツコツ積み上げる努力家タイプ。' }              // 6:土曜日
+];
+function calcWeekdayEnergy(birth){
+  return WEEKDAY_ENERGY[birth.getDay()];
+}
 
 function calcCosmicType(birth){
   const seedStr = `cosmic_${birth.getFullYear()}-${birth.getMonth() + 1}-${birth.getDate()}`;
@@ -5571,6 +5739,14 @@ function calcIroenpitsuColor(birth, today){
 function renderFortune(birth, today){
   const month = birth.getMonth() + 1;
 
+  // 🌟 生まれた曜日のエネルギー
+  const WEEKDAY_NAMES = ['日', '月', '火', '水', '木', '金', '土'];
+  const weekdayEnergy = calcWeekdayEnergy(birth);
+  const weekdayName = WEEKDAY_NAMES[birth.getDay()];
+  document.getElementById('fortuneWeekdayEnergy').textContent =
+    `あなたが生まれたのは${weekdayEnergy.name}の${weekdayName}曜日でした`;
+  document.getElementById('fortuneWeekdaySub').textContent = weekdayEnergy.desc;
+
   // 数秘術
   const lifePath = calcLifePathNumber(birth);
   document.getElementById('fortuneNumerology').textContent =
@@ -5590,8 +5766,9 @@ function renderFortune(birth, today){
   // 🗿 マヤ暦占い
   const maya = calcMayaKin(birth);
   document.getElementById('fortuneMayaKinLine').textContent = `KIN${maya.kin}`;
-  document.getElementById('fortuneMayaSeal').textContent =
-    `${maya.tone.name}／${maya.seal.name}／${maya.wavespell.name}／${maya.galacticSignature}`;
+  document.getElementById('fortuneMayaSeal').innerHTML =
+    `${maya.tone.name}／${maya.seal.name}／${maya.wavespell.name}<br>` +
+    `あなたの銀河の署名は「${maya.galacticSignature}」`;
   document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
 
   // 干支・六十干支
@@ -5842,6 +6019,11 @@ document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('faqModalOverlay')){
     document.getElementById('faqModalOverlay').classList.remove('show');
   }
+});
+
+// 🚀 チュートリアルをもう一度見る（いつでも1ステップ目から開始できる）
+document.getElementById('tutorialReopenBtn').addEventListener('click', () => {
+  document.getElementById('tutorialOverlay').classList.add('show');
 });
 
 const installBtn = document.getElementById('installBtn');
@@ -10198,7 +10380,9 @@ window.fqtConfirm = function(message, onConfirm){
    ========================================================== */
 (function initCertificateGenerator(){
 
-  const CANVAS_SIZE = 1080;
+  // A4比率（210mm : 297mm）のキャンバスサイズ
+  const CANVAS_W = 1240;
+  const CANVAS_H = Math.round(CANVAS_W * 297 / 210); // 1754
 
   // ----- ① 日本語として自然な生年月日表示に整える -----
   function formatBirthDateLabel(){
@@ -10216,13 +10400,28 @@ window.fqtConfirm = function(message, onConfirm){
     // どうぶつ名から「（〇〇限定）」のような補足を取り除き、名前だけにする
     const animalRaw = document.getElementById('animalName').textContent.trim();
     const animalName = animalRaw.replace(/[（(].*?[）)]/g, '').trim() || '-';
+    const animalSvgEl = document.querySelector('#animalSvgWrap svg');
+
+    // ⏱ 地球時間リアルタイム経過（すでに画面用に計算済みの値をそのまま読み取る）
+    const months = document.getElementById('rtMonths').textContent.trim();
+    const weeks = document.getElementById('rtWeeks').textContent.trim();
+    const hours = document.getElementById('rtHours').textContent.trim();
+    const minutes = document.getElementById('rtMinutes').textContent.trim();
+    const seconds = document.getElementById('rtSeconds').textContent.trim();
+    // 「約○○km（○○天文単位）」のように2行になっているので、読みやすく1行に整える
+    const spaceDistanceEl = document.getElementById('rtSpaceDistance');
+    const spaceDistanceKm = (spaceDistanceEl.textContent.match(/約[\d,]+\s*km/) || ['-'])[0];
+    const spaceDistanceAU = (spaceDistanceEl.textContent.match(/（.+天文単位）/) || [''])[0];
 
     return {
       day: dayText,
       birthLabel: formatBirthDateLabel(),
       rank: rankText,
       cosmicType: cosmicTypeText,
-      animalName: animalName
+      animalName: animalName,
+      animalSvgEl: animalSvgEl,
+      months, weeks, hours, minutes, seconds,
+      spaceDistance: `${spaceDistanceKm} ${spaceDistanceAU}`.trim()
     };
   }
 
@@ -10233,9 +10432,9 @@ window.fqtConfirm = function(message, onConfirm){
       seed = (seed * 9301 + 49297) % 233280;
       return seed / 233280;
     }
-    for (let i = 0; i < 220; i++){
-      const x = rand() * CANVAS_SIZE;
-      const y = rand() * CANVAS_SIZE * 0.75; // 下側は地球の光で占めるため上寄りに集中させる
+    for (let i = 0; i < 280; i++){
+      const x = rand() * CANVAS_W;
+      const y = rand() * CANVAS_H * 0.8; // 下側は地球の光で占めるため上寄りに集中させる
       const r = rand() * 1.8 + 0.4;
       ctx.globalAlpha = rand() * 0.6 + 0.3;
       ctx.beginPath();
@@ -10250,41 +10449,41 @@ window.fqtConfirm = function(message, onConfirm){
   function drawBackground(ctx){
     // 深宇宙のベースグラデーション
     const bg = ctx.createRadialGradient(
-      CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.15, 60,
-      CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.5, CANVAS_SIZE * 0.9
+      CANVAS_W * 0.5, CANVAS_H * 0.12, 60,
+      CANVAS_W * 0.5, CANVAS_H * 0.4, CANVAS_H * 0.75
     );
     bg.addColorStop(0, '#1b2a55');
     bg.addColorStop(0.5, '#12183a');
     bg.addColorStop(1, '#05060f');
     ctx.fillStyle = bg;
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
     // 銀河のような淡い色のにじみ
-    const nebula1 = ctx.createRadialGradient(150, 250, 20, 150, 250, 420);
+    const nebula1 = ctx.createRadialGradient(170, 300, 20, 170, 300, 480);
     nebula1.addColorStop(0, 'rgba(147, 112, 219, 0.25)');
     nebula1.addColorStop(1, 'rgba(147, 112, 219, 0)');
     ctx.fillStyle = nebula1;
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
-    const nebula2 = ctx.createRadialGradient(920, 320, 20, 920, 320, 380);
+    const nebula2 = ctx.createRadialGradient(CANVAS_W - 160, 380, 20, CANVAS_W - 160, 380, 440);
     nebula2.addColorStop(0, 'rgba(56, 189, 248, 0.20)');
     nebula2.addColorStop(1, 'rgba(56, 189, 248, 0)');
     ctx.fillStyle = nebula2;
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
 
     drawStars(ctx);
 
     // 画面下部に佇む「地球」の淡い光（円形グラデーション）
     const earth = ctx.createRadialGradient(
-      CANVAS_SIZE * 0.5, CANVAS_SIZE * 1.28, 40,
-      CANVAS_SIZE * 0.5, CANVAS_SIZE * 1.28, CANVAS_SIZE * 0.85
+      CANVAS_W * 0.5, CANVAS_H * 1.2, 40,
+      CANVAS_W * 0.5, CANVAS_H * 1.2, CANVAS_H * 0.7
     );
     earth.addColorStop(0, 'rgba(255,255,255,0.35)');
     earth.addColorStop(0.15, 'rgba(58,166,255,0.55)');
     earth.addColorStop(0.5, 'rgba(31,111,214,0.35)');
     earth.addColorStop(1, 'rgba(5,6,15,0)');
     ctx.fillStyle = earth;
-    ctx.fillRect(0, 0, CANVAS_SIZE, CANVAS_SIZE);
+    ctx.fillRect(0, 0, CANVAS_W, CANVAS_H);
   }
 
   // ----- ⑤ 証明書らしい飾り枠 -----
@@ -10292,15 +10491,15 @@ window.fqtConfirm = function(message, onConfirm){
     const margin = 40;
     ctx.strokeStyle = 'rgba(255, 216, 115, 0.65)';
     ctx.lineWidth = 2;
-    ctx.strokeRect(margin, margin, CANVAS_SIZE - margin * 2, CANVAS_SIZE - margin * 2);
+    ctx.strokeRect(margin, margin, CANVAS_W - margin * 2, CANVAS_H - margin * 2);
 
     const innerMargin = 52;
     ctx.strokeStyle = 'rgba(255, 216, 115, 0.35)';
     ctx.lineWidth = 1;
-    ctx.strokeRect(innerMargin, innerMargin, CANVAS_SIZE - innerMargin * 2, CANVAS_SIZE - innerMargin * 2);
+    ctx.strokeRect(innerMargin, innerMargin, CANVAS_W - innerMargin * 2, CANVAS_H - innerMargin * 2);
 
     // 四隅の飾り
-    const corners = [[margin, margin], [CANVAS_SIZE - margin, margin], [margin, CANVAS_SIZE - margin], [CANVAS_SIZE - margin, CANVAS_SIZE - margin]];
+    const corners = [[margin, margin], [CANVAS_W - margin, margin], [margin, CANVAS_H - margin], [CANVAS_W - margin, CANVAS_H - margin]];
     ctx.fillStyle = '#ffd873';
     corners.forEach(([cx, cy]) => {
       ctx.beginPath();
@@ -10311,9 +10510,9 @@ window.fqtConfirm = function(message, onConfirm){
 
   // ----- ⑥ 情報を1行分描画する（アイコン付きラベル＋値） -----
   function drawInfoRow(ctx, y, label, value){
-    const rowWidth = 860;
-    const rowX = (CANVAS_SIZE - rowWidth) / 2;
-    const rowHeight = 74;
+    const rowWidth = 980;
+    const rowX = (CANVAS_W - rowWidth) / 2;
+    const rowHeight = 62;
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
     roundRect(ctx, rowX, y, rowWidth, rowHeight, 14);
@@ -10325,14 +10524,14 @@ window.fqtConfirm = function(message, onConfirm){
 
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.font = '600 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '600 24px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.fillText(label, rowX + 28, y + rowHeight / 2);
+    ctx.fillText(label, rowX + 26, y + rowHeight / 2);
 
     ctx.textAlign = 'right';
-    ctx.font = '800 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '800 27px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#ffffff';
-    ctx.fillText(value, rowX + rowWidth - 28, y + rowHeight / 2);
+    ctx.fillText(value, rowX + rowWidth - 26, y + rowHeight / 2);
   }
 
   // 角丸四角形を描くヘルパー
@@ -10347,8 +10546,10 @@ window.fqtConfirm = function(message, onConfirm){
   }
 
   // ----- ⑦ 証明書全体を描画する -----
-  function drawCertificate(){
+  function drawCertificate(onComplete){
     const canvas = document.getElementById('certificateCanvas');
+    canvas.width = CANVAS_W;
+    canvas.height = CANVAS_H;
     const ctx = canvas.getContext('2d');
     const data = collectCertificateData();
 
@@ -10358,53 +10559,116 @@ window.fqtConfirm = function(message, onConfirm){
     // タイトル
     ctx.textAlign = 'center';
     ctx.textBaseline = 'alphabetic';
-    ctx.font = '700 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '700 36px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#ffd873';
-    ctx.fillText('🌏 地球滞在証明書', CANVAS_SIZE / 2, 150);
+    ctx.fillText('🌏 地球滞在証明書', CANVAS_W / 2, 130);
 
     // タイトル下の飾り線
     ctx.strokeStyle = 'rgba(255, 216, 115, 0.6)';
     ctx.lineWidth = 2;
     ctx.beginPath();
-    ctx.moveTo(CANVAS_SIZE / 2 - 90, 172);
-    ctx.lineTo(CANVAS_SIZE / 2 + 90, 172);
+    ctx.moveTo(CANVAS_W / 2 - 90, 152);
+    ctx.lineTo(CANVAS_W / 2 + 90, 152);
     ctx.stroke();
 
     // メインコピー（2行）
-    ctx.font = '500 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
-    ctx.fillStyle = '#e5e7eb';
-    ctx.fillText('今日は、私が地球に来て', CANVAS_SIZE / 2, 260);
-
-    // 日数（最も目立つ大きな数字）
-    ctx.font = '900 108px "Noto Sans JP", "Hiragino Sans", sans-serif';
-    ctx.fillStyle = '#ffffff';
-    ctx.shadowColor = 'rgba(255, 216, 115, 0.8)';
-    ctx.shadowBlur = 30;
-    ctx.fillText(`${data.day}日目`, CANVAS_SIZE / 2, 390);
-    ctx.shadowBlur = 0;
-
     ctx.font = '500 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#e5e7eb';
-    ctx.fillText('でした', CANVAS_SIZE / 2, 440);
+    ctx.fillText('今日は、私が地球に来て', CANVAS_W / 2, 220);
 
-    // 情報行（5項目）
-    let rowY = 500;
-    const rowGap = 86;
+    // 日数（最も目立つ大きな数字）
+    ctx.font = '900 96px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#ffffff';
+    ctx.shadowColor = 'rgba(255, 216, 115, 0.8)';
+    ctx.shadowBlur = 28;
+    ctx.fillText(`${data.day}日目`, CANVAS_W / 2, 330);
+    ctx.shadowBlur = 0;
+
+    ctx.font = '500 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#e5e7eb';
+    ctx.fillText('でした', CANVAS_W / 2, 372);
+
+    // 情報行（10項目：既存5項目＋経過月数・週数・時間・分・秒・宇宙移動距離）
+    let rowY = 420;
+    const rowGap = 70;
     drawInfoRow(ctx, rowY, '🌎 地球到着日', data.birthLabel); rowY += rowGap;
     drawInfoRow(ctx, rowY, '📅 地球滞在日数', `${data.day}日`); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '📆 経過月数', data.months); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🗓 経過週数', data.weeks); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '⏰ 経過時間', data.hours); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '⏱ 経過分', data.minutes); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '⏲ 経過秒', data.seconds); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🚀 宇宙を移動した距離', data.spaceDistance); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🔮 今日の運勢', data.rank); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🌌 FQT 宇宙占い', data.cosmicType); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '🐾 今日出会った宇宙どうぶつ', data.animalName);
 
-    // フッター
+    // ----- 出会った宇宙どうぶつの姿（円形の実際のイラスト＋名前） -----
+    const animalSectionY = rowY + 20;
     ctx.textAlign = 'center';
     ctx.font = '700 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#ffd873';
-    ctx.fillText('あなたは今日、地球に来て何日目？🌏', CANVAS_SIZE / 2, 970);
+    ctx.fillText('🐾 今日出会った宇宙どうぶつ', CANVAS_W / 2, animalSectionY + 30);
 
-    ctx.font = '500 22px "Noto Sans JP", "Hiragino Sans", sans-serif';
-    ctx.fillStyle = 'rgba(255,255,255,0.8)';
-    ctx.fillText('https://fqtlifecounter2.netlify.app', CANVAS_SIZE / 2, 1010);
+    const imgSize = 240;
+    const imgX = (CANVAS_W - imgSize) / 2;
+    const imgY = animalSectionY + 55;
+
+    function finishAnimalSection(){
+      ctx.textAlign = 'center';
+      ctx.font = '800 32px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = '#ffffff';
+      ctx.fillText(data.animalName, CANVAS_W / 2, imgY + imgSize + 46);
+
+      // フッター
+      const footerY = imgY + imgSize + 110;
+      ctx.textAlign = 'center';
+      ctx.font = '700 24px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = '#ffd873';
+      ctx.fillText('あなたは今日、地球に来て何日目？🌏', CANVAS_W / 2, footerY);
+
+      ctx.font = '500 20px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.fillStyle = 'rgba(255,255,255,0.8)';
+      ctx.fillText('https://fqtlifecounter2.netlify.app', CANVAS_W / 2, footerY + 36);
+
+      if (typeof onComplete === 'function') onComplete();
+    }
+
+    // 円形の枠だけ先に描いておく（画像が読み込めなかった場合の保険）
+    ctx.save();
+    ctx.beginPath();
+    ctx.arc(CANVAS_W / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+    ctx.fillStyle = 'rgba(255,255,255,0.08)';
+    ctx.fill();
+    ctx.restore();
+    ctx.strokeStyle = 'rgba(255, 216, 115, 0.7)';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.arc(CANVAS_W / 2, imgY + imgSize / 2, imgSize / 2, 0, Math.PI * 2);
+    ctx.stroke();
+
+    if (data.animalSvgEl){
+      const svgString = new XMLSerializer().serializeToString(data.animalSvgEl);
+      const svgBlob = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
+      const url = URL.createObjectURL(svgBlob);
+      const img = new Image();
+      img.onload = () => {
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(CANVAS_W / 2, imgY + imgSize / 2, imgSize / 2 - 3, 0, Math.PI * 2);
+        ctx.clip();
+        ctx.drawImage(img, imgX, imgY, imgSize, imgSize);
+        ctx.restore();
+        URL.revokeObjectURL(url);
+        finishAnimalSection();
+      };
+      img.onerror = () => {
+        URL.revokeObjectURL(url);
+        finishAnimalSection();
+      };
+      img.src = url;
+    } else {
+      finishAnimalSection();
+    }
   }
 
   // ----- ⑧ モーダルの開閉 -----
@@ -10412,10 +10676,16 @@ window.fqtConfirm = function(message, onConfirm){
   const certificateModalOverlay = document.getElementById('certificateModalOverlay');
   const certificateModalCloseBtn = document.getElementById('certificateModalCloseBtn');
 
+  // どうぶつの画像描画が非同期のため、ダウンロード・シェアボタンは
+  // この完了を待ってから実行する（先に押されても正しい画像になるように）
+  let certificateReadyPromise = null;
+
   certificateOpenBtn.addEventListener('click', () => {
     certificateModalOverlay.classList.add('show');
     // モーダルが実際に表示されてからCanvasを描画する（レイアウト確定後の方が安定するため）
-    setTimeout(drawCertificate, 50);
+    certificateReadyPromise = new Promise((resolve) => {
+      setTimeout(() => drawCertificate(resolve), 50);
+    });
   });
   certificateModalCloseBtn.addEventListener('click', () => {
     certificateModalOverlay.classList.remove('show');
@@ -10427,7 +10697,8 @@ window.fqtConfirm = function(message, onConfirm){
   });
 
   // ----- ⑨ 画像の保存・シェア -----
-  document.getElementById('certificateDownloadBtn').addEventListener('click', () => {
+  document.getElementById('certificateDownloadBtn').addEventListener('click', async () => {
+    if (certificateReadyPromise) await certificateReadyPromise;
     const canvas = document.getElementById('certificateCanvas');
     const link = document.createElement('a');
     link.download = 'fqt_earth_certificate.png';
@@ -10436,6 +10707,7 @@ window.fqtConfirm = function(message, onConfirm){
   });
 
   document.getElementById('certificateShareBtn').addEventListener('click', async () => {
+    if (certificateReadyPromise) await certificateReadyPromise;
     const canvas = document.getElementById('certificateCanvas');
     canvas.toBlob(async (blob) => {
       if (!blob) return;
