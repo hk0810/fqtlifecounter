@@ -369,6 +369,22 @@
     display: block;
   }
 
+  .revival-desc{
+    font-size: 12px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin: 4px 0 10px;
+  }
+  .revival-status{
+    font-size: 12.5px;
+    font-weight: 700;
+    text-align: center;
+    margin-top: 10px;
+    min-height: 18px;
+  }
+  .revival-status.ok{ color: #16a34a; }
+  .revival-status.ng{ color: #dc2626; }
+
   .divider{
     border: none;
     border-top: 1px dashed var(--border);
@@ -3660,6 +3676,33 @@
   </div>
 </div>
 
+<!-- 🔮 復活の呪文モーダル（データのバックアップ・復元） -->
+<div class="dex-modal-overlay" id="revivalModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="revivalModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🔮 復活の呪文</p>
+    <p class="badge-modal-note">
+      端末やブラウザを変えると、これまでの記録<br>
+      （生年月日・図鑑・バッジ・実績など）は失われてしまいます。<br><br>
+      「復活の呪文」をダウンロードしておけば、<br>
+      新しい端末でその呪文を読み込むことで、<br>
+      これまでの記録を復活させることができます。
+    </p>
+
+    <p class="badge-list-title">💾 呪文をダウンロードする</p>
+    <p class="revival-desc">今のデータをファイルに書き出します。<br>大切に保管しておいてください。</p>
+    <button class="diag-share-btn" id="revivalDownloadBtn" type="button">🔮　復活の呪文をダウンロード</button>
+
+    <hr class="divider">
+
+    <p class="badge-list-title">📜 呪文を読み込んで復活する</p>
+    <p class="revival-desc">ダウンロードした呪文ファイルを選ぶと、<br>そのデータで今のデータを上書きします。</p>
+    <input type="file" id="revivalFileInput" accept=".txt,.json" style="display:none;">
+    <button class="diag-copy-btn" id="revivalImportBtn" type="button">📜　呪文ファイルを選んで復活する</button>
+    <p class="revival-status" id="revivalStatus"></p>
+  </div>
+</div>
+
 <!-- ❓ ヘルプ・FAQモーダル -->
 <div class="dex-modal-overlay" id="faqModalOverlay">
   <div class="dex-modal faq-modal">
@@ -4615,6 +4658,9 @@
 
   <!-- 🚀 チュートリアルをもう一度見るボタン -->
   <button class="faq-open-btn" id="tutorialReopenBtn" type="button">🚀　チュートリアルを見る</button>
+
+  <!-- 🔮 復活の呪文（データのバックアップ・復元） -->
+  <button class="faq-open-btn" id="revivalOpenBtn" type="button">🔮　復活の呪文（データを引き継ぐ）</button>
 
   <!-- ホーム画面に追加ボタン -->
   <button class="install-btn" id="installBtn">📲　ホーム画面に追加する</button>
@@ -6524,6 +6570,151 @@ document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
     document.getElementById('videoEmbedWrap').innerHTML = '';
   }
 });
+
+/* ==========================================================
+   🔮 復活の呪文（データのバックアップ・復元）
+   ・このアプリはサーバーを持たず、すべてlocalStorageにデータを保存しているため、
+     端末やブラウザを変えると記録が失われてしまう。
+   ・「復活の呪文」は、localStorageの中身をまとめてファイルに書き出し（ダウンロード）、
+     別の端末でそのファイルを読み込む（インポート）ことで、記録を復元できる仕組み。
+   ========================================================== */
+(function initRevivalSpell(){
+
+  // このアプリが使っているlocalStorageキー一覧（新しいデータを追加した時は、ここにも追記する）
+  const REVIVAL_KEYS = [
+    'fqtLifeCounter_achievements',
+    'fqtLifeCounter_animalDex',
+    'fqtLifeCounter_animalVoiceEnabled',
+    'fqtLifeCounter_badgeData',
+    'fqtLifeCounter_bgmPreset',
+    'fqtLifeCounter_birthTime',
+    'fqtLifeCounter_birthdate',
+    'fqtLifeCounter_birthdayData',
+    'fqtLifeCounter_dailyQuote',
+    'fqtLifeCounter_dailyWork',
+    'fqtLifeCounter_eventData',
+    'fqtLifeCounter_lastDigestMonth',
+    'fqtLifeCounter_milestoneData',
+    'fqtLifeCounter_oshiAnimal',
+    'fqtLifeCounter_shareHideDay',
+    'fqtLifeCounter_starMessage',
+    'fqtLifeCounter_sunPref',
+    'fqtLifeCounter_targetDays',
+    'fqtLifeCounter_timeCapsule',
+    'fqtLifeCounter_ultimateMaster'
+  ];
+
+  // 文字列 → Base64（日本語などのマルチバイト文字も安全に変換する）
+  function encodeSpell(text){
+    const bytes = new TextEncoder().encode(text);
+    let binary = '';
+    bytes.forEach(b => { binary += String.fromCharCode(b); });
+    return btoa(binary);
+  }
+  // Base64 → 元の文字列
+  function decodeSpell(base64){
+    const binary = atob(base64);
+    const bytes = new Uint8Array(binary.length);
+    for (let i = 0; i < binary.length; i++){ bytes[i] = binary.charCodeAt(i); }
+    return new TextDecoder().decode(bytes);
+  }
+
+  // ----- 💾 呪文をダウンロードする -----
+  document.getElementById('revivalDownloadBtn').addEventListener('click', () => {
+    const data = {};
+    REVIVAL_KEYS.forEach(key => {
+      const value = window.localStorage.getItem(key);
+      if (value !== null) data[key] = value;
+    });
+
+    const payload = {
+      app: 'FQT_LIFE_COUNTER',
+      version: 1,
+      exportedAt: new Date().toISOString(),
+      data
+    };
+
+    const spell = encodeSpell(JSON.stringify(payload));
+    const blob = new Blob([spell], { type: 'text/plain;charset=utf-8' });
+    const today = new Date();
+    const dateLabel = `${today.getFullYear()}${String(today.getMonth()+1).padStart(2,'0')}${String(today.getDate()).padStart(2,'0')}`;
+    const link = document.createElement('a');
+    link.download = `fqt_復活の呪文_${dateLabel}.txt`;
+    link.href = URL.createObjectURL(blob);
+    link.click();
+    URL.revokeObjectURL(link.href);
+
+    const status = document.getElementById('revivalStatus');
+    status.textContent = '呪文をダウンロードしました。大切に保管してください。';
+    status.className = 'revival-status ok';
+  });
+
+  // ----- 📜 呪文ファイルを選ぶ -----
+  const revivalFileInput = document.getElementById('revivalFileInput');
+  document.getElementById('revivalImportBtn').addEventListener('click', () => {
+    revivalFileInput.value = ''; // 同じファイルを連続で選んでもchangeイベントが発火するようにする
+    revivalFileInput.click();
+  });
+
+  revivalFileInput.addEventListener('change', () => {
+    const file = revivalFileInput.files[0];
+    if (!file) return;
+
+    const status = document.getElementById('revivalStatus');
+    const reader = new FileReader();
+    reader.onload = () => {
+      try{
+        const spell = String(reader.result).trim();
+        const payload = JSON.parse(decodeSpell(spell));
+
+        if (!payload || payload.app !== 'FQT_LIFE_COUNTER' || !payload.data){
+          throw new Error('invalid');
+        }
+
+        // 上書きする前に、必ず本人の意思を確認する
+        const ok = window.confirm(
+          '呪文を読み込むと、今のこの端末のデータは上書きされます。よろしいですか？\n' +
+          (payload.exportedAt ? ('（この呪文の書き出し日時：' + payload.exportedAt.slice(0, 10) + '）') : '')
+        );
+        if (!ok) return;
+
+        // 一旦、既存のFQTデータをすべて消してから、呪文の内容を書き込む
+        REVIVAL_KEYS.forEach(key => window.localStorage.removeItem(key));
+        Object.keys(payload.data).forEach(key => {
+          window.localStorage.setItem(key, payload.data[key]);
+        });
+
+        status.textContent = '復活しました！ページを再読み込みします…';
+        status.className = 'revival-status ok';
+        setTimeout(() => window.location.reload(), 1200);
+      } catch(e){
+        status.textContent = '呪文を読み込めませんでした。ファイルが正しいか確認してください。';
+        status.className = 'revival-status ng';
+      }
+    };
+    reader.onerror = () => {
+      status.textContent = 'ファイルの読み込みに失敗しました。';
+      status.className = 'revival-status ng';
+    };
+    reader.readAsText(file);
+  });
+
+  // ----- モーダルの開閉 -----
+  document.getElementById('revivalOpenBtn').addEventListener('click', () => {
+    document.getElementById('revivalStatus').textContent = '';
+    document.getElementById('revivalStatus').className = 'revival-status';
+    document.getElementById('revivalModalOverlay').classList.add('show');
+  });
+  document.getElementById('revivalModalCloseBtn').addEventListener('click', () => {
+    document.getElementById('revivalModalOverlay').classList.remove('show');
+  });
+  document.getElementById('revivalModalOverlay').addEventListener('click', (e) => {
+    if (e.target === document.getElementById('revivalModalOverlay')){
+      document.getElementById('revivalModalOverlay').classList.remove('show');
+    }
+  });
+
+})();
 
 // 🚀 チュートリアルをもう一度見る（いつでも1ステップ目から開始できる）
 document.getElementById('tutorialReopenBtn').addEventListener('click', () => {
