@@ -3384,7 +3384,7 @@
   <div class="dex-modal">
     <button class="badge-modal-close" id="dexModalCloseBtn" type="button">✕</button>
     <p class="badge-modal-title">🌌 宇宙どうぶつ図鑑</p>
-    <p class="badge-modal-note">※ アクセスするたびに新しい宇宙どうぶつに出会えます。<br>累計・連続アクセス日数には影響しません。<br>端末やブラウザを変えると出会いの記録は消えてしまいます。<br>その儚さも、宇宙の旅の一部としてお楽しみください。</p>
+    <p class="badge-modal-note">※ アクセスするたびに新しい宇宙どうぶつに出会えます。<br>累計・連続アクセス日数には影響しません。<br>端末やブラウザを変えると出会いの記録は消えてしまいます。<br>その儚さも、宇宙の旅の一部としてお楽しみください。<br>復活の呪文を保存すれば記録を呼び出すことが出来るようになりました。</p>
 
     <div class="dex-modal-stats">
       <div class="badge-modal-stat">
@@ -3519,7 +3519,7 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">5/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">⚠️</div>
-      <div class="tutorial-text">端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えてしまうよ</div>
+      <div class="tutorial-text">端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えてしまうよ<br>復活の呪文を保存すれば記録を呼び出すことが出来るようになりました。</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">✨</div>
@@ -3730,7 +3730,7 @@
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 機種変更したら、記録は引き継げますか？</p>
-      <p class="faq-a">A. 引き継げません。新しい端末では図鑑やバッジなどの記録はすべて0から始まります。</p>
+      <p class="faq-a">A. 復活の呪文を保存すれば記録を呼び出すことが出来るようになりました。</p>
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 「バッジ記録をリセット」を押すと何が消えますか？</p>
@@ -3809,16 +3809,6 @@
     <div class="faq-item">
       <p class="faq-q">Q. タイムカプセル（手紙）はいつ開封できますか？</p>
       <p class="faq-a">A. 手紙を書いた時点での「次の人生節目の日」まで開封できません。</p>
-    </div>
-
-    <p class="faq-category">🔔 通知について</p>
-    <div class="faq-item">
-      <p class="faq-q">Q. 通知が届きません。</p>
-      <p class="faq-a">A. 通知の許可・タブを開いたままにしているか・20時を過ぎているか・その日のワークが未完了かをご確認ください。</p>
-    </div>
-    <div class="faq-item">
-      <p class="faq-q">Q. アプリを閉じていても通知は届きますか？</p>
-      <p class="faq-a">A. 届きません。タブを開いている間だけの簡易的な通知です。</p>
     </div>
 
     <p class="faq-category">⚠️ 不具合・表示がおかしい時</p>
@@ -11251,6 +11241,16 @@ window.fqtConfirm = function(message, onConfirm){
     const spaceDistanceKm = (spaceDistanceEl.textContent.match(/約[\d,]+\s*km/) || ['-'])[0];
     const spaceDistanceAU = (spaceDistanceEl.textContent.match(/（.+天文単位）/) || [''])[0];
 
+    // 🐾 FQT宇宙どうぶつ診断（地球人意識・宇宙意識・才能・テーマ）。
+    // diagCardが表示されていれば（＝生年月日が入力済みなら）値が入っているはず
+    const diagEl = document.getElementById('diagCard');
+    const hasDiag = diagEl && getComputedStyle(diagEl).display !== 'none';
+    const diagAnimalName = hasDiag ? document.getElementById('diagAnimalName').textContent.trim() : '-';
+    const diagEarthType = hasDiag ? document.getElementById('diagEarthType').textContent.trim() : '-';
+    const diagSpaceType = hasDiag ? document.getElementById('diagSpaceType').textContent.trim() : '-';
+    const diagTalentType = hasDiag ? document.getElementById('diagTalentType').textContent.trim() : '-';
+    const diagThemeType = hasDiag ? document.getElementById('diagThemeType').textContent.trim() : '-';
+
     return {
       day: dayText,
       birthLabel: formatBirthDateLabel(),
@@ -11259,7 +11259,8 @@ window.fqtConfirm = function(message, onConfirm){
       animalName: animalName,
       animalSvgEl: animalSvgEl,
       months, weeks, hours, minutes, seconds,
-      spaceDistance: `${spaceDistanceKm} ${spaceDistanceAU}`.trim()
+      spaceDistance: `${spaceDistanceKm} ${spaceDistanceAU}`.trim(),
+      diagAnimalName, diagEarthType, diagSpaceType, diagTalentType, diagThemeType
     };
   }
 
@@ -11350,24 +11351,24 @@ window.fqtConfirm = function(message, onConfirm){
   function drawInfoRow(ctx, y, label, value){
     const rowWidth = 980;
     const rowX = (CANVAS_W - rowWidth) / 2;
-    const rowHeight = 62;
+    const rowHeight = 46;
 
     ctx.fillStyle = 'rgba(255, 255, 255, 0.07)';
-    roundRect(ctx, rowX, y, rowWidth, rowHeight, 14);
+    roundRect(ctx, rowX, y, rowWidth, rowHeight, 12);
     ctx.fill();
     ctx.strokeStyle = 'rgba(255, 216, 115, 0.25)';
     ctx.lineWidth = 1;
-    roundRect(ctx, rowX, y, rowWidth, rowHeight, 14);
+    roundRect(ctx, rowX, y, rowWidth, rowHeight, 12);
     ctx.stroke();
 
     ctx.textAlign = 'left';
     ctx.textBaseline = 'middle';
-    ctx.font = '600 24px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '600 20px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = 'rgba(255,255,255,0.75)';
-    ctx.fillText(label, rowX + 26, y + rowHeight / 2);
+    ctx.fillText(label, rowX + 22, y + rowHeight / 2);
 
     ctx.textAlign = 'right';
-    ctx.font = '800 27px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '800 22px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#ffffff';
     ctx.fillText(value, rowX + rowWidth - 26, y + rowHeight / 2);
   }
@@ -11426,36 +11427,39 @@ window.fqtConfirm = function(message, onConfirm){
     ctx.fillStyle = '#e5e7eb';
     ctx.fillText('でした', CANVAS_W / 2, 372);
 
-    // 情報行（10項目：既存5項目＋経過月数・週数・時間・分・秒・宇宙移動距離）
+    // 情報行（13項目・ご指定の内容に統一）
     let rowY = 420;
-    const rowGap = 70;
-    drawInfoRow(ctx, rowY, '🌎 地球到着日', data.birthLabel); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '📅 地球滞在日数', `${data.day}日`); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '📆 経過月数', data.months); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '🗓 経過週数', data.weeks); rowY += rowGap;
+    const rowGap = 60;
+    drawInfoRow(ctx, rowY, '🌏 地球到着日', data.birthLabel); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌍 地球滞在日数', `${data.day}日`); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '📅 経過月数', data.months); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '📆 経過週数', data.weeks); rowY += rowGap;
     drawInfoRow(ctx, rowY, '⏰ 経過時間', data.hours); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '⏱ 経過分', data.minutes); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '⏲ 経過秒', data.seconds); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🚀 宇宙を移動した距離', data.spaceDistance); rowY += rowGap;
     drawInfoRow(ctx, rowY, '🔮 今日の運勢', data.rank); rowY += rowGap;
-    drawInfoRow(ctx, rowY, '🌌 FQT 宇宙占い', data.cosmicType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌌 FQT宇宙占い', data.cosmicType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🐾 宇宙どうぶつ（本質）', data.diagAnimalName); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌍 地球人意識', data.diagEarthType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌌 宇宙意識', data.diagSpaceType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '💎 あなたの才能', data.diagTalentType); rowY += rowGap;
+    drawInfoRow(ctx, rowY, '🌈 今世のテーマ', data.diagThemeType); rowY += rowGap;
 
     // ----- 出会った宇宙どうぶつの姿（円形の実際のイラスト＋名前） -----
-    const animalSectionY = rowY + 20;
+    const animalSectionY = rowY + 14;
     ctx.textAlign = 'center';
-    ctx.font = '700 26px "Noto Sans JP", "Hiragino Sans", sans-serif';
+    ctx.font = '700 24px "Noto Sans JP", "Hiragino Sans", sans-serif';
     ctx.fillStyle = '#ffd873';
-    ctx.fillText('🐾 今日出会った宇宙どうぶつ', CANVAS_W / 2, animalSectionY + 30);
+    ctx.fillText('🐾 今日出会った宇宙どうぶつ', CANVAS_W / 2, animalSectionY + 26);
 
-    const imgSize = 240;
+    const imgSize = 200;
     const imgX = (CANVAS_W - imgSize) / 2;
-    const imgY = animalSectionY + 55;
+    const imgY = animalSectionY + 46;
 
     function finishAnimalSection(){
       ctx.textAlign = 'center';
-      ctx.font = '800 32px "Noto Sans JP", "Hiragino Sans", sans-serif';
+      ctx.font = '800 30px "Noto Sans JP", "Hiragino Sans", sans-serif';
       ctx.fillStyle = '#ffffff';
-      ctx.fillText(data.animalName, CANVAS_W / 2, imgY + imgSize + 46);
+      ctx.fillText(data.animalName, CANVAS_W / 2, imgY + imgSize + 42);
 
       // フッター
       const footerY = imgY + imgSize + 110;
