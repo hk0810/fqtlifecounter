@@ -3944,6 +3944,18 @@
     </div>
   </div>
 
+  <!-- 記念日カウントダウンカード -->
+  <div class="card" id="anniversaryCard" style="display:none;">
+    <p class="section-title">📅 記念日まで</p>
+    <div class="milestone-card">
+      <div class="emoji">🎁</div>
+      <div class="m-text">
+        <div class="m-title" id="anniversaryDateLabel">-</div>
+        <div class="m-main" id="anniversaryMain">-</div>
+      </div>
+    </div>
+  </div>
+
   <!-- リアルタイム経過カード -->
   <div class="card" id="realtimeCard" style="display:none;">
     <p class="section-title">⏱ 地球時間リアルタイム経過</p>
@@ -4250,18 +4262,6 @@
     </div>
 
     <p class="fortune-disclaimer">占いの結果はエンターテインメントです。<br>効果や結果を保証するものではありません。</p>
-  </div>
-
-  <!-- 記念日カウントダウンカード -->
-  <div class="card" id="anniversaryCard" style="display:none;">
-    <p class="section-title">📅 記念日まで</p>
-    <div class="milestone-card">
-      <div class="emoji">🎁</div>
-      <div class="m-text">
-        <div class="m-title" id="anniversaryDateLabel">-</div>
-        <div class="m-main" id="anniversaryMain">-</div>
-      </div>
-    </div>
   </div>
 
   <!-- 結果シェアカード -->
@@ -5767,8 +5767,10 @@ function renderFortune(birth, today){
   const maya = calcMayaKin(birth);
   document.getElementById('fortuneMayaKinLine').textContent = `KIN${maya.kin}`;
   document.getElementById('fortuneMayaSeal').innerHTML =
-    `${maya.tone.name}／${maya.seal.name}／${maya.wavespell.name}<br>` +
-    `あなたの銀河の署名は「${maya.galacticSignature}」`;
+    `銀河の音：${maya.tone.name}<br>` +
+    `太陽の紋章：${maya.seal.name}<br>` +
+    `ウェイブスペル：${maya.wavespell.name}<br>` +
+    `あなたの銀河の署名は「${maya.galacticSignature}」です`;
   document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
 
   // 干支・六十干支
