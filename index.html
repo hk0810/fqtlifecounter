@@ -4050,6 +4050,81 @@
   </div>
 </div>
 
+<!-- 🔗 誕生日×今日のパーソナルナンバー 説明モーダル -->
+<div class="dex-modal-overlay" id="personalNumberInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="personalNumberInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🔗 パーソナルナンバーってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      数秘術の世界では、<strong>生年月日を1桁になるまで足し合わせた数字</strong>を「ライフパスナンバー」と呼び、その人が生まれ持った本質を表すとされています。パーソナルナンバーは、この<strong>あなただけのライフパスナンバー</strong>を土台に、<strong>今日という日を掛け合わせる</strong>ことで生まれる、1〜9の日替わりの数字です。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">1️⃣</span>
+        <span class="bio-info-cycle-name">生年月日を1桁になるまで足し、ライフパスナンバーを出す</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">2️⃣</span>
+        <span class="bio-info-cycle-name">ライフパスナンバーと今日の日付を組み合わせる</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">3️⃣</span>
+        <span class="bio-info-cycle-name">その組み合わせから、今日のあなたの数字（1〜9）を導き出す</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      金運や吉方位が「生年月日の生データ」をそのまま使うのに対し、パーソナルナンバーは<strong>一度、数秘術のライフパスナンバーに変換してから</strong>今日の日付と重ね合わせるという、もう一段階踏み込んだ計算をしています。1〜9の数字それぞれに、数秘術で伝統的に語られてきた意味合い（1は始まり、9は手放し、など）を込めたメッセージを添えています。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 数秘術は、科学的に実証された占術ではありません。今日という日を、数字というフィルターを通して眺めてみる、ちょっとした遊び心としてお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- ✨ あなたの今日の運勢 説明モーダル -->
+<div class="dex-modal-overlay" id="todayRankInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="todayRankInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">✨ 今日の運勢ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      「大大大吉」「中吉」「末吉」——この運勢は、単独の占いではなく、<strong>金運・吉方位・タロット・バイオリズム（身体/感情）</strong>という、これまで紹介してきた5つの要素をすべて合成して算出する、<strong>いわば集大成のランク</strong>です。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">1️⃣</span>
+        <span class="bio-info-cycle-name">💰吉方位🧭🎴タロットの3つのシード値を、それぞれ0〜1に変換</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">2️⃣</span>
+        <span class="bio-info-cycle-name">💪身体💗感情のバイオリズムの波（-100〜100）も、同じく0〜1に変換</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">3️⃣</span>
+        <span class="bio-info-cycle-name">5つの平均を出し、その値を7段階のランクに振り分ける</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      7段階は均等に分けているわけではありません。<strong>大規模なシミュレーションで実際の分布を計算</strong>し、「大大大吉」「末吉」がそれぞれ約0.2%というレアな確率になるよう、境界値を較正しています。5つの要素を平均することで、結果は自然と中央の「中吉」に寄りやすくなり（統計学でいう中心極限定理と同じ効果）、山型の分布が生まれます。
+    </p>
+    <p class="bio-info-text">
+      おみくじには、さまざまな結果や意味があります。<br><br>
+      このアプリでは、一般的なおみくじとは少し違う形で、今日のあなたに必要なメッセージを届けています。<br><br>
+      良い・悪いで終わるのではなく、どんな結果も未来をより良くするためのきっかけとして受け取れるように設計しています✨
+    </p>
+
+    <p class="bio-info-note">
+      ※ 実際の運勢を保証するものではありません。「大大大吉」が出た日は、それだけ珍しい巡り合わせだと思って楽しんでみてください。
+    </p>
+  </div>
+</div>
+
 <!-- 📋 バージョン履歴モーダル -->
 <div class="dex-modal-overlay" id="versionHistoryModalOverlay">
   <div class="dex-modal">
@@ -4060,77 +4135,176 @@
     <div class="version-history-list">
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.26　アプリ誕生</p>
+        <p class="version-history-date">v1.0　基本機能</p>
         <ul class="version-history-notes">
-          <li>「<span class="nowrap-word">FQT LIFE COUNTER</span>」を新規作成。生年月日とターゲット日数から「地球に来て何日目」を計算する基本機能を実装</li>
-          <li>デザインの世界観（宇宙・地球・コックピット）の方向性を決定</li>
+          <li>生年月日から「地球に来て何日目か」を計算する、シンプルな日数カウンターとしてスタート</li>
+          <li>ターゲット日数の設定、残り日数・進捗バーの表示</li>
+          <li>生まれた時刻（任意）を使った、より正確な経過時間の計算</li>
+          <li>地球経過時間（月・週・時間・分・秒）のリアルタイム表示</li>
         </ul>
       </div>
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.27</p>
+        <p class="version-history-date">v2.0　占い機能（13種類）</p>
         <ul class="version-history-notes">
-          <li>バッジシステム（連続・累計アクセス日数）を新規実装</li>
-          <li>宇宙どうぶつ図鑑を新規実装</li>
-          <li>季節イベント・誕生日イベントを新規実装</li>
-          <li>実績（アチーブメント）システムを新規実装。最高位「マルチバースマスター」を追加</li>
+          <li>数秘術、九星氣学、干支・六十干支、誕生花・誕生石・誕生色</li>
+          <li>不思議色鉛筆占い（12色×神様/大天使）</li>
+          <li>今日の運勢（7段階の合成スコア）、パーソナルナンバー</li>
+          <li>今日の月齢・月相、二十四節氣・七十二候、旧暦（いずれも実際の天文計算）</li>
+          <li>バイオリズム、今日の金運・吉方位、今日の一枚タロット</li>
         </ul>
       </div>
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.28</p>
+        <p class="version-history-date">v3.0　宇宙どうぶつ・図鑑・バッジ・実績</p>
         <ul class="version-history-notes">
-          <li>複数の新機能モジュールを追加、UX改善を多数実施</li>
-          <li>仕様書ドキュメントを作成し、今後の開発方針を整理</li>
+          <li>SVGでその場生成する宇宙どうぶつ（14パーツの組み合わせで数百万通り以上）</li>
+          <li>レア度システム（★1〜★5、シミュレーションで出現率を較正）</li>
+          <li>宇宙どうぶつ図鑑（発見数・コンプリート率表示）</li>
+          <li>バッジシステム（累計・連続アクセス、計68種類）</li>
+          <li>実績システム（図鑑の集め具合に応じた9種類 → 後に13種類へ拡張）</li>
         </ul>
       </div>
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.29（前半）</p>
+        <p class="version-history-date">v4.0　季節イベント・誕生日イベント</p>
         <ul class="version-history-notes">
-          <li>新機能・UX改善を多数実施、文言や配色の調整</li>
-          <li>人気者13体（宇宙どうぶつ）のシグネチャーシステムを新規実装</li>
-          <li>FQT宇宙どうぶつ診断（6つの星のクリック式解説付き）を新規実装</li>
-          <li>マヤ暦占い（初期版）を実装、ヘルプ・FAQボタンを追加</li>
+          <li>季節イベント8種（春・七夕・夏・秋・ハロウィン・クリスマス・お正月・冬）、各10体の限定どうぶつ</li>
+          <li>誕生日イベント（フルスクリーン演出、誕生日限定どうぶつ13体、プレゼントBOX）</li>
         </ul>
       </div>
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.29（後半）</p>
+        <p class="version-history-date">v5.0　人生節目イベント</p>
+        <ul class="version-history-notes">
+          <li>当初23の節目日数から実装、後に68節目（130歳＝47,450日目まで）へ拡張</li>
+          <li>節目限定バッジを68種類に拡張し、節目と1対1で完全対応するよう整理</li>
+          <li>誕生日を入力した時点で、通り過ぎている節目を自動でさかのぼって記録するバックフィル機能</li>
+          <li>「🌍人生ヒストリー」での履歴閲覧</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v6.0　デイリーワーク・BGM・鳴き声</p>
+        <ul class="version-history-notes">
+          <li>「今日の不思議色鉛筆ワーク」（68種類、シャッフルバッグ方式で重複なく巡回）</li>
+          <li>癒しのBGM（Web Audio APIによる合成音源）</li>
+          <li>宇宙どうぶつの鳴き声（「むにょむにょ」という揺らぎのある3秒サウンド）</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v7.0　地球滞在証明書・シェア機能拡張</p>
+        <ul class="version-history-notes">
+          <li>Canvas 2D APIによる「🌏地球滞在証明書」画像生成（1080×1080px）</li>
+          <li>シェア文言に「日数（地球年齢）を隠す」プライバシートグルを追加</li>
+          <li>X／LINE／Facebookなど／コピー、複数のシェア経路に対応</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v8.0　不具合修正（実機フィードバックによる改善）</p>
+        <ul class="version-history-notes">
+          <li>iOS Safariで背景が描画されない不具合を修正（<span class="nowrap-word">background-attachment: fixed</span> が原因と判明し削除）</li>
+          <li>データリセットボタンが反応しない問題を修正（<span class="nowrap-word">window.confirm()</span> から自前のアプリ内モーダルへ変更）</li>
+          <li>バッジ・実績の保存タイミングのバグを修正（判定後に保存する順序へ修正）</li>
+          <li>誕生日演出とお祝いメッセージ表示が二重に発火する不具合を修正</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v9.0　6つの新規アイデア実装</p>
+        <ul class="version-history-notes">
+          <li>🔔 通知でリマインド（タブを開いている間の簡易通知）※後に削除</li>
+          <li>🧊 連続アクセスの「フリーズ」（1日休んでも記録を守るアイテム）</li>
+          <li>📆 1年前の今日を振り返る機能</li>
+          <li>✉️ 未来の自分への手紙（タイムカプセル、次の人生節目まで開封不可）</li>
+          <li>📊 月間ダイジェスト（月が変わったタイミングで前月を振り返る）</li>
+          <li>🎗 推し宇宙どうぶつ（図鑑から1体を選んで常時表示）</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v10.0　宇宙意識にまつわる小機能</p>
+        <ul class="version-history-notes">
+          <li>🌕 満月・新月お知らせバナー（実際の月齢計算を使用）</li>
+          <li>🌌 宇宙を移動した距離（地球の公転速度から算出、km・天文単位で表示）</li>
+          <li>💫 エンジェルナンバーの日（既存バッジと重複しない3桁ゾロ目のみ対象）</li>
+          <li>✨ 星のかけらメッセージ（68種類、ランダムではなく順番に1日1つ表示）</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v11.0　人気者13体・FQT宇宙どうぶつ診断</p>
+        <ul class="version-history-notes">
+          <li>Playwrightで実際にSVGを画像化し、目で見て選定した「人気者」13体（人気者10体＋レア人気者3体）</li>
+          <li>見た目・名前を固定し、一定確率で優先出現させる仕組み</li>
+          <li>「🐾FQT宇宙どうぶつ診断」：誕生日から6項目と総合メッセージを算出するアプリ独自の診断機能</li>
+          <li>診断結果のSNSシェア（宇宙どうぶつの画像つき）</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v12.0　日の出・日の入り、都道府県対応</p>
+        <ul class="version-history-notes">
+          <li>「日の出方程式」による日の出・日の入り時刻の計算（実データと比較検証済み）</li>
+          <li>47都道府県から地域を選べるプルダウンを追加（選択は端末に記憶）</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v13.0　ヘルプ・ドキュメント整備</p>
+        <ul class="version-history-notes">
+          <li>「❓ヘルプ・よくある質問」ボタン＋アプリ内ポップアップを追加</li>
+          <li>仕様明細書、できること一覧、ヘルプFAQを外部ドキュメントとして整備</li>
+          <li>favicon・apple-touch-iconのパスをホスティング環境どちらでも動くよう相対パスに統一</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v14.0　マヤ暦・診断・証明書の精度改善</p>
         <ul class="version-history-notes">
           <li>マヤ暦占いを、実際の早見表に基づく正確な計算方式に変更</li>
-          <li>地球滞在証明書をA4サイズにリニューアル。FQT宇宙どうぶつ診断の結果を追加</li>
+          <li>地球滞在証明書をA4サイズにリニューアル。FQT宇宙どうぶつ診断の結果を追加（13項目に整理）</li>
           <li>恋愛運・仕事運・健康運を新規追加（バイオリズム連動）</li>
           <li>生まれた曜日のエネルギーを新規追加</li>
-          <li>BGMの音色を13種類に拡張（自然系5種＋ソルフェジオ周波数8種）、スリープタイマーを追加</li>
           <li>かんたんチュートリアル（5ステップ）を新規実装</li>
-          <li>宇宙どうぶつの鳴き声を15種類の音色バリエーションに拡張</li>
-          <li>今日の名言・格言、宇宙どうぶつ図鑑の検索機能を新規追加</li>
-          <li>「復活の呪文」機能を新規実装（データのバックアップ・復元）</li>
-          <li>ホーム画面追加を促すポップアップを新規実装</li>
-          <li>複数のポップアップが同時に開いてしまう不具合や、テキストのはみ出し表示を修正</li>
-          <li>「通知でリマインド」機能を削除</li>
         </ul>
       </div>
 
       <div class="version-history-item">
-        <p class="version-history-date">2026.07.30</p>
+        <p class="version-history-date">v15.0　BGM・コンテンツの拡充</p>
         <ul class="version-history-notes">
-          <li>マヤ暦の早見表バグ・節目履歴の日付ズレなど、複数の不具合を修正</li>
-          <li>BGMをさらに拡張し、ソルフェジオ432Hzを追加（全13種類に）</li>
+          <li>BGMの音色を13種類に拡張（自然系5種＋ソルフェジオ周波数8種）、スリープタイマーを追加</li>
+          <li>宇宙どうぶつの鳴き声を15種類の音色バリエーションに拡張</li>
           <li>今日の名言・格言、誕生日メッセージなどを68個・13個に統一</li>
-          <li>レジェンドスターの性格を「博愛」に変更</li>
-          <li>おすすめYouTube動画ボタンを新規実装</li>
-          <li>「復活の呪文」を機種変更の案内として、図鑑・チュートリアル・FAQに追記</li>
-          <li>「📋バージョン履歴」ページを新規実装。制作開始日までさかのぼって記録</li>
+          <li>宇宙どうぶつ図鑑の検索・レア度内訳・虹色グラデーション表示を追加</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v16.0　データ引き継ぎ・案内の強化</p>
+        <ul class="version-history-notes">
+          <li>「復活の呪文」機能を新規実装（データのバックアップ・復元）</li>
+          <li>ホーム画面追加を促すポップアップを新規実装</li>
+          <li>「📋バージョン履歴」ページを新規実装</li>
           <li>「🌍人生ヒストリー」に、バッジと日付をまとめて見られる「📊比較一覧」を追加</li>
-          <li>「今日だけの運勢」を「今日だけの巡り」に、サブ見出しを「あなたの誕生日で変わる運勢」に変更</li>
+          <li>おすすめYouTube動画ボタンを新規実装</li>
+          <li>複数のポップアップが同時に開いてしまう不具合や、テキストのはみ出し表示を修正</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v17.0　占いロジックの解説ポップアップ</p>
+        <ul class="version-history-notes">
           <li>バイオリズム・今日の金運・今日の吉方位・今日の一枚タロット・FQT宇宙占い・天文単位に「？」の解説ポップアップを新規実装</li>
-          <li>地球滞在証明書の項目を13個に整理</li>
+          <li>レジェンドスターの性格を「博愛」に変更</li>
+          <li>「今日だけの運勢」を「今日だけの巡り」に、サブ見出しを「あなたの誕生日で変わる運勢」に変更</li>
         </ul>
       </div>
 
     </div>
+
   </div>
 </div>
 
@@ -5009,7 +5183,7 @@
     <hr class="divider">
 
     <div class="fortune-today">
-      <p class="fortune-today-label">✨ あなたの今日の運勢</p>
+      <p class="fortune-today-label">✨ あなたの今日の運勢　<button class="bio-info-btn" id="todayRankInfoBtn" type="button" aria-label="今日の運勢とは">？</button></p>
       <p class="fortune-rank" id="fortuneRank">-</p>
       <p class="fortune-message" id="fortuneMessage">-</p>
       <p class="fortune-lucky" id="fortuneLucky">-</p>
@@ -5017,7 +5191,7 @@
 
     <!-- 誕生日×今日の日付を掛け合わせて毎日変化するパーソナルナンバー占い -->
     <div class="fortune-number-block">
-      <p class="fortune-number-label">🔗 誕生日×今日のパーソナルナンバー</p>
+      <p class="fortune-number-label">🔗 誕生日×今日のパーソナルナンバー　<button class="bio-info-btn" id="personalNumberInfoBtn" type="button" aria-label="パーソナルナンバーとは">？</button></p>
       <p class="fortune-number-value" id="fortuneDailyNumber">-</p>
       <p class="fortune-number-message" id="fortuneDailyNumberMessage">-</p>
     </div>
@@ -7236,6 +7410,30 @@ document.getElementById('spaceDistanceInfoModalCloseBtn').addEventListener('clic
 document.getElementById('spaceDistanceInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('spaceDistanceInfoModalOverlay')){
     document.getElementById('spaceDistanceInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('personalNumberInfoBtn').addEventListener('click', () => {
+  document.getElementById('personalNumberInfoModalOverlay').classList.add('show');
+});
+document.getElementById('personalNumberInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('personalNumberInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('personalNumberInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('personalNumberInfoModalOverlay')){
+    document.getElementById('personalNumberInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('todayRankInfoBtn').addEventListener('click', () => {
+  document.getElementById('todayRankInfoModalOverlay').classList.add('show');
+});
+document.getElementById('todayRankInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('todayRankInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('todayRankInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('todayRankInfoModalOverlay')){
+    document.getElementById('todayRankInfoModalOverlay').classList.remove('show');
   }
 });
 
