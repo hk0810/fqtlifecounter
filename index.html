@@ -66,6 +66,8 @@
     overflow-wrap: break-word;
     /* 「。」「、」などの句読点だけが行の先頭に取り残されないようにする禁則処理 */
     line-break: strict;
+    /* 対応ブラウザでは、行末に句読点だけが孤立しないよう、より賢い折り返しを行う */
+    text-wrap: pretty;
 
     /* 深宇宙のグラデーション + 星雲のような淡い色のにじみ */
     background:
@@ -384,6 +386,33 @@
   }
   .revival-status.ok{ color: #16a34a; }
   .revival-status.ng{ color: #dc2626; }
+
+  .version-history-list{
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+  .version-history-item{
+    background: var(--blue-pale);
+    border-radius: 14px;
+    padding: 14px 16px;
+  }
+  .version-history-date{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    margin: 0 0 8px;
+  }
+  .version-history-notes{
+    margin: 0;
+    padding-left: 18px;
+  }
+  .version-history-notes li{
+    font-size: 12.5px;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin-bottom: 4px;
+  }
 
   .divider{
     border: none;
@@ -905,7 +934,7 @@
     flex: 1 1 0%;
     min-width: 0;
   }
-  .tutorial-text .nowrap-word{
+  .nowrap-word{
     white-space: nowrap;
   }
   .badge-earn-ok-btn{
@@ -2522,6 +2551,79 @@
     overflow-wrap: break-word;
   }
 
+  .milestone-view-toggle{
+    display: flex;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .milestone-view-btn{
+    flex: 1 1 0%;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 9px;
+    cursor: pointer;
+  }
+  .milestone-view-btn.active{
+    background: var(--blue);
+    color: #fff;
+  }
+
+  .milestone-compare-table{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+  .milestone-compare-row{
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 9px 12px;
+  }
+  .milestone-compare-row.locked{
+    opacity: 0.5;
+  }
+  .milestone-compare-row .mc-emoji{
+    font-size: 18px;
+    flex-shrink: 0;
+    width: 24px;
+    text-align: center;
+  }
+  .milestone-compare-row .mc-main{
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+  .milestone-compare-row .mc-name{
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--text-main);
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .milestone-compare-row .mc-days{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    margin-top: 1px;
+  }
+  .milestone-compare-row .mc-date{
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    flex-shrink: 0;
+    text-align: right;
+    white-space: nowrap;
+  }
+  .milestone-compare-row.locked .mc-date{
+    color: var(--text-sub);
+    font-weight: 600;
+  }
+
   /* ==========================================================
      🌈 今日の不思議色鉛筆ワーク
      ========================================================== */
@@ -2688,7 +2790,7 @@
     margin: 0 0 6px;
   }
   .space-distance-value{
-    font-size: 17px;
+    font-size: 24px;
     font-weight: 900;
     color: var(--blue);
     line-height: 1.5;
@@ -2897,6 +2999,64 @@
     font-weight: 700;
     color: var(--text-sub);
     margin: 0 0 12px;
+  }
+  .bio-info-btn{
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 18px;
+    height: 18px;
+    font-size: 11px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    background: var(--blue-light);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    vertical-align: middle;
+    padding: 0;
+  }
+  .bio-info-text{
+    font-size: 13px;
+    color: var(--text-main);
+    line-height: 1.8;
+    margin: 0 0 14px;
+  }
+  .bio-info-cycle-list{
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 0 16px;
+  }
+  .bio-info-cycle-row{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .bio-info-cycle-emoji{ font-size: 15px; flex-shrink: 0; }
+  .bio-info-cycle-name{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-main);
+    flex: 1 1 0%;
+    min-width: 0;
+  }
+  .bio-info-cycle-days{
+    font-size: 12.5px;
+    font-weight: 800;
+    color: var(--blue-dark);
+    flex-shrink: 0;
+  }
+  .bio-info-note{
+    font-size: 11.5px;
+    color: var(--text-sub);
+    line-height: 1.7;
+    margin: 4px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--border);
   }
   .biorhythm-row{
     display: flex;
@@ -3439,15 +3599,15 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">1/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🔮</div>
-      <div class="tutorial-text">誕生日を入れると、<br>いろんな占い結果が見られるよ</div>
+      <div class="tutorial-text">誕生日を入れると、<br>いろんな占い結果が見られるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🐾</div>
-      <div class="tutorial-text">「計算する」を押すたびに、<br>宇宙どうぶつに出会えるよ</div>
+      <div class="tutorial-text">「計算する」を押すたびに、<br>宇宙どうぶつに出会えるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🌌</div>
-      <div class="tutorial-text">出会った宇宙どうぶつは自動的に<span class="nowrap-word">図鑑</span>に登録されるよ</div>
+      <div class="tutorial-text">出会った宇宙どうぶつは自動的に<span class="nowrap-word">図鑑</span>に登録されるよ！</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn" type="button">次へ</button>
   </div>
@@ -3463,11 +3623,11 @@
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🔥</div>
-      <div class="tutorial-text">毎日開くと、連続記録として<br>バッジがもらえるよ</div>
+      <div class="tutorial-text">毎日開くと、連続記録として<br>バッジがもらえるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🧊</div>
-      <div class="tutorial-text">1日お休みしても、連続記録を守ってくれる「フリーズ」もあるよ</div>
+      <div class="tutorial-text">1日お休みしても、連続記録を守ってくれる「フリーズ」もあるよ！</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn2" type="button">次へ</button>
   </div>
@@ -3479,15 +3639,15 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">3/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎗</div>
-      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお氣に入りの子を<br>「推し」に設定できるよ</div>
+      <div class="tutorial-text"><span class="nowrap-word">図鑑</span>からお氣に入りの子を<br>「推し」に設定できるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🌟</div>
-      <div class="tutorial-text">何度も出会える特別などうぶつ<br>「人氣者」もいるよ</div>
+      <div class="tutorial-text">何度も出会える特別などうぶつ<br>「人氣者」もいるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎉</div>
-      <div class="tutorial-text">季節ごとに、期間限定の<br>宇宙どうぶつも出現するよ</div>
+      <div class="tutorial-text">季節ごとに、期間限定の<br>宇宙どうぶつも出現するよ！</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn3" type="button">次へ</button>
   </div>
@@ -3499,15 +3659,15 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">4/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">🎂</div>
-      <div class="tutorial-text">誕生日にアプリを開くと、特別な演出があるよ</div>
+      <div class="tutorial-text">誕生日にアプリを開くと、特別な演出があるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">📤</div>
-      <div class="tutorial-text">お氣に入りの結果は、SNSでシェアもできるよ</div>
+      <div class="tutorial-text">お氣に入りの結果は、SNSでシェアもできるよ！</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">💾</div>
-      <div class="tutorial-text">一度入力したデータや実績は、端末やブラウザを変えない限り保持されるよ</div>
+      <div class="tutorial-text">一度入力したデータや実績は、端末やブラウザを変えない限り保持されるよ！</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn4" type="button">次へ</button>
   </div>
@@ -3519,7 +3679,7 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">5/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">⚠️</div>
-      <div class="tutorial-text">端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えてしまうよ<br>復活の呪文を保存すれば記録を呼び出すことが出来るようになりました。</div>
+      <div class="tutorial-text">基本、端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えちゃう。<br>でも、復活の呪文を保存すれば記録を呼び出すことが出来るように<span class="nowrap-word">なりました。</span></div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">✨</div>
@@ -3527,7 +3687,7 @@
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">❓</div>
-      <div class="tutorial-text">困ったら「ヘルプ・よくある質問」を見てね</div>
+      <div class="tutorial-text">困ったら「ヘルプ・よくある質問」を見てね！</div>
     </div>
     <button class="badge-earn-ok-btn" id="tutorialCloseBtn5" type="button">はじめる！</button>
   </div>
@@ -3700,6 +3860,277 @@
     <input type="file" id="revivalFileInput" accept=".txt,.json" style="display:none;">
     <button class="diag-copy-btn" id="revivalImportBtn" type="button">📜　呪文ファイルを選んで復活する</button>
     <p class="revival-status" id="revivalStatus"></p>
+  </div>
+</div>
+
+<!-- 📈 バイオリズム説明モーダル -->
+<div class="dex-modal-overlay" id="bioInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="bioInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">📈 バイオリズムってなに？</p>
+
+    <p class="bio-info-text">
+      バイオリズムは、<strong>「身体・感情・知性」の3つの波が、生まれた日を起点に、それぞれ違う周期で静かに巡り続けている</strong>という、20世紀初頭からある理論です。
+    </p>
+    <p class="bio-info-text">
+      3つの波はそれぞれ独立した長さの周期を持ちます。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">💪</span>
+        <span class="bio-info-cycle-name">身体の波</span>
+        <span class="bio-info-cycle-days">23日周期</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">💗</span>
+        <span class="bio-info-cycle-name">感情の波</span>
+        <span class="bio-info-cycle-days">28日周期</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🧠</span>
+        <span class="bio-info-cycle-name">知性の波</span>
+        <span class="bio-info-cycle-days">33日周期</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      3つの周期の長さがバラバラなので、3つの波が同時にぴったり重なることはほとんどありません。だからこそ、<strong>「今日は身体は絶好調なのに、なんだか気分が乗らない」</strong>というような、日によって表情の違うコンディションが生まれます。
+    </p>
+    <p class="bio-info-text">
+      あなたの<span class="nowrap-word">FQT LIFE COUNTER</span>では、生まれた日からの経過日数をもとに、この3つの波を毎日サインカーブ（滑らかな曲線）で計算し、5段階（絶好調・好調・普通・低調・要注意）で表示しています。ランダムではなく、<strong>誕生日から導かれる、あなただけの実測値</strong>です。
+    </p>
+
+    <p class="bio-info-note">
+      ※ バイオリズムは、科学的な効果が実証された理論ではありません。星占いやタロットと同じように、日々のコンディションを振り返る「きっかけ」として、気軽にお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- 💰 今日の金運 説明モーダル -->
+<div class="dex-modal-overlay" id="moneyInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="moneyInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">💰 今日の金運ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      今日の金運は、<strong>「あなたの生年月日」と「今日の日付」を組み合わせて作る、その日限りの数字</strong>から導き出しています。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">1️⃣</span>
+        <span class="bio-info-cycle-name">生年月日と今日の日付を組み合わせる</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">2️⃣</span>
+        <span class="bio-info-cycle-name">その組み合わせから、1つの数字（シード値）を作る</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">3️⃣</span>
+        <span class="bio-info-cycle-name">その数字から、運勢ランク・メッセージ・ラッキーナンバーを決める</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      バイオリズムのような滑らかな波ではなく、<strong>日替わりで表情が変わるくじ引きのような仕組み</strong>です。ただし、完全なランダムではありません。<strong>あなたの生年月日</strong>が組み合わせの一部になっているので、同じ日でも人によって結果は変わりますし、同じ人が同じ日に何度確認しても、結果は変わりません。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 金運は、実際の収支や運を保証するものではありません。あくまで一日を楽しむための占いとしてお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- 🧭 今日の吉方位 説明モーダル -->
+<div class="dex-modal-overlay" id="directionInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="directionInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🧭 今日の吉方位ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      今日の金運と同じ仕組みで、<strong>「あなたの生年月日」と「今日の日付」を組み合わせて作る、その日限りの数字</strong>から、北・北東・東・南東・南・南西・西・北西の<strong>8方位</strong>の中から1つを選んでいます。
+    </p>
+
+    <p class="bio-info-text">
+      占いの世界でいう「吉方位」は、本来は生まれ持った星や九星気学などから細かく割り出すものですが、このアプリでは<strong>日替わりで気軽に楽しめるミニ占い</strong>として、シンプルな計算方式にしています。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 実際の方位の吉凶を厳密に占うものではありません。今日どちらに向かって歩いてみようかな、というきっかけとしてお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- 🎴 今日の一枚タロット 説明モーダル -->
+<div class="dex-modal-overlay" id="tarotInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="tarotInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎴 今日の一枚タロットってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      これも金運・吉方位と同じ仕組みです。<strong>「あなたの生年月日」と「今日の日付」を組み合わせて作る、その日限りの数字</strong>から、大アルカナ22枚の中から今日の1枚を引いています。
+    </p>
+
+    <p class="bio-info-text">
+      本来のタロット占いは、シャッフルして直感的に引くものですが、このアプリでは<strong>「今日のあなただけの1枚」が毎日決まって変わる</strong>という体験にするため、日替わりの計算式で1枚を選ぶ形にしています。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 実際のタロットリーディングのように、深い鑑定を行うものではありません。カードの意味を、今日を過ごすヒントとして気軽に受け取ってみてください。
+    </p>
+  </div>
+</div>
+
+<!-- 🌌 FQT宇宙占い 説明モーダル -->
+<div class="dex-modal-overlay" id="cosmicInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="cosmicInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌌 FQT宇宙占いってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      あなたが生まれた瞬間、広い宇宙の中で、どんな天体のエネルギーと共鳴していたか——。FQT宇宙占いは、<strong>「あなたの生年月日」だけ</strong>から導き出す、13種類の宇宙タイプ診断です。金運や吉方位とは違い、<strong>日付が変わっても結果は変わりません</strong>。あなたが生まれ持った、変わらない本質を表しています。
+    </p>
+
+    <p class="bio-info-text">
+      生年月日を数値化し、13種類のタイプのどれと共鳴するかを算出しています。星占いのように生まれた瞬間の星の配置を精密に計算しているわけではなく、<strong>「13種類の中から、あなただけの1つを見つける」</strong>ためのシンプルな計算式です。
+    </p>
+
+    <div class="bio-info-cycle-list" id="cosmicTypeListInModal"></div>
+
+    <p class="bio-info-note">
+      ※ 天文学的な計算に基づく本格的な占星術ではありません。「今日の自分」ではなく「生まれ持った自分」を、気軽に振り返るきっかけとしてお楽しみください。
+    </p>
+  </div>
+</div>
+
+<!-- 🚀 天文単位 説明モーダル -->
+<div class="dex-modal-overlay" id="spaceDistanceInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="spaceDistanceInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🚀 天文単位ってなに？</p>
+
+    <p class="bio-info-text">
+      <strong>天文単位（AU：Astronomical Unit）</strong>は、天文学で使われる距離の単位で、<strong>地球から太陽までの平均距離（約1億4960万km）を「1」とする</strong>ものです。
+    </p>
+    <p class="bio-info-text">
+      太陽系内の距離は、kmで表すと桁が大きくなりすぎて感覚的につかみにくいため、天文単位を使うことでスケール感がイメージしやすくなります。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🌍</span>
+        <span class="bio-info-cycle-name">地球〜太陽</span>
+        <span class="bio-info-cycle-days">1天文単位</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🔴</span>
+        <span class="bio-info-cycle-name">火星〜太陽</span>
+        <span class="bio-info-cycle-days">約1.5天文単位</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🟠</span>
+        <span class="bio-info-cycle-name">木星〜太陽</span>
+        <span class="bio-info-cycle-days">約5.2天文単位</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🪐</span>
+        <span class="bio-info-cycle-name">冥王星〜太陽</span>
+        <span class="bio-info-cycle-days">約39.5天文単位</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      このアプリの「宇宙を移動した距離」は、あなたが生まれてから地球が太陽の周りを回り続けた距離（km）を、この「地球〜太陽の距離」を基準にした天文単位に変換して、あわせて表示しています。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 天文単位は実在する正式な科学単位です。この換算自体は実際の距離計算に基づいています。
+    </p>
+  </div>
+</div>
+
+<!-- 📋 バージョン履歴モーダル -->
+<div class="dex-modal-overlay" id="versionHistoryModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="versionHistoryModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">📋 バージョン履歴</p>
+    <p class="badge-modal-note">機能の追加・修正を、更新のたびにここへ記録しています。</p>
+
+    <div class="version-history-list">
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.26　アプリ誕生</p>
+        <ul class="version-history-notes">
+          <li>「<span class="nowrap-word">FQT LIFE COUNTER</span>」を新規作成。生年月日とターゲット日数から「地球に来て何日目」を計算する基本機能を実装</li>
+          <li>デザインの世界観（宇宙・地球・コックピット）の方向性を決定</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.27</p>
+        <ul class="version-history-notes">
+          <li>バッジシステム（連続・累計アクセス日数）を新規実装</li>
+          <li>宇宙どうぶつ図鑑を新規実装</li>
+          <li>季節イベント・誕生日イベントを新規実装</li>
+          <li>実績（アチーブメント）システムを新規実装。最高位「マルチバースマスター」を追加</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.28</p>
+        <ul class="version-history-notes">
+          <li>複数の新機能モジュールを追加、UX改善を多数実施</li>
+          <li>仕様書ドキュメントを作成し、今後の開発方針を整理</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.29（前半）</p>
+        <ul class="version-history-notes">
+          <li>新機能・UX改善を多数実施、文言や配色の調整</li>
+          <li>人気者13体（宇宙どうぶつ）のシグネチャーシステムを新規実装</li>
+          <li>FQT宇宙どうぶつ診断（6つの星のクリック式解説付き）を新規実装</li>
+          <li>マヤ暦占い（初期版）を実装、ヘルプ・FAQボタンを追加</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.29（後半）</p>
+        <ul class="version-history-notes">
+          <li>マヤ暦占いを、実際の早見表に基づく正確な計算方式に変更</li>
+          <li>地球滞在証明書をA4サイズにリニューアル。FQT宇宙どうぶつ診断の結果を追加</li>
+          <li>恋愛運・仕事運・健康運を新規追加（バイオリズム連動）</li>
+          <li>生まれた曜日のエネルギーを新規追加</li>
+          <li>BGMの音色を13種類に拡張（自然系5種＋ソルフェジオ周波数8種）、スリープタイマーを追加</li>
+          <li>かんたんチュートリアル（5ステップ）を新規実装</li>
+          <li>宇宙どうぶつの鳴き声を15種類の音色バリエーションに拡張</li>
+          <li>今日の名言・格言、宇宙どうぶつ図鑑の検索機能を新規追加</li>
+          <li>「復活の呪文」機能を新規実装（データのバックアップ・復元）</li>
+          <li>ホーム画面追加を促すポップアップを新規実装</li>
+          <li>複数のポップアップが同時に開いてしまう不具合や、テキストのはみ出し表示を修正</li>
+          <li>「通知でリマインド」機能を削除</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">2026.07.30</p>
+        <ul class="version-history-notes">
+          <li>マヤ暦の早見表バグ・節目履歴の日付ズレなど、複数の不具合を修正</li>
+          <li>BGMをさらに拡張し、ソルフェジオ432Hzを追加（全13種類に）</li>
+          <li>今日の名言・格言、誕生日メッセージなどを68個・13個に統一</li>
+          <li>レジェンドスターの性格を「博愛」に変更</li>
+          <li>おすすめYouTube動画ボタンを新規実装</li>
+          <li>「復活の呪文」を機種変更の案内として、図鑑・チュートリアル・FAQに追記</li>
+          <li>「📋バージョン履歴」ページを新規実装。制作開始日までさかのぼって記録</li>
+          <li>「🌍人生ヒストリー」に、バッジと日付をまとめて見られる「📊比較一覧」を追加</li>
+          <li>「今日だけの運勢」を「今日だけの巡り」に、サブ見出しを「あなたの誕生日で変わる運勢」に変更</li>
+          <li>バイオリズム・今日の金運・今日の吉方位・今日の一枚タロット・FQT宇宙占い・天文単位に「？」の解説ポップアップを新規実装</li>
+          <li>地球滞在証明書の項目を13個に整理</li>
+        </ul>
+      </div>
+
+    </div>
   </div>
 </div>
 
@@ -3929,10 +4360,22 @@
     <p class="badge-modal-title">🌍 人生ヒストリー</p>
     <p class="badge-modal-note">※ 13日・68日・100日・365日・1,000日など、人生の節目となる日数に到達すると自動で記録されます。</p>
 
-    <div class="milestone-history-list" id="milestoneHistoryList"></div>
+    <div class="milestone-view-toggle">
+      <button class="milestone-view-btn active" data-view="list" type="button">📋 通常表示</button>
+      <button class="milestone-view-btn" data-view="compare" type="button">📊 比較一覧</button>
+    </div>
 
-    <p class="badge-list-title">🏅 節目限定バッジ</p>
-    <div class="achievement-list" id="milestoneBadgeList"></div>
+    <div id="milestoneListView">
+      <div class="milestone-history-list" id="milestoneHistoryList"></div>
+
+      <p class="badge-list-title">🏅 節目限定バッジ</p>
+      <div class="achievement-list" id="milestoneBadgeList"></div>
+    </div>
+
+    <div id="milestoneCompareView" style="display:none;">
+      <p class="badge-modal-note">日数・バッジ・達成日をまとめて一覧で比較できます。</p>
+      <div class="milestone-compare-table" id="milestoneCompareTable"></div>
+    </div>
   </div>
 </div>
 
@@ -4308,7 +4751,7 @@
       </div>
     </div>
     <div class="space-distance-box">
-      <p class="space-distance-label">宇宙を移動した距離</p>
+      <p class="space-distance-label">宇宙を移動した距離　<button class="bio-info-btn" id="spaceDistanceInfoBtn" type="button" aria-label="天文単位とは">？</button></p>
       <p class="space-distance-value" id="rtSpaceDistance">-</p>
     </div>
   </div>
@@ -4347,7 +4790,7 @@
       <div class="fortune-row">
         <div class="ic" id="fortuneCosmicIcon">🌌</div>
         <div class="fortune-text">
-          <div class="label">FQT 宇宙占い</div>
+          <div class="label">FQT 宇宙占い　<button class="bio-info-btn" id="cosmicInfoBtn" type="button" aria-label="FQT宇宙占いとは">？</button></div>
           <div class="value" id="fortuneCosmicType">-</div>
           <div class="sub" id="fortuneCosmicSub">-</div>
         </div>
@@ -4403,7 +4846,7 @@
 
     <hr class="divider">
 
-    <p class="section-title">📅 今日だけの運勢</p>
+    <p class="section-title">📅 今日だけの巡り</p>
 
     <p class="fortune-subgroup-title">🌍 全員共通</p>
     <div class="fortune-list">
@@ -4445,12 +4888,12 @@
       </div>
     </div>
 
-    <p class="fortune-subgroup-title">🎂 あなたの誕生日で変わる</p>
+    <p class="fortune-subgroup-title">🎂 あなたの誕生日で変わる運勢</p>
     <div class="fortune-list">
       <div class="fortune-row">
         <div class="ic">🧭</div>
         <div class="fortune-text">
-          <div class="label">今日の吉方位</div>
+          <div class="label">今日の吉方位　<button class="bio-info-btn" id="directionInfoBtn" type="button" aria-label="今日の吉方位とは">？</button></div>
           <div class="value" id="fortuneDirection">-</div>
         </div>
       </div>
@@ -4458,7 +4901,7 @@
       <div class="fortune-row">
         <div class="ic">🎴</div>
         <div class="fortune-text">
-          <div class="label">今日の一枚タロット</div>
+          <div class="label">今日の一枚タロット　<button class="bio-info-btn" id="tarotInfoBtn" type="button" aria-label="今日の一枚タロットとは">？</button></div>
           <div class="value" id="fortuneTarot">-</div>
           <div class="sub" id="fortuneTarotSub">-</div>
         </div>
@@ -4467,7 +4910,7 @@
       <div class="fortune-row">
         <div class="ic">💰</div>
         <div class="fortune-text">
-          <div class="label">今日の金運</div>
+          <div class="label">今日の金運　<button class="bio-info-btn" id="moneyInfoBtn" type="button" aria-label="今日の金運とは">？</button></div>
           <div class="value" id="fortuneMoney">-</div>
           <div class="sub" id="fortuneMoneySub">-</div>
         </div>
@@ -4503,7 +4946,7 @@
 
     <!-- バイオリズム（身体・感情・知性の3つの波） -->
     <div class="biorhythm-block">
-      <p class="biorhythm-title">📈 今日のバイオリズム</p>
+      <p class="biorhythm-title">📈 今日のバイオリズム　<button class="bio-info-btn" id="bioInfoBtn" type="button" aria-label="バイオリズムとは">？</button></p>
 
       <div class="biorhythm-row">
         <span class="bio-label">身体</span>
@@ -4651,6 +5094,9 @@
 
   <!-- 🔮 復活の呪文（データのバックアップ・復元） -->
   <button class="faq-open-btn" id="revivalOpenBtn" type="button">🔮　復活の呪文（データを引き継ぐ）</button>
+
+  <!-- 📋 バージョン履歴ボタン -->
+  <button class="faq-open-btn" id="versionHistoryOpenBtn" type="button">📋　バージョン履歴</button>
 
   <!-- ホーム画面に追加ボタン -->
   <button class="install-btn" id="installBtn">📲　ホーム画面に追加する</button>
@@ -5780,9 +6226,10 @@ const FORTUNE_MESSAGES = [
   '休息を取ることで、より力を発揮できる日。',
   '笑顔でいると自然と運が味方してくれます。',
   '誰かのために動くと、自分にも幸運が返ってくる日。',
-  '計画を見直すことで道が開けそう。'
+  '計画を見直すことで道が開けそう。',
+  '氣を手放すと、運の流れが軽やかになる日。'
 ];
-const LUCKY_ITEMS = ['ハンカチ', '手帳', '観葉植物', 'マグカップ', 'アロマキャンドル', 'お氣に入りの音楽', '読みかけの本', '折りたたみ傘', '手紙', '写真'];
+const LUCKY_ITEMS = ['ハンカチ', '手帳', '観葉植物', 'マグカップ', 'アロマキャンドル', 'お氣に入りの音楽', '読みかけの本', '折りたたみ傘', '手紙', '写真', 'キャンドル', 'ぬいぐるみ', '小さなお守り'];
 
 // 文字列から決定的な数値を作る簡易ハッシュ関数
 function simpleHash(str){
@@ -6092,7 +6539,12 @@ const MONEY_MESSAGES = [
   '節約を意識すると後で役立ちます。',
   '自己投資にお金を使うと吉。',
   'お財布の中を整理すると運氣アップ。',
-  '感謝の氣持ちが金運を支えます。'
+  '感謝の氣持ちが金運を支えます。',
+  '小さな出費こそ、丁寧に見直すと吉。',
+  '誰かへの贈り物が、良い流れを呼びそう。',
+  '衝動買いよりも、じっくり選ぶのが吉。',
+  'お財布を新調すると氣持ちも軽くなりそう。',
+  '収入より支出のバランスに目を向けて。'
 ];
 
 function calcMoneyLuck(birth, today){
@@ -6287,7 +6739,7 @@ function renderFortune(birth, today){
     `銀河の音：${maya.tone.name}<br>` +
     `太陽の紋章：${maya.seal.name}<br>` +
     `ウェイブスペル：${maya.wavespell.name}<br>` +
-    `あなたの銀河の署名は「${maya.galacticSignature}」です`;
+    `銀河の署名：「${maya.galacticSignature}」`;
   document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
 
   // 干支・六十干支
@@ -6705,6 +7157,99 @@ document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
   });
 
 })();
+
+// 📋 バージョン履歴モーダルの開閉
+document.getElementById('bioInfoBtn').addEventListener('click', () => {
+  document.getElementById('bioInfoModalOverlay').classList.add('show');
+});
+document.getElementById('bioInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('bioInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('bioInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('bioInfoModalOverlay')){
+    document.getElementById('bioInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('moneyInfoBtn').addEventListener('click', () => {
+  document.getElementById('moneyInfoModalOverlay').classList.add('show');
+});
+document.getElementById('moneyInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('moneyInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('moneyInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('moneyInfoModalOverlay')){
+    document.getElementById('moneyInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('directionInfoBtn').addEventListener('click', () => {
+  document.getElementById('directionInfoModalOverlay').classList.add('show');
+});
+document.getElementById('directionInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('directionInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('directionInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('directionInfoModalOverlay')){
+    document.getElementById('directionInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('tarotInfoBtn').addEventListener('click', () => {
+  document.getElementById('tarotInfoModalOverlay').classList.add('show');
+});
+document.getElementById('tarotInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('tarotInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('tarotInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('tarotInfoModalOverlay')){
+    document.getElementById('tarotInfoModalOverlay').classList.remove('show');
+  }
+});
+
+// 🌌 FQT宇宙占い説明ポップアップ：開くたびに13タイプの一覧を描画する
+document.getElementById('cosmicInfoBtn').addEventListener('click', () => {
+  const listEl = document.getElementById('cosmicTypeListInModal');
+  listEl.innerHTML = COSMIC_TYPES.map(t =>
+    `<div class="bio-info-cycle-row" style="align-items:flex-start;">` +
+      `<span class="bio-info-cycle-emoji">${t.emoji}</span>` +
+      `<span class="bio-info-cycle-name" style="line-height:1.6;"><strong>${t.name}</strong><br><span style="font-size:11.5px; font-weight:400; color:var(--text-sub);">${t.desc}</span></span>` +
+    `</div>`
+  ).join('');
+  document.getElementById('cosmicInfoModalOverlay').classList.add('show');
+});
+document.getElementById('cosmicInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('cosmicInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('cosmicInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('cosmicInfoModalOverlay')){
+    document.getElementById('cosmicInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('spaceDistanceInfoBtn').addEventListener('click', () => {
+  document.getElementById('spaceDistanceInfoModalOverlay').classList.add('show');
+});
+document.getElementById('spaceDistanceInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('spaceDistanceInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('spaceDistanceInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('spaceDistanceInfoModalOverlay')){
+    document.getElementById('spaceDistanceInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('versionHistoryOpenBtn').addEventListener('click', () => {
+  document.getElementById('versionHistoryModalOverlay').classList.add('show');
+});
+document.getElementById('versionHistoryModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('versionHistoryModalOverlay').classList.remove('show');
+});
+document.getElementById('versionHistoryModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('versionHistoryModalOverlay')){
+    document.getElementById('versionHistoryModalOverlay').classList.remove('show');
+  }
+});
 
 // 🚀 チュートリアルをもう一度見る（いつでも1ステップ目から開始できる）
 document.getElementById('tutorialReopenBtn').addEventListener('click', () => {
@@ -7571,7 +8116,7 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
       rarity: 5, name: 'ギャラクシーアーティスト', personality: '芸術家肌', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
     { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
-      rarity: 5, name: 'レジェンドスター', personality: '負けず嫌い', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
+      rarity: 5, name: 'レジェンドスター', personality: '博愛', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
   ];
   // 「宇宙どうぶつ占い」など今後の機能から、人氣者13体のデータ（key・パーツ・名前等）を
   // そのまま参照できるよう公開しておく
@@ -9565,8 +10110,7 @@ window.fqtConfirm = function(message, onConfirm){
     'あなたのこれからの日々が、優しさに包まれますように。', '誕生日おめでとう。今日という日に感謝を。',
     '一年に一度の特別な日、思う存分楽しんでね。', 'あなたが笑うと、まわりも自然と笑顔になるよ。',
     '誕生日おめでとう。今日のあなたは誰よりも輝いている。', 'これからの一年も、応援しています。',
-    '今日という日をきっかけに、また新しい一歩を。', '誕生日を一緒にお祝いできて、幸せです。',
-    'あなたの存在そのものが、贈り物のようです。', '誕生日おめでとう。今日は特別に胸を張って。'
+    '今日という日をきっかけに、また新しい一歩を。', '生まれてきたことに、あらためて「おめでとう」を。'
   ];
 
   // ----- ④ LocalStorageから誕生日データを読み込む -----
@@ -10447,18 +10991,23 @@ window.fqtConfirm = function(message, onConfirm){
     let hasChange = false;
 
     pastMilestones.forEach(m => {
-      const alreadyRecorded = milestoneData.history.some(h => h.days === m.days);
+      const existing = milestoneData.history.find(h => h.days === m.days);
+      const correctDateLabel = computeDateForMilestone(m.days);
 
-      if (!alreadyRecorded){
-        const dateLabel = computeDateForMilestone(m.days);
-        if (dateLabel){
+      if (!existing){
+        if (correctDateLabel){
           milestoneData.history.push({
             days: m.days,
-            date: dateLabel,
+            date: correctDateLabel,
             label: `${RANK_INFO[m.rank].label.split(' ')[1] || ''}${m.days.toLocaleString('ja-JP')}日達成`
           });
           hasChange = true;
         }
+      } else if (correctDateLabel && existing.date !== correctDateLabel){
+        // すでに記録済みでも、生年月日が後から変更された等の理由で日付がズレている場合は
+        // 正しい日付に修正する（例：テスト中の誕生日で「今日」の日付として誤って記録された節目など）
+        existing.date = correctDateLabel;
+        hasChange = true;
       }
 
       // バッジ・実績のチェックは「履歴に記録済みかどうか」に関わらず毎回行う。
@@ -10696,6 +11245,46 @@ window.fqtConfirm = function(message, onConfirm){
     // ※ 節目限定実績の一覧表示は廃止しました（バッジと内容が重複していたため）。
     //   判定・保存処理（milestoneData.achievements）自体は変更せず、そのまま残しています。
   }
+
+  // 📊 比較一覧：日数・バッジ・達成日（または到達予定日）をまとめて1行ずつ表示する
+  function renderMilestoneCompareTable(){
+    const table = document.getElementById('milestoneCompareTable');
+    table.innerHTML = '';
+
+    MILESTONE_BADGES.slice().sort((a, b) => a.days - b.days).forEach(badge => {
+      const earned = milestoneData.badges.indexOf(badge.id) !== -1;
+      let dateText = '未到達';
+      if (earned){
+        const historyEntry = milestoneData.history.find(h => h.days === badge.days);
+        if (historyEntry) dateText = historyEntry.date;
+      } else {
+        const expectedDate = computeDateForMilestone(badge.days);
+        if (expectedDate) dateText = `予定：${expectedDate}`;
+      }
+      const row = document.createElement('div');
+      row.className = 'milestone-compare-row ' + (earned ? 'earned' : 'locked');
+      row.innerHTML =
+        `<div class="mc-emoji">${badge.emoji}</div>` +
+        `<div class="mc-main">` +
+          `<div class="mc-name">${badge.name}${earned ? ' ✔' : ''}</div>` +
+          `<div class="mc-days">${badge.days.toLocaleString('ja-JP')}日</div>` +
+        `</div>` +
+        `<div class="mc-date">${dateText}</div>`;
+      table.appendChild(row);
+    });
+  }
+
+  // 表示モードの切り替え（通常表示 ⇔ 比較一覧）
+  document.querySelectorAll('.milestone-view-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.milestone-view-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const isCompare = btn.dataset.view === 'compare';
+      document.getElementById('milestoneListView').style.display = isCompare ? 'none' : 'block';
+      document.getElementById('milestoneCompareView').style.display = isCompare ? 'block' : 'none';
+      if (isCompare) renderMilestoneCompareTable();
+    });
+  });
 
   document.getElementById('milestoneHistoryBtn').addEventListener('click', () => {
     renderMilestoneHistoryModal();
@@ -12213,7 +12802,24 @@ window.fqtConfirm = function(message, onConfirm){
     '自分を大切にすることは、わがままではない。',
     'ゆっくりでいい。止まらなければ、それでいい。',
     '今日という日を、精一杯生きたあなたはすでに素晴らしい。',
-    '明日のあなたは、今日のあなたより少しだけ強くなっている。'
+    '明日のあなたは、今日のあなたより少しだけ強くなっている。',
+    '小さな一歩を笑う人より、踏み出したあなたの方が正しい。',
+    '欠けているところより、満ちているところを数えよう。',
+    '道に迷うのは、まだ知らない景色に出会う途中。',
+    '誰かと同じ速さで歩かなくていい。自分の歩幅でいい。',
+    '今日の小さな選択が、未来の大きな自由につながる。',
+    '弱さを見せられる相手がいることも、豊かさのひとつ。',
+    '結果が出るまでの時間も、ちゃんと意味のある時間。',
+    '完璧じゃなくても、続けている人がいちばん強い。',
+    '心が疲れた日は、頑張らないことを選んでいい。',
+    '小さな喜びに気づける人は、それだけで幸せに近い。',
+    '今日のあなたが積んだ石は、未来のどこかで橋になる。',
+    '比べるのをやめた瞬間から、自分の人生が動き出す。',
+    '悩んでいる時間も、答えに向かって歩いている証拠。',
+    '今日という日は、明日のあなたへの贈り物になる。',
+    '無理に前向きにならなくても、今日を過ごせたなら十分。',
+    '誰かに頼ることは、弱さではなく信頼のあらわれ。',
+    '始まりはいつも小さい。小さいままでいい。'
   ];
 
   function getTodayDateStringForDailyQuote(){
