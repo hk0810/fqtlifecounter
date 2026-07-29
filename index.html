@@ -227,6 +227,21 @@
     0%, 100% { box-shadow: 0 0 0 0 rgba(13, 148, 136, 0.25); }
     50%      { box-shadow: 0 0 0 8px rgba(13, 148, 136, 0); }
   }
+  .bgm-preset-select{
+    display: block;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-light);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 6px 14px;
+    margin: 8px auto 0;
+    cursor: pointer;
+    text-align: center;
+    text-align-last: center;
+  }
 
   /* ===== カード共通 ===== */
   .card{
@@ -1462,6 +1477,23 @@
     gap: 8px;
     margin-bottom: 18px;
   }
+  .dex-search-input{
+    width: 100%;
+    font-family: inherit;
+    font-size: 13px;
+    color: var(--text-main);
+    background: var(--blue-pale);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 10px 16px;
+    margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  .dex-search-input:focus{
+    outline: none;
+    border-color: var(--blue);
+    background: #ffffff;
+  }
   .dex-sort-row{
     display: flex;
     flex-wrap: wrap;
@@ -1695,6 +1727,32 @@
     text-align: left;
   }
   .star-message-text{
+    font-size: 13.5px;
+    font-weight: 700;
+    color: var(--text-main);
+    line-height: 1.7;
+    margin: 0;
+    text-align: left;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+  .daily-quote-banner{
+    background: linear-gradient(160deg, #fff7d6, #ffffff);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    padding: 18px 16px;
+    margin: 0 0 18px;
+    text-align: left;
+  }
+  .daily-quote-title{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 10px;
+    text-align: left;
+  }
+  .daily-quote-text{
     font-size: 13.5px;
     font-weight: 700;
     color: var(--text-main);
@@ -3148,6 +3206,7 @@
 
     <!-- 発見済みどうぶつ一覧（匹数が増えると長くなるため、実績より後ろに配置） -->
     <p class="badge-list-title">🎴 発見したどうぶつ一覧</p>
+    <input type="text" class="dex-search-input" id="dexSearchInput" placeholder="🔍 名前で検索（例：もち、レジェンド）">
     <div class="dex-sort-row" id="dexSortRow">
       <button class="dex-sort-btn active" data-sort="newest" type="button">新しい順</button>
       <button class="dex-sort-btn" data-sort="name" type="button">あかさたな順</button>
@@ -3669,6 +3728,21 @@
     <h1>FQT LIFE COUNTER</h1>
     <p class="tagline">あなたは地球に来て何日目？<br>今日の運勢は？</p>
     <button class="bgm-btn" id="bgmBtn" type="button">🎵　癒しのBGMを再生</button>
+    <select class="bgm-preset-select" id="bgmPresetSelect">
+      <option value="moon">🌙 月夜</option>
+      <option value="ocean">🌊 波の音</option>
+      <option value="forest">🌲 森の静寂</option>
+      <option value="star">✨ 星空</option>
+      <option value="fire">🔥 焚き火</option>
+      <option value="solfeggio396">396Hz｜恐れや罪悪感の解放</option>
+      <option value="solfeggio417">417Hz｜変化・再出発</option>
+      <option value="solfeggio432">432Hz｜自然との共鳴</option>
+      <option value="solfeggio528">528Hz｜愛・DNA修復</option>
+      <option value="solfeggio639">639Hz｜人間関係・調和</option>
+      <option value="solfeggio741">741Hz｜表現力・浄化</option>
+      <option value="solfeggio852">852Hz｜直感・気づき</option>
+      <option value="solfeggio963">963Hz｜高次意識・統合</option>
+    </select>
   </div>
 
   <!-- 🌕 満月・新月お知らせバナー（実際の天文計算による本物の月齢を使用） -->
@@ -3916,6 +3990,12 @@
   <div class="star-message-banner" id="starMessageBanner" style="display:none;">
     <p class="star-message-title">✨星のかけらメッセージ</p>
     <p class="star-message-text" id="starMessageText">-</p>
+  </div>
+
+  <!-- 💬 今日の名言・格言（毎日1つずつ順番に表示。計算する押下時に表示） -->
+  <div class="daily-quote-banner" id="dailyQuoteBanner" style="display:none;">
+    <p class="daily-quote-title">💬今日の名言・格言</p>
+    <p class="daily-quote-text" id="dailyQuoteText">-</p>
   </div>
 
   <!-- 次の人生の節目カード -->
@@ -6082,21 +6162,77 @@ installBtn.addEventListener('click', async () => {
      ドローン（持続音）とチャイム（きらめき音）を合成する
    ========================================================== */
 const bgmBtn = document.getElementById('bgmBtn');
+const bgmPresetSelect = document.getElementById('bgmPresetSelect');
+
+// 🎵 BGMの音色バリエーション（ドローンの周波数・フィルター・チャイムの音階が異なる）
+const BGM_PRESETS = {
+  moon:   { droneFreqs: [130.81, 196.00, 261.63], filterFreq: 750,  chimeScale: [523.25, 587.33, 659.25, 783.99, 880.00],   chimeMin: 4000, chimeMax: 9000 },
+  ocean:  { droneFreqs: [98.00, 146.83, 196.00],   filterFreq: 550,  chimeScale: [392.00, 440.00, 523.25, 587.33, 659.25],   chimeMin: 5000, chimeMax: 11000 },
+  forest: { droneFreqs: [174.61, 220.00, 293.66],  filterFreq: 900,  chimeScale: [659.25, 739.99, 880.00, 987.77, 1174.66],  chimeMin: 3500, chimeMax: 8000 },
+  star:   { droneFreqs: [196.00, 246.94, 329.63],  filterFreq: 1200, chimeScale: [880.00, 987.77, 1046.50, 1318.51, 1567.98],chimeMin: 2500, chimeMax: 6000 },
+  fire:   { droneFreqs: [110.00, 164.81, 220.00],  filterFreq: 500,  chimeScale: [329.63, 392.00, 440.00, 523.25, 587.33],   chimeMin: 5000, chimeMax: 10000 }
+};
+
+// 🎼 ソルフェジオ周波数（伝統的に特定の周波数に意味づけがされている音階。
+// 科学的な効果が実証されているものではないが、癒し系BGMの定番として親しまれている）
+// 基準となるHz値そのものをドローンの主音として使い、1オクターブ・2オクターブ下を重ねて厚みを出す
+function makeSolfeggioPreset(freq, filterFreq){
+  return {
+    droneFreqs: [freq / 4, freq / 2, freq],
+    filterFreq: filterFreq,
+    chimeScale: [freq, freq * 1.125, freq * 1.25, freq * 1.5, freq * 1.875],
+    chimeMin: 4500,
+    chimeMax: 9500
+  };
+}
+BGM_PRESETS.solfeggio396 = makeSolfeggioPreset(396, 700);
+BGM_PRESETS.solfeggio417 = makeSolfeggioPreset(417, 720);
+BGM_PRESETS.solfeggio432 = makeSolfeggioPreset(432, 780);
+BGM_PRESETS.solfeggio528 = makeSolfeggioPreset(528, 850);
+BGM_PRESETS.solfeggio639 = makeSolfeggioPreset(639, 950);
+BGM_PRESETS.solfeggio741 = makeSolfeggioPreset(741, 1050);
+BGM_PRESETS.solfeggio852 = makeSolfeggioPreset(852, 1150);
+BGM_PRESETS.solfeggio963 = makeSolfeggioPreset(963, 1250);
+
+const BGM_PRESET_KEY = 'fqtLifeCounter_bgmPreset';
+function loadBgmPreset(){
+  try{
+    const saved = window.localStorage.getItem(BGM_PRESET_KEY);
+    return (saved && BGM_PRESETS[saved]) ? saved : 'moon';
+  } catch(e){ return 'moon'; }
+}
+function saveBgmPreset(key){
+  try{ window.localStorage.setItem(BGM_PRESET_KEY, key); } catch(e){}
+}
+
+bgmPresetSelect.value = loadBgmPreset();
 
 const bgm = {
   ctx: null,
   master: null,
   delay: null,
   playing: false,
-  chimeTimer: null
+  chimeTimer: null,
+  presetKey: bgmPresetSelect.value
 };
 
-// 音声グラフを一度だけ構築する
+// 音声グラフを構築する（プリセットが変わった場合は作り直す）
 function ensureAudioGraph(){
-  if (bgm.ctx) return;
+  if (bgm.ctx && bgm.presetKey === bgmPresetSelect.value) return;
+
+  // プリセット変更でグラフを作り直す場合は、鳴っていたオシレーターを止めておく
+  if (bgm.oscillators){
+    bgm.oscillators.forEach(osc => { try{ osc.stop(); } catch(e){} });
+  }
+  if (bgm.lfo){
+    try{ bgm.lfo.stop(); } catch(e){}
+  }
+
+  const preset = BGM_PRESETS[bgmPresetSelect.value] || BGM_PRESETS.moon;
+  bgm.presetKey = bgmPresetSelect.value;
 
   const AudioCtx = window.AudioContext || window.webkitAudioContext;
-  const ctx = new AudioCtx();
+  const ctx = bgm.ctx || new AudioCtx();
 
   // マスター音量（フェードイン・アウトに使用）
   const master = ctx.createGain();
@@ -6121,13 +6257,12 @@ function ensureAudioGraph(){
   droneGain.gain.value = 0.14;
   const droneFilter = ctx.createBiquadFilter();
   droneFilter.type = 'lowpass';
-  droneFilter.frequency.value = 750;
+  droneFilter.frequency.value = preset.filterFreq;
   droneGain.connect(droneFilter);
   droneFilter.connect(master);
   droneFilter.connect(delay);
 
-  const droneFreqs = [130.81, 196.00, 261.63]; // C3 / G3 / C4（温かみのある完全5度+オクターブ）
-  const oscillators = droneFreqs.map((freq, i) => {
+  const oscillators = preset.droneFreqs.map((freq, i) => {
     const osc = ctx.createOscillator();
     osc.type = 'sine';
     osc.frequency.value = freq;
@@ -6157,8 +6292,9 @@ function ensureAudioGraph(){
 function playChime(){
   if (!bgm.playing) return;
 
+  const preset = BGM_PRESETS[bgm.presetKey] || BGM_PRESETS.moon;
   const ctx = bgm.ctx;
-  const scale = [523.25, 587.33, 659.25, 783.99, 880]; // Cメジャーペンタトニックで穏やかな響き
+  const scale = preset.chimeScale;
   const freq = scale[Math.floor(Math.random() * scale.length)];
   const now = ctx.currentTime;
 
@@ -6187,7 +6323,7 @@ function playChime(){
   osc.start(now);
   osc.stop(now + 5.2);
 
-  const nextDelay = 4000 + Math.random() * 5000;
+  const nextDelay = preset.chimeMin + Math.random() * (preset.chimeMax - preset.chimeMin);
   bgm.chimeTimer = setTimeout(playChime, nextDelay);
 }
 
@@ -6232,6 +6368,20 @@ bgmBtn.addEventListener('click', () => {
     startBgm();
     bgmBtn.textContent = '🔇　BGMを停止';
     bgmBtn.classList.add('active');
+  }
+});
+
+// 🎵 音色プリセットを変更した時：選択内容を記憶し、再生中ならその場で音色を切り替える
+bgmPresetSelect.addEventListener('change', () => {
+  saveBgmPreset(bgmPresetSelect.value);
+  if (bgm.playing){
+    ensureAudioGraph(); // presetKeyが変わっているので、内部でグラフを作り直す
+    const now = bgm.ctx.currentTime;
+    bgm.master.gain.cancelScheduledValues(now);
+    bgm.master.gain.setValueAtTime(0.0001, now);
+    bgm.master.gain.linearRampToValueAtTime(0.4, now + 2);
+    if (bgm.chimeTimer) clearTimeout(bgm.chimeTimer);
+    playChime();
   }
 });
 
@@ -7380,6 +7530,7 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- ⑯ 図鑑モーダルをDOMへ反映 -----
   // 図鑑一覧の並び順（新しい順／あかさたな順／レア度順／色順）
   let dexSortMode = 'newest';
+  let dexSearchQuery = '';
 
   // 16進数カラーコードを色相（Hue、0〜360度）に変換する
   // これにより、配列の並び順に関係なく「本物の虹の順番」で並べ替えられる
@@ -7445,7 +7596,18 @@ window.fqtConfirm = function(message, onConfirm){
 
     const sortedList = sortDiscoveredList(discoveredList, dexSortMode);
 
-    sortedList.forEach(animal => {
+    // 🔍 検索クエリで名前を絞り込む（未入力なら全件表示）
+    const query = dexSearchQuery.trim();
+    const filteredList = query
+      ? sortedList.filter(animal => animal.name.includes(query))
+      : sortedList;
+
+    if (filteredList.length === 0){
+      grid.innerHTML = '<p style="grid-column: 1 / -1; text-align:center; font-size:12px; color:var(--text-sub);">一致するどうぶつが見つかりませんでした。</p>';
+      return;
+    }
+
+    filteredList.forEach(animal => {
       const item = document.createElement('div');
       const isOshi = oshiAnimal && oshiAnimal.id === animal.id;
       item.className = 'dex-item' + (isOshi ? ' oshi' : '');
@@ -7782,6 +7944,12 @@ window.fqtConfirm = function(message, onConfirm){
     dexSortMode = btn.dataset.sort;
     document.querySelectorAll('#dexSortRow .dex-sort-btn').forEach(b => b.classList.remove('active'));
     btn.classList.add('active');
+    renderDexModal();
+  });
+
+  // 🔍 図鑑の名前検索（入力するたびに絞り込む）
+  document.getElementById('dexSearchInput').addEventListener('input', (e) => {
+    dexSearchQuery = e.target.value;
     renderDexModal();
   });
 
@@ -11308,6 +11476,118 @@ window.fqtConfirm = function(message, onConfirm){
   }
 
   document.addEventListener('fqtCalculatePressed', renderStarMessage);
+
+})();
+
+/* ==========================================================
+   💬 今日の名言・格言（追加実装のみ・既存機能には触れない）
+   ・星のかけらメッセージと同じ仕組み（順番に1日1つ、端末に記憶）
+   ・実在の人物の発言として断定できるものは扱わず、FQTオリジナルの
+     格言としてまとめている
+   ========================================================== */
+(function initDailyQuote(){
+
+  const DAILY_QUOTE_KEY = 'fqtLifeCounter_dailyQuote';
+
+  // 50種類のオリジナル格言（人生・成長・勇気・感謝などをテーマに）
+  const DAILY_QUOTES = [
+    '焦らなくていい。種は、芽を出す時期を自分で知っている。',
+    '小さな一歩も、続ければ大きな道になる。',
+    '今日できなかったことは、明日できることが増えた証。',
+    '比べる相手は昨日の自分だけでいい。',
+    '雨の日があるから、晴れた日のありがたみを知る。',
+    '休むことは、止まることではなく整えること。',
+    '完璧を目指すより、続けることを目指そう。',
+    '失敗は、次に向かうための地図になる。',
+    '誰かの一歩が、自分の勇気になることがある。',
+    '花は咲く時期を焦らない。あなたも同じでいい。',
+    '今日という日は、二度と戻ってこない贈り物。',
+    '迷ったときほど、自分の心の声を聞いてみよう。',
+    '小さな親切は、思っている以上に遠くまで届く。',
+    'できないことより、できたことを数えよう。',
+    '変わる勇気より、続ける勇気の方が難しいこともある。',
+    '心が疲れたときは、頑張るより休むを選んでいい。',
+    '未来は、今日の小さな選択の積み重ねでできている。',
+    '自分を責める時間を、自分を励ます時間に変えよう。',
+    '誰かと比べるより、なりたい自分と向き合おう。',
+    '一歩下がることは、後退ではなく助走のこともある。',
+    'ありがとうは、言うたびに自分の心も温かくする。',
+    '今日の小さながんばりは、未来のどこかで必ず実を結ぶ。',
+    '不安なときほど、深呼吸をひとつしてみよう。',
+    '道に迷ったときは、それも一つの景色として楽しんでみよう。',
+    '人は、支えられた分だけ誰かを支えられるようになる。',
+    '始めるのに遅すぎることはない。',
+    '完璧じゃない自分も、ちゃんと頑張っている。',
+    '小さな習慣が、いつか大きな自信に変わる。',
+    '今日の自分にできることを、今日のペースでやればいい。',
+    '悲しみも喜びも、心を豊かにする材料になる。',
+    '誰かの評価より、自分自身の納得を大切にしよう。',
+    '止まって見える時間も、実は力を蓄えている時間。',
+    '苦手なことより、得意なことに目を向けてみよう。',
+    '変化を恐れるより、変化を楽しんでみよう。',
+    '心の余裕は、忙しさの中でも作ることができる。',
+    '今日の小さな笑顔が、誰かの一日を変えることもある。',
+    '過去は変えられなくても、今日からは変えられる。',
+    '自分にやさしくすることも、立派な強さ。',
+    '一人で抱えなくていい。頼ることも力のうち。',
+    '目の前のことに集中すれば、道は自然と見えてくる。',
+    '今日という日を、丁寧に生きるだけで十分。',
+    '小さな達成感を積み重ねることが、自信になる。',
+    '不完全な今日も、あなたらしい大切な一日。',
+    '誰かの背中を見て歩くのも、立派な一歩。',
+    '心配事の多くは、実際には起こらない。',
+    '今できることに集中すれば、未来は自然とついてくる。',
+    '休むことも、前に進むための準備のひとつ。',
+    '自分を大切にすることは、わがままではない。',
+    'ゆっくりでいい。止まらなければ、それでいい。',
+    '今日という日を、精一杯生きたあなたはすでに素晴らしい。',
+    '明日のあなたは、今日のあなたより少しだけ強くなっている。'
+  ];
+
+  function getTodayDateStringForDailyQuote(){
+    const now = new Date();
+    return `${now.getFullYear()}-${String(now.getMonth() + 1).padStart(2, '0')}-${String(now.getDate()).padStart(2, '0')}`;
+  }
+
+  function loadDailyQuoteState(){
+    const defaultState = { lastShownDate: null, currentIndex: -1 };
+    try{
+      const raw = window.localStorage.getItem(DAILY_QUOTE_KEY);
+      if (!raw) return defaultState;
+      const parsed = JSON.parse(raw);
+      return {
+        lastShownDate: parsed.lastShownDate || null,
+        currentIndex: (typeof parsed.currentIndex === 'number') ? parsed.currentIndex : -1
+      };
+    } catch(e){
+      return defaultState;
+    }
+  }
+  function saveDailyQuoteState(state){
+    try{
+      window.localStorage.setItem(DAILY_QUOTE_KEY, JSON.stringify(state));
+    } catch(e){
+      // 保存できない環境では何もしない
+    }
+  }
+
+  // 「計算する」が押されたタイミングで、星のかけらメッセージの下に表示する
+  function renderDailyQuote(){
+    const state = loadDailyQuoteState();
+    const today = getTodayDateStringForDailyQuote();
+
+    // 今日まだ進めていなければ、番号を1つ進める（50個で一巡してまた0に戻る＝順番通り）
+    if (state.lastShownDate !== today){
+      state.currentIndex = (state.currentIndex + 1) % DAILY_QUOTES.length;
+      state.lastShownDate = today;
+      saveDailyQuoteState(state);
+    }
+
+    document.getElementById('dailyQuoteText').textContent = DAILY_QUOTES[state.currentIndex];
+    document.getElementById('dailyQuoteBanner').style.display = 'block';
+  }
+
+  document.addEventListener('fqtCalculatePressed', renderDailyQuote);
 
 })();
 
