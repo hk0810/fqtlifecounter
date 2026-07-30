@@ -581,6 +581,13 @@
     color: var(--text-sub);
     margin: 0 0 10px;
   }
+  .diag-main-title{
+    text-align: center;
+    font-size: 19px;
+    font-weight: 900;
+    color: var(--text-main);
+    margin: 0 0 14px;
+  }
 
   .fortune-section-note{
     font-size: 11px;
@@ -4222,11 +4229,56 @@
   </div>
 </div>
 
+<!-- 🐾 FQT宇宙どうぶつ診断 説明モーダル -->
+<div class="dex-modal-overlay" id="diagInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="diagInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🐾 FQT宇宙どうぶつ診断ってなに？</p>
+
+    <p class="bio-info-text">
+      あなたの生年月日から、<strong>「人氣者」13体</strong>の中からたった1体だけを選び出す、FQTオリジナルの本質診断です。図鑑でランダムに出会う宇宙どうぶつとは違い、<strong>この13体だけは、あなたの生まれ持った性質を映す特別な存在</strong>として登場します。
+    </p>
+
+    <p class="bio-info-text">
+      生年月日を数値化した「宇宙番号」（1〜13）を算出し、その番号に対応する1体が、あなたの「宇宙どうぶつ（本質）」として選ばれます。
+    </p>
+
+    <p class="bio-info-text"><strong>★2　人氣者（10体）</strong></p>
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌙 ムーンモチ — のんびり屋・癒しの達人</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☀️ サンサンぽこ — よく笑う・太陽氣質</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">💭 ゆめプリン — 夢見がち・理想を描く人</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🍯 ハニプニ — 甘えん坊・愛情豊か</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌸 さくらもち — おっとり・優しい心</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">😴 ぷにコロ — マイペース・自然体</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">✨ きらきらん — ムードメーカー・周囲を照らす人</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌿 みんとる — 几帳面・誠実派</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☁️ ぽふぽふ — 甘党・安らぎを届ける人</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🍪 パクパクン — 食いしん坊・ワクワクを届ける人</span></div>
+    </div>
+
+    <p class="bio-info-text" style="margin-top:14px;"><strong>★5　レア人氣者（3体）</strong></p>
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☄️ コスモドリーマー — ロマンチスト・未来を信じる人</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🎨 ギャラクシーアーティスト — 芸術家肌・感性豊か</span></div>
+      <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌟 レジェンドスター — 博愛・包容力のあるリーダー</span></div>
+    </div>
+
+    <p class="bio-info-text" style="margin-top:14px;">
+      宇宙どうぶつのほかに、<strong>地球人意識・宇宙意識・才能・今世のテーマ</strong>も、同じように誕生日から算出して診断しています。「その他の詳しい診断」では、さらに「地球の星」「行動の星」「未来の星」「月の星」「使命の星」という5つの切り口でも、あなたの一面を見ることができます。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 実在の占星術・心理学的な診断ツールに基づくものではなく、FQTが独自に考案したオリジナルの診断コンテンツです。
+    </p>
+  </div>
+</div>
+
 <!-- 🔍 他の人の生年月日で占うモーダル -->
 <div class="dex-modal-overlay" id="otherBirthModalOverlay">
   <div class="dex-modal">
     <button class="badge-modal-close" id="otherBirthModalCloseBtn" type="button">✕</button>
-    <p class="badge-modal-title">🔍 他の人の生年月日で占う</p>
+    <p class="badge-modal-title">🔍 他の地球人の生年月日で占う</p>
     <p class="badge-modal-note">
       ご家族やご友人など、あなた以外の方の生年月日で占った結果を見られます。<br>
       ※ ここで入力した生年月日は保存されません。図鑑やバッジ、実績などのあなた自身の記録には一切影響しません。
@@ -4694,6 +4746,23 @@
         </ul>
       </div>
 
+      <div class="version-history-item">
+        <p class="version-history-date">v19.0　「他の人を占う」機能・新規占いコンテンツ</p>
+        <ul class="version-history-notes">
+          <li>マヤ暦占いに「⚫黒KIN」バッジを新規実装（260日中52日だけの特別な日を判定）</li>
+          <li>「🔍 他の人の生年月日で占う」機能を新規実装。数秘術・九星氣学・干支・誕生花/石/木・生まれた日の月相・FQT宇宙占い・マヤ暦・FQT宇宙どうぶつ診断・今日の運勢など、ほぼ全項目に対応（保存データには一切影響しない読み取り専用）</li>
+          <li>「誕生木」「生まれた日の月相」「個人年運（パーソナルイヤー）」を新規実装</li>
+          <li>「🌕 見上げてきた満月」「🫀 心臓の鼓動回数」をリアルタイム経過カードに新規実装</li>
+          <li>満月・新月バナーに常時表示のカウントダウン（次の満月/新月まで）を追加</li>
+          <li>「② ターゲット日数」「🎯 次に訪れる人生の節目」に「？」の解説ポップアップを新規実装</li>
+          <li>人気者13体の性格を「元の可愛い性格・占い風の性格」の2本立てに変更</li>
+          <li>「出会った宇宙どうぶつからのメッセージ」の見出しを新規追加</li>
+          <li>「計算する」を「計算する（占う）」に、「記念日」を「楽しみにしているイベントの日」に文言変更</li>
+          <li>アプリ内の半角「!」を全角「！」に統一</li>
+          <li>「画面の下の方が真っ黒になります」のFAQ回答を、通常ブラウザのケースも含めて更新</li>
+        </ul>
+      </div>
+
     </div>
 
   </div>
@@ -5028,7 +5097,7 @@
     <div class="field">
       <label for="birthdate" class="birthdate-label">① あなたの生年月日を入力</label>
       <input type="date" id="birthdate" required>
-      <button class="other-birth-mini-btn" id="otherBirthOpenBtn" type="button">🔍 他の人の生年月日で占う</button>
+      <button class="other-birth-mini-btn" id="otherBirthOpenBtn" type="button">🔍 他の地球人の生年月日で占う</button>
     </div>
 
     <div class="field">
@@ -5175,7 +5244,7 @@
 
   <!-- 🐾 FQT宇宙どうぶつ診断カード（誕生日で決まる、FQTオリジナルの本質診断） -->
   <div class="card diag-card" id="diagCard" style="display:none;">
-    <p class="section-title">🐾 FQT宇宙どうぶつ診断</p>
+    <p class="section-title diag-main-title">🐾 FQT宇宙どうぶつ診断　<button class="bio-info-btn" id="diagInfoBtn" type="button" aria-label="FQT宇宙どうぶつ診断とは">？</button></p>
     <p class="diag-intro">あなたの誕生日から導く、FQT独自の本質診断です。</p>
 
     <div class="diag-section diag-animal-section">
@@ -7985,6 +8054,18 @@ document.getElementById('milestoneInfoModalOverlay').addEventListener('click', (
   }
 });
 
+document.getElementById('diagInfoBtn').addEventListener('click', () => {
+  document.getElementById('diagInfoModalOverlay').classList.add('show');
+});
+document.getElementById('diagInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('diagInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('diagInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('diagInfoModalOverlay')){
+    document.getElementById('diagInfoModalOverlay').classList.remove('show');
+  }
+});
+
 /* ==========================================================
    🔍 他の人の生年月日で占う（追加実装のみ・既存機能には触れない）
    ・既存の「生年月日だけで決まる」占い計算関数をそのまま再利用する
@@ -9005,25 +9086,25 @@ window.fqtConfirm = function(message, onConfirm){
     // ----- 人氣者10体（★2固定・出現率アップ） -----
     // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
     { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
-      rarity: 2, name: 'ムーンモチ', personality: 'のんびり屋・癒しの達人', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
+      rarity: 5, name: 'ムーンモチ', personality: 'のんびり屋・癒しの達人', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
     { key: 'san_san_poko', parts: { body:18, ear:10, eye:1,  mouth:4,  nose:6, tail:18, wing:2, horn:1, antenna:0, hand:4,  foot:6,  pattern:5,  background:18, color:2,  star:2 },
-      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う・太陽氣質', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
+      rarity: 5, name: 'サンサンぽこ', personality: 'よく笑う・太陽氣質', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
     { key: 'yume_purin', parts: { body:8,  ear:3,  eye:7,  mouth:0,  nose:5, tail:4,  wing:7, horn:9, antenna:6, hand:11, foot:11, pattern:12, background:0,  color:13, star:2 },
-      rarity: 2, name: 'ゆめプリン', personality: '夢見がち・理想を描く人', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
+      rarity: 5, name: 'ゆめプリン', personality: '夢見がち・理想を描く人', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
     { key: 'honey_puni', parts: { body:10, ear:12, eye:14, mouth:1,  nose:7, tail:10, wing:4, horn:0, antenna:2, hand:10, foot:12, pattern:7,  background:16, color:1,  star:12 },
-      rarity: 2, name: 'ハニプニ', personality: '甘えん坊・愛情豊か', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
+      rarity: 5, name: 'ハニプニ', personality: '甘えん坊・愛情豊か', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
     { key: 'sakura_mochi', parts: { body:19, ear:13, eye:8,  mouth:10, nose:8, tail:2,  wing:1, horn:4, antenna:7, hand:14, foot:6,  pattern:15, background:18, color:21, star:4 },
-      rarity: 2, name: 'さくらもち', personality: 'おっとり・優しい心', favorite: '花', quote: '春の風がきもちいいね' },
+      rarity: 5, name: 'さくらもち', personality: 'おっとり・優しい心', favorite: '花', quote: '春の風がきもちいいね' },
     { key: 'puni_koro', parts: { body:18, ear:12, eye:6,  mouth:13, nose:3, tail:10, wing:0, horn:3, antenna:1, hand:11, foot:11, pattern:14, background:8,  color:24, star:7 },
-      rarity: 2, name: 'ぷにコロ', personality: 'マイペース・自然体', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
+      rarity: 5, name: 'ぷにコロ', personality: 'マイペース・自然体', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
     { key: 'kira_kiran', parts: { body:6,  ear:16, eye:14, mouth:9,  nose:0, tail:18, wing:8, horn:4, antenna:4, hand:6,  foot:14, pattern:4,  background:13, color:26, star:4 },
-      rarity: 2, name: 'きらきらん', personality: 'ムードメーカー・周囲を照らす人', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
+      rarity: 5, name: 'きらきらん', personality: 'ムードメーカー・周囲を照らす人', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
     { key: 'mintoru', parts: { body:3,  ear:14, eye:4,  mouth:8,  nose:1, tail:0,  wing:7, horn:3, antenna:0, hand:10, foot:9,  pattern:8,  background:14, color:5,  star:1 },
-      rarity: 2, name: 'みんとる', personality: '几帳面・誠実派', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
+      rarity: 5, name: 'みんとる', personality: '几帳面・誠実派', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
     { key: 'pofu_pofu', parts: { body:3,  ear:15, eye:5,  mouth:8,  nose:1, tail:0,  wing:3, horn:5, antenna:6, hand:11, foot:11, pattern:22, background:15, color:0,  star:0 },
-      rarity: 2, name: 'ぽふぽふ', personality: '甘党・安らぎを届ける人', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
+      rarity: 5, name: 'ぽふぽふ', personality: '甘党・安らぎを届ける人', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
     { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
-      rarity: 2, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける人', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
+      rarity: 5, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける人', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
 
     // ----- レア人氣者3体（★5固定・出現率は控えめ） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
@@ -9448,17 +9529,93 @@ window.fqtConfirm = function(message, onConfirm){
     '今日という贈り物を大切に。', '自分にやさしくしてあげてね。', '今日のあなたを応援してるよ。',
     'ちいさな発見を楽しんでね。', '今日はどんな一日だった？', 'あなたのペースで歩いていこう。',
     '今日も宇宙のどこかで誰かが笑ってるよ。', 'ちょっとした冒険に出てみよう。',
+    '今日のあなたに、そっと拍手を送るね。', '無理せず、あなたらしいペースでいいんだよ。',
+    '今日出会えたことが、もう嬉しい奇跡だよ。', '心が軽くなる方を選んでいいんだよ。',
+    '今日のあなたも、じゅうぶん頑張っているよ。', 'ふとした瞬間の幸せを見つけてみよう。',
+    '今日のあなたのままで、もう十分素敵だよ。',
     '今日の出来事を誰かに話してみよう。', '心があたたまる瞬間を探してみて。',
     '今日のあなたも、とても素敵だよ。'
   ];
 
+  // ----- ⭐️1（星1つ）のどうぶつ限定：名言ではなく、ちょっと面白い豆知識を言う -----
+  const TRIVIA_QUOTES = [
+    'ラッコは眠るとき、流されないように手をつないだり海藻にくるまったりするって知ってた？', 'ペンギンは好きな相手に小石をプレゼントすることがあるって知ってた？',
+    '牛には仲のいい友達がいるって知ってた？', 'ゾウは仲間の顔を何年も覚えているって知ってた？',
+    'イルカには一頭ずつ名前のような鳴き声があるって知ってた？', 'カワウソはお気に入りの石を宝物として持ち歩くことがあるって知ってた？',
+    'パンダは木登りがとても得意って知ってた？', 'キリンの舌は約45cmもあるって知ってた？',
+    'コアラは1日のほとんどを眠って過ごすって知ってた？', 'ナマケモノは泳ぐのが意外と得意って知ってた？',
+    'ミツバチはダンスで花の場所を仲間に伝えているって知ってた？', 'チョウは足で味を感じているって知ってた？',
+    'ホタルは光で仲間とコミュニケーションをとっているって知ってた？', 'カタツムリには何千本もの小さな歯があるって知ってた？',
+    'クモの糸は重さあたりでは鋼鉄より丈夫な種類もあるって知ってた？', 'アリは自分の体重の何倍もの重さを運べるって知ってた？',
+    'トンボは前にも後ろにも飛べるって知ってた？', 'セミは地上より土の中で過ごす時間のほうがずっと長いって知ってた？',
+    'テントウムシは冬になると集まって寒さをしのぐことがあるって知ってた？', 'バッタの耳は足についている種類がいるって知ってた？',
+    'タコには心臓が3つあるって知ってた？', 'イカの血は青いって知ってた？',
+    'クジラは息をするために眠りながら泳ぐことがあるって知ってた？', 'シャチは家族みんなで協力して子育てをするって知ってた？',
+    'カメは100年以上生きる種類もいるって知ってた？', 'ヒトデは腕を再生できる種類がいるって知ってた？',
+    'クラゲには脳がない種類がいるって知ってた？', 'チンアナゴは危険を感じると砂の中へ隠れるって知ってた？',
+    'マンボウは一度にたくさんの卵を産むって知ってた？', 'サメにはまぶたがある種類もいるって知ってた？',
+    'バナナは木ではなく草の仲間って知ってた？', 'イチゴの種は実の外側についているって知ってた？',
+    'パイナップルはたくさんの実が集まってできているって知ってた？', 'ヒマワリは若いうちは太陽の方向を追いかけるって知ってた？',
+    'タンポポの綿毛は風に乗って遠くまで旅をするための工夫って知ってた？', 'ドングリは木の赤ちゃんって知ってた？',
+    'サボテンにもきれいな花が咲くって知ってた？', '竹は1日に1m近く伸びることがあるって知ってた？',
+    '四つ葉のクローバーは自然にできる珍しい葉っぱって知ってた？', '桜は花が散ったあとも葉っぱで元気に光合成を続けているって知ってた？',
+    '雪の結晶は同じ形がほとんどないって知ってた？', '虹は見る場所によって見える色や形が変わるって知ってた？',
+    '雨が降る前の独特な匂いには名前があるって知ってた？', '雲には100種類以上の名前や分類があるって知ってた？',
+    '雷は光が先に見えて音があとから聞こえるって知ってた？', '月は毎年少しずつ地球から遠ざかっているって知ってた？',
+    '夜空の星は何年も何百年も前の光を見ていることがあるって知ってた？', '太陽の光は地球に届くまで約8分かかるって知ってた？',
+    '地球は赤道付近では時速約1,670kmで自転しているって知ってた？', 'オーロラは太陽から飛んできた粒と地球の空気が出会って光っているって知ってた？',
+    'パンダは生まれたばかりの赤ちゃんが、お母さんの約900分の1ほどの大きさって知ってた？', 'フラミンゴのヒナは生まれたとき白い羽をしているって知ってた？',
+    'シマウマのしま模様は一頭ずつ違うって知ってた？', 'カンガルーは後ろ向きに歩くのが苦手って知ってた？',
+    'シロクマの毛は透明って知ってた？', 'カバは水中を泳ぐというより、水底を歩いて移動することが多いって知ってた？',
+    'チーターは陸上で最も速く走る動物って知ってた？', 'リスは秋に埋めた木の実を忘れたおかげで森づくりに役立っているって知ってた？',
+    'フクロウは首を約270度回せるって知ってた？', 'ハリネズミの赤ちゃんは柔らかい針で生まれるって知ってた？',
+    'エビは脱皮を繰り返して大きくなるって知ってた？', 'タツノオトシゴはオスがおなかで赤ちゃんを育てるって知ってた？',
+    'カクレクマノミはイソギンチャクと仲良く暮らしているって知ってた？', 'サンゴは植物ではなく動物って知ってた？',
+    'ウミガメは生まれた浜に戻って産卵することが多いって知ってた？', 'アザラシはヒゲで水の流れを感じ取れるって知ってた？',
+    'ウニはたくさんの小さな管足で歩いているって知ってた？', '貝は年輪のような模様から成長の様子がわかることがあるって知ってた？',
+    'カニは横だけでなく前にも歩ける種類がいるって知ってた？', 'ウミホタルは青く光るって知ってた？',
+    'リンゴは水に浮くって知ってた？', 'ハチミツは長期間保存できる食品として知られているって知ってた？',
+    'ポップコーンは爆発して大きくなるって知ってた？', 'チョコレートは高温で溶けやすいように作られているって知ってた？',
+    'キウイは追熟すると甘くなるって知ってた？', 'スイカの約90％は水分って知ってた？',
+    'レモンはとても酸っぱいけれど、糖分も含まれているって知ってた？', 'お米は炊くと水を吸って約2倍以上の重さになるって知ってた？',
+    'トウモロコシの粒は1本に数百粒ついていることが多いって知ってた？', 'ジャガイモの芽には食べないほうがよい成分が含まれているって知ってた？',
+    '富士山は日本で一番高い山って知ってた？', '日本には四季があることで知られているって知ってた？',
+    '桜の種類は600種類以上あるといわれているって知ってた？', '温泉は日本全国にたくさんあるって知ってた？',
+    '日本には世界遺産が数多くあるって知ってた？', '畳には湿度を調整する働きがあるって知ってた？',
+    '風鈴は音で涼しさを感じてもらう工夫って知ってた？', '折り紙は1枚の紙からさまざまな形を作れるって知ってた？',
+    'おにぎりは三角だけじゃなく丸や俵形もあるって知ってた？', 'お辞儀にはいろいろな角度があるって知ってた？',
+    '人は眠っている間に記憶を整理しているって知ってた？', 'まばたきは目を乾燥から守っているって知ってた？',
+    '髪の毛は1か月に約1cm伸びるって知ってた？', '人の体の約60％は水分って知ってた？',
+    '笑うとたくさんの筋肉が動くって知ってた？', '心臓は1日に約10万回動いているって知ってた？',
+    '骨は見た目より軽くて丈夫って知ってた？', '人は寝ている間にも汗をかいているって知ってた？',
+    '鼻は何千種類もの匂いを見分けられると考えられているって知ってた？', '「ありがとう」と言われると、うれしい気持ちになりやすいって知ってた？',
+    'キリンは寝る時間が1日2時間ほどの日もあるって知ってた？', 'オオカミは家族みんなで子育てをするって知ってた？',
+    'アルパカは仲間とあいさつするとき、鼻を近づけることがあるって知ってた？', 'ビーバーは木を使ってダムを作るって知ってた？',
+    'キツネはジャンプして雪の下のネズミを見つけることがあるって知ってた？', 'ヤギは高い岩場でも上手に歩けるって知ってた？',
+    'モルモットはうれしいと小さく飛び跳ねることがあるって知ってた？', 'レッサーパンダはしっぽを毛布のように使って眠ることがあるって知ってた？',
+    'ゴリラは仲間への愛情を行動で示すことがあるって知ってた？', 'ツバメは毎年同じ場所に戻ってくることが多いって知ってた？',
+    '雨上がりに虹が見えやすいのは、空気中の水滴が光を分けるからって知ってた？', '海の水がしょっぱいのは、長い時間をかけて塩分がたまったからって知ってた？',
+    '山の上は平地より気温が低いって知ってた？', '落ち葉は土の栄養になって森を育てているって知ってた？',
+    '木は二酸化炭素を取り込み、酸素をつくっているって知ってた？', '流れ星は星ではなく、小さな宇宙のかけらが光って見えているって知ってた？',
+    '月には風がほとんど吹かないって知ってた？', '地球は少しつぶれた丸い形をしているって知ってた？',
+    '北斗七星は季節によって見える向きが変わるって知ってた？', '宇宙では声は空気がないので伝わらないって知ってた？',
+    '鉛筆1本で数万文字も書けるって知ってた？', '消しゴムはこすることで文字を紙からはがしているって知ってた？',
+    'シャボン玉が丸いのは、一番表面積が小さくなる形だからって知ってた？', '風船は温めると少し大きくなり、冷やすと少し小さくなるって知ってた？',
+    '鏡は左右だけを逆にしているわけではないって知ってた？', '影ができるのは、光がまっすぐ進むからって知ってた？',
+    '氷は水に浮く数少ない物質のひとつって知ってた？', '磁石には必ずN極とS極がセットであるって知ってた？',
+    '人が笑うと、その笑顔は周りの人にも伝わりやすいって知ってた？', '今日という日は、一生に一度しか訪れない特別な一日って知ってた？'
+  ];
+
   // ----- ⑨ 各種テキスト情報の生成 -----
   function generateAnimalTexts(seed){
+    const rarity = pickRarity(seed);
     return {
       name: generateAnimalName(seed),
       personality: PERSONALITIES[Math.floor(seed / 17) % PERSONALITIES.length],
       favorite: FAVORITES[Math.floor(seed / 19) % FAVORITES.length],
-      quote: QUOTES[Math.floor(seed / 29) % QUOTES.length]
+      quote: rarity === 1
+        ? TRIVIA_QUOTES[Math.floor(seed / 29) % TRIVIA_QUOTES.length]
+        : QUOTES[Math.floor(seed / 29) % QUOTES.length]
     };
   }
 
@@ -9516,19 +9673,12 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- ⑭ 新しい宇宙どうぶつを1匹生成して画面に表示する -----
   function encounterNewAnimal(){
     // 🌟 人氣者チェック：一定確率で、固定デザインの「人氣者」を優先的に出現させる
-    // （レア人氣者3体＝0.5%、人氣者10体＝14.5%、残り85%は通常のランダム生成）
+    // （人氣者13体はすべて⭐️5 レア人氣者として統一。13体まとめて合計15%の確率で出現し、残り85%は通常のランダム生成）
     const signatureRoll = Math.random();
     let seed, parts, rarity, texts;
 
-    if (signatureRoll < 0.005){
-      const rareSignatures = SIGNATURE_CREATURES.filter(s => s.rarity === 5);
-      const chosen = rareSignatures[Math.floor(Math.random() * rareSignatures.length)];
-      parts = chosen.parts;
-      rarity = chosen.rarity;
-      texts = { name: chosen.name, personality: chosen.personality, favorite: chosen.favorite, quote: chosen.quote, signatureKey: chosen.key };
-    } else if (signatureRoll < 0.15){
-      const commonSignatures = SIGNATURE_CREATURES.filter(s => s.rarity !== 5);
-      const chosen = commonSignatures[Math.floor(Math.random() * commonSignatures.length)];
+    if (signatureRoll < 0.15){
+      const chosen = SIGNATURE_CREATURES[Math.floor(Math.random() * SIGNATURE_CREATURES.length)];
       parts = chosen.parts;
       rarity = chosen.rarity;
       texts = { name: chosen.name, personality: chosen.personality, favorite: chosen.favorite, quote: chosen.quote, signatureKey: chosen.key };
