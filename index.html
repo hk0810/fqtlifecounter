@@ -1698,6 +1698,13 @@
     box-shadow: 0 0 0 2px #ff6f91 inset;
     background: linear-gradient(135deg, #fff0f5, #ffe6f0);
   }
+  .dex-item.signature{
+    box-shadow: 0 0 0 2px #d4af37 inset;
+    background: linear-gradient(135deg, #fffbea, #fff3cc);
+  }
+  .dex-item.signature.oshi{
+    box-shadow: 0 0 0 2px #d4af37 inset, 0 0 0 4px #ff6f91 inset;
+  }
   .dex-oshi-btn{
     position: absolute;
     top: 4px;
@@ -4243,7 +4250,7 @@
       生年月日を数値化した「宇宙番号」（1〜13）を算出し、その番号に対応する1体が、あなたの「宇宙どうぶつ（本質）」として選ばれます。
     </p>
 
-    <p class="bio-info-text"><strong>★5　レア人氣者（13体）</strong></p>
+    <p class="bio-info-text"><strong>👑 人氣者（13体）</strong></p>
     <div class="bio-info-cycle-list">
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌙 ムーンモチ — のんびり屋・癒しの達人</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☀️ サンサンぽこ — よく笑う・太陽氣質</span></div>
@@ -9176,6 +9183,15 @@ window.fqtConfirm = function(message, onConfirm){
     return 1;                                // 残り 54.5%
   }
 
+  // 🌟 レア度表示テキストを作る共通ヘルパー
+  // 人氣者13体（signatureKeyがある個体）は★表示ではなく、金色の専用ラベルにする
+  function formatRarityLabel(rarity, signatureKey, prefix){
+    if (signatureKey){
+      return (prefix || '') + '👑 人氣者';
+    }
+    return (prefix || '') + '★'.repeat(rarity) + '☆'.repeat(5 - rarity);
+  }
+
   /* ==========================================================
      ⑥ SVG生成：各パーツを「基本テンプレート × 変形パラメータ」で描画
      ========================================================== */
@@ -9739,18 +9755,17 @@ window.fqtConfirm = function(message, onConfirm){
     svgWrap.innerHTML = buildAnimalSVG(currentAnimal.parts, 'stage');
 
     document.getElementById('animalRarity').textContent =
-      'レア度 ' + '★'.repeat(currentAnimal.rarity) + '☆'.repeat(5 - currentAnimal.rarity);
+      formatRarityLabel(currentAnimal.rarity, currentAnimal.texts.signatureKey, 'レア度 ');
     document.getElementById('animalName').textContent = currentAnimal.texts.name;
     document.getElementById('animalPersonality').textContent = currentAnimal.texts.personality;
     document.getElementById('animalFavorite').textContent = currentAnimal.texts.favorite;
     document.getElementById('animalQuote').textContent = '「' + currentAnimal.texts.quote + '」';
 
-    // 🌟 人氣者13体のどれかであれば、専用マークを表示する
+    // 🌟 人氣者13体のどれかであれば、専用マークを表示する（13体は全員★5に統一済み）
     const sigBadge = document.getElementById('animalSignatureBadge');
     if (currentAnimal.texts.signatureKey){
-      const isRareSignature = currentAnimal.rarity === 5;
-      sigBadge.textContent = isRareSignature ? '👑 レア人氣者' : '🌟 人氣者';
-      sigBadge.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
+      sigBadge.textContent = '👑 人氣者';
+      sigBadge.className = 'animal-signature-badge rare';
       sigBadge.style.display = 'inline-block';
     } else {
       sigBadge.style.display = 'none';
@@ -9882,13 +9897,14 @@ window.fqtConfirm = function(message, onConfirm){
       item.className = 'dex-item' + (isOshi ? ' oshi' : '');
       const thumbSvg = buildAnimalSVG(animal.parts, 'dex' + animal.id);
       const sigMark = animal.signatureKey
-        ? `<div class="dex-signature-mark" title="人氣者">${animal.rarity === 5 ? '👑' : '🌟'}</div>`
+        ? `<div class="dex-signature-mark" title="人氣者">👑</div>`
         : '';
+      item.className += animal.signatureKey ? ' signature' : '';
       item.innerHTML =
         `<div class="dex-thumb" data-id="${animal.id}">${thumbSvg}${sigMark}</div>` +
         `<button class="dex-oshi-btn ${isOshi ? 'active' : ''}" data-id="${animal.id}" type="button" title="推しにする">${isOshi ? '💖' : '🤍'}</button>` +
         `<div class="dex-name" data-id="${animal.id}">${animal.name}</div>` +
-        `<div class="dex-rarity">${'★'.repeat(animal.rarity)}${'☆'.repeat(5 - animal.rarity)}</div>`;
+        `<div class="dex-rarity">${formatRarityLabel(animal.rarity, animal.signatureKey)}</div>`;
       grid.appendChild(item);
     });
   }
@@ -9957,17 +9973,16 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('oshiDetailThumb').innerHTML = svg;
     document.getElementById('oshiDetailName').textContent = animal.name;
     document.getElementById('oshiDetailRarity').textContent =
-      'レア度：' + '★'.repeat(animal.rarity) + '☆'.repeat(5 - animal.rarity);
+      formatRarityLabel(animal.rarity, animal.signatureKey, 'レア度：');
     // 既存データに古い形式（せいかく・すきなもの未保存）が残っている場合も落ちないようにする
     document.getElementById('oshiDetailPersonality').textContent = animal.personality || '-';
     document.getElementById('oshiDetailFavorite').textContent = animal.favorite || '-';
 
-    // 🌟 人氣者13体のどれかであれば、専用マークを表示する
+    // 🌟 人氣者13体のどれかであれば、専用マークを表示する（13体は全員★5に統一済み）
     const sigBadgePopup = document.getElementById('oshiDetailSignatureBadge');
     if (animal.signatureKey){
-      const isRareSignature = animal.rarity === 5;
-      sigBadgePopup.textContent = isRareSignature ? '👑 レア人氣者' : '🌟 人氣者';
-      sigBadgePopup.className = 'animal-signature-badge ' + (isRareSignature ? 'rare' : 'common');
+      sigBadgePopup.textContent = '👑 人氣者';
+      sigBadgePopup.className = 'animal-signature-badge rare';
       sigBadgePopup.style.display = 'inline-block';
     } else {
       sigBadgePopup.style.display = 'none';
@@ -10075,7 +10090,7 @@ window.fqtConfirm = function(message, onConfirm){
       const rarity = animalInfo.rarity || 1;
       ctx.font = '700 34px "Noto Sans JP", "Hiragino Sans", sans-serif';
       ctx.fillStyle = '#ffb703';
-      ctx.fillText('レア度：' + '★'.repeat(rarity) + '☆'.repeat(5 - rarity), W / 2, y);
+      ctx.fillText(formatRarityLabel(rarity, animalInfo.signatureKey, 'レア度：'), W / 2, y);
 
       // せいかく・すきなもの（2つの情報ボックス）
       y += 50;
