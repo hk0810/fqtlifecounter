@@ -274,6 +274,20 @@
     font-weight: 900;
     color: var(--blue);
   }
+  .other-birth-mini-btn{
+    display: block;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: none;
+    border: none;
+    padding: 6px 0 0;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
   .field-note{
     font-size: 11px;
     color: var(--text-sub);
@@ -1109,6 +1123,10 @@
     background: #ffffff;
     box-shadow: 0 0 0 3px #ffd873;
   }
+  .diag-animal-card{
+    text-align: center;
+    margin-bottom: 14px;
+  }
   .diag-animal-thumb svg{ width: 100%; height: 100%; display: block; }
   .diag-animal-name{
     font-size: 19px;
@@ -1601,6 +1619,18 @@
     border-radius: 999px;
     padding: 10px 16px;
     margin-bottom: 10px;
+    box-sizing: border-box;
+  }
+  .other-birth-input{
+    width: 100%;
+    font-family: inherit;
+    font-size: 14px;
+    color: var(--text-main);
+    background: var(--blue-pale);
+    border: 1.5px solid transparent;
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 4px 0 12px;
     box-sizing: border-box;
   }
   .dex-search-input:focus{
@@ -4116,6 +4146,245 @@
   </div>
 </div>
 
+<!-- ② ターゲット日数 説明モーダル -->
+<div class="dex-modal-overlay" id="targetDaysInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="targetDaysInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎯 ターゲット日数ってなに？</p>
+
+    <p class="bio-info-text">
+      「地球に来て何日目か」を数えるこのアプリでは、その数字に向かって<strong>もう1つの目印</strong>を立てることができます。それが「ターゲット日数」です。<strong>あなた自身が決める、地球滞在日数のゴール</strong>のようなものです。
+    </p>
+
+    <p class="bio-info-text">
+      ターゲット日数を設定すると、その日までの<strong>残り日数</strong>と<strong>進捗バー</strong>が表示され、「あと何日でその日を迎えるか」が一目で分かるようになります。誕生日から自動で計算される「人生の節目」とは別に、<strong>あなただけが決めた特別なゴール</strong>として楽しめます。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🔢</span>
+        <span class="bio-info-cycle-name">ゾロ目の日数（11111日、33333日など）</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">🎂</span>
+        <span class="bio-info-cycle-name">キリのいい日数（10000日、20000日など）</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">💭</span>
+        <span class="bio-info-cycle-name">思い出の日数（結婚した日・大切な人と出会った日 など、地球到着日からの日数を逆算して）</span>
+      </div>
+    </div>
+
+    <p class="bio-info-note">
+      ※ 入力すると次回以降も記憶されます。何を入れればいいか迷ったら、候補ボタンから選ぶこともできます。
+    </p>
+  </div>
+</div>
+
+<!-- 🔍 他の人の生年月日で占うモーダル -->
+<div class="dex-modal-overlay" id="otherBirthModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="otherBirthModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🔍 他の人の生年月日で占う</p>
+    <p class="badge-modal-note">
+      ご家族やご友人など、あなた以外の方の生年月日で占った結果を見られます。<br>
+      ※ ここで入力した生年月日は保存されません。図鑑やバッジ、実績などのあなた自身の記録には一切影響しません。
+    </p>
+
+    <input type="date" id="otherBirthInput" class="other-birth-input">
+    <button class="diag-share-btn" id="otherBirthCalcBtn" type="button">🔮　占う</button>
+
+    <div id="otherBirthResult" style="display:none;">
+      <hr class="divider">
+      <div class="fortune-list">
+        <div class="fortune-row">
+          <div class="ic">🔢</div>
+          <div class="fortune-text">
+            <div class="label">数秘術</div>
+            <div class="value" id="otherFortuneNumerology">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">⭐</div>
+          <div class="fortune-text">
+            <div class="label">九星氣学</div>
+            <div class="value" id="otherFortuneNineStar">-</div>
+            <div class="sub" id="otherFortuneNineStarSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🐉</div>
+          <div class="fortune-text">
+            <div class="label">干支・六十干支</div>
+            <div class="value" id="otherFortuneKanshi">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌸</div>
+          <div class="fortune-text">
+            <div class="label">誕生花</div>
+            <div class="value" id="otherFortuneFlower">-</div>
+            <div class="sub" id="otherFortuneFlowerSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">💎</div>
+          <div class="fortune-text">
+            <div class="label">誕生石</div>
+            <div class="value" id="otherFortuneStone">-</div>
+            <div class="sub" id="otherFortuneStoneSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌳</div>
+          <div class="fortune-text">
+            <div class="label">誕生木</div>
+            <div class="value" id="otherFortuneTree">-</div>
+            <div class="sub" id="otherFortuneTreeSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌕</div>
+          <div class="fortune-text">
+            <div class="label">生まれた日の月相</div>
+            <div class="value" id="otherFortuneBirthMoon">-</div>
+            <div class="sub" id="otherFortuneBirthMoonSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌈</div>
+          <div class="fortune-text">
+            <div class="label">誕生色</div>
+            <div class="value">
+              <span class="color-swatch" id="otherFortuneColorSwatch"></span>
+              <span id="otherFortuneColor">-</span>
+            </div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌌</div>
+          <div class="fortune-text">
+            <div class="label">FQT 宇宙占い</div>
+            <div class="value" id="otherFortuneCosmicType">-</div>
+            <div class="sub" id="otherFortuneCosmicSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🗿</div>
+          <div class="fortune-text">
+            <div class="label">マヤ暦占い</div>
+            <div class="value" id="otherFortuneMayaKinLine">-</div>
+            <div class="value" id="otherFortuneMayaSeal">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🌟</div>
+          <div class="fortune-text">
+            <div class="label">生まれた曜日のエネルギー</div>
+            <div class="value" id="otherFortuneWeekday">-</div>
+            <div class="sub" id="otherFortuneWeekdaySub">-</div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <p class="badge-list-title">🐾 FQT宇宙どうぶつ診断</p>
+      <div class="diag-animal-card" id="otherDiagAnimalCard">
+        <div class="diag-animal-thumb" id="otherDiagAnimalThumb"></div>
+        <p class="diag-animal-name" id="otherDiagAnimalName">-</p>
+        <p class="diag-animal-quote" id="otherDiagAnimalPersonality">-</p>
+      </div>
+      <div class="diag-row">
+        <div class="diag-row-icon">🌍</div>
+        <div class="diag-row-text">
+          <p class="diag-row-label">地球人意識：<span id="otherDiagEarthType">-</span></p>
+          <p class="diag-row-desc" id="otherDiagEarthDesc">-</p>
+        </div>
+      </div>
+      <div class="diag-row">
+        <div class="diag-row-icon">🚀</div>
+        <div class="diag-row-text">
+          <p class="diag-row-label">宇宙意識：<span id="otherDiagSpaceType">-</span></p>
+          <p class="diag-row-desc" id="otherDiagSpaceDesc">-</p>
+        </div>
+      </div>
+      <div class="diag-row">
+        <div class="diag-row-icon">💎</div>
+        <div class="diag-row-text">
+          <p class="diag-row-label">あなたの才能：<span id="otherDiagTalentType">-</span></p>
+          <p class="diag-row-desc" id="otherDiagTalentDesc">-</p>
+        </div>
+      </div>
+      <div class="diag-row">
+        <div class="diag-row-icon">🌱</div>
+        <div class="diag-row-text">
+          <p class="diag-row-label">今世のテーマ：<span id="otherDiagThemeType">-</span></p>
+          <p class="diag-row-desc" id="otherDiagThemeDesc">-</p>
+        </div>
+      </div>
+
+      <hr class="divider">
+      <p class="badge-list-title">📅 今日この人はどんな日か</p>
+      <p class="revival-desc">※ ここから下は「今日という日付」を組み合わせた、日替わりで変わる項目です。</p>
+      <div class="fortune-list">
+        <div class="fortune-row">
+          <div class="ic">✨</div>
+          <div class="fortune-text">
+            <div class="label">今日の運勢</div>
+            <div class="value" id="otherFortuneRank">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🔗</div>
+          <div class="fortune-text">
+            <div class="label">パーソナルナンバー</div>
+            <div class="value" id="otherFortuneDailyNumber">-</div>
+            <div class="sub" id="otherFortuneDailyNumberSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🔢</div>
+          <div class="fortune-text">
+            <div class="label">個人年運（今年）</div>
+            <div class="value" id="otherFortunePersonalYear">-</div>
+            <div class="sub" id="otherFortunePersonalYearSub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">📈</div>
+          <div class="fortune-text">
+            <div class="label">バイオリズム</div>
+            <div class="value" id="otherFortuneBio">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">💰</div>
+          <div class="fortune-text">
+            <div class="label">今日の金運</div>
+            <div class="value" id="otherFortuneMoney">-</div>
+            <div class="sub" id="otherFortuneMoneySub">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🧭</div>
+          <div class="fortune-text">
+            <div class="label">今日の吉方位</div>
+            <div class="value" id="otherFortuneDirection">-</div>
+          </div>
+        </div>
+        <div class="fortune-row">
+          <div class="ic">🎴</div>
+          <div class="fortune-text">
+            <div class="label">今日の一枚タロット</div>
+            <div class="value" id="otherFortuneTarot">-</div>
+            <div class="sub" id="otherFortuneTarotSub">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <!-- 🔗 誕生日×今日のパーソナルナンバー 説明モーダル -->
 <div class="dex-modal-overlay" id="personalNumberInfoModalOverlay">
   <div class="dex-modal">
@@ -4716,8 +4985,9 @@
   <!-- 入力カード -->
   <div class="card">
     <div class="field">
-      <label for="birthdate" class="birthdate-label">① 生年月日を入力</label>
+      <label for="birthdate" class="birthdate-label">① あなたの生年月日を入力</label>
       <input type="date" id="birthdate" required>
+      <button class="other-birth-mini-btn" id="otherBirthOpenBtn" type="button">🔍 他の人の生年月日で占う</button>
     </div>
 
     <div class="field">
@@ -4727,7 +4997,7 @@
     </div>
 
     <div class="field">
-      <label for="targetDays">② ターゲット日数</label>
+      <label for="targetDays">② ターゲット日数　<button class="bio-info-btn" id="targetDaysInfoBtn" type="button" aria-label="ターゲット日数とは">？</button></label>
       <input type="number" id="targetDays" min="1" step="1" value="33333" required>
 
       <!-- ターゲット日数候補ボタン -->
@@ -4740,7 +5010,7 @@
     </div>
 
     <div class="field" style="margin-top: 22px;">
-      <button class="calc-btn" id="calcBtn">計算する</button>
+      <button class="calc-btn" id="calcBtn">計算する（占う）</button>
     </div>
 
     <!-- エラーメッセージ -->
@@ -7391,7 +7661,7 @@ document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
 });
 
 // 🎥 おすすめ動画モーダルの開閉（YouTube公式のiframe埋め込みを使用）
-const RECOMMENDED_VIDEO_IDS = ['6BgOM9VPtYQ'];
+const RECOMMENDED_VIDEO_IDS = ['6BgOM9VPtYQ', 'dkGP0uKQdvQ'];
 document.getElementById('videoOpenBtn').addEventListener('click', () => {
   const videoId = RECOMMENDED_VIDEO_IDS[Math.floor(Math.random() * RECOMMENDED_VIDEO_IDS.length)];
   document.getElementById('videoEmbedWrap').innerHTML =
@@ -7647,6 +7917,163 @@ document.getElementById('heartbeatInfoModalOverlay').addEventListener('click', (
   if (e.target === document.getElementById('heartbeatInfoModalOverlay')){
     document.getElementById('heartbeatInfoModalOverlay').classList.remove('show');
   }
+});
+
+document.getElementById('targetDaysInfoBtn').addEventListener('click', () => {
+  document.getElementById('targetDaysInfoModalOverlay').classList.add('show');
+});
+document.getElementById('targetDaysInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('targetDaysInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('targetDaysInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('targetDaysInfoModalOverlay')){
+    document.getElementById('targetDaysInfoModalOverlay').classList.remove('show');
+  }
+});
+
+/* ==========================================================
+   🔍 他の人の生年月日で占う（追加実装のみ・既存機能には触れない）
+   ・既存の「生年月日だけで決まる」占い計算関数をそのまま再利用する
+   ・localStorageには一切書き込まない（保存・図鑑・バッジ・実績に影響しない、完全に読み取り専用の機能）
+   ========================================================== */
+document.getElementById('otherBirthOpenBtn').addEventListener('click', () => {
+  document.getElementById('otherBirthInput').value = '';
+  document.getElementById('otherBirthResult').style.display = 'none';
+  document.getElementById('otherBirthModalOverlay').classList.add('show');
+});
+document.getElementById('otherBirthModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('otherBirthModalOverlay').classList.remove('show');
+});
+document.getElementById('otherBirthModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('otherBirthModalOverlay')){
+    document.getElementById('otherBirthModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('otherBirthCalcBtn').addEventListener('click', () => {
+  const value = document.getElementById('otherBirthInput').value;
+  if (!value) return;
+  const birth = new Date(value + 'T00:00:00');
+  const month = birth.getMonth() + 1;
+  const WEEKDAY_NAMES_OTHER = ['日', '月', '火', '水', '木', '金', '土'];
+
+  // 数秘術
+  const lifePath = calcLifePathNumber(birth);
+  document.getElementById('otherFortuneNumerology').textContent =
+    `${lifePath} — ${NUMEROLOGY_MEANINGS[lifePath]}`;
+
+  // 九星氣学
+  const star = calcNineStar(birth);
+  document.getElementById('otherFortuneNineStar').textContent = NINE_STAR_NAMES[star];
+  document.getElementById('otherFortuneNineStarSub').textContent = NINE_STAR_TRAITS[star];
+
+  // 干支・六十干支
+  const kanshi = calcKanshi(birth);
+  document.getElementById('otherFortuneKanshi').textContent = `${kanshi.kanshi}（${kanshi.animalLabel}）`;
+
+  // 誕生花・誕生石
+  const flower = MONTH_FLOWERS[month];
+  document.getElementById('otherFortuneFlower').textContent = flower.name;
+  document.getElementById('otherFortuneFlowerSub').textContent = `花言葉：${flower.meaning}`;
+  const stone = MONTH_STONES[month];
+  document.getElementById('otherFortuneStone').textContent = stone.name;
+  document.getElementById('otherFortuneStoneSub').textContent = stone.meaning;
+
+  // 誕生木
+  const tree = calcBirthTree(birth);
+  document.getElementById('otherFortuneTree').textContent = tree.name;
+  document.getElementById('otherFortuneTreeSub').textContent = `キーワード：${tree.keyword}`;
+
+  // 生まれた日の月相
+  const birthMoon = calcBirthMoonPhase(birth);
+  document.getElementById('otherFortuneBirthMoon').textContent = birthMoon.name;
+  document.getElementById('otherFortuneBirthMoonSub').textContent = birthMoon.message;
+
+  // 誕生色
+  const birthColor = calcBirthColor(birth);
+  document.getElementById('otherFortuneColorSwatch').style.background = birthColor.hex;
+  document.getElementById('otherFortuneColor').textContent = birthColor.name;
+
+  // FQT宇宙占い
+  const cosmic = calcCosmicType(birth);
+  document.getElementById('otherFortuneCosmicType').textContent = cosmic.name;
+  document.getElementById('otherFortuneCosmicSub').textContent = cosmic.desc;
+
+  // マヤ暦占い
+  const maya = calcMayaKin(birth);
+  document.getElementById('otherFortuneMayaKinLine').innerHTML =
+    `KIN${maya.kin}` + (isBlackKin(maya.kin) ? ' <span class="black-kin-badge">⚫黒KIN</span>' : '');
+  document.getElementById('otherFortuneMayaSeal').innerHTML =
+    `銀河の音：${maya.tone.name}<br>太陽の紋章：${maya.seal.name}<br>ウェイブスペル：${maya.wavespell.name}<br>銀河の署名：「${maya.galacticSignature}」`;
+
+  // 生まれた曜日のエネルギー
+  const weekdayEnergy = calcWeekdayEnergy(birth);
+  document.getElementById('otherFortuneWeekday').textContent =
+    `${weekdayEnergy.name}の${WEEKDAY_NAMES_OTHER[birth.getDay()]}曜日`;
+  document.getElementById('otherFortuneWeekdaySub').textContent = weekdayEnergy.desc;
+
+  // 🐾 FQT宇宙どうぶつ診断（生年月日だけで決まる純粋な計算。既存のdiagCardと同じロジックを再利用）
+  if (Array.isArray(window.__fqtSignatureCreatures) && window.__fqtSignatureCreatures.length === 13
+      && window.__fqtCalcSpaceAnimalNumber && window.__fqtTalents){
+    const creatures = window.__fqtSignatureCreatures;
+    const animalNumber = window.__fqtCalcSpaceAnimalNumber(birth);
+    const creature = creatures[animalNumber - 1];
+    const earth = window.__fqtCalcEarthConsciousness(birth);
+    const space = window.__fqtCalcSpaceConsciousness(birth);
+    const theme = window.__fqtCalcLifeTheme(birth);
+    const talent = window.__fqtTalents[creature.key];
+
+    const svg = window.__fqtBuildAnimalSVG ? window.__fqtBuildAnimalSVG(creature.parts, 'otherDiag' + creature.key) : '';
+    document.getElementById('otherDiagAnimalThumb').innerHTML = svg;
+    document.getElementById('otherDiagAnimalName').textContent = creature.name;
+    document.getElementById('otherDiagAnimalPersonality').textContent = `「${creature.quote}」`;
+    document.getElementById('otherDiagEarthType').textContent = earth.name;
+    document.getElementById('otherDiagEarthDesc').textContent = earth.desc;
+    document.getElementById('otherDiagSpaceType').textContent = space.name;
+    document.getElementById('otherDiagSpaceDesc').textContent = space.desc;
+    document.getElementById('otherDiagTalentType').textContent = talent.name;
+    document.getElementById('otherDiagTalentDesc').textContent = talent.desc;
+    document.getElementById('otherDiagThemeType').textContent = theme.name;
+    document.getElementById('otherDiagThemeDesc').textContent = theme.desc;
+  }
+
+  // 📅 今日という日付を組み合わせた項目（今日この人が迎える運勢）
+  const todayForOther = new Date();
+
+  // パーソナルナンバー
+  const otherDaily = calcDailyPersonalNumber(birth, todayForOther);
+  document.getElementById('otherFortuneDailyNumber').textContent = `${otherDaily.number}`;
+  document.getElementById('otherFortuneDailyNumberSub').textContent = otherDaily.message;
+
+  // 個人年運
+  const otherPersonalYear = calcPersonalYear(birth, todayForOther);
+  document.getElementById('otherFortunePersonalYear').textContent = otherPersonalYear.name;
+  document.getElementById('otherFortunePersonalYearSub').textContent = otherPersonalYear.desc;
+
+  // バイオリズム
+  const otherBio = calcBiorhythm(birth, todayForOther);
+  document.getElementById('otherFortuneBio').textContent =
+    `身体：${biorhythmLabel(otherBio.physical)}／感情：${biorhythmLabel(otherBio.emotional)}／知性：${biorhythmLabel(otherBio.intellectual)}`;
+
+  // 今日の金運
+  const otherMoney = calcMoneyLuck(birth, todayForOther);
+  document.getElementById('otherFortuneMoney').textContent = otherMoney.rank;
+  document.getElementById('otherFortuneMoneySub').textContent = otherMoney.message;
+
+  // 今日の吉方位
+  const otherDirection = calcLuckyDirection(birth, todayForOther);
+  document.getElementById('otherFortuneDirection').textContent = otherDirection.direction;
+
+  // 今日の一枚タロット
+  const otherTarot = calcTarotCard(birth, todayForOther);
+  document.getElementById('otherFortuneTarot').textContent = otherTarot.name + (otherTarot.isReversed ? '（逆位置）' : '');
+  document.getElementById('otherFortuneTarotSub').textContent = otherTarot.meaning;
+
+  // ✨ 今日の運勢（5要素の合成ランク）
+  const otherCombinedRank = calcCombinedRank(otherMoney.seed, otherDirection.seed, otherTarot.seed, otherBio);
+  document.getElementById('otherFortuneRank').textContent = otherCombinedRank;
+
+  document.getElementById('otherBirthResult').style.display = 'block';
 });
 
 document.getElementById('personalNumberInfoBtn').addEventListener('click', () => {
@@ -13526,6 +13953,13 @@ window.fqtConfirm = function(message, onConfirm){
     const key = (m * d) % 8;
     return LIFE_THEME[key];
   }
+
+  // 「他の人の生年月日で占う」機能から再利用できるよう、計算関数と才能データを公開する
+  window.__fqtCalcSpaceAnimalNumber = calcSpaceAnimalNumber;
+  window.__fqtCalcEarthConsciousness = calcEarthConsciousness;
+  window.__fqtCalcSpaceConsciousness = calcSpaceConsciousness;
+  window.__fqtCalcLifeTheme = calcLifeTheme;
+  window.__fqtTalents = TALENTS;
 
   // 相性：宇宙番号同士の円環距離（1〜13の円環で最短距離）から★を決める
   function distanceStars(distance){
