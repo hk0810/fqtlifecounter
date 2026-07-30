@@ -4243,7 +4243,7 @@
       生年月日を数値化した「宇宙番号」（1〜13）を算出し、その番号に対応する1体が、あなたの「宇宙どうぶつ（本質）」として選ばれます。
     </p>
 
-    <p class="bio-info-text"><strong>★2　人氣者（10体）</strong></p>
+    <p class="bio-info-text"><strong>★5　レア人氣者（13体）</strong></p>
     <div class="bio-info-cycle-list">
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌙 ムーンモチ — のんびり屋・癒しの達人</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☀️ サンサンぽこ — よく笑う・太陽氣質</span></div>
@@ -4255,10 +4255,6 @@
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌿 みんとる — 几帳面・誠実派</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☁️ ぽふぽふ — 甘党・安らぎを届ける人</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🍪 パクパクン — 食いしん坊・ワクワクを届ける人</span></div>
-    </div>
-
-    <p class="bio-info-text" style="margin-top:14px;"><strong>★5　レア人氣者（3体）</strong></p>
-    <div class="bio-info-cycle-list">
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">☄️ コスモドリーマー — ロマンチスト・未来を信じる人</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🎨 ギャラクシーアーティスト — 芸術家肌・感性豊か</span></div>
       <div class="bio-info-cycle-row"><span class="bio-info-cycle-name">🌟 レジェンドスター — 博愛・包容力のあるリーダー</span></div>
@@ -9078,12 +9074,12 @@ window.fqtConfirm = function(message, onConfirm){
   /* ==========================================================
      🌟 人氣者の宇宙どうぶつ（固定デザイン・出現率アップ）
      ・ピカチュウのように「よく見かける、覚えやすい」看板キャラクターを
-       あえて13体（人氣者10体＋レア人氣者3体）用意する
+       あえて13体（全員★5 レア人氣者として統一）用意する
      ・パーツ構成を固定することで、毎回同じ見た目・同じ名前で登場する
      ・通常のランダム生成とは別枠で、一定確率で優先的に出現させる
      ========================================================== */
   const SIGNATURE_CREATURES = [
-    // ----- 人氣者10体（★2固定・出現率アップ） -----
+    // ----- 人氣者13体（全員★5固定・出現率は13体まとめて15%） -----
     // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
     { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
       rarity: 5, name: 'ムーンモチ', personality: 'のんびり屋・癒しの達人', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
@@ -9106,7 +9102,7 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
       rarity: 5, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける人', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
 
-    // ----- レア人氣者3体（★5固定・出現率は控えめ） -----
+    // ----- 人氣者13体のうち、残り3体（元々の設計時の名残） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
       rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト・未来を信じる人', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
