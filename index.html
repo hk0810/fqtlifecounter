@@ -1501,6 +1501,12 @@
     font-weight: 800;
     color: var(--text-main);
   }
+  .animal-quote-heading{
+    font-size: 12px;
+    font-weight: 900;
+    color: #e5383b;
+    margin: 0 0 6px;
+  }
   .animal-quote{
     font-size: 13px;
     color: var(--blue-dark);
@@ -4153,11 +4159,11 @@
     <p class="badge-modal-title">🎯 ターゲット日数ってなに？</p>
 
     <p class="bio-info-text">
-      「地球に来て何日目か」を数えるこのアプリでは、その数字に向かって<strong>もう1つの目印</strong>を立てることができます。それが「ターゲット日数」です。<strong>あなた自身が決める、地球滞在日数のゴール</strong>のようなものです。
+      「地球に来て何日目か」を数えるこのアプリでは、その数字に向かって<strong>もう1つの目印</strong>を立てることができます。それが「ターゲット日数」です。<strong>あなた自身が決める、地球滞在日数のマイルストーン</strong>のようなものです。
     </p>
 
     <p class="bio-info-text">
-      ターゲット日数を設定すると、その日までの<strong>残り日数</strong>と<strong>進捗バー</strong>が表示され、「あと何日でその日を迎えるか」が一目で分かるようになります。誕生日から自動で計算される「人生の節目」とは別に、<strong>あなただけが決めた特別なゴール</strong>として楽しめます。
+      ターゲット日数を設定すると、その日までの<strong>残り日数</strong>と<strong>進捗バー</strong>が表示され、「あと何日でその日を迎えるか」が一目で分かるようになります。誕生日から自動で計算される「人生の節目」とは別に、<strong>あなただけが決めた特別なマイルストーン</strong>として楽しめます。
     </p>
 
     <div class="bio-info-cycle-list">
@@ -4177,6 +4183,41 @@
 
     <p class="bio-info-note">
       ※ 入力すると次回以降も記憶されます。何を入れればいいか迷ったら、候補ボタンから選ぶこともできます。
+    </p>
+  </div>
+</div>
+
+<!-- 🎯 次に訪れる人生の節目 説明モーダル -->
+<div class="dex-modal-overlay" id="milestoneInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="milestoneInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🎯 次に訪れる人生の節目ってなに？</p>
+
+    <p class="bio-info-text">
+      このアプリでは、<strong>13日・68日・100日・1,000日・10,000日</strong>など、あらかじめ用意した<strong>全68個の「地球滞在日数」</strong>を、人生の節目として位置づけています。ここに表示されている数字は、その68個の中から<strong>「あなたが次に迎える節目」</strong>を1つだけ選んで表示したものです。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">1️⃣</span>
+        <span class="bio-info-cycle-name">68個の節目の中から、あなたの今の日数より先にあるものを探す</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">2️⃣</span>
+        <span class="bio-info-cycle-name">その中で、一番近い（最初に訪れる）節目を1つ選ぶ</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">3️⃣</span>
+        <span class="bio-info-cycle-name">その日までの残り日数を、毎日カウントダウンして表示する</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      例えば「🎯 20,100日 あと22日」と表示されていたら、<strong>「地球滞在20,100日目」という節目まで、あと22日</strong>という意味です。この日を迎えると、フルスクリーンのお祝い演出や、記念バッジがもらえます。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 節目の数字は、11,111や33,333のようなゾロ目、10,000のようなキリのいい数字などを中心に、あらかじめアプリ側で用意しています（あなた自身で自由に決められる「②ターゲット日数」とは別の仕組みです）。
     </p>
   </div>
 </div>
@@ -5005,7 +5046,7 @@
     </div>
 
     <div class="field">
-      <label for="anniversaryDate">③ 記念日（任意）</label>
+      <label for="anniversaryDate">③ 楽しみにしているイベントの日（任意）</label>
       <input type="date" id="anniversaryDate">
     </div>
 
@@ -5110,6 +5151,7 @@
         <div class="animal-info-value" id="animalFavorite">-</div>
       </div>
     </div>
+    <p class="animal-quote-heading">出会った宇宙どうぶつからのメッセージ</p>
     <p class="animal-quote" id="animalQuote">-</p>
     <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
     <button class="oshi-detail-share-btn" id="animalShareBtn" type="button">📤　SNSでシェア</button>
@@ -5210,7 +5252,7 @@
 
   <!-- 次の人生の節目カード -->
   <div class="card" id="milestoneCard" style="display:none;">
-    <p class="section-title">🎯 次に訪れる人生の節目</p>
+    <p class="section-title">🎯 次に訪れる人生の節目　<button class="bio-info-btn" id="milestoneInfoBtn" type="button" aria-label="次に訪れる人生の節目とは">？</button></p>
     <div class="milestone-card">
       <div class="emoji" id="milestoneEmoji">🎉</div>
       <div class="m-text">
@@ -5236,7 +5278,7 @@
 
   <!-- 記念日カウントダウンカード -->
   <div class="card" id="anniversaryCard" style="display:none;">
-    <p class="section-title">📅 記念日まで</p>
+    <p class="section-title">📅 イベントまで</p>
     <div class="milestone-card">
       <div class="emoji">🎁</div>
       <div class="m-text">
@@ -6296,7 +6338,7 @@ function renderAnniversary(today){
   if (daysUntil > 0){
     mainEl.innerHTML = `あと <span class="m-accent">${daysUntil.toLocaleString('ja-JP')}</span> 日`;
   } else if (daysUntil === 0){
-    mainEl.innerHTML = `<span class="m-accent">今日</span>が記念日です`;
+    mainEl.innerHTML = `<span class="m-accent">今日</span>がその日です`;
   } else {
     mainEl.innerHTML = `<span class="m-accent">${Math.abs(daysUntil).toLocaleString('ja-JP')}</span> 日前でした`;
   }
@@ -7928,6 +7970,18 @@ document.getElementById('targetDaysInfoModalCloseBtn').addEventListener('click',
 document.getElementById('targetDaysInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('targetDaysInfoModalOverlay')){
     document.getElementById('targetDaysInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('milestoneInfoBtn').addEventListener('click', () => {
+  document.getElementById('milestoneInfoModalOverlay').classList.add('show');
+});
+document.getElementById('milestoneInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('milestoneInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('milestoneInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('milestoneInfoModalOverlay')){
+    document.getElementById('milestoneInfoModalOverlay').classList.remove('show');
   }
 });
 
