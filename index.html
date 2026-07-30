@@ -1046,7 +1046,11 @@
     box-shadow: 0 0 0 2px #ffd873;
   }
   .other-star-thumb svg{ width: 100%; height: 100%; display: block; }
-  .other-star-text{ text-align: left; }
+  .other-star-text{
+    text-align: left;
+    flex: 1 1 0%;
+    min-width: 0;
+  }
   .other-star-label{
     font-size: 13.5px;
     font-weight: 900;
@@ -1813,6 +1817,26 @@
     font-weight: 700;
     color: #dbe9ff;
     margin: 0;
+  }
+  .moon-countdown-box{
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    flex-wrap: wrap;
+    background: rgba(184, 212, 240, 0.10);
+    border: 1px solid rgba(184, 212, 240, 0.25);
+    border-radius: 12px;
+    padding: 10px 14px;
+    margin: 0 0 18px;
+  }
+  .moon-countdown-item{
+    font-size: 11.5px;
+    font-weight: 700;
+    color: #dbe9ff;
+  }
+  .moon-countdown-item strong{
+    color: #ffd873;
+    font-weight: 900;
   }
 
   /* ----- 💫 エンジェルナンバーの日 ----- */
@@ -2859,6 +2883,17 @@
        あえてdisplay:flexを使わず、通常のブロック要素として自然に折り返させる。
        誕生色のように複数の子要素（色見本＋テキスト）を持つ場合は、
        .color-swatch側をinline-block+vertical-alignで横並びにする */
+  }
+  .black-kin-badge{
+    display: inline-block;
+    font-size: 11px;
+    font-weight: 800;
+    color: #ffffff;
+    background: linear-gradient(135deg, #4a4a5a, #1a1a2a);
+    border-radius: 999px;
+    padding: 2px 10px;
+    margin-left: 4px;
+    vertical-align: middle;
   }
   .fortune-row .value.maya-signature{
     font-size: 13px;
@@ -4050,6 +4085,37 @@
   </div>
 </div>
 
+<!-- 🫀 心臓の鼓動回数 説明モーダル -->
+<div class="dex-modal-overlay" id="heartbeatInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="heartbeatInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🫀 心臓の鼓動回数ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      あなたが生まれてから今この瞬間まで、あなたの心臓はずっと休まず動き続けてきました。この数字は、<strong>生きてきた秒数</strong>と、<strong>成人の安静時の平均心拍数（1分間に約70回）</strong>を掛け合わせて算出した、大まかな目安です。
+    </p>
+
+    <div class="bio-info-cycle-list">
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">1️⃣</span>
+        <span class="bio-info-cycle-name">生まれてから経過した秒数を計算する</span>
+      </div>
+      <div class="bio-info-cycle-row">
+        <span class="bio-info-cycle-emoji">2️⃣</span>
+        <span class="bio-info-cycle-name">1分間に約70回という、成人の平均的な心拍数を掛け合わせる</span>
+      </div>
+    </div>
+
+    <p class="bio-info-text">
+      実際の心拍数は、年齢・体調・運動している時か眠っている時かなどによって、1分間に約60〜100回程度まで変動します。この数字はあくまで「平均的な目安」として、これまでの人生で心臓が働き続けてきた大きさを実感するための、ひとつの物差しとしてお楽しみください。
+    </p>
+
+    <p class="bio-info-note">
+      ※ 医学的に正確な心拍数を測定するものではありません。実際の健康状態については、医師や専門家にご相談ください。
+    </p>
+  </div>
+</div>
+
 <!-- 🔗 誕生日×今日のパーソナルナンバー 説明モーダル -->
 <div class="dex-modal-overlay" id="personalNumberInfoModalOverlay">
   <div class="dex-modal">
@@ -4306,6 +4372,18 @@
         </ul>
       </div>
 
+      <div class="version-history-item">
+        <p class="version-history-date">v18.0　占いロジック解説の拡充・細かな不具合修正</p>
+        <ul class="version-history-notes">
+          <li>「🔗誕生日×今日のパーソナルナンバー」に「？」の解説ポップアップを新規実装</li>
+          <li>「✨あなたの今日の運勢」に「？」の解説ポップアップを新規実装（5要素の合成方法、山型の分布になる理由を説明）</li>
+          <li>おみくじの「凶・大凶」に触れる一文を追加し、含みを持たせた表現に調整</li>
+          <li>チュートリアルの文言を一部調整（「消えちゃう」への変更、「。」がない文には「！」を追加）</li>
+          <li>句読点だけが行頭に孤立する表示崩れを、複数箇所で個別に修正</li>
+          <li>節目履歴の日付が、生年月日変更後も正しく再計算されるよう修正</li>
+        </ul>
+      </div>
+
     </div>
 
   </div>
@@ -4422,7 +4500,7 @@
     <p class="faq-category">⚠️ 不具合・表示がおかしい時</p>
     <div class="faq-item">
       <p class="faq-q">Q. 画面の下の方が真っ黒になります。</p>
-      <p class="faq-a">A. ホーム画面のアイコンを一度削除し、ブラウザから開き直して再度「ホーム画面に追加」をお試しください。</p>
+      <p class="faq-a">A. 一度リロードしてみてください。改善しない場合は、ブラウザのキャッシュを削除してから開き直してください。ホーム画面に追加している場合は、アイコンを一度削除し、ブラウザから開き直して再度追加をお試しください。</p>
     </div>
 
     <p class="faq-category">💰 その他</p>
@@ -4606,6 +4684,10 @@
   <div class="moon-banner" id="moonBanner" style="display:none;">
     <p class="moon-banner-text" id="moonBannerText">-</p>
   </div>
+  <div class="moon-countdown-box" id="moonCountdownBox" style="display:none;">
+    <span class="moon-countdown-item">🌕 次の満月まで <strong id="moonCountdownFull">-</strong></span>
+    <span class="moon-countdown-item">🌑 次の新月まで <strong id="moonCountdownNew">-</strong></span>
+  </div>
 
   <!-- バッジ機能：あなたの記録サマリーカード -->
   <div class="card badge-summary-card" id="badgeSummaryCard">
@@ -4741,7 +4823,7 @@
     <p class="section-title" id="animalCardTitle">🌌 宇宙どうぶつに出会った！</p>
     <button class="animal-voice-btn" id="animalVoiceBtn" type="button">🔇　鳴き声OFF</button>
     <div class="animal-stage" id="animalStage">
-      <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW!</div>
+      <div class="animal-new-badge" id="animalNewBadge" style="display:none;">✨ NEW！</div>
       <div class="animal-svg-wrap" id="animalSvgWrap"></div>
     </div>
     <div class="animal-rarity" id="animalRarity">-</div>
@@ -4899,32 +4981,40 @@
     <p class="section-title">⏱ 地球時間リアルタイム経過</p>
     <div class="realtime-list">
       <div class="realtime-row">
-        <span class="rt-label">現在の年齢</span>
+        <span class="rt-label">🎂 現在の年齢</span>
         <span class="rt-value" id="rtAge">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過日数</span>
+        <span class="rt-label">📅 経過日数</span>
         <span class="rt-value" id="rtDays">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過月数</span>
+        <span class="rt-label">📆 経過月数</span>
         <span class="rt-value" id="rtMonths">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過週数</span>
+        <span class="rt-label">🌕 見上げてきた満月</span>
+        <span class="rt-value" id="rtFullMoons">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">🗓 経過週数</span>
         <span class="rt-value" id="rtWeeks">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過時間</span>
+        <span class="rt-label">⏰ 経過時間</span>
         <span class="rt-value" id="rtHours">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過分</span>
+        <span class="rt-label">⏱ 経過分</span>
         <span class="rt-value" id="rtMinutes">-</span>
       </div>
       <div class="realtime-row">
-        <span class="rt-label">経過秒</span>
+        <span class="rt-label">⏲ 経過秒</span>
         <span class="rt-value accent" id="rtSeconds">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">🫀 心臓の鼓動回数　<button class="bio-info-btn" id="heartbeatInfoBtn" type="button" aria-label="心臓の鼓動回数とは">？</button></span>
+        <span class="rt-value" id="rtHeartbeats">-</span>
       </div>
     </div>
     <div class="space-distance-box">
@@ -5006,6 +5096,33 @@
           <div class="label">誕生石</div>
           <div class="value" id="fortuneStone">-</div>
           <div class="sub" id="fortuneStoneSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🌳</div>
+        <div class="fortune-text">
+          <div class="label">誕生木</div>
+          <div class="value" id="fortuneTree">-</div>
+          <div class="sub" id="fortuneTreeSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🌕</div>
+        <div class="fortune-text">
+          <div class="label">生まれた日の月相</div>
+          <div class="value" id="fortuneBirthMoon">-</div>
+          <div class="sub" id="fortuneBirthMoonSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🔢</div>
+        <div class="fortune-text">
+          <div class="label">個人年運（パーソナルイヤー・毎年変わります）</div>
+          <div class="value" id="fortunePersonalYear">-</div>
+          <div class="sub" id="fortunePersonalYearSub">-</div>
         </div>
       </div>
 
@@ -5966,6 +6083,13 @@ function updateRealtimeDisplay(){
   document.getElementById('rtAge').textContent = age.toLocaleString('ja-JP') + ' 歳';
   document.getElementById('rtDays').textContent = totalDays.toLocaleString('ja-JP') + ' 日';
   document.getElementById('rtMonths').textContent = totalMonths.toLocaleString('ja-JP') + ' ヶ月';
+  // 🌕 見上げてきた満月の回数：経過日数 ÷ 朔望月（29.530588853日）で算出。
+  // カレンダー月（平均30.44日）より月の満ち欠け周期の方が短いため、経過月数より多い数になる
+  const totalFullMoons = Math.floor(totalDays / 29.530588853);
+  document.getElementById('rtFullMoons').textContent = totalFullMoons.toLocaleString('ja-JP') + ' 回';
+  // 🫀 心臓の鼓動回数：生きてきた秒数 × 平均安静時心拍数（成人の目安である1分間70回として推定）
+  const totalHeartbeats = Math.floor(totalSeconds * (70 / 60));
+  document.getElementById('rtHeartbeats').textContent = totalHeartbeats.toLocaleString('ja-JP') + ' 回';
   document.getElementById('rtWeeks').textContent = totalWeeks.toLocaleString('ja-JP') + ' 週';
   document.getElementById('rtHours').textContent = totalHours.toLocaleString('ja-JP') + ' 時間';
   document.getElementById('rtMinutes').textContent = totalMinutes.toLocaleString('ja-JP') + ' 分';
@@ -6274,6 +6398,20 @@ function calcMayaKin(birth){
   return { kin, seal, tone, wavespell, galacticSignature };
 }
 
+// ----- 黒KIN（Galactic Activation Portal）判定 -----
+// 260あるKINのうち52個が「黒KIN」と呼ばれる特別な日で、ツォルキン表では黒いマスで示される。
+// エネルギーが強く出るとされる日。角KIN（KIN1・20・241・260）もこの52個に含まれる。
+const BLACK_KIN_NUMBERS = [
+  1, 20, 22, 39, 43, 50, 51, 58, 64, 69, 72, 77, 85, 88, 93, 96,
+  106, 107, 108, 109, 110, 111, 112, 113, 114, 115,
+  146, 147, 148, 149, 150, 151, 152, 153, 154, 155,
+  165, 168, 173, 176, 184, 189, 192, 197, 203,
+  210, 211, 218, 222, 239, 241, 260
+];
+function isBlackKin(kin){
+  return BLACK_KIN_NUMBERS.indexOf(kin) !== -1;
+}
+
 // ----- 🌌 FQT 宇宙占い（誕生日から導く、FQTオリジナルの13タイプ） -----
 const COSMIC_TYPES = [
   { emoji: '🌞', name: '恒星タイプ', desc: '周りを照らす光の存在。自然と人を引きつけ、希望や安心感を与えるリーダータイプ。' },
@@ -6356,6 +6494,73 @@ const MONTH_STONES = {
   11: { name: 'トパーズ', meaning: '友情・希望' },
   12: { name: 'ターコイズ', meaning: '成功・繁栄' }
 };
+
+// ----- 🌳 誕生木（ケルトの十三樹占い。1年を28日ずつ13の月に分けた伝統的な暦） -----
+// 各木の開始日（月/日）と、その木が象徴するキーワードのペア
+const CELTIC_TREES = [
+  { startMonth: 12, startDay: 24, name: 'カバの木（Birch）', keyword: '新しい始まり・浄化' },
+  { startMonth: 1,  startDay: 21, name: 'ナナカマド（Rowan）', keyword: '直感・魔除け' },
+  { startMonth: 2,  startDay: 18, name: 'トネリコ（Ash）', keyword: '繋がり・調和' },
+  { startMonth: 3,  startDay: 18, name: 'ハンの木（Alder）', keyword: '勇気・開拓' },
+  { startMonth: 4,  startDay: 15, name: 'ヤナギ（Willow）', keyword: '感受性・癒し' },
+  { startMonth: 5,  startDay: 13, name: 'サンザシ（Hawthorn）', keyword: '希望・浄化' },
+  { startMonth: 6,  startDay: 10, name: 'オーク（Oak）', keyword: '力強さ・安定' },
+  { startMonth: 7,  startDay: 8,  name: 'ヒイラギ（Holly）', keyword: '情熱・守護' },
+  { startMonth: 8,  startDay: 5,  name: 'ハシバミ（Hazel）', keyword: '知恵・洞察' },
+  { startMonth: 9,  startDay: 2,  name: 'ブドウ（Vine）', keyword: '豊かさ・感受性' },
+  { startMonth: 9,  startDay: 30, name: 'キズタ（Ivy）', keyword: '忍耐・絆' },
+  { startMonth: 10, startDay: 28, name: 'アシ（Reed）', keyword: '探究・秘密' },
+  { startMonth: 11, startDay: 25, name: 'ニワトコ（Elder）', keyword: '変容・再生' }
+];
+function calcBirthTree(birth){
+  const month = birth.getMonth() + 1;
+  const day = birth.getDate();
+  // 12/24始まりのカバの木から順に判定していく（年をまたぐカバの木だけ特別扱い）
+  for (let i = CELTIC_TREES.length - 1; i >= 1; i--){
+    const t = CELTIC_TREES[i];
+    if (month > t.startMonth || (month === t.startMonth && day >= t.startDay)){
+      return t;
+    }
+  }
+  // 12/24〜12/31 または 1/1〜1/20 はカバの木
+  return CELTIC_TREES[0];
+}
+
+// ----- 🔢 個人年運（パーソナルイヤー）。数秘術で「今年のテーマ」を表す1〜9の数字 -----
+// 計算式：生まれた月＋生まれた日＋今年の年を、1桁になるまで足し合わせる（数秘術の伝統的な算出方法）
+function digitSum(n){
+  let sum = 0;
+  String(Math.abs(n)).split('').forEach(ch => { sum += Number(ch); });
+  return sum;
+}
+function reduceToSingleDigit(n){
+  while (n > 9){
+    n = digitSum(n);
+  }
+  return n;
+}
+const PERSONAL_YEAR_MEANINGS = {
+  1: { name: '個人年運 1：はじまりの年', desc: '新しいことをスタートさせるのに最適な、種まきの1年。行動力が鍵になります。' },
+  2: { name: '個人年運 2：協力の年', desc: '一人で抱え込まず、人との繋がりを大切にすると物事が進みやすい1年。' },
+  3: { name: '個人年運 3：表現の年', desc: '自分を表現し、楽しむことがテーマの1年。創造性が開花しやすい時期。' },
+  4: { name: '個人年運 4：土台づくりの年', desc: 'コツコツ積み上げる努力が、後々大きな実を結ぶ1年。' },
+  5: { name: '個人年運 5：変化の年', desc: '新しい風が吹き込む、変化と自由がテーマの1年。' },
+  6: { name: '個人年運 6：責任と調和の年', desc: '家庭や人間関係、責任と向き合うことが多くなる1年。' },
+  7: { name: '個人年運 7：内省の年', desc: '静かに自分自身と向き合い、深めていくのに適した1年。' },
+  8: { name: '個人年運 8：達成の年', desc: '努力が結果として表れやすい、豊かさと達成の1年。' },
+  9: { name: '個人年運 9：手放しの年', desc: '一つのサイクルが完結し、不要なものを手放していく1年。' }
+};
+function calcPersonalYear(birth, today){
+  const total = (birth.getMonth() + 1) + birth.getDate() + today.getFullYear();
+  const num = reduceToSingleDigit(total);
+  return { number: num, ...PERSONAL_YEAR_MEANINGS[num] };
+}
+
+// ----- 🌕 生まれた日の月相（既存のMOON_PHASES・calcMoonAgeをそのまま誕生日に適用） -----
+function calcBirthMoonPhase(birth){
+  const age = calcMoonAge(birth);
+  return MOON_PHASES.find(p => age <= p.max);
+}
 
 // ----- 誕生色（本アプリ独自の色パレットから生年月日ベースで算出） -----
 const BIRTH_COLOR_PALETTE = [
@@ -6534,7 +6739,7 @@ const MOON_PHASES = [
   { max: 5.53699,  name: '🌒 三日月',    message: '願い事が芽吹き始める日' },
   { max: 9.22831,  name: '🌓 上弦の月',  message: '決断と行動の日' },
   { max: 12.91963, name: '🌔 十三夜月',  message: '努力が形になっていく日' },
-  { max: 16.61096, name: '🌕 満月',      message: '物事が満ちる、達成と感謝の日' },
+  { max: 16.61096, name: '🌕 満月前後',  message: '物事が満ちる、達成と感謝の日' },
   { max: 20.30228, name: '🌖 十六夜',    message: '手放すことを考える日' },
   { max: 23.99361, name: '🌗 下弦の月',  message: '整理整頓、振り返りの日' },
   { max: 27.68493, name: '🌘 有明月',    message: '静かに準備を進める日' },
@@ -6911,7 +7116,8 @@ function renderFortune(birth, today){
 
   // 🗿 マヤ暦占い
   const maya = calcMayaKin(birth);
-  document.getElementById('fortuneMayaKinLine').textContent = `KIN${maya.kin}`;
+  document.getElementById('fortuneMayaKinLine').innerHTML =
+    `KIN${maya.kin}` + (isBlackKin(maya.kin) ? ' <span class="black-kin-badge">⚫黒KIN</span>' : '');
   document.getElementById('fortuneMayaSeal').innerHTML =
     `銀河の音：${maya.tone.name}<br>` +
     `太陽の紋章：${maya.seal.name}<br>` +
@@ -6932,6 +7138,21 @@ function renderFortune(birth, today){
   const stone = MONTH_STONES[month];
   document.getElementById('fortuneStone').textContent = stone.name;
   document.getElementById('fortuneStoneSub').textContent = stone.meaning;
+
+  // 🌳 誕生木（ケルトの十三樹占い）
+  const tree = calcBirthTree(birth);
+  document.getElementById('fortuneTree').textContent = tree.name;
+  document.getElementById('fortuneTreeSub').textContent = `キーワード：${tree.keyword}`;
+
+  // 🌕 生まれた日の月相
+  const birthMoon = calcBirthMoonPhase(birth);
+  document.getElementById('fortuneBirthMoon').textContent = birthMoon.name;
+  document.getElementById('fortuneBirthMoonSub').textContent = birthMoon.message;
+
+  // 🔢 個人年運（パーソナルイヤー）
+  const personalYear = calcPersonalYear(birth, today);
+  document.getElementById('fortunePersonalYear').textContent = personalYear.name;
+  document.getElementById('fortunePersonalYearSub').textContent = personalYear.desc;
 
   // 誕生色
   const birthColor = calcBirthColor(birth);
@@ -7413,6 +7634,18 @@ document.getElementById('spaceDistanceInfoModalCloseBtn').addEventListener('clic
 document.getElementById('spaceDistanceInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('spaceDistanceInfoModalOverlay')){
     document.getElementById('spaceDistanceInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('heartbeatInfoBtn').addEventListener('click', () => {
+  document.getElementById('heartbeatInfoModalOverlay').classList.add('show');
+});
+document.getElementById('heartbeatInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('heartbeatInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('heartbeatInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('heartbeatInfoModalOverlay')){
+    document.getElementById('heartbeatInfoModalOverlay').classList.remove('show');
   }
 });
 
@@ -8291,33 +8524,33 @@ window.fqtConfirm = function(message, onConfirm){
     // ----- 人氣者10体（★2固定・出現率アップ） -----
     // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
     { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
-      rarity: 2, name: 'ムーンモチ', personality: 'のんびり屋', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
+      rarity: 2, name: 'ムーンモチ', personality: 'のんびり屋・癒しの達人', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
     { key: 'san_san_poko', parts: { body:18, ear:10, eye:1,  mouth:4,  nose:6, tail:18, wing:2, horn:1, antenna:0, hand:4,  foot:6,  pattern:5,  background:18, color:2,  star:2 },
-      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
+      rarity: 2, name: 'サンサンぽこ', personality: 'よく笑う・太陽氣質', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
     { key: 'yume_purin', parts: { body:8,  ear:3,  eye:7,  mouth:0,  nose:5, tail:4,  wing:7, horn:9, antenna:6, hand:11, foot:11, pattern:12, background:0,  color:13, star:2 },
-      rarity: 2, name: 'ゆめプリン', personality: '夢見がち', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
+      rarity: 2, name: 'ゆめプリン', personality: '夢見がち・理想を描く人', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
     { key: 'honey_puni', parts: { body:10, ear:12, eye:14, mouth:1,  nose:7, tail:10, wing:4, horn:0, antenna:2, hand:10, foot:12, pattern:7,  background:16, color:1,  star:12 },
-      rarity: 2, name: 'ハニプニ', personality: '甘えん坊', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
+      rarity: 2, name: 'ハニプニ', personality: '甘えん坊・愛情豊か', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
     { key: 'sakura_mochi', parts: { body:19, ear:13, eye:8,  mouth:10, nose:8, tail:2,  wing:1, horn:4, antenna:7, hand:14, foot:6,  pattern:15, background:18, color:21, star:4 },
-      rarity: 2, name: 'さくらもち', personality: 'おっとり', favorite: '花', quote: '春の風がきもちいいね' },
+      rarity: 2, name: 'さくらもち', personality: 'おっとり・優しい心', favorite: '花', quote: '春の風がきもちいいね' },
     { key: 'puni_koro', parts: { body:18, ear:12, eye:6,  mouth:13, nose:3, tail:10, wing:0, horn:3, antenna:1, hand:11, foot:11, pattern:14, background:8,  color:24, star:7 },
-      rarity: 2, name: 'ぷにコロ', personality: 'マイペース', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
+      rarity: 2, name: 'ぷにコロ', personality: 'マイペース・自然体', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
     { key: 'kira_kiran', parts: { body:6,  ear:16, eye:14, mouth:9,  nose:0, tail:18, wing:8, horn:4, antenna:4, hand:6,  foot:14, pattern:4,  background:13, color:26, star:4 },
-      rarity: 2, name: 'きらきらん', personality: 'ムードメーカー', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
+      rarity: 2, name: 'きらきらん', personality: 'ムードメーカー・周囲を照らす人', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
     { key: 'mintoru', parts: { body:3,  ear:14, eye:4,  mouth:8,  nose:1, tail:0,  wing:7, horn:3, antenna:0, hand:10, foot:9,  pattern:8,  background:14, color:5,  star:1 },
-      rarity: 2, name: 'みんとる', personality: '几帳面', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
+      rarity: 2, name: 'みんとる', personality: '几帳面・誠実派', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
     { key: 'pofu_pofu', parts: { body:3,  ear:15, eye:5,  mouth:8,  nose:1, tail:0,  wing:3, horn:5, antenna:6, hand:11, foot:11, pattern:22, background:15, color:0,  star:0 },
-      rarity: 2, name: 'ぽふぽふ', personality: '甘党', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
+      rarity: 2, name: 'ぽふぽふ', personality: '甘党・安らぎを届ける人', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
     { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
-      rarity: 2, name: 'パクパクン', personality: '食いしん坊', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
+      rarity: 2, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける人', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
 
     // ----- レア人氣者3体（★5固定・出現率は控えめ） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
-      rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
+      rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト・未来を信じる人', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
-      rarity: 5, name: 'ギャラクシーアーティスト', personality: '芸術家肌', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
+      rarity: 5, name: 'ギャラクシーアーティスト', personality: '芸術家肌・感性豊か', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
     { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
-      rarity: 5, name: 'レジェンドスター', personality: '博愛', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
+      rarity: 5, name: 'レジェンドスター', personality: '博愛・包容力のあるリーダー', favorite: '伝説の物語', quote: 'いつか私も、誰かの伝説になりたいな' }
   ];
   // 「宇宙どうぶつ占い」など今後の機能から、人氣者13体のデータ（key・パーツ・名前等）を
   // そのまま参照できるよう公開しておく
@@ -8691,10 +8924,13 @@ window.fqtConfirm = function(message, onConfirm){
     'のんびり屋', '好奇心いっぱい', '甘えん坊', '勇敢', '優しい', '食いしん坊', '星集め名人', '虹好き',
     '宇宙探検家', 'お昼寝好き', 'おしゃべり', 'てれ屋', 'いたずら好き', 'がんばり屋', '夢見がち',
     'マイペース', '几帳面', '大胆', '心配性', 'ムードメーカー', '一途', '頑固', '天真爛漫',
-    '芸術家肌', 'おっとり', '負けず嫌い', '甘党', '寒がり', '暑がり', '朝型', '夜型', '記憶力抜群',
+    'おっとり', '負けず嫌い', '甘党', '寒がり', '暑がり', '朝型', '夜型', '記憶力抜群',
     '方向音痴', '踊り好き', '歌好き', '読書家', 'コレクター氣質', '几帳面すぎる', '楽天家', '慎重派',
     'ロマンチスト', '現実主義', '好奇心旺盛', 'お世話好き', 'ひとり時間が好き', '仲間思い', '流行に敏感',
-    'マイブーム多め', 'よく笑う', '静かに燃えるタイプ', '直感型'
+    'マイブーム多め', 'よく笑う', '静かに燃えるタイプ', '直感型',
+    '涙もろい', '義理堅い', '天邪鬼', '計画屋', '一人旅好き', 'コツコツ努力家', '照れ隠し上手',
+    '面倒見が良い', '観察好き', '実は寂しがり屋', '好き嫌いがはっきり', '不思議ちゃん', '陰で努力するタイプ',
+    '褒められると伸びるタイプ', '負けを認めない', '秘密主義', 'マイルール多め', '朝が苦手'
   ];
 
   // 好きなもの（50種以上）
@@ -8704,7 +8940,9 @@ window.fqtConfirm = function(message, onConfirm){
     'はちみつ', 'いちご', 'クッキー', 'マシュマロ', '紅茶', 'キラキラしたもの', 'やわらかい毛布',
     '音楽', 'ダンス', '絵を描くこと', '手紙', '写真', '思い出', '昼寝', '散歩', 'おしゃべり',
     '静かな夜', 'にぎやかな朝', '本', '手作りのもの', '小さな冒険', '新しい発見', '友達', '家族',
-    'あたたかい飲み物', '甘い香り', '虫の声', '星座早見盤', 'プラネタリウム', '宇宙船', '流星群'
+    'あたたかい飲み物', '甘い香り', '虫の声', '星座早見盤', 'プラネタリウム', '宇宙船', '流星群',
+    '朝もや', '木漏れ日', '雨の匂い', 'キャンドルの灯り', '毛糸玉', '貝殻', '砂時計', '万華鏡',
+    'しゃぼん玉', '折り紙', '押し花', '古い地図', 'オルゴール', '温泉', '焼き芋', '手編みのマフラー', '小さな鈴の音'
   ];
 
   // ひとこと（60種以上・アプリ全体の優しいトーンに合わせたポジティブなメッセージ）
@@ -9921,7 +10159,7 @@ window.fqtConfirm = function(message, onConfirm){
     const metNote = document.getElementById('animalMetNote');
     const cardTitleEvent = document.getElementById('animalCardTitle');
     if (isFirstMeeting){
-      newBadge.textContent = '🎉 EVENT!';
+      newBadge.textContent = '🎉 EVENT！';
       newBadge.style.display = 'block';
       metNote.textContent = '🎉 イベント図鑑に登録されました';
       if (cardTitleEvent){
@@ -10439,7 +10677,7 @@ window.fqtConfirm = function(message, onConfirm){
     const metNote = document.getElementById('animalMetNote');
     const cardTitleBirthday = document.getElementById('animalCardTitle');
     if (isFirstMeeting){
-      newBadge.textContent = '🎂 BIRTHDAY!';
+      newBadge.textContent = '🎂 BIRTHDAY！';
       newBadge.style.display = 'block';
       metNote.textContent = '🎂 誕生日記録に登録されました';
       if (cardTitleBirthday){
@@ -12782,6 +13020,7 @@ window.fqtConfirm = function(message, onConfirm){
   const SYNODIC_MONTH = 29.530588853;
   const FULL_MOON_AGE = SYNODIC_MONTH / 2; // 約14.77日
   const TOLERANCE_DAYS = 1; // 満月・新月の前後1日以内を「その日」として扱う
+  const EXACT_TOLERANCE_DAYS = 0.5; // この範囲内だけを「まさに満月当日」として扱う
 
   function renderMoonBanner(){
     const banner = document.getElementById('moonBanner');
@@ -12795,16 +13034,35 @@ window.fqtConfirm = function(message, onConfirm){
 
     const age = calcMoonAge(new Date());
     const isNewMoon = age < TOLERANCE_DAYS || age > (SYNODIC_MONTH - TOLERANCE_DAYS);
-    const isFullMoon = Math.abs(age - FULL_MOON_AGE) < TOLERANCE_DAYS;
+    const fullMoonDiff = Math.abs(age - FULL_MOON_AGE);
+    const isFullMoon = fullMoonDiff < TOLERANCE_DAYS;
+    const isExactFullMoon = fullMoonDiff < EXACT_TOLERANCE_DAYS;
 
     if (isNewMoon){
       textEl.textContent = '🌑 今夜は新月です。心を静かにして、新しい願い事を書き出してみませんか？';
       banner.style.display = 'block';
     } else if (isFullMoon){
-      textEl.textContent = '🌕 今夜は満月です。夜空を見上げてみませんか？';
+      textEl.textContent = isExactFullMoon
+        ? '🌕 今夜は満月です。夜空を見上げてみませんか？'
+        : '🌕 今日はほぼ満月です。夜空を見上げてみませんか？';
       banner.style.display = 'block';
     } else {
       banner.style.display = 'none';
+    }
+
+    // 🌕🌑 次の満月・新月までの日数（常時表示のカウントダウン）
+    const countdownBox = document.getElementById('moonCountdownBox');
+    if (countdownBox){
+      const daysUntilFullMoon = age <= FULL_MOON_AGE
+        ? Math.ceil(FULL_MOON_AGE - age)
+        : Math.ceil(SYNODIC_MONTH - age + FULL_MOON_AGE);
+      const daysUntilNewMoon = Math.ceil(SYNODIC_MONTH - age) % Math.round(SYNODIC_MONTH) || Math.ceil(SYNODIC_MONTH);
+
+      const fullMoonEl = document.getElementById('moonCountdownFull');
+      const newMoonEl = document.getElementById('moonCountdownNew');
+      fullMoonEl.textContent = daysUntilFullMoon <= 0 ? '今日' : `あと${daysUntilFullMoon}日`;
+      newMoonEl.textContent = daysUntilNewMoon <= 0 ? '今日' : `あと${daysUntilNewMoon}日`;
+      countdownBox.style.display = 'flex';
     }
   }
 
