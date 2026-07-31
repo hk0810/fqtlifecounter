@@ -1514,6 +1514,25 @@
     color: #e5383b;
     margin: 0 0 6px;
   }
+  .voice-speak-btn{
+    display: block;
+    width: 100%;
+    font-family: inherit;
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: var(--blue-pale);
+    border: 1.5px solid transparent;
+    border-radius: 999px;
+    padding: 9px;
+    margin: -8px 0 14px;
+    cursor: pointer;
+  }
+  .voice-speak-btn:active{ transform: scale(0.98); }
+  .voice-speak-btn.speaking{
+    background: var(--blue);
+    color: #fff;
+  }
   .animal-quote{
     font-size: 13px;
     color: var(--blue-dark);
@@ -5225,6 +5244,7 @@
     </div>
     <p class="animal-quote-heading">出会った宇宙どうぶつからのメッセージ</p>
     <p class="animal-quote" id="animalQuote">-</p>
+    <button class="voice-speak-btn" id="animalSpeakBtn" type="button">🔊　声を聞く</button>
     <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
     <button class="oshi-detail-share-btn" id="animalShareBtn" type="button">📤　SNSでシェア</button>
     <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
@@ -13999,6 +14019,55 @@ window.fqtConfirm = function(message, onConfirm){
       if (!canvas){ alert('画像の準備に失敗しました。'); return; }
       window.__fqtShareAnimalCard(canvas, name);
     });
+  });
+
+})();
+
+/* ==========================================================
+   🔊 宇宙どうぶつの「声を聞く」機能（追加実装のみ・既存機能には触れない）
+   ・ブラウザ標準のWeb Speech API（音声合成）で、ひとことを実際の声で読み上げる
+   ・端末やブラウザによって声質は異なる（対応していない場合はボタンを隠す）
+   ========================================================== */
+(function initAnimalSpeak(){
+
+  const speakBtn = document.getElementById('animalSpeakBtn');
+  if (!speakBtn) return;
+
+  // 音声合成に対応していない環境では、ボタンごと非表示にする
+  if (typeof window.speechSynthesis === 'undefined' || typeof SpeechSynthesisUtterance === 'undefined'){
+    speakBtn.style.display = 'none';
+    return;
+  }
+
+  speakBtn.addEventListener('click', () => {
+    const quoteEl = document.getElementById('animalQuote');
+    if (!quoteEl) return;
+    // 表示中の「「〇〇」」から、かぎかっこを除いた本文だけを読み上げる
+    const text = quoteEl.textContent.replace(/^「/, '').replace(/」$/, '');
+    if (!text || text === '-') return;
+
+    // 再生中にもう一度押したら、まず今読んでいるものを止める
+    window.speechSynthesis.cancel();
+
+    const utterance = new SpeechSynthesisUtterance(text);
+    utterance.lang = 'ja-JP';
+    utterance.rate = 1.0;
+    utterance.pitch = 1.2; // 少し高めのピッチで、どうぶつらしい愛らしさを出す
+
+    utterance.onstart = () => {
+      speakBtn.classList.add('speaking');
+      speakBtn.textContent = '🔊　読み上げ中…';
+    };
+    utterance.onend = () => {
+      speakBtn.classList.remove('speaking');
+      speakBtn.textContent = '🔊　声を聞く';
+    };
+    utterance.onerror = () => {
+      speakBtn.classList.remove('speaking');
+      speakBtn.textContent = '🔊　声を聞く';
+    };
+
+    window.speechSynthesis.speak(utterance);
   });
 
 })();
