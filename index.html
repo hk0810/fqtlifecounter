@@ -5220,6 +5220,90 @@
     </div>
   </div>
 
+  <div class="card" id="milestoneCard" style="display:none;">
+    <p class="section-title">🎯 次に訪れる人生の節目　<button class="bio-info-btn" id="milestoneInfoBtn" type="button" aria-label="次に訪れる人生の節目とは">？</button></p>
+    <div class="milestone-card">
+      <div class="emoji" id="milestoneEmoji">🎉</div>
+      <div class="m-text">
+        <div class="m-title" id="milestoneTitle">-</div>
+        <div class="m-main">あと <span class="m-accent" id="milestoneDays">-</span> 日</div>
+      </div>
+    </div>
+    <div class="countdown-mini-grid">
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">🎂 次の誕生日まで</div>
+        <div class="countdown-mini-value"><span id="countdownNextBirthday">-</span>日</div>
+      </div>
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">🎊 今年の終わりまで</div>
+        <div class="countdown-mini-value"><span id="countdownYearEnd">-</span>日</div>
+      </div>
+      <div class="countdown-mini-box">
+        <div class="countdown-mini-label">📅 月末まで</div>
+        <div class="countdown-mini-value"><span id="countdownMonthEnd">-</span>日</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 記念日カウントダウンカード -->
+  <div class="card" id="anniversaryCard" style="display:none;">
+    <p class="section-title">📅 イベントまで</p>
+    <div class="milestone-card">
+      <div class="emoji">🎁</div>
+      <div class="m-text">
+        <div class="m-title" id="anniversaryDateLabel">-</div>
+        <div class="m-main" id="anniversaryMain">-</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- リアルタイム経過カード -->
+  <div class="card" id="realtimeCard" style="display:none;">
+    <p class="section-title">⏱ 地球時間リアルタイム経過</p>
+    <div class="realtime-list">
+      <div class="realtime-row">
+        <span class="rt-label">🎂 現在の年齢</span>
+        <span class="rt-value" id="rtAge">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">📅 経過日数</span>
+        <span class="rt-value" id="rtDays">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">📆 経過月数</span>
+        <span class="rt-value" id="rtMonths">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">🌕 見上げてきた満月</span>
+        <span class="rt-value" id="rtFullMoons">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">🗓 経過週数</span>
+        <span class="rt-value" id="rtWeeks">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">⏰ 経過時間</span>
+        <span class="rt-value" id="rtHours">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">⏱ 経過分</span>
+        <span class="rt-value" id="rtMinutes">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">⏲ 経過秒</span>
+        <span class="rt-value accent" id="rtSeconds">-</span>
+      </div>
+      <div class="realtime-row">
+        <span class="rt-label">🫀 心臓の鼓動回数　<button class="bio-info-btn" id="heartbeatInfoBtn" type="button" aria-label="心臓の鼓動回数とは">？</button></span>
+        <span class="rt-value" id="rtHeartbeats">-</span>
+      </div>
+    </div>
+    <div class="space-distance-box">
+      <p class="space-distance-label">宇宙を移動した距離　<button class="bio-info-btn" id="spaceDistanceInfoBtn" type="button" aria-label="天文単位とは">？</button></p>
+      <p class="space-distance-value" id="rtSpaceDistance">-</p>
+    </div>
+  </div>
+
   <!-- 🌌 今日の宇宙どうぶつカード（結果カードの直後＝計算後に自動スクロールしてすぐ見える位置） -->
   <div class="card animal-card" id="animalCard">
     <p class="section-title" id="animalCardTitle">🌌 宇宙どうぶつに出会った！</p>
@@ -5244,7 +5328,7 @@
     </div>
     <p class="animal-quote-heading">出会った宇宙どうぶつからのメッセージ</p>
     <p class="animal-quote" id="animalQuote">-</p>
-    <button class="voice-speak-btn" id="animalSpeakBtn" type="button">🔊　声を聞く</button>
+    <button class="voice-speak-btn" id="animalSpeakBtn" type="button">🔊　FQT翻訳機で何をしゃべっているのか聞く</button>
     <div class="event-active-banner" id="eventActiveBanner" style="display:none;"></div>
     <button class="oshi-detail-share-btn" id="animalShareBtn" type="button">📤　SNSでシェア</button>
     <button class="animal-dex-btn" id="animalDexBtn" type="button">🌌　図鑑を見る</button>
@@ -5343,89 +5427,6 @@
   </div>
 
   <!-- 次の人生の節目カード -->
-  <div class="card" id="milestoneCard" style="display:none;">
-    <p class="section-title">🎯 次に訪れる人生の節目　<button class="bio-info-btn" id="milestoneInfoBtn" type="button" aria-label="次に訪れる人生の節目とは">？</button></p>
-    <div class="milestone-card">
-      <div class="emoji" id="milestoneEmoji">🎉</div>
-      <div class="m-text">
-        <div class="m-title" id="milestoneTitle">-</div>
-        <div class="m-main">あと <span class="m-accent" id="milestoneDays">-</span> 日</div>
-      </div>
-    </div>
-    <div class="countdown-mini-grid">
-      <div class="countdown-mini-box">
-        <div class="countdown-mini-label">🎂 次の誕生日まで</div>
-        <div class="countdown-mini-value"><span id="countdownNextBirthday">-</span>日</div>
-      </div>
-      <div class="countdown-mini-box">
-        <div class="countdown-mini-label">🎊 今年の終わりまで</div>
-        <div class="countdown-mini-value"><span id="countdownYearEnd">-</span>日</div>
-      </div>
-      <div class="countdown-mini-box">
-        <div class="countdown-mini-label">📅 月末まで</div>
-        <div class="countdown-mini-value"><span id="countdownMonthEnd">-</span>日</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- 記念日カウントダウンカード -->
-  <div class="card" id="anniversaryCard" style="display:none;">
-    <p class="section-title">📅 イベントまで</p>
-    <div class="milestone-card">
-      <div class="emoji">🎁</div>
-      <div class="m-text">
-        <div class="m-title" id="anniversaryDateLabel">-</div>
-        <div class="m-main" id="anniversaryMain">-</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- リアルタイム経過カード -->
-  <div class="card" id="realtimeCard" style="display:none;">
-    <p class="section-title">⏱ 地球時間リアルタイム経過</p>
-    <div class="realtime-list">
-      <div class="realtime-row">
-        <span class="rt-label">🎂 現在の年齢</span>
-        <span class="rt-value" id="rtAge">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">📅 経過日数</span>
-        <span class="rt-value" id="rtDays">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">📆 経過月数</span>
-        <span class="rt-value" id="rtMonths">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">🌕 見上げてきた満月</span>
-        <span class="rt-value" id="rtFullMoons">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">🗓 経過週数</span>
-        <span class="rt-value" id="rtWeeks">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">⏰ 経過時間</span>
-        <span class="rt-value" id="rtHours">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">⏱ 経過分</span>
-        <span class="rt-value" id="rtMinutes">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">⏲ 経過秒</span>
-        <span class="rt-value accent" id="rtSeconds">-</span>
-      </div>
-      <div class="realtime-row">
-        <span class="rt-label">🫀 心臓の鼓動回数　<button class="bio-info-btn" id="heartbeatInfoBtn" type="button" aria-label="心臓の鼓動回数とは">？</button></span>
-        <span class="rt-value" id="rtHeartbeats">-</span>
-      </div>
-    </div>
-    <div class="space-distance-box">
-      <p class="space-distance-label">宇宙を移動した距離　<button class="bio-info-btn" id="spaceDistanceInfoBtn" type="button" aria-label="天文単位とは">？</button></p>
-      <p class="space-distance-value" id="rtSpaceDistance">-</p>
-    </div>
-  </div>
 
   <!-- 今日の運勢占いカード（誕生日ベース） -->
   <div class="card" id="fortuneCard" style="display:none;">
@@ -11819,7 +11820,8 @@ window.fqtConfirm = function(message, onConfirm){
       return;
     }
     if (isBirthdayToday()){
-      showBirthdayCelebration();
+      // 鳴き声＋スクロール演出と重ならないよう、それが終わるまで表示を待つ
+      window.__fqtWaitForVoiceScroll(showBirthdayCelebration);
     }
   }
   document.addEventListener('fqtCalculatePressed', checkAndShowBirthdayIfNeeded);
@@ -12408,7 +12410,8 @@ window.fqtConfirm = function(message, onConfirm){
     backfillPastMilestones(); // 誕生日から見て、すでに通り過ぎている節目を静かに記録する
     const milestone = checkMilestoneToday();
     if (milestone){
-      showMilestoneCelebration(milestone);
+      // 鳴き声＋スクロール演出と重ならないよう、それが終わるまで表示を待つ
+      window.__fqtWaitForVoiceScroll(() => showMilestoneCelebration(milestone));
     }
   }
 
@@ -12833,9 +12836,38 @@ window.fqtConfirm = function(message, onConfirm){
     return match ? Number(match[1]) : null;
   }
 
+  // 「FQT翻訳機」ボタンなど、他のモジュールから鳴き声だけを鳴らせるよう公開する
+  window.__fqtPlayCuteVoice = playCuteVoice;
+  window.__fqtGetCurrentRarityFromDom = getCurrentRarityFromDom;
+
   // 鳴き声を再生している間だけ宇宙どうぶつのところまでスクロールし、
   // 鳴き終わる頃に占い結果（占いカード）まで自動で戻ってくる演出
+  // 🔊🎯 鳴き声＋スクロール演出（宇宙どうぶつへ→結果へ戻る）が終わるまで、
+  // バッジ・実績・節目・誕生日などのポップアップを待たせるための共通の仕組み。
+  // これがないと、演出中にポップアップが割り込んでスクロールと表示が重なってしまう。
+  window.__fqtVoiceScrollBusy = false;
+  window.__fqtVoiceScrollWaiters = [];
+  window.__fqtWaitForVoiceScroll = function(callback){
+    // 同じ「fqtCalculatePressed」イベントに複数のリスナーが登録されているため、
+    // このチェックが「鳴き声を鳴らす側のリスナー」より先に実行される可能性がある。
+    // 1tick（setTimeout 0）遅らせることで、登録順序に関係なく
+    // busyフラグが正しく立った後にチェックできるようにする。
+    setTimeout(() => {
+      if (!window.__fqtVoiceScrollBusy){
+        callback();
+      } else {
+        window.__fqtVoiceScrollWaiters.push(callback);
+      }
+    }, 0);
+  };
+  function releaseVoiceScrollWaiters(){
+    window.__fqtVoiceScrollBusy = false;
+    const waiters = window.__fqtVoiceScrollWaiters.splice(0);
+    waiters.forEach(fn => fn());
+  }
+
   function playCuteVoiceWithScroll(rarity){
+    window.__fqtVoiceScrollBusy = true;
     const animalStage = document.getElementById('animalStage');
     if (animalStage){
       animalStage.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -12846,6 +12878,8 @@ window.fqtConfirm = function(message, onConfirm){
       if (returnTarget){
         returnTarget.scrollIntoView({ behavior: 'smooth', block: 'start' });
       }
+      // スクロールアニメーション自体の時間（およそ0.6秒）が終わるのを少し待ってから解放する
+      setTimeout(releaseVoiceScrollWaiters, 700);
     }, (duration || 3) * 1000);
   }
 
@@ -14049,6 +14083,14 @@ window.fqtConfirm = function(message, onConfirm){
     // 再生中にもう一度押したら、まず今読んでいるものを止める
     window.speechSynthesis.cancel();
 
+    // 🐾 声を聞いている間、バックグラウンドで鳴き声も一緒に流す
+    if (typeof window.__fqtPlayCuteVoice === 'function' && typeof window.__fqtGetCurrentRarityFromDom === 'function'){
+      const rarity = window.__fqtGetCurrentRarityFromDom();
+      if (rarity){
+        window.__fqtPlayCuteVoice(rarity);
+      }
+    }
+
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ja-JP';
     utterance.rate = 1.0;
@@ -14060,11 +14102,11 @@ window.fqtConfirm = function(message, onConfirm){
     };
     utterance.onend = () => {
       speakBtn.classList.remove('speaking');
-      speakBtn.textContent = '🔊　声を聞く';
+      speakBtn.textContent = '🔊　FQT翻訳機で何をしゃべっているのか聞く';
     };
     utterance.onerror = () => {
       speakBtn.classList.remove('speaking');
-      speakBtn.textContent = '🔊　声を聞く';
+      speakBtn.textContent = '🔊　FQT翻訳機で何をしゃべっているのか聞く';
     };
 
     window.speechSynthesis.speak(utterance);
@@ -14526,7 +14568,11 @@ window.fqtConfirm = function(message, onConfirm){
    ========================================================== */
 (function initOverlayGuard(){
 
-  const OVERLAY_SELECTOR = '.badge-earn-overlay, .dex-modal-overlay';
+  // ※ #oshiDetailOverlay（宇宙どうぶつの詳細ポップアップ）は、図鑑モーダルなど他のモーダルの
+  //    「上に重ねて表示する」設計のため、あえてこのガードの対象から除外している。
+  //    含めてしまうと、図鑑を開いた状態で詳細を開いた瞬間に「二重表示」と誤判定され、
+  //    即座に隠されてしまう不具合が起きるため。
+  const OVERLAY_SELECTOR = '.badge-earn-overlay:not(#oshiDetailOverlay), .dex-modal-overlay';
   const pendingQueue = []; // 後回しにされたオーバーレイのidを順番に保持する
   let isProcessing = false; // 監視役自身によるclassList操作中は再入しないようにするフラグ
 
