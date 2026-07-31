@@ -1633,6 +1633,9 @@
     background: linear-gradient(90deg, #ffd873, #ff8a65);
     transition: width .4s ease;
   }
+  .dex-rarity-row-bar.signature{
+    background: linear-gradient(90deg, #f4d160, #d4af37);
+  }
   .dex-rarity-row-count{
     font-size: 11.5px;
     font-weight: 700;
@@ -1775,6 +1778,8 @@
     font-size: 9.5px;
     color: #d4af37;
     margin-top: 2px;
+    min-height: 24px; /* 「👑 人氣者」ラベルと★表示のどちらでも高さが揃うように固定する */
+    line-height: 1.3;
   }
   .dex-item.undiscovered{
     filter: grayscale(1);
@@ -1906,6 +1911,37 @@
   .moon-countdown-item strong{
     color: #ffd873;
     font-weight: 900;
+  }
+  .sky-event-box{
+    background: rgba(184, 212, 240, 0.10);
+    border: 1px solid rgba(184, 212, 240, 0.25);
+    border-radius: 12px;
+    padding: 12px 14px;
+    margin: 0 0 18px;
+    text-align: center;
+  }
+  .sky-event-label{
+    font-size: 11px;
+    font-weight: 700;
+    color: #b8d4f0;
+    margin: 0 0 4px;
+  }
+  .sky-event-more{
+    font-size: 10.5px;
+    font-weight: 700;
+    color: #ffd873;
+  }
+  .sky-event-name{
+    font-size: 13.5px;
+    font-weight: 900;
+    color: #ffd873;
+    margin: 0 0 4px;
+  }
+  .sky-event-detail{
+    font-size: 11px;
+    color: #dbe9ff;
+    line-height: 1.6;
+    margin: 0;
   }
 
   /* ----- 💫 エンジェルナンバーの日 ----- */
@@ -2671,6 +2707,47 @@
     flex-direction: column;
     gap: 6px;
   }
+  .sky-event-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .sky-event-list-row{
+    background: var(--blue-pale);
+    border-radius: 12px;
+    padding: 10px 14px;
+  }
+  .sky-event-list-row.past-visible{
+    opacity: 1;
+  }
+  .sky-event-list-date{
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin-bottom: 2px;
+  }
+  .sky-event-list-name{
+    font-size: 13.5px;
+    font-weight: 800;
+    color: var(--text-main);
+  }
+  .sky-event-list-detail{
+    font-size: 11.5px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin-top: 2px;
+  }
+  .sky-event-list-notvisible{
+    display: inline-block;
+    font-size: 10px;
+    font-weight: 700;
+    color: #a94442;
+    background: #fbe3e3;
+    border-radius: 999px;
+    padding: 1px 8px;
+    margin-left: 6px;
+  }
+
   .milestone-compare-row{
     display: flex;
     align-items: center;
@@ -4220,6 +4297,16 @@
   </div>
 </div>
 
+<!-- 🌠 天体ショー一覧モーダル -->
+<div class="dex-modal-overlay" id="skyEventListModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="skyEventListModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌠 天体ショー一覧（この先13個）</p>
+    <p class="badge-modal-note">実際の天文暦・毎年の流星群の時期をもとにした一覧です。「(日本からは見えません)」の記載がないものは、日本でも観測のチャンスがあります。</p>
+    <div class="sky-event-list" id="skyEventListBody"></div>
+  </div>
+</div>
+
 <!-- 🎯 次に訪れる人生の節目 説明モーダル -->
 <div class="dex-modal-overlay" id="milestoneInfoModalOverlay">
   <div class="dex-modal">
@@ -5088,6 +5175,11 @@
   <div class="moon-countdown-box" id="moonCountdownBox" style="display:none;">
     <span class="moon-countdown-item">🌕 次の満月まで <strong id="moonCountdownFull">-</strong></span>
     <span class="moon-countdown-item">🌑 次の新月まで <strong id="moonCountdownNew">-</strong></span>
+  </div>
+  <div class="sky-event-box" id="skyEventBox" style="display:none; cursor:pointer;">
+    <p class="sky-event-label">🌠 次の天体ショー　<span class="sky-event-more">一覧を見る ›</span></p>
+    <p class="sky-event-name" id="skyEventName">-</p>
+    <p class="sky-event-detail" id="skyEventDetail">-</p>
   </div>
 
   <!-- バッジ機能：あなたの記録サマリーカード -->
@@ -8078,6 +8170,41 @@ document.getElementById('milestoneInfoModalOverlay').addEventListener('click', (
   }
 });
 
+document.getElementById('skyEventBox').addEventListener('click', () => {
+  const listBody = document.getElementById('skyEventListBody');
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+
+  const upcoming13 = (typeof window.__fqtSkyEvents === 'function' ? window.__fqtSkyEvents() : [])
+    .filter(ev => ev.dateObj >= today)
+    .sort((a, b) => a.dateObj - b.dateObj)
+    .slice(0, 13);
+
+  listBody.innerHTML = upcoming13.map(ev => {
+    const dateLabel = `${ev.dateObj.getFullYear()}年${ev.dateObj.getMonth() + 1}月${ev.dateObj.getDate()}日`;
+    const daysUntil = Math.round((ev.dateObj - today) / (1000 * 60 * 60 * 24));
+    const countdownLabel = daysUntil <= 0 ? '今日' : `あと${daysUntil}日`;
+    const notVisibleBadge = ev.visibleInJapan ? '' : '<span class="sky-event-list-notvisible">日本からは見えません</span>';
+    return (
+      `<div class="sky-event-list-row">` +
+        `<div class="sky-event-list-date">${dateLabel}・${countdownLabel}</div>` +
+        `<div class="sky-event-list-name">${ev.name}${notVisibleBadge}</div>` +
+        `<div class="sky-event-list-detail">${ev.detail}</div>` +
+      `</div>`
+    );
+  }).join('');
+
+  document.getElementById('skyEventListModalOverlay').classList.add('show');
+});
+document.getElementById('skyEventListModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('skyEventListModalOverlay').classList.remove('show');
+});
+document.getElementById('skyEventListModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('skyEventListModalOverlay')){
+    document.getElementById('skyEventListModalOverlay').classList.remove('show');
+  }
+});
+
 document.getElementById('diagInfoBtn').addEventListener('click', () => {
   document.getElementById('diagInfoModalOverlay').classList.add('show');
 });
@@ -9867,14 +9994,28 @@ window.fqtConfirm = function(message, onConfirm){
     const completeRate = Math.min(100, Math.round((discoveredCount / 1300) * 100));
     document.getElementById('dexCompleteRate').textContent = completeRate + '%';
 
-    // 📊 レア度別の内訳（★1〜★5がそれぞれ何匹か）
+    // 📊 レア度別の内訳（★1〜★4はそのまま、★5だけ「👑人氣者」と「★5（通常）」に分けて集計する）
     const rarityCounts = { 1: 0, 2: 0, 3: 0, 4: 0, 5: 0 };
+    let signatureCount = 0;
     discoveredList.forEach(animal => {
-      if (rarityCounts[animal.rarity] !== undefined) rarityCounts[animal.rarity]++;
+      if (animal.signatureKey){
+        signatureCount++;
+      } else if (rarityCounts[animal.rarity] !== undefined){
+        rarityCounts[animal.rarity]++;
+      }
     });
-    const maxRarityCount = Math.max(1, ...Object.values(rarityCounts)); // 0除算を避ける
+    const maxRarityCount = Math.max(1, signatureCount, ...Object.values(rarityCounts)); // 0除算を避ける
     const breakdownEl = document.getElementById('dexRarityBreakdown');
-    breakdownEl.innerHTML = [5, 4, 3, 2, 1].map(rarity => {
+
+    const signatureWidthPercent = Math.round((signatureCount / maxRarityCount) * 100);
+    const signatureRowHtml =
+      `<div class="dex-rarity-row">` +
+        `<div class="dex-rarity-row-label">👑 人氣者</div>` +
+        `<div class="dex-rarity-row-bar-wrap"><div class="dex-rarity-row-bar signature" style="width:${signatureWidthPercent}%"></div></div>` +
+        `<div class="dex-rarity-row-count">${signatureCount}匹</div>` +
+      `</div>`;
+
+    const starRowsHtml = [5, 4, 3, 2, 1].map(rarity => {
       const count = rarityCounts[rarity];
       const widthPercent = Math.round((count / maxRarityCount) * 100);
       const stars = '★'.repeat(rarity) + '☆'.repeat(5 - rarity);
@@ -9886,6 +10027,8 @@ window.fqtConfirm = function(message, onConfirm){
         `</div>`
       );
     }).join('');
+
+    breakdownEl.innerHTML = signatureRowHtml + starRowsHtml;
 
     const grid = document.getElementById('dexGrid');
     grid.innerHTML = '';
@@ -13761,6 +13904,61 @@ window.fqtConfirm = function(message, onConfirm){
       newMoonEl.textContent = daysUntilNewMoon <= 0 ? '今日' : `あと${daysUntilNewMoon}日`;
       countdownBox.style.display = 'flex';
     }
+
+    // 🌠 次の天体ショー（流星群・日食・月食）
+    renderNextSkyEvent();
+  }
+
+  // 実際の天文暦に基づく天体イベント一覧
+  // ・流星群は毎年ほぼ同じ時期に見られる、伝統的に知られている極大日（ピーク日）
+  // ・日食・月食は国立天文台の発表に基づく実際の日付（2026〜2027年分）
+  const SKY_EVENTS = [
+    { date: '2026-08-13', name: '🌠 ペルセウス座流星群', detail: '三大流星群のひとつ。ピーク時は1時間に数十個見えることも。', visibleInJapan: true },
+    { date: '2026-08-13', name: '🌑 皆既日食', detail: 'グリーンランド・アイスランド・スペインなどで観測可能。日本からは見えません。', visibleInJapan: false },
+    { date: '2026-10-08', name: '🌠 りゅう座流星群（ジャコビニ流星群）', detail: '出現数は年によって変動が大きい流星群。', visibleInJapan: true },
+    { date: '2026-10-21', name: '🌠 オリオン座流星群', detail: 'ハレー彗星の塵が起源とされる流星群。', visibleInJapan: true },
+    { date: '2026-11-17', name: '🌠 しし座流星群', detail: '数十年に一度、大出現することがある流星群。', visibleInJapan: true },
+    { date: '2026-12-14', name: '🌠 ふたご座流星群', detail: '三大流星群のひとつ。1年で最も安定して多く見られるとされる。', visibleInJapan: true },
+    { date: '2027-01-04', name: '🌠 しぶんぎ座流星群', detail: '三大流星群のひとつ。極大の時間が短いのが特徴。', visibleInJapan: true },
+    { date: '2027-02-07', name: '🌑 金環日食', detail: 'チリ・アルゼンチンなどで観測可能。日本からは見えません。', visibleInJapan: false },
+    { date: '2027-08-02', name: '🌑 皆既日食', detail: 'アフリカ北部（エジプト・リビアなど）で観測可能。日本からは見えません。', visibleInJapan: false },
+    { date: '2027-08-13', name: '🌠 ペルセウス座流星群', detail: '三大流星群のひとつ。ピーク時は1時間に数十個見えることも。', visibleInJapan: true },
+    { date: '2027-12-14', name: '🌠 ふたご座流星群', detail: '三大流星群のひとつ。1年で最も安定して多く見られるとされる。', visibleInJapan: true },
+    { date: '2028-01-04', name: '🌠 しぶんぎ座流星群', detail: '三大流星群のひとつ。極大の時間が短いのが特徴。', visibleInJapan: true },
+    { date: '2028-01-27', name: '🌑 金環日食', detail: '観測地域は限られます。日本からは見えません。', visibleInJapan: false }
+  ];
+
+  // 一覧モーダルから、日付オブジェクト付きのイベント一覧を参照できるよう公開する
+  window.__fqtSkyEvents = function(){
+    return SKY_EVENTS.map(ev => ({ ...ev, dateObj: new Date(ev.date + 'T00:00:00') }));
+  };
+
+  function renderNextSkyEvent(){
+    const box = document.getElementById('skyEventBox');
+    if (!box) return;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+
+    const upcoming = SKY_EVENTS
+      .map(ev => ({ ...ev, dateObj: new Date(ev.date + 'T00:00:00') }))
+      .filter(ev => ev.dateObj >= today)
+      .sort((a, b) => a.dateObj - b.dateObj)[0];
+
+    if (!upcoming){
+      box.style.display = 'none';
+      return;
+    }
+
+    const daysUntil = Math.round((upcoming.dateObj - today) / (1000 * 60 * 60 * 24));
+    const dateLabel = `${upcoming.dateObj.getMonth() + 1}月${upcoming.dateObj.getDate()}日`;
+    const countdownLabel = daysUntil <= 0 ? '今日' : `あと${daysUntil}日`;
+    const visibilityNote = upcoming.visibleInJapan ? '' : '（日本からは見えません）';
+
+    document.getElementById('skyEventName').textContent = upcoming.name;
+    document.getElementById('skyEventDetail').textContent =
+      `${dateLabel}・${countdownLabel}${visibilityNote}　${upcoming.detail}`;
+    box.style.display = 'block';
   }
 
   renderMoonBanner();
