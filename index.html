@@ -12746,11 +12746,11 @@ window.fqtConfirm = function(message, onConfirm){
     return VOICE_NUANCE_PRESETS[seed % VOICE_NUANCE_PRESETS.length];
   }
 
-  function playCuteVoice(rarity){
+  function playCuteVoice(rarity, durationOverride){
     const ctx = ensureAudioContext();
     const now = ctx.currentTime;
     const preset = getCurrentVoicePreset();
-    const duration = 3.0 * preset.durationMul; // 声質によって長さも変わる
+    const duration = durationOverride || (3.0 * preset.durationMul); // 声質によって長さも変わる（指定があればそちらを優先）
 
     // レア度が高いほど基準の音を少し高くする（低め〜中音域で「むにょ」っぽさを出す）
     const baseFreqTable = { 1: 260, 2: 280, 3: 300, 4: 330, 5: 360 };
@@ -12903,9 +12903,10 @@ window.fqtConfirm = function(message, onConfirm){
     renderVoiceBtn();
     if (voiceEnabled){
       // ONにした操作自体がユーザー操作なので、ここで軽く1回鳴らして確認できるようにする
+      // （設定を切り替えただけなので、宇宙どうぶつの所までスクロールする必要はない）
       const rarity = getCurrentRarityFromDom();
       if (rarity){
-        playCuteVoiceWithScroll(rarity);
+        playCuteVoice(rarity);
       }
     }
   });
@@ -14083,14 +14084,6 @@ window.fqtConfirm = function(message, onConfirm){
     // 再生中にもう一度押したら、まず今読んでいるものを止める
     window.speechSynthesis.cancel();
 
-    // 🐾 声を聞いている間、バックグラウンドで鳴き声も一緒に流す
-    if (typeof window.__fqtPlayCuteVoice === 'function' && typeof window.__fqtGetCurrentRarityFromDom === 'function'){
-      const rarity = window.__fqtGetCurrentRarityFromDom();
-      if (rarity){
-        window.__fqtPlayCuteVoice(rarity);
-      }
-    }
-
     const utterance = new SpeechSynthesisUtterance(text);
     utterance.lang = 'ja-JP';
     utterance.rate = 1.0;
@@ -14099,6 +14092,17 @@ window.fqtConfirm = function(message, onConfirm){
     utterance.onstart = () => {
       speakBtn.classList.add('speaking');
       speakBtn.textContent = '🔊　読み上げ中…';
+
+      // 🐾 音声合成は準備に時間がかかることがあるため、鳴き声はここ（実際に読み上げが
+      // 始まった瞬間）で鳴らす。事前に鳴らすと、鳴き声だけ先に聞こえてズレてしまうため。
+      // 文字数に応じて鳴き声の長さも伸ばす（目安：1文字あたり約0.2秒、最短2秒・最長10秒）
+      if (typeof window.__fqtPlayCuteVoice === 'function' && typeof window.__fqtGetCurrentRarityFromDom === 'function'){
+        const rarity = window.__fqtGetCurrentRarityFromDom();
+        if (rarity){
+          const voiceDuration = Math.min(10, Math.max(2, text.length * 0.2));
+          window.__fqtPlayCuteVoice(rarity, voiceDuration);
+        }
+      }
     };
     utterance.onend = () => {
       speakBtn.classList.remove('speaking');
@@ -14568,11 +14572,12 @@ window.fqtConfirm = function(message, onConfirm){
    ========================================================== */
 (function initOverlayGuard(){
 
-  // ※ #oshiDetailOverlay（宇宙どうぶつの詳細ポップアップ）は、図鑑モーダルなど他のモーダルの
+  // ※ #oshiDetailOverlay（宇宙どうぶつの詳細ポップアップ）と #starMeaningOverlay（その他の詳しい
+  //    診断の、各星の意味を説明するポップアップ）は、どちらも図鑑モーダルなど他のモーダルの
   //    「上に重ねて表示する」設計のため、あえてこのガードの対象から除外している。
-  //    含めてしまうと、図鑑を開いた状態で詳細を開いた瞬間に「二重表示」と誤判定され、
+  //    含めてしまうと、元のモーダルを開いた状態でこれらを開いた瞬間に「二重表示」と誤判定され、
   //    即座に隠されてしまう不具合が起きるため。
-  const OVERLAY_SELECTOR = '.badge-earn-overlay:not(#oshiDetailOverlay), .dex-modal-overlay';
+  const OVERLAY_SELECTOR = '.badge-earn-overlay:not(#oshiDetailOverlay):not(#starMeaningOverlay), .dex-modal-overlay';
   const pendingQueue = []; // 後回しにされたオーバーレイのidを順番に保持する
   let isProcessing = false; // 監視役自身によるclassList操作中は再入しないようにするフラグ
 
