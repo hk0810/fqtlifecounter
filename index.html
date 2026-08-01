@@ -426,6 +426,8 @@
     color: var(--text-main);
     line-height: 1.7;
     margin-bottom: 4px;
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
 
   .divider{
@@ -4025,11 +4027,11 @@
     <p class="badge-earn-header tutorial-header">🚀 かんたんチュートリアル <span class="tutorial-step">5/5</span></p>
     <div class="tutorial-item">
       <div class="tutorial-icon">⚠️</div>
-      <div class="tutorial-text">基本、端末やブラウザを変えると、<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えちゃう。<br>でも、復活の呪文を保存すれば記録を呼び出すことが出来るように<span class="nowrap-word">なりました。</span></div>
+      <div class="tutorial-text">基本、端末やブラウザを変えると<br><span class="nowrap-word">図鑑</span>の宇宙どうぶつは消えちゃう。<br>その儚さも含めて楽しんでください。<br>できるだけシェアして保存してね。</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">✨</div>
-      <div class="tutorial-text">その儚さも含めて楽しんでください。<br>できるだけシェアして保存してね。</div>
+      <div class="tutorial-text">復活の呪文を保存すれば記録を<br>呼び出すことが出来るように<span class="nowrap-word">なりました。</span><br>機種変更の時などに使ってね。</div>
     </div>
     <div class="tutorial-item">
       <div class="tutorial-icon">❓</div>
@@ -5081,6 +5083,23 @@
         </ul>
       </div>
 
+      <div class="version-history-item">
+        <p class="version-history-date">v20.0　星座占い・図鑑まわりの精度向上</p>
+        <ul class="version-history-notes">
+          <li>「⭐ あなたの星座」を新規実装。生年月日から西洋12星座を判定し、よく見える時期・方角の目安、今日の運気、星座のウンチクを表示</li>
+          <li>「🌠 次の天体ショー」一覧に「🌟 今、宵の空で見える星座」を新規実装</li>
+          <li>「🌅 今日の日の出・日の入り」に「📍 現在地を使う」ボタンを新規実装。スマホの位置情報から計算できるように（座標は保存せずセッション内のみ使用）</li>
+          <li>宇宙どうぶつに再会した時、名前・性格・レア度が最初に出会った時のまま変わらないよう修正（以前は再会のたびにランダムな内容が表示されていた）</li>
+          <li>「レインボーコンプリート」実績を、色の拡張（30→68色）に合わせて対象色数・目標値を更新</li>
+          <li>人氣者のレア度が古いデータのまま残ってしまう不具合を修正。図鑑の「レア度順」で人氣者がグループとしてまとまるよう改善</li>
+          <li>「👑 人氣者コレクション」を「📊 レア度別の内訳」から独立したセクションに分離し、13体中の発見数で表示</li>
+          <li>「レアハンター」「レジェンドハンター」「レジェンドキング」の実績を、人氣者を含まない通常のランダム★5のみを対象とするよう修正</li>
+          <li>おすすめ動画を4本追加（全6本）。ランダム再生から、順番に1本ずつ再生する方式に変更</li>
+          <li>「📊 月間ダイジェスト」を、月初（1〜3日）は毎回表示するよう変更（1ヶ月あたり最大13回）。「今月はもう表示しない」チェックボックスを新規実装</li>
+          <li>よくある質問を、本バージョンの変更内容に合わせて更新</li>
+        </ul>
+      </div>
+
     </div>
 
   </div>
@@ -5139,13 +5158,25 @@
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 日の出・日の入りは、どこの地域基準ですか？</p>
-      <p class="faq-a">A. 初期設定は東京ですが、47都道府県から選べます。選んだ地域は端末に記憶されます。</p>
+      <p class="faq-a">A. 初期設定は東京ですが、47都道府県から選べるほか、「📍 現在地を使う」ボタンでスマホの位置情報から計算することもできます。選んだ都道府県は端末に記憶されますが、現在地の座標は保存されず、そのセッション内だけで使われます。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 星座はどうやって決まりますか？</p>
+      <p class="faq-a">A. 生年月日をもとに、西洋の12星座（おひつじ座〜うお座）を判定しています。星座ごとに「よく見える時期・方角の目安」「今日の運気」「星座にまつわるウンチク」を表示します。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「今日の運気」は毎日変わりますか？</p>
+      <p class="faq-a">A. はい。日付と星座の組み合わせで決まるので、同じ日であれば同じ内容ですが、日が変われば内容も変わります。</p>
+    </div>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「次の天体ショー」に出てくる「今、宵の空で見える星座」は何ですか？</p>
+      <p class="faq-a">A. 今の時期（今月）に、日本の夜空でよく見えるとされる星座を表示しています。生年月日で決まる「あなたの星座」とは別の情報です。</p>
     </div>
 
     <p class="faq-category">🐾 宇宙どうぶつについて</p>
     <div class="faq-item">
       <p class="faq-q">Q. 同じ宇宙どうぶつに何度も会えますか？</p>
-      <p class="faq-a">A. はい。一度出会った子には再会することもあります。その時は「会ったことがあるよ！」と表示されます。</p>
+      <p class="faq-a">A. はい。一度出会った子には再会することもあります。その時は「会ったことがあるよ！」と表示され、名前・性格・レア度は最初に出会った時のまま変わりません（セリフだけは毎回変わることがあります）。</p>
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 新しいどうぶつに出会ったのに、図鑑が0匹でした。</p>
@@ -5156,8 +5187,12 @@
       <p class="faq-a">A. 発見した匹数を、1,300匹を100%として計算しています。</p>
     </div>
     <div class="faq-item">
+      <p class="faq-q">Q. 「レインボーコンプリート」の条件は？</p>
+      <p class="faq-a">A. 用意されている全68色を、1匹以上ずつ発見すると達成です。図鑑の「レア度別の内訳」でも、あと何色か確認できます。</p>
+    </div>
+    <div class="faq-item">
       <p class="faq-q">Q. 「人氣者」ってなんですか？</p>
-      <p class="faq-a">A. 見た目・名前が固定された13体の特別なキャラクターです。一定確率で優先的に出現します。</p>
+      <p class="faq-a">A. 見た目・名前が固定された13体の特別なキャラクターです（全員レア度は★5）。13体まとめて合計15%の確率で優先的に出現し、図鑑では「👑 人氣者」として通常のどうぶつとは区別して表示されます。</p>
     </div>
     <div class="faq-item">
       <p class="faq-q">Q. 鳴き声が鳴りません。</p>
@@ -5201,6 +5236,10 @@
     </div>
 
     <p class="faq-category">💰 その他</p>
+    <div class="faq-item">
+      <p class="faq-q">Q. 「月間ダイジェスト」はいつ表示されますか？</p>
+      <p class="faq-a">A. 毎月1日〜3日の間にアプリを開くと、前月のふりかえりが表示されます（1ヶ月あたり最大13回まで）。モーダル内の「今月はもう表示しない」にチェックを入れて閉じると、その月はそれ以降表示されなくなります。</p>
+    </div>
     <div class="faq-item">
       <p class="faq-q">Q. 課金や広告はありますか？</p>
       <p class="faq-a">A. ありません。完全無料・ログイン不要で、すべての機能を使えます。</p>
@@ -9226,7 +9265,7 @@ window.fqtConfirm = function(message, onConfirm){
     { threshold: 888,  emoji: '💎', name: 'FQTインフィニティ' },
     { threshold: 999,  emoji: '🌟', name: 'FQTミレニアム前夜' },
     { threshold: 1000, emoji: '🌠', name: 'FQTミレニアム' },
-    { threshold: 1111, emoji: '👑', name: 'FQTゾロ目レジェンド' },
+    { threshold: 1111, emoji: '👑', name: 'ゾロ目レジェンド' },
     { threshold: 1200, emoji: '🌌', name: 'FQTマスター候補' },
     { threshold: 1300, emoji: '🌌', name: 'FQTマスター' }
   ];
@@ -11306,40 +11345,40 @@ window.fqtConfirm = function(message, onConfirm){
   const ACHIEVEMENT_DATA_KEY = 'fqtLifeCounter_achievements';
 
   /* ==========================================================
-     ② イベント定義（8種類・各10匹の限定宇宙どうぶつ）
+     ② イベント定義（8種類・各13匹の限定宇宙どうぶつ）
      ========================================================== */
   const EVENTS = [
     {
       id: 'spring', emoji: '🌸', name: '春', start: [3, 1], end: [5, 31],
-      creatures: ['さくらぴょん', 'はなもふ', 'チェリルン', 'つぼみっこ', 'はるかぜにゃん', 'もえぎまる', 'ちょうちょろん', 'たんぽぽぽん', 'うぐいすん', 'さくらいろこ']
+      creatures: ['さくらぴょん', 'はなもふ', 'チェリルン', 'つぼみっこ', 'はるかぜにゃん', 'もえぎまる', 'ちょうちょろん', 'たんぽぽぽん', 'うぐいすん', 'さくらいろこ', 'つばめっこ', 'はなびらん', 'わかばもふ']
     },
     {
       id: 'tanabata', emoji: '🎋', name: '七夕', start: [7, 1], end: [7, 7],
-      creatures: ['ミルキーしか', 'ほしうさ', 'あまのわん', 'おりひめにゃん', 'ひこぼしまる', 'たなばたん', 'ねがいぼし', 'ぎんがろん', 'たんざくん', 'あまのがわん']
+      creatures: ['ミルキーしか', 'ほしうさ', 'あまのわん', 'おりひめにゃん', 'ひこぼしまる', 'たなばたん', 'ねがいぼし', 'ぎんがろん', 'たんざくん', 'あまのがわん', 'おりがみっこ', 'せいざもふ', 'ほしまつりん']
     },
     {
       id: 'summer', emoji: '🌻', name: '夏', start: [7, 1], end: [8, 31],
-      creatures: ['ひまわりん', 'すいかにゃん', 'なつかぜもふ', 'うみのこ', 'かきごおりん', 'せみころん', 'なつまつりん', 'あさがおぽん', 'とうもろこしん', 'なつぼしろん']
+      creatures: ['ひまわりん', 'すいかにゃん', 'なつかぜもふ', 'うみのこ', 'かきごおりん', 'せみころん', 'なつまつりん', 'あさがおぽん', 'とうもろこしん', 'なつぼしろん', 'うちわぽん', 'はなびろん', 'すいへいせんこ']
     },
     {
       id: 'autumn', emoji: '🍁', name: '秋', start: [9, 1], end: [11, 30],
-      creatures: ['もみじにゃん', 'きのこもふ', 'どんぐりん', 'あきかぜろん', 'くりまろん', 'つきみうさ', 'いねほろん', 'まつぼっくん', 'あきばれぽん', 'ぶどうもん']
+      creatures: ['もみじにゃん', 'きのこもふ', 'どんぐりん', 'あきかぜろん', 'くりまろん', 'つきみうさ', 'いねほろん', 'まつぼっくん', 'あきばれぽん', 'ぶどうもん', 'かかしっこ', 'とんぼもふ', 'さつまいもん']
     },
     {
       id: 'halloween', emoji: '🎃', name: 'ハロウィン', start: [10, 1], end: [10, 31],
-      creatures: ['パンプキンもふ', 'ゴーストにゃん', 'コウモリぽん', 'まじょっこ', 'くろねこん', 'きゃんでぃまろん', 'かぼちゃろん', 'どくろぽん', 'おばけもふ', 'くもすん']
+      creatures: ['パンプキンもふ', 'ゴーストにゃん', 'コウモリぽん', 'まじょっこ', 'くろねこん', 'きゃんでぃまろん', 'かぼちゃろん', 'どくろぽん', 'おばけもふ', 'くもすん', 'ミイラろん', 'ふくろうにゃん', 'おかしぽん']
     },
     {
       id: 'christmas', emoji: '🎄', name: 'クリスマス', start: [12, 1], end: [12, 31],
-      creatures: ['スタートナカイ', 'サンタぴょん', 'ベルねこ', 'ゆきだるもん', 'もみのきん', 'プレゼントろん', 'キャンドルにゃん', 'スノーもふ', 'リースぽん', 'せいやろん']
+      creatures: ['スタートナカイ', 'サンタぴょん', 'ベルねこ', 'ゆきだるもん', 'もみのきん', 'プレゼントろん', 'キャンドルにゃん', 'スノーもふ', 'リースぽん', 'せいやろん', 'そりすべりん', 'おほしさまん', 'くつしたぽん']
     },
     {
       id: 'newyear', emoji: '🎍', name: 'お正月', start: [1, 1], end: [1, 7],
-      creatures: ['だるまる', 'ししまる', 'ふじぴょん', 'かどまつん', 'おもちもふ', 'たこあげろん', 'はねつきん', 'かがみもちろん', 'こまわりん', 'おとそぽん']
+      creatures: ['だるまる', 'ししまる', 'ふじぴょん', 'かどまつん', 'おもちもふ', 'たこあげろん', 'はねつきん', 'かがみもちろん', 'こまわりん', 'おとそぽん', 'おせちもふ', 'ふくぶくろん', 'はつひでっこ']
     },
     {
       id: 'winter', emoji: '❄️', name: '冬', start: [12, 1], end: [2, 28],
-      creatures: ['ゆきうさ', 'こおりんぽん', 'ふゆごもりん', 'しろくまもふ', 'つららん', 'こたつにゃん', 'ほっかいろん', 'みかんもふ', 'ゆきぐにん', 'かんぱいろん']
+      creatures: ['ゆきうさ', 'こおりんぽん', 'ふゆごもりん', 'しろくまもふ', 'つららん', 'こたつにゃん', 'ほっかいろん', 'みかんもふ', 'ゆきぐにん', 'かんぱいろん', 'しもばしらん', 'てぶくろにゃん', 'ふゆびよりん']
     }
   ];
 
@@ -11568,17 +11607,33 @@ window.fqtConfirm = function(message, onConfirm){
   }
 
   /* ==========================================================
-     ⑪ イベント実績（7種類）
+     ⑪ イベント実績（13種類）
      ========================================================== */
   const EVENT_ACHIEVEMENTS = [
+    { id: 'event_perfect_attendance', emoji: '🙋', name: 'イベント皆勤賞',     desc: '全8イベントで1匹以上発見', eventId: null, kind: 'anyOneEach' },
     { id: 'spring_master',     emoji: '🌸', name: '春マスター',           desc: '春限定を全種類発見', eventId: 'spring' },
+    { id: 'summer_master',     emoji: '🌻', name: '夏マスター',           desc: '夏限定を全種類発見', eventId: 'summer' },
+    { id: 'autumn_master',     emoji: '🍁', name: '秋マスター',           desc: '秋限定を全種類発見', eventId: 'autumn' },
+    { id: 'winter_master',     emoji: '❄️', name: '冬マスター',           desc: '冬限定を全種類発見', eventId: 'winter' },
     { id: 'tanabata_master',   emoji: '🎋', name: '七夕マスター',         desc: '七夕限定を全種類発見', eventId: 'tanabata' },
     { id: 'halloween_master',  emoji: '🎃', name: 'ハロウィンマスター',   desc: 'ハロウィン限定を全種類発見', eventId: 'halloween' },
     { id: 'christmas_master',  emoji: '🎄', name: 'クリスマスマスター',   desc: 'クリスマス限定を全種類発見', eventId: 'christmas' },
     { id: 'newyear_master',    emoji: '🎍', name: 'お正月マスター',       desc: 'お正月限定を全種類発見', eventId: 'newyear' },
-    { id: 'four_season_master', emoji: '🌍', name: '四季マスター',        desc: '全イベントで1匹以上発見', eventId: null },
+    { id: 'four_season_master', emoji: '🌍', name: '四季マスター',        desc: '春・夏・秋・冬をすべて全種類発見', eventId: null, kind: 'fourSeasons' },
+    { id: 'annual_event_master', emoji: '🎊', name: '年中行事マスター',   desc: '七夕・ハロウィン・クリスマス・お正月をすべて全種類発見', eventId: null, kind: 'annualEvents' },
+    { id: 'event_complete',    emoji: '🏆', name: 'イベントコンプリート', desc: '全8イベントをすべて全種類発見', eventId: null, kind: 'allComplete' },
     { id: 'event_legend',      emoji: '👑', name: 'イベントレジェンド',   desc: 'イベント限定★★★★★を13匹発見', eventId: null }
   ];
+
+  // 各イベントが「全種類発見」済みかどうかを判定する共通関数
+  function isEventFullyDiscovered(eventId){
+    const event = EVENTS.find(ev => ev.id === eventId);
+    if (!event) return false;
+    const foundCount = event.creatures.filter((name, idx) =>
+      !!eventData.discovered[`${event.id}_${idx}`]
+    ).length;
+    return foundCount >= event.creatures.length;
+  }
 
   let eventEarnQueue = [];
   function checkEventAchievements(){
@@ -11591,16 +11646,21 @@ window.fqtConfirm = function(message, onConfirm){
       let achieved = false;
       if (ach.eventId){
         // 特定イベントの全種類発見
-        const event = EVENTS.find(ev => ev.id === ach.eventId);
-        const foundCount = event.creatures.filter((name, idx) =>
-          !!eventData.discovered[`${event.id}_${idx}`]
-        ).length;
-        achieved = foundCount >= event.creatures.length;
-      } else if (ach.id === 'four_season_master'){
+        achieved = isEventFullyDiscovered(ach.eventId);
+      } else if (ach.kind === 'anyOneEach'){
         // 全イベントで1匹以上発見
         achieved = EVENTS.every(ev =>
           ev.creatures.some((name, idx) => !!eventData.discovered[`${ev.id}_${idx}`])
         );
+      } else if (ach.kind === 'fourSeasons'){
+        // 春・夏・秋・冬をすべて全種類発見
+        achieved = ['spring', 'summer', 'autumn', 'winter'].every(isEventFullyDiscovered);
+      } else if (ach.kind === 'annualEvents'){
+        // 七夕・ハロウィン・クリスマス・お正月をすべて全種類発見
+        achieved = ['tanabata', 'halloween', 'christmas', 'newyear'].every(isEventFullyDiscovered);
+      } else if (ach.kind === 'allComplete'){
+        // 全8イベントをすべて全種類発見
+        achieved = EVENTS.every(ev => isEventFullyDiscovered(ev.id));
       } else if (ach.id === 'event_legend'){
         achieved = eventData.eventLegendCount >= 13;
       }
@@ -11653,12 +11713,12 @@ window.fqtConfirm = function(message, onConfirm){
       const allMainAchievementsEarned = earnedAchievements.indexOf('universe_master') !== -1
         && earnedAchievements.indexOf('multiverse_master') !== -1;
 
-      // イベント図鑑：全8イベント×10匹＝80匹すべて発見
+      // イベント図鑑：全8イベント×13匹＝104匹すべて発見
       const totalEventCreatures = EVENTS.reduce((sum, ev) => sum + ev.creatures.length, 0);
       const discoveredEventCount = Object.keys(eventData.discovered).length;
       const allEventCreaturesFound = discoveredEventCount >= totalEventCreatures;
 
-      // イベント実績：7種類すべて達成
+      // イベント実績：13種類すべて達成
       const allEventAchievementsEarned = eventData.eventAchievements.length >= EVENT_ACHIEVEMENTS.length;
 
       if (allBadgesEarned && allMainAchievementsEarned && allEventCreaturesFound && allEventAchievementsEarned){
