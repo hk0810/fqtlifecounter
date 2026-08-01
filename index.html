@@ -2509,6 +2509,21 @@
     color: var(--text-sub);
     margin: 0 0 18px;
   }
+  .digest-mute-label{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 12px;
+    cursor: pointer;
+  }
+  .digest-mute-label input[type="checkbox"]{
+    width: 16px;
+    height: 16px;
+  }
 
   /* ==========================================================
      🌏 地球滞在証明書
@@ -3101,6 +3116,7 @@
   .sun-pref-row{
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
     gap: 6px;
     margin-top: 4px;
   }
@@ -3117,6 +3133,31 @@
     border: 1px solid var(--blue-light);
     border-radius: 8px;
     padding: 3px 6px;
+  }
+  .sun-location-btn{
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--blue);
+    border: none;
+    border-radius: 8px;
+    padding: 4px 8px;
+    cursor: pointer;
+  }
+  .sun-location-btn:disabled{
+    opacity: 0.6;
+  }
+  .sun-location-status{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    margin: 4px 0 0;
+  }
+  .sun-location-status.ok{
+    color: var(--blue);
+  }
+  .sun-location-status.ng{
+    color: #d9534f;
   }
   .fortune-row{
     display: flex;
@@ -4090,6 +4131,10 @@
     <p class="digest-month" id="digestMonth">-</p>
     <div class="digest-list" id="digestList"></div>
     <p class="digest-footer">今月も、あなたのペースで楽しんでくださいね。</p>
+    <label class="digest-mute-label">
+      <input type="checkbox" id="digestMuteCheckbox">
+      <span>今月はもう表示しない</span>
+    </label>
     <button class="badge-earn-ok-btn" id="digestCloseBtn" type="button">OK</button>
   </div>
 </div>
@@ -5843,7 +5888,9 @@
           <div class="sun-pref-row">
             <span class="sub">計算する地域：</span>
             <select class="sun-pref-select" id="sunPrefSelect"></select>
+            <button class="sun-location-btn" id="sunLocationBtn" type="button">📍 現在地を使う</button>
           </div>
+          <p class="sun-location-status" id="sunLocationStatus"></p>
         </div>
       </div>
       <div class="fortune-row">
@@ -7413,19 +7460,81 @@ function calcSunTimes(date, latDeg, lonDeg){
 }
 
 // 選択中の都道府県で日の出・日の入りを再計算して表示する（今日の日付を対象とする）
+// 現在地の座標（取得できた場合のみ設定。プライバシーのため保存はせず、このセッション内だけ保持する）
+let currentGeoLocation = null;
+
 function renderSunTimes(){
-  const selectEl = document.getElementById('sunPrefSelect');
-  const selectedPrefName = (selectEl && selectEl.value) || '東京都';
-  const selectedPref = PREFECTURES.find(p => p.name === selectedPrefName) || PREFECTURES.find(p => p.name === '東京都');
-  const sunTimes = calcSunTimes(new Date(), selectedPref.lat, selectedPref.lon);
+  let lat, lon, label;
+  if (currentGeoLocation){
+    lat = currentGeoLocation.lat;
+    lon = currentGeoLocation.lon;
+    label = '現在地';
+  } else {
+    const selectEl = document.getElementById('sunPrefSelect');
+    const selectedPrefName = (selectEl && selectEl.value) || '東京都';
+    const selectedPref = PREFECTURES.find(p => p.name === selectedPrefName) || PREFECTURES.find(p => p.name === '東京都');
+    lat = selectedPref.lat;
+    lon = selectedPref.lon;
+    label = selectedPref.name;
+  }
+  const sunTimes = calcSunTimes(new Date(), lat, lon);
   if (sunTimes){
     const fmtJST = (d) => d.toLocaleTimeString('ja-JP', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Tokyo' });
     document.getElementById('fortuneSunTimes').textContent =
-      `日の出 ${fmtJST(sunTimes.sunrise)}　/　日の入り ${fmtJST(sunTimes.sunset)}`;
+      `日の出 ${fmtJST(sunTimes.sunrise)}　/　日の入り ${fmtJST(sunTimes.sunset)}（${label}）`;
   } else {
     document.getElementById('fortuneSunTimes').textContent = '-';
   }
 }
+
+// ----- 📍 現在地を使う（Geolocation APIで取得。座標は保存せずこのセッションのみ使用） -----
+document.getElementById('sunLocationBtn').addEventListener('click', () => {
+  const btn = document.getElementById('sunLocationBtn');
+  const status = document.getElementById('sunLocationStatus');
+
+  // すでに現在地モードなら、都道府県選択に戻す
+  if (currentGeoLocation){
+    currentGeoLocation = null;
+    document.getElementById('sunPrefSelect').disabled = false;
+    btn.textContent = '📍 現在地を使う';
+    status.textContent = '';
+    status.className = 'sun-location-status';
+    renderSunTimes();
+    return;
+  }
+
+  if (!navigator.geolocation){
+    status.textContent = 'この端末・ブラウザでは位置情報を利用できません。';
+    status.className = 'sun-location-status ng';
+    return;
+  }
+
+  btn.disabled = true;
+  status.textContent = '位置情報を取得しています…';
+  status.className = 'sun-location-status';
+
+  navigator.geolocation.getCurrentPosition(
+    (position) => {
+      currentGeoLocation = { lat: position.coords.latitude, lon: position.coords.longitude };
+      document.getElementById('sunPrefSelect').disabled = true;
+      btn.textContent = '🗾 都道府県選択に戻す';
+      status.textContent = '現在地を使って計算しています。';
+      status.className = 'sun-location-status ok';
+      btn.disabled = false;
+      renderSunTimes();
+    },
+    (error) => {
+      let message = '位置情報を取得できませんでした。';
+      if (error.code === error.PERMISSION_DENIED){
+        message = '位置情報の利用が許可されませんでした。ブラウザの設定をご確認ください。';
+      }
+      status.textContent = message;
+      status.className = 'sun-location-status ng';
+      btn.disabled = false;
+    },
+    { enableHighAccuracy: false, timeout: 10000, maximumAge: 300000 }
+  );
+});
 
 // ----- 🌙 今日の月齢・月相（実際の天文計算） -----
 const MOON_PHASES = [
@@ -14236,14 +14345,22 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('digestModalOverlay').classList.add('show');
   }
 
-  document.getElementById('digestCloseBtn').addEventListener('click', () => {
-    document.getElementById('digestModalOverlay').classList.remove('show');
-  });
-
   // ----- 起動：月初（1〜3日）は毎回、前月のダイジェストを表示する（ただし1ヶ月あたり13回まで） -----
   const DIGEST_SHOWN_COUNT_KEY = 'fqtLifeCounter_digestShownCount';
   const DIGEST_SHOWN_MONTH_KEY = 'fqtLifeCounter_digestShownMonth';
+  const DIGEST_MUTED_MONTH_KEY = 'fqtLifeCounter_digestMutedMonth';
   const DIGEST_MAX_SHOWS_PER_MONTH = 13;
+
+  document.getElementById('digestCloseBtn').addEventListener('click', () => {
+    if (document.getElementById('digestMuteCheckbox').checked){
+      try{
+        window.localStorage.setItem(DIGEST_MUTED_MONTH_KEY, getYearMonth(new Date()));
+      } catch(e){
+        // 保存できない環境では何もしない
+      }
+    }
+    document.getElementById('digestModalOverlay').classList.remove('show');
+  });
 
   function checkMonthlyDigest(){
     const now = new Date();
@@ -14255,13 +14372,18 @@ window.fqtConfirm = function(message, onConfirm){
 
     let shownMonth = null;
     let shownCount = 0;
+    let mutedMonth = null;
     try{
       shownMonth = window.localStorage.getItem(DIGEST_SHOWN_MONTH_KEY);
       shownCount = Number(window.localStorage.getItem(DIGEST_SHOWN_COUNT_KEY)) || 0;
+      mutedMonth = window.localStorage.getItem(DIGEST_MUTED_MONTH_KEY);
     } catch(e){
       // 読み取れない環境では表示せずスキップする
       return;
     }
+
+    // 「今月はもう表示しない」にチェックが入れられていたら、それ以上は出さない
+    if (mutedMonth === currentYm) return;
 
     // 月が変わっていたら、表示回数カウントをリセットする
     if (shownMonth !== currentYm){
@@ -14278,6 +14400,7 @@ window.fqtConfirm = function(message, onConfirm){
     const hasAnyRecord = digest.animalCount + digest.eventCount + digest.milestoneCount + digest.activeDays > 0;
     if (!hasAnyRecord) return;
 
+    document.getElementById('digestMuteCheckbox').checked = false;
     showDigest(monthInfo, digest);
 
     try{
