@@ -1773,6 +1773,10 @@
     font-weight: 800;
     color: var(--text-main);
     line-height: 1.3;
+    height: 14px; /* 「ギャラクシーアーティスト」のような長い名前でも折り返さず、高さを固定する */
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
   }
   .dex-item .dex-rarity{
     font-size: 9.5px;
@@ -5943,17 +5947,17 @@
     // ----- 🌌 ホーム画面追加を促すメッセージ（13種類・配列管理） -----
     const pwaMessages = [
       '🌏もうホーム画面に追加しましたか？毎日「地球に来て何日目？」を楽しもう🚀',
-      '🌌もうホーム画面に追加して、あなた専用の宇宙カウンターを持っていますか？✨',
+      '🌌もうホーム画面に追加して、あなた専用の<span class="nowrap-word">宇宙カウンター</span>を持っていますか？✨',
       '🐾もうホーム画面に追加しましたか？毎日変わる宇宙どうぶつに会いに行こう🚀',
       '🌏あなたは今日、地球に来て何日目？すぐ確認できるようにホーム画面に追加✨',
       '🚀もうホーム画面に追加しましたか？あなたの宇宙旅をいつでもスタートできます🌌',
       '⭐まだなら今すぐホーム画面に追加。毎日の楽しみをスマホに🌈',
-      '🌍あなた専用の地球生活カウンター、もうホーム画面に追加しましたか？✨',
+      '🌍あなた専用の<span class="nowrap-word">地球生活カウンター</span>、もうホーム画面に追加しましたか？✨',
       '🪐宇宙への入口は準備できていますか？ホーム画面に追加して毎日アクセス🚀',
       '🌈毎日の小さな奇跡を見逃さないためにホーム画面に追加しましたか？✨',
       '🔮今日の運勢・宇宙占いをすぐ見るためにホーム画面に追加しよう🌌',
       '🐾次の宇宙どうぶつとの出会いの準備はできましたか？ホーム画面に追加🚀',
-      '🌟FQT LIFE COUNTERを毎日の相棒に。もうホーム画面に追加しましたか？🌏',
+      '🌟<span class="nowrap-word">FQT LIFE COUNTER</span>を毎日の相棒に。もうホーム画面に追加しましたか？🌏',
       '💎あなたの地球旅行記をいつでも開けるようにホーム画面に追加✨'
     ];
 
@@ -6056,7 +6060,7 @@
 
     // ----- ポップアップ表示 -----
     function showPwaPrompt(){
-      document.getElementById('pwaPromptMessage').textContent = pickPwaMessage();
+      document.getElementById('pwaPromptMessage').innerHTML = pickPwaMessage();
       document.getElementById('pwaPromptOverlay').classList.add('show');
       try{ window.localStorage.setItem(KEY_LAST_SHOWN_DATE, getTodayDateStringForPwaMessage()); } catch(e){}
     }
