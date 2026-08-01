@@ -2979,6 +2979,118 @@
     font-weight: 700;
     color: var(--text-sub);
   }
+  .zodiac-body{
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .zodiac-name-row{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 6px 0 10px;
+  }
+  .zodiac-emoji{
+    font-size: 32px;
+  }
+  .zodiac-name{
+    font-size: 22px;
+    font-weight: 900;
+    color: var(--text-main);
+  }
+  .zodiac-info-list{
+    display: flex;
+    flex-direction: column;
+  }
+  .zodiac-info-row{
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    padding: 9px 2px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .zodiac-info-row:last-child{
+    border-bottom: none;
+  }
+  .zodiac-info-label{
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
+  .zodiac-info-value{
+    font-size: 14px;
+    font-weight: 900;
+    color: var(--text-main);
+    text-align: right;
+  }
+  .zodiac-fortune-box,
+  .zodiac-trivia-box{
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--blue-pale);
+  }
+  .zodiac-fortune-label,
+  .zodiac-trivia-label{
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--blue);
+    margin: 0 0 6px;
+  }
+  .zodiac-fortune-value,
+  .zodiac-trivia-value{
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--text-main);
+    line-height: 1.6;
+    margin: 0;
+  }
+  .zodiac-disclaimer{
+    font-size: 11px;
+    color: var(--text-sub);
+    line-height: 1.6;
+    margin: 12px 0 0;
+  }
+  .sky-constellation-box{
+    margin: 14px 0;
+    padding: 12px;
+    border-radius: 12px;
+    background: var(--blue-pale);
+  }
+  .sky-constellation-title{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--blue);
+    margin: 0 0 8px;
+  }
+  .sky-constellation-list{
+    display: flex;
+    flex-direction: column;
+  }
+  .sky-constellation-row{
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 2px;
+    border-bottom: 1px dashed var(--border);
+  }
+  .sky-constellation-row:last-child{
+    border-bottom: none;
+  }
+  .sky-constellation-emoji{
+    font-size: 18px;
+  }
+  .sky-constellation-name{
+    font-size: 13px;
+    font-weight: 800;
+    color: var(--text-main);
+    flex: 1;
+  }
+  .sky-constellation-direction{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+  }
 
   /* ===== 今日の運勢占いカード ===== */
   .fortune-list{
@@ -4351,6 +4463,10 @@
     <button class="badge-modal-close" id="skyEventListModalCloseBtn" type="button">✕</button>
     <p class="badge-modal-title">🌠 天体ショー一覧（この先13個）</p>
     <p class="badge-modal-note">実際の天文暦・毎年の流星群の時期をもとにした一覧です。「(日本からは見えません)」の記載がないものは、日本でも観測のチャンスがあります。</p>
+    <div class="sky-constellation-box" id="skyConstellationBox">
+      <p class="sky-constellation-title">🌟 今、宵の空で見える星座</p>
+      <div class="sky-constellation-list" id="skyConstellationList"></div>
+    </div>
     <div class="sky-event-list" id="skyEventListBody"></div>
   </div>
 </div>
@@ -5444,6 +5560,36 @@
     </div>
   </div>
 
+  <!-- ⭐ 星座占いカード -->
+  <div class="card" id="zodiacCard" style="display:none;">
+    <p class="section-title" id="zodiacCardTitle">⭐ あなたの星座</p>
+    <div class="zodiac-body">
+      <div class="zodiac-name-row">
+        <span class="zodiac-emoji" id="zodiacEmoji">-</span>
+        <span class="zodiac-name" id="zodiacName">-</span>
+      </div>
+      <div class="zodiac-info-list">
+        <div class="zodiac-info-row">
+          <span class="zodiac-info-label">🌌 よく見える時期</span>
+          <span class="zodiac-info-value" id="zodiacSeason">-</span>
+        </div>
+        <div class="zodiac-info-row">
+          <span class="zodiac-info-label">🧭 見える方角の目安</span>
+          <span class="zodiac-info-value" id="zodiacDirection">-</span>
+        </div>
+      </div>
+      <div class="zodiac-fortune-box">
+        <p class="zodiac-fortune-label">🍀 今日の運気</p>
+        <p class="zodiac-fortune-value" id="zodiacFortune">-</p>
+      </div>
+      <div class="zodiac-trivia-box">
+        <p class="zodiac-trivia-label">📖 星座のウンチク</p>
+        <p class="zodiac-trivia-value" id="zodiacTrivia">-</p>
+      </div>
+    </div>
+    <p class="zodiac-disclaimer">※ 星座占いは、科学的な効果が実証されたものではありません。星占いやタロットと同じように、気軽な楽しみとしてお受け取りください。見える時期・方角は日本国内・宵の空を基準にした目安で、実際の見え方は時期や場所によって変わります。</p>
+  </div>
+
   <!-- 🌌 今日の宇宙どうぶつカード（結果カードの直後＝計算後に自動スクロールしてすぐ見える位置） -->
   <div class="card animal-card" id="animalCard">
     <p class="section-title" id="animalCardTitle">🌌 宇宙どうぶつに出会った！</p>
@@ -6457,6 +6603,9 @@ function calculate(){
   // 生年月日（0時0分0秒）を基準にリアルタイム更新を開始
   currentBirthDate = birthDate;
   startRealtimeUpdates();
+  if (typeof window.__fqtRenderZodiac === 'function'){
+    window.__fqtRenderZodiac(birthDate);
+  }
 
   // 結果カードまで自動でスクロール移動
   resultBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -7982,6 +8131,113 @@ document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
    ・「復活の呪文」は、localStorageの中身をまとめてファイルに書き出し（ダウンロード）、
      別の端末でそのファイルを読み込む（インポート）ことで、記録を復元できる仕組み。
    ========================================================== */
+(function initZodiacFortune(){
+
+  // ----- ⭐ 12星座データ（生年月日の範囲、見える時期・方角の目安、ウンチク） -----
+  // ※ 見える時期・方角は日本国内・宵の空（21時ごろ）を基準にしたおおよその目安
+  const ZODIAC_SIGNS = [
+    { name: 'やぎ座',     emoji: '♑', start: [12, 22], end: [1, 19], seasonMonths: [8, 9, 10],
+      season: '8月〜10月ごろの宵の空', direction: '南の空',
+      trivia: '半分ヤギ、半分魚という珍しい姿がモチーフ。星座としては控えめな明るさですが、夏の終わりを告げる星座として親しまれています。' },
+    { name: 'みずがめ座', emoji: '♒', start: [1, 20], end: [2, 18], seasonMonths: [9, 10, 11],
+      season: '9月〜11月ごろの宵の空', direction: '南の空',
+      trivia: '毎年8月ごろに見られる「みずがめ座流星群」の放射点があることで知られています。' },
+    { name: 'うお座',     emoji: '♓', start: [2, 19], end: [3, 20], seasonMonths: [10, 11, 12],
+      season: '10月〜12月ごろの宵の空', direction: '南〜東の空',
+      trivia: '2匹の魚がリボンで結ばれた姿がモチーフ。天文学上の「春分点」がこの星座の中にあります。' },
+    { name: 'おひつじ座', emoji: '♈', start: [3, 21], end: [4, 19], seasonMonths: [11, 12, 1],
+      season: '11月〜1月ごろの宵の空', direction: '南の空',
+      trivia: 'ギリシャ神話の「黄金の羊」がモチーフ。実は星の並びは控えめで、見つけるのに少しコツがいる星座です。' },
+    { name: 'おうし座',   emoji: '♉', start: [4, 20], end: [5, 20], seasonMonths: [12, 1, 2],
+      season: '12月〜2月ごろの宵の空', direction: '南〜南東の空',
+      trivia: '1等星アルデバランが目印。すばるの愛称で知られるプレアデス星団も、この星座の中にあります。' },
+    { name: 'ふたご座',   emoji: '♊', start: [5, 21], end: [6, 21], seasonMonths: [1, 2, 3],
+      season: '1月〜3月ごろの宵の空', direction: '南の空高く',
+      trivia: 'カストルとポルックスという2つの明るい星が、双子の頭の位置で仲良く並んでいます。' },
+    { name: 'かに座',     emoji: '♋', start: [6, 22], end: [7, 22], seasonMonths: [2, 3, 4],
+      season: '2月〜4月ごろの宵の空', direction: '南の空',
+      trivia: '黄道十二星座の中でも特に暗い星座のひとつで、肉眼で見つけるのがやや難しい星座です。' },
+    { name: 'しし座',     emoji: '♌', start: [7, 23], end: [8, 22], seasonMonths: [3, 4, 5],
+      season: '3月〜5月ごろの宵の空', direction: '南の空高く',
+      trivia: '「?」を裏返したような星の並び（獅子の大鎌）が目印。1等星レグルスは獅子の心臓の位置にあります。' },
+    { name: 'おとめ座',   emoji: '♍', start: [8, 23], end: [9, 22], seasonMonths: [4, 5, 6],
+      season: '4月〜6月ごろの宵の空', direction: '南の空',
+      trivia: '1等星スピカが目印で、全天88星座の中で2番目に大きな星座です。' },
+    { name: 'てんびん座', emoji: '♎', start: [9, 23], end: [10, 23], seasonMonths: [5, 6, 7],
+      season: '5月〜7月ごろの宵の空', direction: '南の空低め',
+      trivia: '黄道十二星座の中で唯一、人ではなく道具（天秤）がモチーフになっている星座です。' },
+    { name: 'さそり座',   emoji: '♏', start: [10, 24], end: [11, 22], seasonMonths: [6, 7, 8],
+      season: '6月〜8月ごろの宵の空', direction: '南の空低め',
+      trivia: '1等星アンタレスは「火星に対抗するもの」という意味を持つ、赤く輝く星です。' },
+    { name: 'いて座',     emoji: '♐', start: [11, 23], end: [12, 21], seasonMonths: [7, 8, 9],
+      season: '7月〜9月ごろの宵の空', direction: '南の空低め',
+      trivia: '夏の天の川が最も濃く見える方向にある星座で、この付近には天の川銀河の中心があるとされています。' }
+  ];
+
+  // ----- 生年月日から星座を判定する -----
+  function getZodiacSign(month, day){
+    return ZODIAC_SIGNS.find(z => {
+      const [sm, sd] = z.start;
+      const [em, ed] = z.end;
+      if (sm === em){
+        return month === sm && day >= sd && day <= ed;
+      }
+      if (sm > em){
+        // やぎ座のように年をまたぐ星座（12/22〜翌1/19）
+        return (month === sm && day >= sd) || (month === em && day <= ed);
+      }
+      return (month === sm && day >= sd) || (month === em && day <= ed) ||
+             (month > sm && month < em);
+    });
+  }
+
+  // ----- 今日の運気（日付＋星座で決まるので、同じ日は同じ内容になる） -----
+  const FORTUNE_LINES = [
+    '直感を信じて動くと、いい流れに乗れそう',
+    '小さな親切が、思わぬ形で返ってくる日',
+    '背伸びせず、いつも通りの自分でいると◎',
+    '誰かとの何気ない会話にヒントが隠れていそう',
+    '焦らずマイペースに進めば、きっと大丈夫',
+    '新しいことを試すと、新しい発見がありそう',
+    '自分をちょっとだけ甘やかしてあげて',
+    '周りへの感謝を言葉にすると、運気アップ',
+    '整理整頓をすると、気持ちもすっきりしそう',
+    '無理せず休むことも、今日は立派な選択'
+  ];
+  function pickTodayFortune(signIndex){
+    const now = new Date();
+    const dayKey = now.getFullYear() * 372 + now.getMonth() * 31 + now.getDate(); // 年月日を1つの数値にまとめる
+    const idx = (dayKey + signIndex * 7) % FORTUNE_LINES.length;
+    return FORTUNE_LINES[idx];
+  }
+
+  // ----- 星座カードを描画してグローバルに公開（calculate()から呼び出される） -----
+  function renderZodiac(birthDate){
+    const month = birthDate.getMonth() + 1;
+    const day = birthDate.getDate();
+    const sign = getZodiacSign(month, day);
+    if (!sign) return;
+
+    const signIndex = ZODIAC_SIGNS.indexOf(sign);
+    document.getElementById('zodiacEmoji').textContent = sign.emoji;
+    document.getElementById('zodiacName').textContent = sign.name;
+    document.getElementById('zodiacSeason').textContent = sign.season;
+    document.getElementById('zodiacDirection').textContent = sign.direction;
+    document.getElementById('zodiacFortune').textContent = pickTodayFortune(signIndex);
+    document.getElementById('zodiacTrivia').textContent = sign.trivia;
+    document.getElementById('zodiacCard').style.display = 'block';
+  }
+
+  // ----- 今夜（今月）見える星座の一覧を返す -----
+  function getCurrentlyVisibleSigns(){
+    const currentMonth = new Date().getMonth() + 1;
+    return ZODIAC_SIGNS.filter(z => z.seasonMonths.includes(currentMonth));
+  }
+
+  window.__fqtRenderZodiac = renderZodiac;
+  window.__fqtCurrentSkySigns = getCurrentlyVisibleSigns;
+})();
+
 (function initRevivalSpell(){
 
   // このアプリが使っているlocalStorageキー一覧（新しいデータを追加した時は、ここにも追記する）
@@ -8241,6 +8497,16 @@ document.getElementById('skyEventBox').addEventListener('click', () => {
   const listBody = document.getElementById('skyEventListBody');
   const today = new Date();
   today.setHours(0, 0, 0, 0);
+
+  // 🌟 今、宵の空で見える星座
+  const visibleSigns = typeof window.__fqtCurrentSkySigns === 'function' ? window.__fqtCurrentSkySigns() : [];
+  document.getElementById('skyConstellationList').innerHTML = visibleSigns.map(sign =>
+    `<div class="sky-constellation-row">` +
+      `<span class="sky-constellation-emoji">${sign.emoji}</span>` +
+      `<span class="sky-constellation-name">${sign.name}</span>` +
+      `<span class="sky-constellation-direction">${sign.direction}</span>` +
+    `</div>`
+  ).join('');
 
   const upcoming13 = (typeof window.__fqtSkyEvents === 'function' ? window.__fqtSkyEvents() : [])
     .filter(ev => ev.dateObj >= today)
@@ -9951,6 +10217,21 @@ window.fqtConfirm = function(message, onConfirm){
 
     const animalId = buildAnimalId(parts);
     const isFirstMeeting = !dexData.discovered[animalId];
+
+    // 🔁 再会（isFirstMeeting=false）の場合は、その場でランダム生成した名前ではなく、
+    //    図鑑に最初に登録された名前・性格・セリフ・レア度をそのまま使う
+    //    （「同じ見た目＝同じ個体」という考え方に合わせ、再会時の表示をブレさせないため）
+    if (!isFirstMeeting){
+      const known = dexData.discovered[animalId];
+      rarity = known.rarity;
+      texts = {
+        name: known.name,
+        personality: known.personality,
+        favorite: known.favorite,
+        quote: texts.quote, // セリフは会話のバリエーションとして毎回変わってもよいのでそのまま
+        signatureKey: known.signatureKey || null
+      };
+    }
 
     currentAnimal = { animalId, parts, rarity, texts };
 
