@@ -10622,6 +10622,17 @@ window.fqtConfirm = function(message, onConfirm){
   // ----- 状態を保持する変数 -----
   let achievementData = loadAchievementData();
 
+  // 🔄 「レインボーコンプリート」の目標色数を30→68に変更した際、以前30色時点で
+  //    達成済みだったデータがそのまま残ってしまう不具合の修正。
+  //    実際の発見色数が新しい目標（68）に届いていなければ、達成を取り消す。
+  (function migrateRainbowAchievement(){
+    const idx = achievementData.achievements.indexOf('rainbow_complete');
+    if (idx !== -1 && getDiscoveredColorCount() < 68){
+      achievementData.achievements.splice(idx, 1);
+      saveAchievementData(achievementData, getDiscoveredCount(), Math.min(100, Math.round((getDiscoveredCount() / DEX_COMPLETION_TARGET) * 100)));
+    }
+  })();
+
   // ----- ⑥ 現在値から達成済みの実績を判定し、新規達成分を返す -----
   function checkAchievements(){
     const discoveredCount = getDiscoveredCount();
