@@ -7932,9 +7932,28 @@ document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
 });
 
 // 🎥 おすすめ動画モーダルの開閉（YouTube公式のiframe埋め込みを使用）
-const RECOMMENDED_VIDEO_IDS = ['6BgOM9VPtYQ', 'dkGP0uKQdvQ'];
+// ランダムではなく、配列の順番どおりに1本ずつ再生し、最後まで行ったら最初に戻る
+const RECOMMENDED_VIDEO_IDS = [
+  '6BgOM9VPtYQ', 'dkGP0uKQdvQ', '6fzWljTAux4', '7uRnMEgJoO0', '3nEykpdy6s8', 'p0ZxTqBPC7M'
+];
+const VIDEO_INDEX_KEY = 'fqtLifeCounter_videoIndex';
+function pickNextVideoId(){
+  let index = 0;
+  try{
+    index = Number(window.localStorage.getItem(VIDEO_INDEX_KEY)) || 0;
+  } catch(e){
+    index = 0;
+  }
+  const videoId = RECOMMENDED_VIDEO_IDS[index % RECOMMENDED_VIDEO_IDS.length];
+  try{
+    window.localStorage.setItem(VIDEO_INDEX_KEY, String((index + 1) % RECOMMENDED_VIDEO_IDS.length));
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+  return videoId;
+}
 document.getElementById('videoOpenBtn').addEventListener('click', () => {
-  const videoId = RECOMMENDED_VIDEO_IDS[Math.floor(Math.random() * RECOMMENDED_VIDEO_IDS.length)];
+  const videoId = pickNextVideoId();
   document.getElementById('videoEmbedWrap').innerHTML =
     `<iframe src="https://www.youtube.com/embed/${videoId}?autoplay=1" ` +
     `title="おすすめ動画" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" ` +
@@ -10083,7 +10102,7 @@ window.fqtConfirm = function(message, onConfirm){
     const maxRarityCount = Math.max(1, signatureCount, ...Object.values(rarityCounts)); // 0除算を避ける
     const breakdownEl = document.getElementById('dexRarityBreakdown');
 
-    const signatureWidthPercent = Math.round((signatureCount / maxRarityCount) * 100);
+    const signatureWidthPercent = Math.round((signatureCount / SIGNATURE_CREATURES.length) * 100);
     const signatureRowHtml =
       `<div class="dex-rarity-row">` +
         `<div class="dex-rarity-row-label">👑 人氣者</div>` +
