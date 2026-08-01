@@ -9894,6 +9894,12 @@ window.fqtConfirm = function(message, onConfirm){
     Object.keys(dexData.discovered).forEach(id => {
       const animal = dexData.discovered[id];
       if (!animal || !animal.signatureKey) return;
+      // 人氣者は全員★5固定なので、キーの照合に関わらずレア度だけは無条件で5にする
+      // （名前や性格の照合に失敗するケースがあっても、レア度だけは確実に直すための保険）
+      if (animal.rarity !== 5){
+        animal.rarity = 5;
+        changed = true;
+      }
       const latest = SIGNATURE_CREATURES.find(s => s.key === animal.signatureKey);
       if (!latest) return;
       if (animal.name !== latest.name || animal.personality !== latest.personality ||
@@ -9979,7 +9985,7 @@ window.fqtConfirm = function(message, onConfirm){
     // 実績（Achievements）モジュールへ、出会った宇宙どうぶつのレア度を通知する
     // ※ 直接関数を呼ばず、カスタムイベントで疎結合に連携する（既存モジュールに影響を与えないため）
     document.dispatchEvent(new CustomEvent('fqtAnimalEncountered', {
-      detail: { rarity: rarity, isFirstMeeting: isFirstMeeting }
+      detail: { rarity: rarity, isFirstMeeting: isFirstMeeting, signatureKey: texts.signatureKey || null }
     }));
   }
 
@@ -10848,8 +10854,10 @@ window.fqtConfirm = function(message, onConfirm){
   // 宇宙どうぶつに出会うたびに（新規発見でも再会でも）実績条件を再チェックする
   document.addEventListener('fqtAnimalEncountered', (e) => {
     const rarity = e.detail && e.detail.rarity;
+    const signatureKey = e.detail && e.detail.signatureKey;
     // ★5レアなら「同じ宇宙どうぶつでもカウントする」仕様のため、毎回加算する
-    if (rarity === 5){
+    // （ただし人氣者は通常のレア枠とは別物として扱うため、ここではカウントしない）
+    if (rarity === 5 && !signatureKey){
       achievementData.legendCount += 1;
     }
     const result = checkAchievements();
@@ -13951,29 +13959,49 @@ window.fqtConfirm = function(message, onConfirm){
     document.getElementById('digestModalOverlay').classList.remove('show');
   });
 
-  // ----- 起動：月が変わっていれば、前月のダイジェストを1回だけ表示する -----
+  // ----- 起動：月初（1〜3日）は毎回、前月のダイジェストを表示する（ただし1ヶ月あたり13回まで） -----
+  const DIGEST_SHOWN_COUNT_KEY = 'fqtLifeCounter_digestShownCount';
+  const DIGEST_SHOWN_MONTH_KEY = 'fqtLifeCounter_digestShownMonth';
+  const DIGEST_MAX_SHOWS_PER_MONTH = 13;
+
   function checkMonthlyDigest(){
     const now = new Date();
     const currentYm = getYearMonth(now);
-    let lastShownYm = null;
+    const dayOfMonth = now.getDate();
+
+    // 1日〜3日の「月初」だけを対象にする
+    if (dayOfMonth > 3) return;
+
+    let shownMonth = null;
+    let shownCount = 0;
     try{
-      lastShownYm = window.localStorage.getItem(DIGEST_LAST_MONTH_KEY);
+      shownMonth = window.localStorage.getItem(DIGEST_SHOWN_MONTH_KEY);
+      shownCount = Number(window.localStorage.getItem(DIGEST_SHOWN_COUNT_KEY)) || 0;
     } catch(e){
       // 読み取れない環境では表示せずスキップする
+      return;
     }
 
-    if (lastShownYm !== null && lastShownYm !== currentYm){
-      const monthInfo = getPreviousMonthInfo(now);
-      const digest = buildDigest(monthInfo);
-      // 何も記録がない月は、わざわざ振り返りを出さない
-      const hasAnyRecord = digest.animalCount + digest.eventCount + digest.milestoneCount + digest.activeDays > 0;
-      if (hasAnyRecord){
-        showDigest(monthInfo, digest);
-      }
+    // 月が変わっていたら、表示回数カウントをリセットする
+    if (shownMonth !== currentYm){
+      shownMonth = currentYm;
+      shownCount = 0;
     }
+
+    // その月にすでに13回表示済みなら、それ以上は出さない
+    if (shownCount >= DIGEST_MAX_SHOWS_PER_MONTH) return;
+
+    const monthInfo = getPreviousMonthInfo(now);
+    const digest = buildDigest(monthInfo);
+    // 何も記録がない月は、わざわざ振り返りを出さない
+    const hasAnyRecord = digest.animalCount + digest.eventCount + digest.milestoneCount + digest.activeDays > 0;
+    if (!hasAnyRecord) return;
+
+    showDigest(monthInfo, digest);
 
     try{
-      window.localStorage.setItem(DIGEST_LAST_MONTH_KEY, currentYm);
+      window.localStorage.setItem(DIGEST_SHOWN_MONTH_KEY, currentYm);
+      window.localStorage.setItem(DIGEST_SHOWN_COUNT_KEY, String(shownCount + 1));
     } catch(e){
       // 保存できない環境では何もしない
     }
