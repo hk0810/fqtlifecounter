@@ -1778,8 +1778,11 @@
     font-size: 9.5px;
     color: #d4af37;
     margin-top: 2px;
-    min-height: 24px; /* 「👑 人氣者」ラベルと★表示のどちらでも高さが揃うように固定する */
-    line-height: 1.3;
+    height: 24px; /* min-heightではなく固定heightにして、内容に関わらず必ず同じ高さにする */
+    line-height: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .dex-item.undiscovered{
     filter: grayscale(1);
@@ -10730,7 +10733,15 @@ window.fqtConfirm = function(message, onConfirm){
     const result = checkAchievements();
     if (result.newlyEarned.length > 0){
       earnQueue = earnQueue.concat(result.newlyEarned);
-      processEarnQueue();
+      // 鳴き声＋スクロール演出と重ならないよう、それが終わるまで表示を待つ
+      // （宇宙どうぶつのところへスクロールしている最中にポップアップが被らないようにするため）
+      // ※ ページ読み込み直後など、待機の仕組み自体がまだ用意されていない場合は
+      //    そのまま通常通り表示する（フォールバック）
+      if (typeof window.__fqtWaitForVoiceScroll === 'function'){
+        window.__fqtWaitForVoiceScroll(processEarnQueue);
+      } else {
+        processEarnQueue();
+      }
     }
   });
 
@@ -14276,7 +14287,11 @@ window.fqtConfirm = function(message, onConfirm){
     const quoteEl = document.getElementById('animalQuote');
     if (!quoteEl) return;
     // 表示中の「「〇〇」」から、かぎかっこを除いた本文だけを読み上げる
-    const text = quoteEl.textContent.replace(/^「/, '').replace(/」$/, '');
+    const text = quoteEl.textContent
+      .replace(/^「/, '').replace(/」$/, '')
+      // 万が一メッセージに絵文字が混ざっていても、読み上げの邪魔にならないよう除去する
+      .replace(/[\u{1F300}-\u{1FAFF}\u{2600}-\u{27BF}\u{2B00}-\u{2BFF}\u{2190}-\u{21FF}]/gu, '')
+      .trim();
     if (!text || text === '-') return;
 
     // 再生中にもう一度押したら、まず今読んでいるものを止める
