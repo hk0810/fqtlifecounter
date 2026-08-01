@@ -9858,6 +9858,27 @@ window.fqtConfirm = function(message, onConfirm){
   let dexData = loadDexData();
   let currentAnimal = null; // 今表示している宇宙どうぶつの情報
 
+  // 🔄 人氣者13体の名前・性格などを後から変更した場合に、
+  //    すでに図鑑に保存済みのデータにも自動で反映させる（再発見しなくてよいようにするため）
+  (function migrateSignatureCreatureData(){
+    let changed = false;
+    Object.keys(dexData.discovered).forEach(id => {
+      const animal = dexData.discovered[id];
+      if (!animal || !animal.signatureKey) return;
+      const latest = SIGNATURE_CREATURES.find(s => s.key === animal.signatureKey);
+      if (!latest) return;
+      if (animal.name !== latest.name || animal.personality !== latest.personality ||
+          animal.favorite !== latest.favorite || animal.quote !== latest.quote){
+        animal.name = latest.name;
+        animal.personality = latest.personality;
+        animal.favorite = latest.favorite;
+        animal.quote = latest.quote;
+        changed = true;
+      }
+    });
+    if (changed) saveDexData(dexData);
+  })();
+
   // ----- ⑬ 紙吹雪エフェクト（バッジ機能と同じ演出を、このモジュール内で独立して再現） -----
   function launchConfettiForAnimal(){
     const colors = ['#f43f5e', '#f59e0b', '#a855f7', '#38bdf8', '#22c55e', '#facc15'];
@@ -10134,6 +10155,19 @@ window.fqtConfirm = function(message, onConfirm){
     }
   }
   let oshiAnimal = loadOshiAnimal();
+
+  // 🔄 推しに設定している宇宙どうぶつが人氣者の場合、こちらも最新の名前などに更新する
+  if (oshiAnimal && oshiAnimal.signatureKey){
+    const latestOshi = SIGNATURE_CREATURES.find(s => s.key === oshiAnimal.signatureKey);
+    if (latestOshi && (oshiAnimal.name !== latestOshi.name || oshiAnimal.personality !== latestOshi.personality ||
+        oshiAnimal.favorite !== latestOshi.favorite || oshiAnimal.quote !== latestOshi.quote)){
+      oshiAnimal.name = latestOshi.name;
+      oshiAnimal.personality = latestOshi.personality;
+      oshiAnimal.favorite = latestOshi.favorite;
+      oshiAnimal.quote = latestOshi.quote;
+      saveOshiAnimal(oshiAnimal);
+    }
+  }
 
   // メインカードの隅に、推しの宇宙どうぶつを小さく表示し続ける
   function renderOshiWidget(){
