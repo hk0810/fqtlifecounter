@@ -10035,8 +10035,14 @@ window.fqtConfirm = function(message, onConfirm){
       // あかさたな順（日本語のロケール比較で、ひらがな・カタカナも自然に並ぶ）
       sorted.sort((a, b) => a.name.localeCompare(b.name, 'ja'));
     } else if (mode === 'rarity'){
-      // レア度が高い順。同じレア度内では発見が新しい順にする
-      sorted.sort((a, b) => (b.rarity - a.rarity) || (a.firstMetDate < b.firstMetDate ? 1 : -1));
+      // レア度が高い順。同じレア度内は「人氣者を先に」まとめ、そのうえで発見が新しい順にする
+      sorted.sort((a, b) => {
+        if (b.rarity !== a.rarity) return b.rarity - a.rarity;
+        const aSig = a.signatureKey ? 1 : 0;
+        const bSig = b.signatureKey ? 1 : 0;
+        if (bSig !== aSig) return bSig - aSig;
+        return a.firstMetDate < b.firstMetDate ? 1 : -1;
+      });
     } else if (mode === 'color'){
       // 色相（本物の虹の順番）で並べる
       sorted.sort((a, b) => {
