@@ -9248,12 +9248,17 @@ window.fqtConfirm = function(message, onConfirm){
      少ないコード量で実現できる。
      ========================================================== */
 
-  // 体・パーツの色（30色）
+  // 体・パーツの色（68色）
   const BODY_COLORS = [
     '#FFB3C6','#FFD6A5','#FFF3B0','#CDEAC0','#B5EAD7','#A0E7E5','#B4D4FF','#C7B7F5',
     '#F5B7EE','#F7A6A6','#FFDAC1','#E2F0CB','#B5D8EB','#D0BFFF','#FFC6FF','#9BF6FF',
     '#CAFFBF','#FDFFB6','#FFADAD','#A0C4FF','#BDB2FF','#FFC8DD','#BDE0FE','#A2D2FF',
-    '#FFAFCC','#CDB4DB','#E4C1F9','#F1FFC4','#B8F2E6','#AED9E0'
+    '#FFAFCC','#CDB4DB','#E4C1F9','#F1FFC4','#B8F2E6','#AED9E0',
+    '#FFCFD2','#F1C0E8','#CFBAF0','#A3C4F3','#90DBF4','#8EECF5','#98F5E1','#B9FBC0',
+    '#FBF8CC','#FDE4CF','#FFCB77','#F4B942','#EBC8FF','#D9B8FF','#C4A7FF','#B2A3FF',
+    '#A6C3FF','#9DDAFF','#8FE3E8','#95E8D9','#B0EFC0','#D4F0A0','#F0E0A0','#F5C6A0',
+    '#F5B0B0','#F5A0C6','#E0A0F0','#C0A0F5','#A0B0F5','#A0D0F5','#A0F0E0','#A0F0B0',
+    '#D0F0A0','#F0D0A0','#F0A0A0','#F0A0D0','#C6E2FF','#FFDEE9'
   ];
 
   // パターン用の差し色（体色より少し濃い/淡いイメージで固定の配色を用意）
@@ -10542,7 +10547,7 @@ window.fqtConfirm = function(message, onConfirm){
     { id: 'galaxy_master',     emoji: '🌌', name: 'ギャラクシーマスター', desc: '図鑑登録数333種類',                type: 'discovered', target: 333 },
     { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑登録数650種類',                type: 'discovered', target: 650 },
     { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑登録数680種類',                type: 'discovered', target: 680 },
-    { id: 'rainbow_complete',  emoji: '🌈', name: 'レインボーコンプリート', desc: '全30色を1匹以上ずつ発見する',    type: 'rainbow',    target: 30 },
+    { id: 'rainbow_complete',  emoji: '🌈', name: 'レインボーコンプリート', desc: '全68色を1匹以上ずつ発見する',    type: 'rainbow',    target: 68 },
     { id: 'multiverse_master', emoji: '🌌✨', name: 'マルチバースマスター', desc: '図鑑登録数1300種類',              type: 'discovered', target: 1300 }
   ];
 
@@ -10592,7 +10597,7 @@ window.fqtConfirm = function(message, onConfirm){
   }
 
   // 「レインボーコンプリート」実績用：これまでに発見した色（BODY_COLORSのインデックス）の種類数を数える
-  // 30色すべてを1匹以上発見できているかを判定するために使う
+  // 68色すべてを1匹以上発見できているかを判定するために使う
   const BODY_COLOR_COUNT = 30;
   function getDiscoveredColorCount(){
     try{
