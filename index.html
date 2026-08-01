@@ -3748,6 +3748,10 @@
       </div>
     </div>
 
+    <!-- 👑 人氣者コレクション（独立したセクション） -->
+    <p class="badge-list-title">👑 人氣者コレクション</p>
+    <div class="dex-rarity-breakdown" id="dexSignatureBreakdown"></div>
+
     <!-- 📊 レア度別の内訳グラフ -->
     <p class="badge-list-title">📊 レア度別の内訳</p>
     <div class="dex-rarity-breakdown" id="dexRarityBreakdown"></div>
@@ -10099,17 +10103,19 @@ window.fqtConfirm = function(message, onConfirm){
         rarityCounts[animal.rarity]++;
       }
     });
-    const maxRarityCount = Math.max(1, signatureCount, ...Object.values(rarityCounts)); // 0除算を避ける
-    const breakdownEl = document.getElementById('dexRarityBreakdown');
-
+    // 👑 人氣者コレクション（独立したセクション。13体中何体発見したかを表示）
+    const signatureBreakdownEl = document.getElementById('dexSignatureBreakdown');
     const signatureWidthPercent = Math.round((signatureCount / SIGNATURE_CREATURES.length) * 100);
-    const signatureRowHtml =
+    signatureBreakdownEl.innerHTML =
       `<div class="dex-rarity-row">` +
-        `<div class="dex-rarity-row-label">👑 人氣者</div>` +
+        `<div class="dex-rarity-row-label">👑 発見数</div>` +
         `<div class="dex-rarity-row-bar-wrap"><div class="dex-rarity-row-bar signature" style="width:${signatureWidthPercent}%"></div></div>` +
-        `<div class="dex-rarity-row-count">${signatureCount}匹</div>` +
+        `<div class="dex-rarity-row-count">${signatureCount} / ${SIGNATURE_CREATURES.length}匹</div>` +
       `</div>`;
 
+    // 📊 レア度別の内訳（★1〜★5。人氣者はここには含めず、上の独立セクションだけに表示する）
+    const breakdownEl = document.getElementById('dexRarityBreakdown');
+    const maxRarityCount = Math.max(1, ...Object.values(rarityCounts)); // 0除算を避ける
     const starRowsHtml = [5, 4, 3, 2, 1].map(rarity => {
       const count = rarityCounts[rarity];
       const widthPercent = Math.round((count / maxRarityCount) * 100);
@@ -10123,7 +10129,7 @@ window.fqtConfirm = function(message, onConfirm){
       );
     }).join('');
 
-    breakdownEl.innerHTML = signatureRowHtml + starRowsHtml;
+    breakdownEl.innerHTML = starRowsHtml;
 
     const grid = document.getElementById('dexGrid');
     grid.innerHTML = '';
