@@ -11009,8 +11009,8 @@ window.fqtConfirm = function(message, onConfirm){
     { id: 'triple_light',      emoji: '🌸', name: 'トリプルライト',       desc: '図鑑登録数33種類',                 type: 'discovered', target: 33 },
     { id: 'star_collector',    emoji: '🚀', name: 'スターコレクター',     desc: '図鑑登録数68種類',                 type: 'discovered', target: 68 },
     { id: 'galaxy_collector',  emoji: '🌍', name: 'ギャラクシーコレクター', desc: '図鑑登録数130種類',              type: 'discovered', target: 130 },
-    { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13回発見',              type: 'legend',      target: 13 },
-    { id: 'legend_king',       emoji: '👑', name: 'レジェンドキング',     desc: '★★★★★レアを33回発見',              type: 'legend',      target: 33 },
+    { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13匹発見',              type: 'legend',      target: 13 },
+    { id: 'legend_king',       emoji: '👑', name: 'レジェンドキング',     desc: '★★★★★レアを33匹発見',              type: 'legend',      target: 33 },
     { id: 'galaxy_master',     emoji: '🌌', name: 'ギャラクシーマスター', desc: '図鑑登録数333種類',                type: 'discovered', target: 333 },
     { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑登録数650種類',                type: 'discovered', target: 650 },
     { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑登録数680種類',                type: 'discovered', target: 680 },
@@ -11138,7 +11138,7 @@ window.fqtConfirm = function(message, onConfirm){
       let currentValue = 0;
       let unit = '';
       if (ach.type === 'discovered'){ currentValue = discoveredCount; unit = '種類'; }
-      else if (ach.type === 'legend'){ currentValue = achievementData.legendCount; unit = '回'; }
+      else if (ach.type === 'legend'){ currentValue = achievementData.legendCount; unit = '匹'; }
       else if (ach.type === 'completion'){ currentValue = completionRate; unit = '%'; }
       else if (ach.type === 'rainbow'){ currentValue = getDiscoveredColorCount(); unit = '色'; }
       const displayCurrent = Math.min(currentValue, ach.target);
@@ -11284,9 +11284,9 @@ window.fqtConfirm = function(message, onConfirm){
   document.addEventListener('fqtAnimalEncountered', (e) => {
     const rarity = e.detail && e.detail.rarity;
     const signatureKey = e.detail && e.detail.signatureKey;
-    // ★5レアなら「同じ宇宙どうぶつでもカウントする」仕様のため、毎回加算する
-    // （ただし人氣者は通常のレア枠とは別物として扱うため、ここではカウントしない）
-    if (rarity === 5 && !signatureKey){
+    const isFirstMeeting = e.detail && e.detail.isFirstMeeting;
+    // ★5レア（人氣者を除く）を、初めて発見した時だけカウントする（再会ではカウントしない＝ユニークな匹数）
+    if (rarity === 5 && !signatureKey && isFirstMeeting){
       achievementData.legendCount += 1;
     }
     const result = checkAchievements();
