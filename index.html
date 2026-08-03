@@ -16,7 +16,7 @@
 </script>
 
 <!-- ホーム画面に追加した際の見た目設定（PWA対応） -->
-<link rel="manifest" id="manifestLink" href="">
+<link rel="manifest" href="./manifest.json">
 <link rel="icon" href="./favicon.ico">
 <link rel="apple-touch-icon" href="./apple-touch-icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -6148,7 +6148,7 @@
       <div class="promo-emoji">🌈</div>
       <div class="promo-text">
         <div class="promo-sub">出会えていない学校があるだけ</div>
-        <div class="promo-main">JOYオルタナティブフリースクール</div>
+        <div class="promo-main">JOYオルタナティブ<br>フリースクール</div>
       </div>
       <div class="promo-arrow">›</div>
     </div>
@@ -8205,32 +8205,11 @@ highlightActivePreset(targetDaysInput.value);
    ホーム画面に追加ボタン
    ・Android Chrome等：ブラウザ標準のインストールダイアログを表示
    ・iOS Safari等：APIが無いため、手順を案内するメッセージを表示
+   ※ manifest.json・アイコン(icon-192.png/icon-512.png/apple-touch-icon.png)は
+     すべて実ファイルとしてHTMLと同じ場所に置くこと（blob URL等の埋め込みにすると、
+     AndroidのWebAPK生成（ホーム画面追加時のアイコン作成処理）がリモートから
+     取得できずアイコンが表示されないため）
    ========================================================== */
-
-// manifestを動的に生成してlinkタグへ設定（1ファイル完結のため埋め込み）
-const manifest = {
-  name: 'FQT LIFE COUNTER',
-  short_name: 'FQT LIFE COUNTER',
-  start_url: location.href,
-  display: 'standalone',
-  background_color: '#ffffff',
-  theme_color: '#2563eb',
-  icons: [
-    {
-      // シンプルな青いアイコンをSVGで生成
-      src: 'data:image/svg+xml,' + encodeURIComponent(
-        '<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512">' +
-        '<rect width="512" height="512" rx="96" fill="%232563eb"/>' +
-        '<text x="50%" y="58%" font-size="220" text-anchor="middle" font-family="sans-serif" fill="white">日</text>' +
-        '</svg>'
-      ),
-      sizes: '512x512',
-      type: 'image/svg+xml'
-    }
-  ]
-};
-const manifestBlob = new Blob([JSON.stringify(manifest)], { type: 'application/manifest+json' });
-document.getElementById('manifestLink').href = URL.createObjectURL(manifestBlob);
 
 // ❓ ヘルプ・FAQモーダルの開閉
 document.getElementById('faqOpenBtn').addEventListener('click', () => {
