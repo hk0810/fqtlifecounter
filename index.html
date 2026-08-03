@@ -8235,7 +8235,8 @@ document.getElementById('faqModalOverlay').addEventListener('click', (e) => {
 // 🎥 おすすめ動画モーダルの開閉（YouTube公式のiframe埋め込みを使用）
 // ランダムではなく、配列の順番どおりに1本ずつ再生し、最後まで行ったら最初に戻る
 const RECOMMENDED_VIDEO_IDS = [
-  '6BgOM9VPtYQ', 'dkGP0uKQdvQ', '6fzWljTAux4', '7uRnMEgJoO0', '3nEykpdy6s8', 'p0ZxTqBPC7M'
+  '6BgOM9VPtYQ', 'dkGP0uKQdvQ', '6fzWljTAux4', '7uRnMEgJoO0', '3nEykpdy6s8', 'p0ZxTqBPC7M',
+  'DxdsnblUCbw', 'QPtWaEkeXFQ', 'oOvdCZ_dSAI', '1dpiUY8KGEs', 'KkO4x51g42s', 'sjtki0rHI0Q', 'UL_fNyTAjJY'
 ];
 const VIDEO_INDEX_KEY = 'fqtLifeCounter_videoIndex';
 function pickNextVideoId(){
@@ -13482,81 +13483,96 @@ window.fqtConfirm = function(message, onConfirm){
 
   function playCuteVoice(rarity, durationOverride){
     const ctx = ensureAudioContext();
-    const now = ctx.currentTime;
     const preset = getCurrentVoicePreset();
     const duration = durationOverride || (3.0 * preset.durationMul); // 声質によって長さも変わる（指定があればそちらを優先）
 
-    // レア度が高いほど基準の音を少し高くする（低め〜中音域で「むにょ」っぽさを出す）
-    const baseFreqTable = { 1: 260, 2: 280, 3: 300, 4: 330, 5: 360 };
-    const pitchFactor = getCurrentAnimalPitchFactor();
-    const baseFreq = (baseFreqTable[rarity] || 280) * pitchFactor * preset.pitchMul;
+    // ----- 実際に音を鳴らす処理（AudioContextが確実に再生可能な状態になってから呼ぶ） -----
+    function scheduleSound(){
+      const now = ctx.currentTime;
 
-    // ----- メインの音（伸びる音） -----
-    const osc = ctx.createOscillator();
-    osc.type = preset.waveType;
-    osc.frequency.setValueAtTime(baseFreq, now);
+      // レア度が高いほど基準の音を少し高くする（低め〜中音域で「むにょ」っぽさを出す）
+      const baseFreqTable = { 1: 260, 2: 280, 3: 300, 4: 330, 5: 360 };
+      const pitchFactor = getCurrentAnimalPitchFactor();
+      const baseFreq = (baseFreqTable[rarity] || 280) * pitchFactor * preset.pitchMul;
 
-    // ピッチを波打たせるLFO（声質プリセットごとに速さ・深さが変わる。これが鳴き声の個性の正体）
-    const pitchLfo = ctx.createOscillator();
-    pitchLfo.type = 'sine';
-    pitchLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
-    const pitchLfoGain = ctx.createGain();
-    pitchLfoGain.gain.setValueAtTime(baseFreq * preset.lfoDepth, now); // 揺れの幅
-    pitchLfo.connect(pitchLfoGain);
-    pitchLfoGain.connect(osc.frequency);
+      // ----- メインの音（伸びる音） -----
+      const osc = ctx.createOscillator();
+      osc.type = preset.waveType;
+      osc.frequency.setValueAtTime(baseFreq, now);
 
-    // 音量も波打たせて、声質ごとの弾み方・揺れ方を強調する
-    const ampLfo = ctx.createOscillator();
-    ampLfo.type = 'sine';
-    ampLfo.frequency.setValueAtTime(preset.ampLfoSpeed, now);
-    const ampLfoGain = ctx.createGain();
-    ampLfoGain.gain.setValueAtTime(0.05, now);
-    ampLfo.connect(ampLfoGain);
+      // ピッチを波打たせるLFO（声質プリセットごとに速さ・深さが変わる。これが鳴き声の個性の正体）
+      const pitchLfo = ctx.createOscillator();
+      pitchLfo.type = 'sine';
+      pitchLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
+      const pitchLfoGain = ctx.createGain();
+      pitchLfoGain.gain.setValueAtTime(baseFreq * preset.lfoDepth, now); // 揺れの幅
+      pitchLfo.connect(pitchLfoGain);
+      pitchLfoGain.connect(osc.frequency);
 
-    // 全体の音量エンベロープ（ゆっくり出てゆっくり消える）
-    const mainGain = ctx.createGain();
-    mainGain.gain.setValueAtTime(0, now);
-    mainGain.gain.linearRampToValueAtTime(0.16, now + Math.min(0.3, duration * 0.2));
-    mainGain.gain.setValueAtTime(0.16, now + duration - Math.min(0.6, duration * 0.3));
-    mainGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
-    ampLfoGain.connect(mainGain.gain); // 音量エンベロープにゆらぎを加算する
+      // 音量も波打たせて、声質ごとの弾み方・揺れ方を強調する
+      const ampLfo = ctx.createOscillator();
+      ampLfo.type = 'sine';
+      ampLfo.frequency.setValueAtTime(preset.ampLfoSpeed, now);
+      const ampLfoGain = ctx.createGain();
+      ampLfoGain.gain.setValueAtTime(0.05, now);
+      ampLfo.connect(ampLfoGain);
 
-    osc.connect(mainGain);
-    mainGain.connect(ctx.destination);
+      // 全体の音量エンベロープ（ゆっくり出てゆっくり消える）
+      const mainGain = ctx.createGain();
+      mainGain.gain.setValueAtTime(0, now);
+      mainGain.gain.linearRampToValueAtTime(0.16, now + Math.min(0.3, duration * 0.2));
+      mainGain.gain.setValueAtTime(0.16, now + duration - Math.min(0.6, duration * 0.3));
+      mainGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+      ampLfoGain.connect(mainGain.gain); // 音量エンベロープにゆらぎを加算する
 
-    osc.start(now);
-    pitchLfo.start(now);
-    ampLfo.start(now);
-    osc.stop(now + duration);
-    pitchLfo.stop(now + duration);
-    ampLfo.stop(now + duration);
+      osc.connect(mainGain);
+      mainGain.connect(ctx.destination);
 
-    // ★4以上は、きらめく倍音を重ねてより特別な音にする
-    if (rarity >= 4){
-      const shimmer = ctx.createOscillator();
-      shimmer.type = 'triangle';
-      shimmer.frequency.setValueAtTime(baseFreq * 2.5, now);
+      osc.start(now);
+      pitchLfo.start(now);
+      ampLfo.start(now);
+      osc.stop(now + duration);
+      pitchLfo.stop(now + duration);
+      ampLfo.stop(now + duration);
 
-      const shimmerLfo = ctx.createOscillator();
-      shimmerLfo.type = 'sine';
-      shimmerLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
-      const shimmerLfoGain = ctx.createGain();
-      shimmerLfoGain.gain.setValueAtTime(baseFreq * 0.3, now);
-      shimmerLfo.connect(shimmerLfoGain);
-      shimmerLfoGain.connect(shimmer.frequency);
+      // ★4以上は、きらめく倍音を重ねてより特別な音にする
+      if (rarity >= 4){
+        const shimmer = ctx.createOscillator();
+        shimmer.type = 'triangle';
+        shimmer.frequency.setValueAtTime(baseFreq * 2.5, now);
 
-      const shimmerGain = ctx.createGain();
-      shimmerGain.gain.setValueAtTime(0, now);
-      shimmerGain.gain.linearRampToValueAtTime(0.06, now + Math.min(0.3, duration * 0.2));
-      shimmerGain.gain.setValueAtTime(0.06, now + duration - Math.min(0.6, duration * 0.3));
-      shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+        const shimmerLfo = ctx.createOscillator();
+        shimmerLfo.type = 'sine';
+        shimmerLfo.frequency.setValueAtTime(preset.lfoSpeed, now);
+        const shimmerLfoGain = ctx.createGain();
+        shimmerLfoGain.gain.setValueAtTime(baseFreq * 0.3, now);
+        shimmerLfo.connect(shimmerLfoGain);
+        shimmerLfoGain.connect(shimmer.frequency);
 
-      shimmer.connect(shimmerGain);
-      shimmerGain.connect(ctx.destination);
-      shimmer.start(now);
-      shimmerLfo.start(now);
-      shimmer.stop(now + duration);
-      shimmerLfo.stop(now + duration);
+        const shimmerGain = ctx.createGain();
+        shimmerGain.gain.setValueAtTime(0, now);
+        shimmerGain.gain.linearRampToValueAtTime(0.06, now + Math.min(0.3, duration * 0.2));
+        shimmerGain.gain.setValueAtTime(0.06, now + duration - Math.min(0.6, duration * 0.3));
+        shimmerGain.gain.exponentialRampToValueAtTime(0.0001, now + duration);
+
+        shimmer.connect(shimmerGain);
+        shimmerGain.connect(ctx.destination);
+        shimmer.start(now);
+        shimmerLfo.start(now);
+        shimmer.stop(now + duration);
+        shimmerLfo.stop(now + duration);
+      }
+    }
+
+    // AudioContextが本当に再生可能（running）になってから鳴らす。
+    // resume()の完了を待たずに音を鳴らし始めると、タブをバックグラウンドから
+    // 復帰した直後などに、無音のまま再生が失敗することがあったための対策。
+    if (ctx.state === 'running'){
+      scheduleSound();
+    } else {
+      ctx.resume().then(scheduleSound).catch(() => {
+        // resumeに失敗した場合は無理に鳴らそうとしない（無音のまま諦める）
+      });
     }
 
     return duration; // 呼び出し元が「鳴き終わるタイミング」を知れるように、再生時間（秒）を返す
