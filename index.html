@@ -6947,7 +6947,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
     `#FQTLIFECOUNTER #人生日数カウンター\n\n` +
     `あなたは地球に来て何日目？\n` +
     `あなたの今日の運勢は？\n` +
-    `https://fqtlifecounter2.netlify.app`;
+    `https://fqtlifecounter.pages.dev`;
 
   // ② 日数を「⭕️」で伏せた、年齢を特定されたくない人向けのシェア文言
   privacyShareText =
@@ -6960,7 +6960,7 @@ function renderShare({ currentDay, targetDays, targetDate, remain, progress, bir
     `ログイン不要\n` +
     `完全無料✨\n\n` +
     `👇 あなたは今日、地球に来て何日目？✨\n` +
-    `https://fqtlifecounter2.netlify.app\n\n` +
+    `https://fqtlifecounter.pages.dev\n\n` +
     `#FQTLIFECOUNTER\n` +
     `#人生日数カウンター`;
 
@@ -10855,7 +10855,7 @@ window.fqtConfirm = function(message, onConfirm){
       `🚀 未知の宇宙どうぶつを発見！\n` +
       `宇宙図鑑に仲間入りしました🌌\n\n` +
       `🔮宇宙どうぶつ占い\n` +
-      `https://fqtlifecounter2.netlify.app\n\n` +
+      `https://fqtlifecounter.pages.dev\n\n` +
       `#FQTLIFECOUNTER\n` +
       `#宇宙どうぶつ\n` +
       `#宇宙トモダチ\n` +
@@ -13013,7 +13013,7 @@ window.fqtConfirm = function(message, onConfirm){
     const shareText =
       `🌍 今日、私は地球に生まれて\n${days}日目でした！\n\n` +
       `人生の節目をFQTLIFECOUNTERでお祝いしました✨\n` +
-      `https://fqtlifecounter2.netlify.app`;
+      `https://fqtlifecounter.pages.dev`;
 
     if (navigator.share){
       try{
@@ -13945,7 +13945,7 @@ window.fqtConfirm = function(message, onConfirm){
 
       ctx.font = '500 20px "Noto Sans JP", "Hiragino Sans", sans-serif';
       ctx.fillStyle = 'rgba(255,255,255,0.8)';
-      ctx.fillText('https://fqtlifecounter2.netlify.app', CANVAS_W / 2, footerY + 36);
+      ctx.fillText('https://fqtlifecounter.pages.dev', CANVAS_W / 2, footerY + 36);
 
       if (typeof onComplete === 'function') onComplete();
     }
@@ -14039,7 +14039,7 @@ window.fqtConfirm = function(message, onConfirm){
             text:
               'FQT LIFE COUNTERで地球滞在証明書を作りました✨\n\n' +
               '🌏あなたは地球に来て何日目？\n' +
-              'https://fqtlifecounter2.netlify.app\n\n' +
+              'https://fqtlifecounter.pages.dev\n\n' +
               '#FQTLIFECOUNTER #人生日数カウンター'
           });
         } catch(e){
@@ -15327,7 +15327,7 @@ window.fqtConfirm = function(message, onConfirm){
       `💎才能：${talent.name}\n` +
       `🌱今世のテーマ：${theme.name}\n\n` +
       `あなたの宇宙どうぶつは何ですか？🌌\n` +
-      `https://fqtlifecounter2.netlify.app\n\n` +
+      `https://fqtlifecounter.pages.dev\n\n` +
       `#FQTLIFECOUNTER\n` +
       `#宇宙どうぶつ診断`;
   }
@@ -15369,7 +15369,7 @@ window.fqtConfirm = function(message, onConfirm){
       `【💎あなたの才能】${talent.name}\n${talent.desc}\n\n` +
       `【🌱今世のテーマ】${theme.name}\n${theme.desc}\n\n` +
       `【🌌総合メッセージ】\n${overallMessage}\n\n` +
-      `https://fqtlifecounter2.netlify.app`;
+      `https://fqtlifecounter.pages.dev`;
 
     try{
       await navigator.clipboard.writeText(fullText);
