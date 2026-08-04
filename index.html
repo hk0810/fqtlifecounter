@@ -3265,6 +3265,7 @@
     background: linear-gradient(135deg, var(--blue-pale), var(--blue-light));
     border-radius: 14px;
     padding: 18px 16px;
+    margin-top: 12px;
   }
   .janken-label{
     font-size: 12px;
@@ -4881,11 +4882,11 @@
     <p class="badge-modal-title">✊✌️✋ グーチョキパー運試しってなに？</p>
 
     <p class="bio-info-text">
-      毎日、グー・チョキ・パーのどれか1つが、完全ランダム（それぞれ3分の1の確率）で表示される、シンプルな運試しです。他の占いのように誕生日と組み合わせた計算はしておらず、その日1日、あなたに割り当てられる「今日の手」を表しています。
+      グー・チョキ・パーのどれか1つが、完全ランダム（それぞれ3分の1の確率）で表示される、シンプルな運試しです。他の占いのように誕生日や日付と組み合わせた計算はしておらず、純粋な運試しです。
     </p>
 
     <p class="bio-info-text">
-      同じ日にアプリを開けば、その日のうちは同じ手が表示され続けます（日付が変わるとまた新しく抽選されます）。深い意味を求めるものではなく、ちょっとした運試し・気分転換としてお楽しみください。
+      「計算する」を押すたびに、毎回新しく抽選されます。日付や誕生日に関係なく変わるので、何度もめくって楽しむこともできます（同じ手が連続で出ることもあります）。深い意味を求めるものではなく、ちょっとした運試し・気分転換としてお楽しみください。
     </p>
   </div>
 </div>
@@ -6768,7 +6769,7 @@ function calculate(){
   renderAnniversary(today);
   renderShare({ currentDay, targetDays, targetDate, remain, progress, birthDate, today });
   renderFortune(birthDate, today);
-  renderJankenFortune(today);
+  renderJankenFortune();
 
   // 生年月日（0時0分0秒）を基準にリアルタイム更新を開始
   currentBirthDate = birthDate;
@@ -8019,11 +8020,9 @@ const JANKEN_HANDS = [
   { emoji: '✌️', name: 'チョキ', message: '決断の日。迷ったら、思い切って一歩踏み出してみて。' },
   { emoji: '✋', name: 'パー', message: 'ひろがりの日。新しい出会いやアイデアを受け入れると良さそう。' }
 ];
-function renderJankenFortune(today){
-  // 日付だけをシードにする（誕生日は使わない＝完全ランダムな日替わり）
-  const dateStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
-  const seed = simpleHash('janken_' + dateStr);
-  const hand = JANKEN_HANDS[seed % JANKEN_HANDS.length];
+function renderJankenFortune(){
+  // 日付にも誕生日にも依存せず、計算するたびに完全ランダムで選ぶ（3分の1ずつ）
+  const hand = JANKEN_HANDS[Math.floor(Math.random() * JANKEN_HANDS.length)];
   document.getElementById('jankenHand').textContent = hand.emoji;
   document.getElementById('jankenName').textContent = hand.name;
   document.getElementById('jankenMessage').textContent = hand.message;
