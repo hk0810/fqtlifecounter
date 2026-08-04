@@ -12,7 +12,13 @@
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  gtag('config', 'G-0N07MDG407');
+  // 2つのドメイン（hk0810.github.io / fqtlifecounter.pages.dev）間の行き来を
+  // 同じユーザーの一連の訪問としてGAが正しく認識できるよう、クロスドメイン測定を設定
+  gtag('config', 'G-0N07MDG407', {
+    linker: {
+      domains: ['hk0810.github.io', 'fqtlifecounter.pages.dev']
+    }
+  });
 </script>
 
 <!-- ホーム画面に追加した際の見た目設定（PWA対応） -->
