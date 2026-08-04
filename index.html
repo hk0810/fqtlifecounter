@@ -3260,6 +3260,37 @@
     line-height: 1.8;
   }
 
+  .janken-block{
+    text-align: center;
+    background: linear-gradient(135deg, var(--blue-pale), var(--blue-light));
+    border-radius: 14px;
+    padding: 18px 16px;
+  }
+  .janken-label{
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--text-sub);
+    margin: 0 0 6px;
+  }
+  .janken-hand{
+    font-size: 40px;
+    line-height: 1.2;
+    margin: 4px 0 4px;
+  }
+  .janken-name{
+    font-size: 20px;
+    font-weight: 900;
+    color: var(--blue);
+    margin: 0 0 8px;
+    letter-spacing: 0.05em;
+  }
+  .janken-message{
+    font-size: 13px;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.6;
+  }
+
   .fortune-number-block{
     text-align: center;
     background: linear-gradient(135deg, #eef2ff, #e0e7ff);
@@ -4843,6 +4874,22 @@
       古来からの表現としての吉凶おみくじ——この運勢は、単独の占いではなく、💰金運・🧭吉方位・🎴タロット・💪身体・💗感情のバイオリズムという、これまで紹介してきた5つの要素を総合して算出する、いわば集大成のランクです。
     </p>
 
+<!-- ✊✌️✋ グーチョキパー運試し 説明モーダル -->
+<div class="dex-modal-overlay" id="jankenInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="jankenInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">✊✌️✋ グーチョキパー運試しってなに？</p>
+
+    <p class="bio-info-text">
+      毎日、グー・チョキ・パーのどれか1つが、完全ランダム（それぞれ3分の1の確率）で表示される、シンプルな運試しです。他の占いのように誕生日と組み合わせた計算はしておらず、その日1日、あなたに割り当てられる「今日の手」を表しています。
+    </p>
+
+    <p class="bio-info-text">
+      同じ日にアプリを開けば、その日のうちは同じ手が表示され続けます（日付が変わるとまた新しく抽選されます）。深い意味を求めるものではなく、ちょっとした運試し・気分転換としてお楽しみください。
+    </p>
+  </div>
+</div>
+
     <div class="bio-info-cycle-list">
       <div class="bio-info-cycle-row">
         <span class="bio-info-cycle-emoji">1️⃣</span>
@@ -5097,6 +5144,21 @@
           <li>おすすめ動画を4本追加（全6本）。ランダム再生から、順番に1本ずつ再生する方式に変更</li>
           <li>「📊⁠ 月間ダイジェスト」を、月初（1〜3日）は毎回表示するよう変更（1ヶ月あたり最大13回）。「今月はもう表示しない」チェックボックスを新規実装</li>
           <li>よくある質問を、本バージョンの変更内容に合わせて更新</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v21.0　実績・季節限定どうぶつの拡充</p>
+        <ul class="version-history-notes">
+          <li>「FQTゾロ目レジェンド」バッジの名称を「ゾロ目レジェンド」に変更</li>
+          <li>イベント実績を7種類→13種類に拡張。夏・秋・冬マスター、年中行事マスター、イベント皆勤賞、イベントコンプリートを新規追加</li>
+          <li>季節限定の宇宙どうぶつを、全8イベントとも10種類→13種類に拡張（合計80匹→104匹）</li>
+          <li>「レジェンドハンター」「レジェンドキング」の実績を、出会った「回数」ではなく、ユニークな「匹数」でカウントするよう変更（同じ子に何度再会してもカウントされないように）</li>
+          <li>おすすめ動画を7本追加（全13本）</li>
+          <li>鳴き声をONにしても鳴らないことがある不具合を修正（AudioContextの再開処理を待たずに再生しようとしていたのが原因）</li>
+          <li>「🏫⁠ JOYオルタナティブフリースクール」のプロモカードを新規追加</li>
+          <li>AndroidでPWAアイコンが表示されない不具合を修正。アイコン・マニフェストを実ファイルとして配置する方式に変更し、オリジナルロゴアイコンに差し替え</li>
+          <li>「復活の呪文」「生年月日のすばやい入力方法」のユーザーマニュアルを新規作成</li>
         </ul>
       </div>
 
@@ -6086,6 +6148,14 @@
       <p class="fortune-lucky" id="fortuneLucky">-</p>
     </div>
 
+    <!-- ✊✌️✋ グーチョキパーで運試し（毎日、完全ランダムで1つ表示） -->
+    <div class="janken-block">
+      <p class="janken-label">✊✌️✋ グーチョキパーで運試し　<button class="bio-info-btn" id="jankenInfoBtn" type="button" aria-label="グーチョキパー運試しとは">？</button></p>
+      <div class="janken-hand" id="jankenHand">-</div>
+      <p class="janken-name" id="jankenName">-</p>
+      <p class="janken-message" id="jankenMessage">-</p>
+    </div>
+
     <!-- 誕生日×今日の日付を掛け合わせて毎日変化するパーソナルナンバー占い -->
     <div class="fortune-number-block">
       <p class="fortune-number-label">🔗 誕生日×今日のパーソナルナンバー　<button class="bio-info-btn" id="personalNumberInfoBtn" type="button" aria-label="パーソナルナンバーとは">？</button></p>
@@ -6698,6 +6768,7 @@ function calculate(){
   renderAnniversary(today);
   renderShare({ currentDay, targetDays, targetDate, remain, progress, birthDate, today });
   renderFortune(birthDate, today);
+  renderJankenFortune(today);
 
   // 生年月日（0時0分0秒）を基準にリアルタイム更新を開始
   currentBirthDate = birthDate;
@@ -7942,6 +8013,22 @@ function calcIroenpitsuColor(birth, today){
 }
 
 // ----- 占いカード全体を描画 -----
+// ----- ✊✌️✋ グーチョキパーで運試し（毎日、完全ランダムで1つ表示） -----
+const JANKEN_HANDS = [
+  { emoji: '✊', name: 'グー', message: '守りの日。じっくり構えて、着実に進めると吉。' },
+  { emoji: '✌️', name: 'チョキ', message: '決断の日。迷ったら、思い切って一歩踏み出してみて。' },
+  { emoji: '✋', name: 'パー', message: 'ひろがりの日。新しい出会いやアイデアを受け入れると良さそう。' }
+];
+function renderJankenFortune(today){
+  // 日付だけをシードにする（誕生日は使わない＝完全ランダムな日替わり）
+  const dateStr = `${today.getFullYear()}-${today.getMonth() + 1}-${today.getDate()}`;
+  const seed = simpleHash('janken_' + dateStr);
+  const hand = JANKEN_HANDS[seed % JANKEN_HANDS.length];
+  document.getElementById('jankenHand').textContent = hand.emoji;
+  document.getElementById('jankenName').textContent = hand.name;
+  document.getElementById('jankenMessage').textContent = hand.message;
+}
+
 function renderFortune(birth, today){
   const month = birth.getMonth() + 1;
 
@@ -8857,6 +8944,18 @@ document.getElementById('todayRankInfoModalCloseBtn').addEventListener('click', 
 document.getElementById('todayRankInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('todayRankInfoModalOverlay')){
     document.getElementById('todayRankInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('jankenInfoBtn').addEventListener('click', () => {
+  document.getElementById('jankenInfoModalOverlay').classList.add('show');
+});
+document.getElementById('jankenInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('jankenInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('jankenInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('jankenInfoModalOverlay')){
+    document.getElementById('jankenInfoModalOverlay').classList.remove('show');
   }
 });
 
