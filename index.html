@@ -294,6 +294,60 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
+  .digit-input-toggle-btn{
+    display: block;
+    font-family: inherit;
+    font-size: 11.5px;
+    font-weight: 700;
+    color: var(--blue-dark);
+    background: none;
+    border: none;
+    padding: 8px 0 0;
+    margin: 0;
+    cursor: pointer;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+  .digit-input-row{
+    display: flex;
+    gap: 8px;
+    margin-top: 8px;
+  }
+  .digit-input-field{
+    flex: 1;
+    min-width: 0;
+    font-family: inherit;
+    font-size: 15px;
+    padding: 10px 12px;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    background: var(--blue-pale);
+    color: var(--text-main);
+    outline: none;
+  }
+  .digit-input-apply-btn{
+    font-family: inherit;
+    font-size: 13px;
+    font-weight: 700;
+    color: #ffffff;
+    background: var(--blue);
+    border: none;
+    border-radius: 10px;
+    padding: 0 16px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .digit-input-note{
+    font-size: 11px;
+    color: var(--text-sub);
+    margin: 6px 0 0;
+  }
+  .digit-input-note.ng{
+    color: #d9534f;
+  }
+  .digit-input-note.ok{
+    color: var(--blue);
+  }
   .field-note{
     font-size: 11px;
     color: var(--text-sub);
@@ -307,6 +361,7 @@
   input[type="date"],
   input[type="number"]{
     width: 100%;
+    max-width: 100%;
     font-family: inherit;
     font-size: 16px;
     padding: 13px 14px;
@@ -5528,6 +5583,12 @@
     <div class="field">
       <label for="birthdate" class="birthdate-label">① あなたの生年月日を入力</label>
       <input type="date" id="birthdate" required>
+      <button class="digit-input-toggle-btn" id="digitInputToggleBtn" type="button">🔢 数字で直接入力</button>
+      <div class="digit-input-row" id="digitInputRow" style="display:none;">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="例：19900515" id="digitInputField" class="digit-input-field">
+        <button class="digit-input-apply-btn" id="digitInputApplyBtn" type="button">反映</button>
+      </div>
+      <p class="digit-input-note" id="digitInputNote"></p>
       <button class="other-birth-mini-btn" id="otherBirthOpenBtn" type="button">🔍 他の地球人の生年月日で占う</button>
     </div>
 
@@ -8780,6 +8841,78 @@ document.getElementById('diagInfoModalCloseBtn').addEventListener('click', () =>
 document.getElementById('diagInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('diagInfoModalOverlay')){
     document.getElementById('diagInfoModalOverlay').classList.remove('show');
+  }
+});
+
+/* ==========================================================
+   🔢 生年月日を8桁の数字で直接入力する（追加実装のみ・既存機能には触れない）
+   ========================================================== */
+document.getElementById('digitInputToggleBtn').addEventListener('click', () => {
+  const row = document.getElementById('digitInputRow');
+  const isHidden = row.style.display === 'none';
+  row.style.display = isHidden ? 'flex' : 'none';
+  document.getElementById('digitInputNote').textContent = '';
+  document.getElementById('digitInputNote').className = 'digit-input-note';
+  if (isHidden){
+    document.getElementById('digitInputField').focus();
+  }
+});
+
+function applyDigitBirthdate(){
+  const field = document.getElementById('digitInputField');
+  const note = document.getElementById('digitInputNote');
+  const digits = field.value.replace(/[^0-9]/g, '');
+
+  if (digits.length !== 8){
+    note.textContent = '8桁の数字で入力してください（例：19900515）';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const year = Number(digits.slice(0, 4));
+  const month = Number(digits.slice(4, 6));
+  const day = Number(digits.slice(6, 8));
+
+  // 実在する日付かどうかを検証する（例：13月・32日等を弾く）
+  const testDate = new Date(year, month - 1, day);
+  const isValidDate = testDate.getFullYear() === year &&
+    testDate.getMonth() === month - 1 &&
+    testDate.getDate() === day;
+
+  if (!isValidDate){
+    note.textContent = '実在する日付ではないようです。もう一度ご確認ください。';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const today = new Date();
+  today.setHours(0, 0, 0, 0);
+  if (testDate.getTime() > today.getTime()){
+    note.textContent = '未来の日付は入力できません。';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const pad = (n) => String(n).padStart(2, '0');
+  const isoValue = `${year}-${pad(month)}-${pad(day)}`;
+  document.getElementById('birthdate').value = isoValue;
+
+  note.textContent = `${year}年${month}月${day}日を反映しました。`;
+  note.className = 'digit-input-note ok';
+}
+
+document.getElementById('digitInputApplyBtn').addEventListener('click', applyDigitBirthdate);
+document.getElementById('digitInputField').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter'){
+    e.preventDefault();
+    applyDigitBirthdate();
+  }
+});
+// 8桁ちょうど入力できたタイミングで自動的に反映する（「反映」ボタンを押さなくても良いように）
+document.getElementById('digitInputField').addEventListener('input', () => {
+  const digits = document.getElementById('digitInputField').value.replace(/[^0-9]/g, '');
+  if (digits.length === 8){
+    applyDigitBirthdate();
   }
 });
 
