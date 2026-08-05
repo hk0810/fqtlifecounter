@@ -386,8 +386,26 @@
     outline: none;
     transition: border-color .15s ease, box-shadow .15s ease;
   }
+  input[type="text"],
+  textarea{
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 13px 14px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--blue-pale);
+    color: var(--text-main);
+    outline: none;
+    resize: vertical;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
   input[type="date"]:focus,
-  input[type="number"]:focus{
+  input[type="number"]:focus,
+  input[type="text"]:focus,
+  textarea:focus{
     border-color: var(--blue);
     box-shadow: 0 0 0 4px var(--blue-light);
   }
@@ -4820,6 +4838,30 @@
   </div>
 </div>
 
+<!-- ✉️ 開発者にメッセージを送る モーダル -->
+<div class="dex-modal-overlay" id="contactModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="contactModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">✉️ 開発者にメッセージを送る</p>
+    <p class="badge-modal-note">
+      感想・ご意見・不具合報告など、お気軽にどうぞ。<br>
+      送信ボタンを押すと、入力内容が入った状態でメールアプリが開きます。
+    </p>
+
+    <div class="field">
+      <label for="contactName">お名前（任意）</label>
+      <input type="text" id="contactName" placeholder="例：たなか">
+    </div>
+    <div class="field">
+      <label for="contactMessage">メッセージ</label>
+      <textarea id="contactMessage" rows="5" placeholder="ここにメッセージを入力してください"></textarea>
+    </div>
+
+    <button class="diag-share-btn" id="contactSendBtn" type="button">✉️　メールアプリで送信する</button>
+    <p class="digit-input-note" id="contactNote"></p>
+  </div>
+</div>
+
 <div class="dex-modal-overlay" id="otherBirthModalOverlay">
   <div class="dex-modal">
     <button class="badge-modal-close" id="otherBirthModalCloseBtn" type="button">✕</button>
@@ -6530,6 +6572,9 @@
 
   <!-- 📋 バージョン履歴ボタン -->
   <button class="faq-open-btn" id="versionHistoryOpenBtn" type="button">📋　バージョン履歴</button>
+
+  <!-- ✉️ 開発者にメッセージを送るボタン -->
+  <button class="faq-open-btn" id="contactOpenBtn" type="button">✉️　開発者にメッセージを送る</button>
 
   <!-- ホーム画面に追加ボタン -->
   <button class="install-btn" id="installBtn">📲　ホーム画面に追加する</button>
@@ -9496,6 +9541,47 @@ document.getElementById('timeDigitInputField').addEventListener('input', () => {
   if (digits.length === 4){
     applyDigitBirthTime();
   }
+});
+
+/* ==========================================================
+   ✉️ 開発者にメッセージを送る（追加実装のみ・既存機能には触れない）
+   ========================================================== */
+document.getElementById('contactOpenBtn').addEventListener('click', () => {
+  document.getElementById('contactName').value = '';
+  document.getElementById('contactMessage').value = '';
+  document.getElementById('contactNote').textContent = '';
+  document.getElementById('contactModalOverlay').classList.add('show');
+});
+document.getElementById('contactModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('contactModalOverlay').classList.remove('show');
+});
+document.getElementById('contactModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('contactModalOverlay')){
+    document.getElementById('contactModalOverlay').classList.remove('show');
+  }
+});
+document.getElementById('contactSendBtn').addEventListener('click', () => {
+  const name = document.getElementById('contactName').value.trim();
+  const message = document.getElementById('contactMessage').value.trim();
+  const note = document.getElementById('contactNote');
+
+  if (!message){
+    note.textContent = 'メッセージを入力してください。';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const subject = 'FQT LIFE COUNTERへのメッセージ';
+  const bodyLines = [];
+  if (name){ bodyLines.push(`お名前：${name}`, ''); }
+  bodyLines.push(message);
+  const body = bodyLines.join('\n');
+
+  const mailtoUrl = `mailto:hk0810@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+  window.location.href = mailtoUrl;
+
+  note.textContent = 'メールアプリを開きました。';
+  note.className = 'digit-input-note ok';
 });
 
 /* ==========================================================
