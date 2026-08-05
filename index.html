@@ -3367,6 +3367,52 @@
     line-height: 1.6;
   }
 
+  .kichijitsu-banner{
+    text-align: center;
+    background: linear-gradient(135deg, #fff8e1, #ffecb3);
+    border: 1.5px solid #ffd54f;
+    border-radius: 14px;
+    padding: 16px;
+    margin-top: 12px;
+  }
+  .kichijitsu-title{
+    font-size: 20px;
+    font-weight: 900;
+    color: #b8860b;
+    margin: 0 0 10px;
+    letter-spacing: 0.05em;
+  }
+  .kichijitsu-list{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 10px;
+  }
+  .kichijitsu-item{
+    background: rgba(255,255,255,0.6);
+    border-radius: 10px;
+    padding: 8px 12px;
+    text-align: left;
+  }
+  .kichijitsu-item-name{
+    font-size: 14px;
+    font-weight: 800;
+    color: #8a6d00;
+    margin: 0 0 2px;
+  }
+  .kichijitsu-item-desc{
+    font-size: 12px;
+    color: var(--text-main);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .kichijitsu-note{
+    font-size: 10.5px;
+    color: var(--text-sub);
+    margin: 0;
+    line-height: 1.5;
+  }
+
   .fortune-number-block{
     text-align: center;
     background: linear-gradient(135deg, #eef2ff, #e0e7ff);
@@ -5632,6 +5678,12 @@
     <div class="field">
       <label for="birthTime">生まれた時刻（任意）</label>
       <input type="time" id="birthTime">
+      <button class="digit-input-toggle-btn" id="timeDigitInputToggleBtn" type="button">🔢 数字で直接入力</button>
+      <div class="digit-input-row" id="timeDigitInputRow" style="display:none;">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="4" placeholder="例：1930（19時30分）" id="timeDigitInputField" class="digit-input-field">
+        <button class="digit-input-apply-btn" id="timeDigitInputApplyBtn" type="button">反映</button>
+      </div>
+      <p class="digit-input-note" id="timeDigitInputNote"></p>
       <p class="field-note">未入力の場合は0時0分0秒として計算します</p>
     </div>
 
@@ -6124,6 +6176,21 @@
           <div class="value" id="fortuneLunarDate">-</div>
         </div>
       </div>
+
+      <div class="fortune-row">
+        <div class="ic">🎲</div>
+        <div class="fortune-text">
+          <div class="label">今日の六曜</div>
+          <div class="value" id="fortuneRokuyou">-</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 🎉 本日吉日バナー（該当する吉日がある時だけ表示） -->
+    <div class="kichijitsu-banner" id="kichijitsuBanner" style="display:none;">
+      <p class="kichijitsu-title">🎉 本日吉日</p>
+      <div class="kichijitsu-list" id="kichijitsuList"></div>
+      <p class="kichijitsu-note">※ 伝統的な暦の考え方をもとに算出した目安です。流派によって解釈が異なる場合があります。</p>
     </div>
 
     <p class="fortune-subgroup-title">🎂 あなたの誕生日で変わる運勢</p>
@@ -7819,8 +7886,7 @@ function toJulianDay(date){
 }
 
 // 太陽の視黄経（0〜360度）を天文学的な近似式で計算
-function calcSolarLongitude(date){
-  const jd = toJulianDay(date);
+function calcSolarLongitudeFromJD(jd){
   const T = (jd - 2451545.0) / 36525; // J2000.0からのユリウス世紀数
   const L0 = 280.46646 + 36000.76983 * T + 0.0003032 * T * T; // 太陽の平均黄経
   const M = 357.52911 + 35999.05029 * T - 0.0001537 * T * T;  // 平均近点角
@@ -7832,6 +7898,9 @@ function calcSolarLongitude(date){
   let trueLong = (L0 + C) % 360;
   if (trueLong < 0) trueLong += 360;
   return trueLong;
+}
+function calcSolarLongitude(date){
+  return calcSolarLongitudeFromJD(toJulianDay(date));
 }
 
 // 二十四節氣の名称（黄経0度＝春分を起点に15度ごと）
@@ -7870,7 +7939,21 @@ const KOU_DATA = {
 };
 
 function calcSekkiAndKou(date){
-  const longitude = calcSolarLongitude(date);
+  // 節気の切り替わりは「瞬間」で決まり、その瞬間が含まれる日（日本時間の0時〜24時）がその節気の
+  // 初日として扱われる。単純にその日のある一時刻だけをサンプリングすると、切り替わりが夜遅い
+  // 時刻に起きた年は判定が1日ずれてしまうため、「その日の終わり（＝翌日0時、日本時間）」時点の
+  // 黄経を使って判定する（＝その日のうちに切り替わりが起きていれば、新しい節気として扱われる）
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  // 「日本時間で翌日0時」＝「UTCでその日の15時」のユリウス日を直接組み立てる
+  let yy = y, mm = m;
+  if (mm <= 2){ yy -= 1; mm += 12; }
+  const A = Math.floor(yy / 100);
+  const B = 2 - A + Math.floor(A / 4);
+  const jdAtJstDayEnd = Math.floor(365.25 * (yy + 4716)) + Math.floor(30.6001 * (mm + 1)) + d + B - 1524.5 + 15 / 24;
+
+  const longitude = calcSolarLongitudeFromJD(jdAtJstDayEnd);
   const sekkiIndex = Math.floor(longitude / 15) % 24;
   const sekkiName = SEKKI_NAMES[sekkiIndex];
   const withinTerm = longitude - sekkiIndex * 15; // 節氣内での経過角度（0〜15度）
@@ -7885,6 +7968,103 @@ function calcSekkiAndKou(date){
 
 // 二十四節氣のうち「中氣」（偶数インデックス＝12種）と旧暦月の対応
 const CHUUKI_TO_MONTH = { 22: 1, 0: 2, 2: 3, 4: 4, 6: 5, 8: 6, 10: 7, 12: 8, 14: 9, 16: 10, 18: 11, 20: 12 };
+
+// ----- 🎲 六曜（旧暦の月日から算出。先勝→友引→先負→仏滅→大安→赤口の順で決まる） -----
+function calcRokuyou(lunarMonth, lunarDay){
+  const ROKUYOU_NAMES = ['先勝', '友引', '先負', '仏滅', '大安', '赤口'];
+  const index = (lunarMonth + lunarDay) % 6;
+  return ROKUYOU_NAMES[index];
+}
+
+/* ==========================================================
+   🎋 吉日判定（天赦日・一粒万倍日・寅の日・巳の日・己巳の日・神吉日・大明日）
+   ※ 特定の年の日付リストではなく、日付から毎回計算する仕組みのため、
+     年が変わってもメンテナンス不要（節月・干支の計算はすべて自動）
+   ========================================================== */
+const JIKKAN = ['甲', '乙', '丙', '丁', '戊', '己', '庚', '辛', '壬', '癸'];
+const JUNISHI_ARR = ['子', '丑', '寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥'];
+
+// 日の干支インデックス（0〜59、甲子=0）を計算する
+// 基準日：2021年1月1日＝己酉（60干支のうち45番目）という確定情報を起点にする
+function calcKanshiIndex(date){
+  const anchor = Date.UTC(2021, 0, 1);
+  const target = Date.UTC(date.getFullYear(), date.getMonth(), date.getDate());
+  const diffDays = Math.round((target - anchor) / 86400000);
+  return ((45 + diffDays) % 60 + 60) % 60;
+}
+function kanshiToString(index){
+  return JIKKAN[index % 10] + JUNISHI_ARR[index % 12];
+}
+
+// 節月（立春・啓蟄など「節気」の切り替わりを基準にした暦月）を十二支で求める
+// sekkiIndexはSEKKI_NAMESのインデックス（0〜23）。奇数＝節気、偶数＝中気。
+const SETSU_GETSU_JUNISHI = { 21: '寅', 23: '卯', 1: '辰', 3: '巳', 5: '午', 7: '未', 9: '申', 11: '酉', 13: '戌', 15: '亥', 17: '子', 19: '丑' };
+function calcSetsuGetsu(sekkiIndex){
+  const setsuIndex = (sekkiIndex % 2 === 1) ? sekkiIndex : (sekkiIndex - 1 + 24) % 24;
+  return SETSU_GETSU_JUNISHI[setsuIndex];
+}
+
+// 天赦日：節月の季節（寅卯辰=春、巳午未=夏、申酉戌=秋、亥子丑=冬）と、その季節ごとに決まった干支の組み合わせ
+const TENSHA_SEASON = { '寅': '春', '卯': '春', '辰': '春', '巳': '夏', '午': '夏', '未': '夏', '申': '秋', '酉': '秋', '戌': '秋', '亥': '冬', '子': '冬', '丑': '冬' };
+const TENSHA_KANSHI_BY_SEASON = { '春': '戊寅', '夏': '甲午', '秋': '戊申', '冬': '甲子' };
+
+// 一粒万倍日：節月の十二支ごとに決まった、2種類の日の十二支
+const ICHIRYU_MANBAI_TABLE = {
+  '寅': ['丑', '午'], '卯': ['寅', '酉'], '辰': ['子', '卯'], '巳': ['卯', '辰'],
+  '午': ['巳', '午'], '未': ['午', '酉'], '申': ['子', '未'], '酉': ['卯', '申'],
+  '戌': ['午', '酉'], '亥': ['酉', '戌'], '子': ['亥', '子'], '丑': ['子', '卯']
+};
+
+// 神吉日・大明日：それぞれ決まった日干支のリストに当てはまるかどうかで判定
+const KAMIYOSHI_LIST = ['乙丑', '丁卯', '己巳', '庚午', '壬申', '癸酉', '丁丑', '己卯', '壬午', '甲申', '乙酉', '戊子', '辛卯', '甲午', '丙申', '丁酉', '己亥', '庚子', '辛丑', '癸卯', '乙巳', '丙午', '丁未', '戊申', '己酉', '辛亥', '壬子', '乙卯', '戊午', '己未', '庚申', '辛酉', '癸亥'];
+const DAIMYOU_LIST = ['戊午', '己巳', '庚午', '辛未', '壬申', '癸酉', '丁丑', '己卯', '壬午', '甲申', '丁亥', '壬辰', '乙未', '壬寅', '甲辰', '乙巳', '丙午', '丁未', '己酉', '庚戌', '辛亥', '丙辰', '己未', '庚申', '辛酉'];
+
+// 今日の吉日をすべて判定してまとめて返す
+function calcKichijitsu(date, sekkiIndex){
+  const kanshiIndex = calcKanshiIndex(date);
+  const kanshiStr = kanshiToString(kanshiIndex);
+  const junishi = JUNISHI_ARR[kanshiIndex % 12];
+  const setsuGetsu = calcSetsuGetsu(sekkiIndex);
+
+  const results = [];
+
+  // 天赦日
+  const season = TENSHA_SEASON[setsuGetsu];
+  if (kanshiStr === TENSHA_KANSHI_BY_SEASON[season]){
+    results.push({ key: 'tensha', name: '天赦日', desc: '百神が天に昇り、万物の罪を赦すとされる、暦の中でも最上の大吉日。' });
+  }
+
+  // 一粒万倍日
+  if (ICHIRYU_MANBAI_TABLE[setsuGetsu].includes(junishi)){
+    results.push({ key: 'ichiryu', name: '一粒万倍日', desc: '一粒の籾が万倍にも実るとされる、何かを始めるのに良い日。' });
+  }
+
+  // 寅の日
+  if (junishi === '寅'){
+    results.push({ key: 'tora', name: '寅の日', desc: '出て行ったお金がすぐ戻ってくるとされる、金運の吉日。' });
+  }
+
+  // 巳の日・己巳の日
+  if (junishi === '巳'){
+    if (kanshiStr === '己巳'){
+      results.push({ key: 'tsuchinotomi', name: '己巳の日', desc: '60日に一度巡る、巳の日の中でも特に縁起の良い金運の日。' });
+    } else {
+      results.push({ key: 'mi', name: '巳の日', desc: '金運・財運の神様、弁財天の使いとされる蛇にちなんだ吉日。' });
+    }
+  }
+
+  // 神吉日
+  if (KAMIYOSHI_LIST.includes(kanshiStr)){
+    results.push({ key: 'kamiyoshi', name: '神吉日', desc: '神様の加護を受けやすいとされ、神社参拝やお墓参りに良い日。' });
+  }
+
+  // 大明日
+  if (DAIMYOU_LIST.includes(kanshiStr)){
+    results.push({ key: 'daimyou', name: '大明日', desc: '光があまねく照らすように、移転や旅行などに良いとされる吉日。' });
+  }
+
+  return results;
+}
 
 function calcLunarDate(date, sekkiIndex){
   // 直近の中氣（偶数インデックスの節氣）が示す月を採用する簡易方式
@@ -8235,6 +8415,24 @@ function renderFortune(birth, today){
   const lunar = calcLunarDate(today, sekki.sekkiIndex);
   document.getElementById('fortuneLunarDate').textContent =
     `旧暦 ${lunar.month}月${lunar.day}日頃`;
+
+  // 🎲 今日の六曜
+  document.getElementById('fortuneRokuyou').textContent = calcRokuyou(lunar.month, lunar.day);
+
+  // 🎉 本日吉日バナー
+  const kichijitsuList = calcKichijitsu(today, sekki.sekkiIndex);
+  const kichijitsuBanner = document.getElementById('kichijitsuBanner');
+  if (kichijitsuList.length > 0){
+    document.getElementById('kichijitsuList').innerHTML = kichijitsuList.map(k =>
+      `<div class="kichijitsu-item">` +
+        `<p class="kichijitsu-item-name">${k.name}</p>` +
+        `<p class="kichijitsu-item-desc">${k.desc}</p>` +
+      `</div>`
+    ).join('');
+    kichijitsuBanner.style.display = 'block';
+  } else {
+    kichijitsuBanner.style.display = 'none';
+  }
 
   // 💰 今日の金運
   const money = calcMoneyLuck(birth, today);
@@ -9014,6 +9212,59 @@ document.getElementById('otherDigitInputField').addEventListener('input', () => 
   const digits = document.getElementById('otherDigitInputField').value.replace(/[^0-9]/g, '');
   if (digits.length === 8){
     applyDigitBirthdate('otherDigitInputField', 'otherDigitInputNote', 'otherBirthInput');
+  }
+});
+
+// ----- 🔢 生まれた時刻を4桁の数字で直接入力する（Android等で時刻ピッカーに「決定」ボタンがない端末向けの対策） -----
+document.getElementById('timeDigitInputToggleBtn').addEventListener('click', () => {
+  const row = document.getElementById('timeDigitInputRow');
+  const isHidden = row.style.display === 'none';
+  row.style.display = isHidden ? 'flex' : 'none';
+  document.getElementById('timeDigitInputNote').textContent = '';
+  document.getElementById('timeDigitInputNote').className = 'digit-input-note';
+  if (isHidden){
+    document.getElementById('timeDigitInputField').focus();
+  }
+});
+
+function applyDigitBirthTime(){
+  const field = document.getElementById('timeDigitInputField');
+  const note = document.getElementById('timeDigitInputNote');
+  const digits = field.value.replace(/[^0-9]/g, '');
+
+  if (digits.length !== 4){
+    note.textContent = '4桁の数字で入力してください（例：1930で19時30分）';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const hour = Number(digits.slice(0, 2));
+  const minute = Number(digits.slice(2, 4));
+
+  if (hour > 23 || minute > 59){
+    note.textContent = '実在する時刻ではないようです。もう一度ご確認ください。';
+    note.className = 'digit-input-note ng';
+    return;
+  }
+
+  const pad = (n) => String(n).padStart(2, '0');
+  document.getElementById('birthTime').value = `${pad(hour)}:${pad(minute)}`;
+
+  note.textContent = `${hour}時${minute}分を反映しました。`;
+  note.className = 'digit-input-note ok';
+}
+
+document.getElementById('timeDigitInputApplyBtn').addEventListener('click', applyDigitBirthTime);
+document.getElementById('timeDigitInputField').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter'){
+    e.preventDefault();
+    applyDigitBirthTime();
+  }
+});
+document.getElementById('timeDigitInputField').addEventListener('input', () => {
+  const digits = document.getElementById('timeDigitInputField').value.replace(/[^0-9]/g, '');
+  if (digits.length === 4){
+    applyDigitBirthTime();
   }
 });
 
