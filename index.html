@@ -2827,6 +2827,8 @@
     flex-shrink: 0;
   }
   .milestone-history-row .mh-label{
+    flex: 1;
+    min-width: 0;
     font-size: 13px;
     font-weight: 800;
     color: var(--text-main);
@@ -5776,6 +5778,12 @@
     <div class="field">
       <label for="anniversaryDate">③ 楽しみにしているイベントの日（任意）</label>
       <input type="date" id="anniversaryDate">
+      <button class="digit-input-toggle-btn" id="eventDigitInputToggleBtn" type="button">🔢 数字で直接入力</button>
+      <div class="digit-input-row" id="eventDigitInputRow" style="display:none;">
+        <input type="text" inputmode="numeric" pattern="[0-9]*" maxlength="8" placeholder="例：20261225" id="eventDigitInputField" class="digit-input-field">
+        <button class="digit-input-apply-btn" id="eventDigitInputApplyBtn" type="button">反映</button>
+      </div>
+      <p class="digit-input-note" id="eventDigitInputNote"></p>
     </div>
 
     <div class="field" style="margin-top: 22px;">
@@ -9224,7 +9232,7 @@ document.getElementById('digitInputToggleBtn').addEventListener('click', () => {
   }
 });
 
-function applyDigitBirthdate(fieldId, noteId, targetInputId){
+function applyDigitBirthdate(fieldId, noteId, targetInputId, allowFuture){
   const field = document.getElementById(fieldId);
   const note = document.getElementById(noteId);
   const digits = field.value.replace(/[^0-9]/g, '');
@@ -9253,7 +9261,7 @@ function applyDigitBirthdate(fieldId, noteId, targetInputId){
 
   const today = new Date();
   today.setHours(0, 0, 0, 0);
-  if (testDate.getTime() > today.getTime()){
+  if (!allowFuture && testDate.getTime() > today.getTime()){
     note.textContent = '未来の日付は入力できません。';
     note.className = 'digit-input-note ng';
     return;
@@ -9308,6 +9316,33 @@ document.getElementById('otherDigitInputField').addEventListener('input', () => 
   const digits = document.getElementById('otherDigitInputField').value.replace(/[^0-9]/g, '');
   if (digits.length === 8){
     applyDigitBirthdate('otherDigitInputField', 'otherDigitInputNote', 'otherBirthInput');
+  }
+});
+
+// ----- 🔢 「楽しみにしているイベントの日」の数字直接入力（未来の日付も入力できるようにする） -----
+document.getElementById('eventDigitInputToggleBtn').addEventListener('click', () => {
+  const row = document.getElementById('eventDigitInputRow');
+  const isHidden = row.style.display === 'none';
+  row.style.display = isHidden ? 'flex' : 'none';
+  document.getElementById('eventDigitInputNote').textContent = '';
+  document.getElementById('eventDigitInputNote').className = 'digit-input-note';
+  if (isHidden){
+    document.getElementById('eventDigitInputField').focus();
+  }
+});
+document.getElementById('eventDigitInputApplyBtn').addEventListener('click', () => {
+  applyDigitBirthdate('eventDigitInputField', 'eventDigitInputNote', 'anniversaryDate', true);
+});
+document.getElementById('eventDigitInputField').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter'){
+    e.preventDefault();
+    applyDigitBirthdate('eventDigitInputField', 'eventDigitInputNote', 'anniversaryDate', true);
+  }
+});
+document.getElementById('eventDigitInputField').addEventListener('input', () => {
+  const digits = document.getElementById('eventDigitInputField').value.replace(/[^0-9]/g, '');
+  if (digits.length === 8){
+    applyDigitBirthdate('eventDigitInputField', 'eventDigitInputNote', 'anniversaryDate', true);
   }
 });
 
