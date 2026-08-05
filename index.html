@@ -6190,7 +6190,7 @@
     <div class="kichijitsu-banner" id="kichijitsuBanner" style="display:none;">
       <p class="kichijitsu-title">🎉 本日吉日</p>
       <div class="kichijitsu-list" id="kichijitsuList"></div>
-      <p class="kichijitsu-note">※ 伝統的な暦の考え方をもとに算出した目安です。流派によって解釈が異なる場合があります。</p>
+      <p class="kichijitsu-note">※伝統的な暦の考え方をもとに算出した目安です。<br>流派によって解釈が異なる場合があります。</p>
     </div>
 
     <p class="fortune-subgroup-title">🎂 あなたの誕生日で変わる運勢</p>
@@ -7972,7 +7972,7 @@ const CHUUKI_TO_MONTH = { 22: 1, 0: 2, 2: 3, 4: 4, 6: 5, 8: 6, 10: 7, 12: 8, 14:
 // ----- 🎲 六曜（旧暦の月日から算出。先勝→友引→先負→仏滅→大安→赤口の順で決まる） -----
 function calcRokuyou(lunarMonth, lunarDay){
   const ROKUYOU_NAMES = ['先勝', '友引', '先負', '仏滅', '大安', '赤口'];
-  const index = (lunarMonth + lunarDay) % 6;
+  const index = ((lunarMonth + lunarDay - 2) % 6 + 6) % 6;
   return ROKUYOU_NAMES[index];
 }
 
@@ -8071,8 +8071,12 @@ function calcLunarDate(date, sekkiIndex){
   const chuukiIndex = (sekkiIndex % 2 === 0) ? sekkiIndex : (sekkiIndex - 1 + 24) % 24;
   const month = CHUUKI_TO_MONTH[chuukiIndex];
 
-  // 月齢（新月からの経過日数）から旧暦の日にちを算出
-  const age = calcMoonAge(date);
+  // 月齢（新月からの経過日数）から旧暦の日にちを算出する。
+  // 新月の瞬間は日付が変わる深夜〜早朝に起きることも多く、「その日のうちに新月を迎えていれば
+  // 旧暦1日」という暦の考え方に合わせるため、二十四節気の判定と同じく「その日の終わり
+  // （＝翌日0時、日本時間）」時点の月齢を使う
+  const jstDayEnd = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), 15, 0, 0));
+  const age = calcMoonAge(jstDayEnd);
   const day = Math.floor(age) + 1;
 
   return { month, day };
