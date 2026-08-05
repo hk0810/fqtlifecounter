@@ -1499,6 +1499,7 @@
     margin: 14px 0 18px;
   }
   .oshi-detail-info-item{
+    min-width: 0;
     background: var(--blue-pale);
     border-radius: 12px;
     padding: 10px 6px;
@@ -1513,6 +1514,8 @@
     font-size: 13px;
     font-weight: 800;
     color: var(--text-main);
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .oshi-widget-thumb{
     width: 32px;
@@ -1642,6 +1645,7 @@
     margin-bottom: 12px;
   }
   .animal-info-item{
+    min-width: 0;
     background: rgba(255,255,255,0.7);
     border-radius: 12px;
     padding: 10px 6px;
@@ -1656,6 +1660,8 @@
     font-size: 13px;
     font-weight: 800;
     color: var(--text-main);
+    word-break: keep-all;
+    overflow-wrap: break-word;
   }
   .animal-quote-heading{
     font-size: 12px;
@@ -5175,7 +5181,7 @@
     <div class="version-history-list">
 
       <div class="version-history-item">
-        <p class="version-history-date">v1.0　基本機能</p>
+        <p class="version-history-date">v1.0　基本機能（2026.07.20開発開始）</p>
         <ul class="version-history-notes">
           <li>生年月日から「地球に来て何日目か」を計算する、シンプルな日数カウンターとしてスタート</li>
           <li>ターゲット日数の設定、残り日数・進捗バーの表示</li>
