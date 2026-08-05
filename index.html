@@ -5364,7 +5364,7 @@
       <div class="version-history-item">
         <p class="version-history-date">v22.0　運試し機能・入力まわりの改善</p>
         <ul class="version-history-notes">
-          <li>「✊✌️✋⁠ グーチョキパーで運試し」を新規実装。おみくじの下に配置し、「計算する」を押すたびに完全ランダム（3分の1ずつ）で結果が変わる</li>
+          <li>「✊✌️✋⁠ グーチョキパーで運試し」を新規実装。おみくじの下に配置し、「計算する」を押すたびに完全ランダム（3分の1ずつ）で結果が変わる</li>
           <li>各種ブロックの余白・生年月日欄のはみ出しなど、細かな表示崩れを修正</li>
           <li>宇宙どうぶつの名前の組み合わせパターンを600通り→3,111通りに拡張（接頭辞・接尾辞のバリエーションを追加）</li>
           <li>生年月日を8桁の数字で直接入力できる機能を新規追加（カレンダー操作なしで、数字を打つだけで反映）</li>
@@ -5375,15 +5375,15 @@
       <div class="version-history-item">
         <p class="version-history-date">v23.0　吉日判定・暦まわりの精度向上</p>
         <ul class="version-history-notes">
-          <li>「🎉⁠ 本日吉日」を新規実装。天赦日・一粒万倍日・寅の日・巳の日/己巳の日・神吉日・大明日の6種類を判定し、該当する日は目立つように表示</li>
-          <li>「🎲⁠ 今日の六曜」を新規実装</li>
+          <li>「🎉⁠ 本日吉日」を新規実装。天赦日・一粒万倍日・寅の日・巳の日/己巳の日・神吉日・大明日の6種類を判定し、該当する日は目立つように表示</li>
+          <li>「🎲⁠ 今日の六曜」を新規実装</li>
           <li>「生まれた時刻」にも、生年月日と同じ「数字で直接入力」機能を追加</li>
-          <li>「📱⁠ QRコードで対面シェアする」ボタンを新規実装。タップすると、QRコードが大きくポップアップ表示される</li>
+          <li>「📱⁠ QRコードで対面シェアする」ボタンを新規実装。タップすると、QRコードが大きくポップアップ表示される</li>
           <li>二十四節気の判定が、切り替わりが夜遅い時刻になる年に1日ずれることがある不具合を修正（旧暦・七十二候・六曜など複数の表示に影響していた根本原因）</li>
           <li>旧暦の日にちが1日ずれることがある不具合を修正</li>
           <li>六曜の計算式そのものに誤りがあった不具合を修正</li>
           <li>生年月日入力欄の幅が、ターゲット日数欄と揃っていなかった不具合を修正</li>
-          <li>「✊✌️✋⁠ グーチョキパーで運試し」を、日付ではなく毎回完全ランダムに変更</li>
+          <li>「✊✌️✋⁠ グーチョキパーで運試し」を、日付ではなく毎回完全ランダムに変更</li>
         </ul>
       </div>
 
@@ -6268,6 +6268,14 @@
         <div class="fortune-text">
           <div class="label">今日の六曜</div>
           <div class="value" id="fortuneRokuyou">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row" id="fortuneAnniversaryRow" style="display:none;">
+        <div class="ic">📅</div>
+        <div class="fortune-text">
+          <div class="label">今日は何の日</div>
+          <div class="value" id="fortuneAnniversary">-</div>
         </div>
       </div>
     </div>
@@ -8056,6 +8064,87 @@ function calcSekkiAndKou(date){
 // 二十四節氣のうち「中氣」（偶数インデックス＝12種）と旧暦月の対応
 const CHUUKI_TO_MONTH = { 22: 1, 0: 2, 2: 3, 4: 4, 6: 5, 8: 6, 10: 7, 12: 8, 14: 9, 16: 10, 18: 11, 20: 12 };
 
+/* ==========================================================
+   📅 今日は何の日（絶対的な確信があるものだけを対象にする）
+   ① 日本の祝日（国民の祝日に関する法律に基づく。移動祝日・振替休日にも対応）
+   ② 誰もが知っている、確立された記念日のみ（ごく少数に絞る）
+   ========================================================== */
+
+// 指定した月の第N◯曜日を求める（例：1月の第2月曜日＝成人の日）
+function calcNthWeekday(year, month, weekday, n){
+  const first = new Date(year, month - 1, 1);
+  const firstWeekday = first.getDay();
+  let day = 1 + ((weekday - firstWeekday + 7) % 7) + (n - 1) * 7;
+  return day;
+}
+
+function calcJapaneseHoliday(date, sekkiIndex, today){
+  const y = date.getFullYear();
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const w = date.getDay();
+
+  // 春分の日・秋分の日は、実際の二十四節気の瞬間から求める（うるう年等でも自動的に正しくなる）
+  // 「今日が春分／秋分の節気で、前日はまだその節気に入っていない」＝切り替わった初日、として判定する
+  const sekkiName = SEKKI_NAMES[sekkiIndex];
+  if (sekkiName === '春分' || sekkiName === '秋分'){
+    const yesterday = new Date(y, m - 1, d - 1);
+    const yesterdaySekki = calcSekkiAndKou(yesterday);
+    if (SEKKI_NAMES[yesterdaySekki.sekkiIndex] !== sekkiName){
+      return sekkiName === '春分' ? '春分の日' : '秋分の日';
+    }
+  }
+
+  const FIXED_HOLIDAYS = {
+    '1-1': '元日',
+    '2-11': '建国記念の日',
+    '2-23': '天皇誕生日',
+    '4-29': '昭和の日',
+    '5-3': '憲法記念日',
+    '5-4': 'みどりの日',
+    '5-5': 'こどもの日',
+    '8-11': '山の日',
+    '11-3': '文化の日',
+    '11-23': '勤労感謝の日'
+  };
+  const key = `${m}-${d}`;
+  if (FIXED_HOLIDAYS[key]) return FIXED_HOLIDAYS[key];
+
+  // 移動祝日（第◯月曜日）
+  if (m === 1 && d === calcNthWeekday(y, 1, 1, 2)) return '成人の日';
+  if (m === 7 && d === calcNthWeekday(y, 7, 1, 3)) return '海の日';
+  if (m === 9 && d === calcNthWeekday(y, 9, 1, 3)) return '敬老の日';
+  if (m === 10 && d === calcNthWeekday(y, 10, 1, 2)) return 'スポーツの日';
+
+  return null;
+}
+
+// 誰もが知っている、確立された記念日のみ（ごく少数に絞る。祝日と被らないもの）
+const ESTABLISHED_ANNIVERSARIES = {
+  '2-14': 'バレンタインデー',
+  '3-3': 'ひな祭り',
+  '3-14': 'ホワイトデー',
+  '4-1': 'エイプリルフール',
+  '5-5': '端午の節句', // こどもの日と同日だが、伝統行事としての呼び名も併記する
+  '10-31': 'ハロウィン',
+  '12-24': 'クリスマスイブ',
+  '12-25': 'クリスマス',
+  '12-31': '大晦日'
+};
+
+function calcTodayAnniversary(date, sekkiIndex){
+  const holiday = calcJapaneseHoliday(date, sekkiIndex, date);
+  const m = date.getMonth() + 1;
+  const d = date.getDate();
+  const key = `${m}-${d}`;
+  const anniversary = ESTABLISHED_ANNIVERSARIES[key];
+
+  if (holiday && anniversary && holiday !== anniversary){
+    return `${holiday}／${anniversary}`;
+  }
+  return holiday || anniversary || null;
+}
+
 // ----- 🎲 六曜（旧暦の月日から算出。先勝→友引→先負→仏滅→大安→赤口の順で決まる） -----
 function calcRokuyou(lunarMonth, lunarDay){
   const ROKUYOU_NAMES = ['先勝', '友引', '先負', '仏滅', '大安', '赤口'];
@@ -8509,6 +8598,16 @@ function renderFortune(birth, today){
 
   // 🎲 今日の六曜
   document.getElementById('fortuneRokuyou').textContent = calcRokuyou(lunar.month, lunar.day);
+
+  // 📅 今日は何の日（絶対的な確信があるものだけ）
+  const anniversary = calcTodayAnniversary(today, sekki.sekkiIndex);
+  const anniversaryRow = document.getElementById('fortuneAnniversaryRow');
+  if (anniversary){
+    document.getElementById('fortuneAnniversary').textContent = anniversary;
+    anniversaryRow.style.display = 'flex';
+  } else {
+    anniversaryRow.style.display = 'none';
+  }
 
   // 🎉 本日吉日バナー
   const kichijitsuList = calcKichijitsu(today, sekki.sekkiIndex);
@@ -10440,11 +10539,11 @@ window.fqtConfirm = function(message, onConfirm){
     // ----- 人氣者13体（全員★5固定・出現率は13体まとめて15%） -----
     // ※ key は「宇宙どうぶつ占い」など今後の機能から個体を特定するための固定ID（変更しないこと）
     { key: 'moon_mochi', parts: { body:15, ear:5,  eye:7,  mouth:14, nose:4, tail:19, wing:3, horn:7, antenna:9, hand:10, foot:8,  pattern:5,  background:18, color:26, star:12 },
-      rarity: 5, name: 'ムーンモチ', personality: 'のんびり屋・癒しの達人', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
+      rarity: 5, name: 'ムーンモチ', personality: 'のんびり屋・癒しマスター', favorite: 'お昼寝', quote: 'まんまるお月さまの下で、ねむたいな…' },
     { key: 'san_san_poko', parts: { body:18, ear:10, eye:1,  mouth:4,  nose:6, tail:18, wing:2, horn:1, antenna:0, hand:4,  foot:6,  pattern:5,  background:18, color:2,  star:2 },
       rarity: 5, name: 'サンサンぽこ', personality: 'よく笑う・太陽氣質', favorite: '朝日', quote: '今日もいい天氣！元氣にいこう☀️' },
     { key: 'yume_purin', parts: { body:8,  ear:3,  eye:7,  mouth:0,  nose:5, tail:4,  wing:7, horn:9, antenna:6, hand:11, foot:11, pattern:12, background:0,  color:13, star:2 },
-      rarity: 5, name: 'ゆめプリン', personality: '夢見がち・理想を描く人', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
+      rarity: 5, name: 'ゆめプリン', personality: '夢見がち・理想を描く夢想家', favorite: 'キラキラしたもの', quote: '今夜はどんな夢を見ようかな' },
     { key: 'honey_puni', parts: { body:10, ear:12, eye:14, mouth:1,  nose:7, tail:10, wing:4, horn:0, antenna:2, hand:10, foot:12, pattern:7,  background:16, color:1,  star:12 },
       rarity: 5, name: 'ハニプニ', personality: '甘えん坊・愛情豊か', favorite: 'はちみつ', quote: 'ぎゅーってしてほしいな' },
     { key: 'sakura_mochi', parts: { body:19, ear:13, eye:8,  mouth:10, nose:8, tail:2,  wing:1, horn:4, antenna:7, hand:14, foot:6,  pattern:15, background:18, color:21, star:4 },
@@ -10452,17 +10551,17 @@ window.fqtConfirm = function(message, onConfirm){
     { key: 'puni_koro', parts: { body:18, ear:12, eye:6,  mouth:13, nose:3, tail:10, wing:0, horn:3, antenna:1, hand:11, foot:11, pattern:14, background:8,  color:24, star:7 },
       rarity: 5, name: 'ぷにコロ', personality: 'マイペース・自然体', favorite: '昼寝', quote: 'ころころ〜っと転がってきたよ' },
     { key: 'kira_kiran', parts: { body:6,  ear:16, eye:14, mouth:9,  nose:0, tail:18, wing:8, horn:4, antenna:4, hand:6,  foot:14, pattern:4,  background:13, color:26, star:4 },
-      rarity: 5, name: 'きらきらん', personality: 'ムードメーカー・周囲を照らす人', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
+      rarity: 5, name: 'きらきらん', personality: 'ムードメーカー・周囲を照らす存在', favorite: '星', quote: 'みんなで見ると星はもっときれいだよ' },
     { key: 'mintoru', parts: { body:3,  ear:14, eye:4,  mouth:8,  nose:1, tail:0,  wing:7, horn:3, antenna:0, hand:10, foot:9,  pattern:8,  background:14, color:5,  star:1 },
       rarity: 5, name: 'みんとる', personality: '几帳面・誠実派', favorite: 'ハーブティー', quote: 'すっきり爽やかな氣分だよ' },
     { key: 'pofu_pofu', parts: { body:3,  ear:15, eye:5,  mouth:8,  nose:1, tail:0,  wing:3, horn:5, antenna:6, hand:11, foot:11, pattern:22, background:15, color:0,  star:0 },
-      rarity: 5, name: 'ぽふぽふ', personality: '甘党・安らぎを届ける人', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
+      rarity: 5, name: 'ぽふぽふ', personality: '甘党・安らぎを届ける癒し系', favorite: 'マシュマロ', quote: 'ぽふぽふのほっぺ、さわってみて' },
     { key: 'paku_pakun', parts: { body:1,  ear:13, eye:7,  mouth:8,  nose:4, tail:16, wing:0, horn:2, antenna:5, hand:2,  foot:0,  pattern:20, background:15, color:1,  star:1 },
-      rarity: 5, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける人', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
+      rarity: 5, name: 'パクパクン', personality: '食いしん坊・ワクワクを届ける発信源', favorite: 'クッキー', quote: '今日のおやつは何かな〜？' },
 
     // ----- 人氣者13体のうち、残り3体（元々の設計時の名残） -----
     { key: 'cosmo_prince', parts: { body:3,  ear:1,  eye:18, mouth:3, nose:5, tail:13, wing:4, horn:6, antenna:2, hand:5,  foot:14, pattern:5,  background:15, color:12, star:6 },
-      rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト・未来を信じる人', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
+      rarity: 5, name: 'コスモドリーマー', personality: 'ロマンチスト・未来を信じる夢追い星', favorite: '流れ星', quote: '君に会えて、宇宙中が輝いて見えるよ' },
     { key: 'galaxy_queen', parts: { body:19, ear:8,  eye:1,  mouth:0, nose:2, tail:19, wing:9, horn:8, antenna:5, hand:8,  foot:8,  pattern:16, background:14, color:22, star:7 },
       rarity: 5, name: 'コスモアーティスト', personality: '芸術家肌・感性豊か', favorite: '銀河の景色', quote: 'この宇宙は、わたしが描いた一枚の絵なの' },
     { key: 'legend_star', parts: { body:12, ear:18, eye:16, mouth:8, nose:4, tail:2,  wing:9, horn:0, antenna:6, hand:10, foot:4,  pattern:16, background:8,  color:13, star:8 },
@@ -11750,10 +11849,32 @@ window.fqtConfirm = function(message, onConfirm){
       const raw = window.localStorage.getItem(ACHIEVEMENT_STORAGE_KEY);
       if (!raw) return defaultData;
       const parsed = JSON.parse(raw);
-      return {
+      const data = {
         achievements: Array.isArray(parsed.achievements) ? parsed.achievements : [],
         legendCount: Number(parsed.legendCount) || 0
       };
+
+      // 🔧 マイグレーション：以前は「同じ子への再会」もカウントしてしまっていたため、
+      //    保存済みのlegendCountが、実際に発見したユニークな★5（人氣者を除く）の匹数より
+      //    多くなっている場合がある。図鑑データから正しい匹数を数え直し、補正する。
+      try{
+        const dexRaw = window.localStorage.getItem('fqtLifeCounter_animalDex');
+        if (dexRaw){
+          const dex = JSON.parse(dexRaw);
+          const discovered = dex && dex.discovered ? dex.discovered : {};
+          const correctCount = Object.keys(discovered).filter(id => {
+            const animal = discovered[id];
+            return animal && animal.rarity === 5 && !animal.signatureKey;
+          }).length;
+          if (correctCount !== data.legendCount){
+            data.legendCount = correctCount;
+          }
+        }
+      } catch(e){
+        // 図鑑データが読めない場合は補正せず、保存されている値をそのまま使う
+      }
+
+      return data;
     } catch(e){
       return defaultData;
     }
