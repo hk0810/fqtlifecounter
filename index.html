@@ -358,7 +358,21 @@
   }
   .field:last-child{ margin-bottom: 0; }
 
-  input[type="date"],
+  input[type="date"]{
+    width: 100%;
+    max-width: 100%;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    font-family: inherit;
+    font-size: 16px;
+    padding: 13px 8px;
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    background: var(--blue-pale);
+    color: var(--text-main);
+    outline: none;
+    transition: border-color .15s ease, box-shadow .15s ease;
+  }
   input[type="number"]{
     width: 100%;
     max-width: 100%;
@@ -5221,6 +5235,17 @@
           <li>「🏫⁠ JOYオルタナティブフリースクール」のプロモカードを新規追加</li>
           <li>AndroidでPWAアイコンが表示されない不具合を修正。アイコン・マニフェストを実ファイルとして配置する方式に変更し、オリジナルロゴアイコンに差し替え</li>
           <li>「復活の呪文」「生年月日のすばやい入力方法」のユーザーマニュアルを新規作成</li>
+        </ul>
+      </div>
+
+      <div class="version-history-item">
+        <p class="version-history-date">v22.0　運試し機能・入力まわりの改善</p>
+        <ul class="version-history-notes">
+          <li>「✊✌️✋⁠ グーチョキパーで運試し」を新規実装。おみくじの下に配置し、「計算する」を押すたびに完全ランダム（3分の1ずつ）で結果が変わる</li>
+          <li>各種ブロックの余白・生年月日欄のはみ出しなど、細かな表示崩れを修正</li>
+          <li>宇宙どうぶつの名前の組み合わせパターンを600通り→3,111通りに拡張（接頭辞・接尾辞のバリエーションを追加）</li>
+          <li>生年月日を8桁の数字で直接入力できる機能を新規追加（カレンダー操作なしで、数字を打つだけで反映）</li>
+          <li>Google Analyticsのタグを整理。クロスドメイン計測（複数のドメイン間の行き来を正しく計測する設定）を追加し、測定IDを更新</li>
         </ul>
       </div>
 
