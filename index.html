@@ -11966,6 +11966,16 @@ window.fqtConfirm = function(message, onConfirm){
         // 図鑑データが読めない場合は補正せず、保存されている値をそのまま使う
       }
 
+      // 🔧 マイグレーション：上記の補正で匹数が減った結果、本来はまだ届いていなかった
+      //    「レアハンター」「レジェンドハンター」「レジェンドキング」が誤って「達成済み」の
+      //    ままになっている場合があるため、正しい匹数と目標値を照らし合わせて取り除く
+      const LEGEND_ACHIEVEMENT_TARGETS = { rare_hunter: 1, legend_hunter: 13, legend_king: 33 };
+      data.achievements = data.achievements.filter(id => {
+        const target = LEGEND_ACHIEVEMENT_TARGETS[id];
+        if (target === undefined) return true; // レジェンド系以外の実績はそのまま残す
+        return data.legendCount >= target;
+      });
+
       return data;
     } catch(e){
       return defaultData;
