@@ -3583,9 +3583,15 @@
   /* ===== 宣伝カード（FQT不思議色鉛筆の世界） ===== */
   .promo-card{
     display: block;
+    width: 100%;
+    text-align: left;
     text-decoration: none;
+    font-family: inherit;
     color: inherit;
-    border-color: #f0dfa0;
+    border: 1px solid #f0dfa0;
+    border-radius: var(--radius);
+    padding: 22px 20px;
+    margin-bottom: 18px;
     background: linear-gradient(135deg, #fffdf5, #fff8e6);
     box-shadow: 0 10px 30px rgba(184, 134, 11, 0.18), 0 2px 8px rgba(0,0,0,0.04);
     position: relative;
@@ -6298,7 +6304,7 @@
   <p class="footer-message">今日という日は、残りの人生の最初の日。</p>
 
   <!-- 不思議色鉛筆の世界へのリンク -->
-  <a class="card promo-card" href="https://fushigiiroenpitsu.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
+  <button class="card promo-card" id="iroenpitsuPromoBtn" type="button">
     <p class="section-title">✏️ もっと不思議な世界へ</p>
     <div class="promo-inner">
       <div class="promo-emoji">🎨</div>
@@ -6308,7 +6314,7 @@
       </div>
       <div class="promo-arrow">›</div>
     </div>
-  </a>
+  </button>
 
   <!-- JOYオルタナティブフリースクールへのリンク -->
   <a class="card promo-card" href="https://school.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
@@ -8442,6 +8448,29 @@ function pickNextVideoId(){
   }
   return videoId;
 }
+
+// ----- ✏️ 「FQT不思議色鉛筆の世界」へのリンク先を、押すたびに2つのサイトへ交互に切り替える -----
+const IROENPITSU_URLS = [
+  'https://fushigi-pencils-jtwi4o4.gamma.site',
+  'https://fushigiiroenpitsu.alternative-life-japan.com'
+];
+const IROENPITSU_INDEX_KEY = 'fqtLifeCounter_iroenpitsuIndex';
+document.getElementById('iroenpitsuPromoBtn').addEventListener('click', () => {
+  let index = 0;
+  try{
+    index = Number(window.localStorage.getItem(IROENPITSU_INDEX_KEY)) || 0;
+  } catch(e){
+    index = 0;
+  }
+  const url = IROENPITSU_URLS[index % IROENPITSU_URLS.length];
+  try{
+    window.localStorage.setItem(IROENPITSU_INDEX_KEY, String((index + 1) % IROENPITSU_URLS.length));
+  } catch(e){
+    // 保存できない環境では何もしない
+  }
+  window.open(url, '_blank', 'noopener,noreferrer');
+});
+
 document.getElementById('videoOpenBtn').addEventListener('click', () => {
   const videoId = pickNextVideoId();
   document.getElementById('videoEmbedWrap').innerHTML =
