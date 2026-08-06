@@ -4431,7 +4431,7 @@
 <div class="dex-modal-overlay" id="revivalModalOverlay">
   <div class="dex-modal">
     <button class="badge-modal-close" id="revivalModalCloseBtn" type="button">✕</button>
-    <p class="badge-modal-title">🔮 復活の呪文</p>
+    <p class="badge-modal-title">🔮 復活の呪文　<button class="bio-info-btn" id="revivalHelpBtn" type="button" aria-label="復活の呪文についてもっと詳しく">？</button></p>
     <p class="badge-modal-note">
       端末やブラウザを変えると、これまでの記録<br>
       （生年月日・図鑑・バッジ・実績など）は失われてしまいます。<br><br>
@@ -6527,19 +6527,6 @@
     </div>
   </button>
 
-  <!-- JOYオルタナティブフリースクールへのリンク -->
-  <a class="card promo-card" href="https://school.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
-    <p class="section-title">🏫 学校に行けない子どもがいるのではなく</p>
-    <div class="promo-inner">
-      <div class="promo-emoji">🌈</div>
-      <div class="promo-text">
-        <div class="promo-sub">出会えていない学校があるだけ</div>
-        <div class="promo-main">JOYオルタナティブ<br>フリースクール</div>
-      </div>
-      <div class="promo-arrow">›</div>
-    </div>
-  </a>
-
   <!-- 完全成果報酬型コンサルティングへのリンク -->
   <a class="card promo-card" href="https://seikahosyuconsul.alternative-life-japan.com" target="_blank" rel="noopener noreferrer">
     <p class="section-title">🌟 成果が出なければ、報酬はいただきません。</p>
@@ -6566,6 +6553,19 @@
     </div>
   </a>
 
+  <!-- JOYオルタナティブフリースクールへのリンク -->
+  <a class="card promo-card" href="https://school.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
+    <p class="section-title">🏫 学校に行けない子どもがいるのではなく</p>
+    <div class="promo-inner">
+      <div class="promo-emoji">🌈</div>
+      <div class="promo-text">
+        <div class="promo-sub">出会えていない学校があるだけ</div>
+        <div class="promo-main">JOYオルタナティブ<br>フリースクール</div>
+      </div>
+      <div class="promo-arrow">›</div>
+    </div>
+  </a>
+
   <a class="card promo-card" href="https://fqt.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
     <p class="section-title">🌟 FQTの世界をもっと知る</p>
     <div class="promo-inner">
@@ -6573,6 +6573,19 @@
       <div class="promo-text">
         <div class="promo-sub">地球人のアセンションを加速することに貢献する。<br>（株）オルタナティブライフジャパン</div>
         <div class="promo-main">alternative-life-japan.com</div>
+      </div>
+      <div class="promo-arrow">›</div>
+    </div>
+  </a>
+
+  <!-- SAVON DE FÉEへのリンク -->
+  <a class="card promo-card" href="https://aqua.alternative-life-japan.com" target="_blank" rel="noopener noreferrer">
+    <p class="section-title">🌟 ホットペッパー口コミランキング27部門1位</p>
+    <div class="promo-inner">
+      <div class="promo-emoji">💎</div>
+      <div class="promo-text">
+        <div class="promo-sub">宝石岩盤浴エステ&脱毛　Aquaプロデュース</div>
+        <div class="promo-main">SAVON DE FÉE〜妖精の石鹸〜</div>
       </div>
       <div class="promo-arrow">›</div>
     </div>
@@ -9227,6 +9240,9 @@ document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
     document.getElementById('revivalStatus').textContent = '';
     document.getElementById('revivalStatus').className = 'revival-status';
     document.getElementById('revivalModalOverlay').classList.add('show');
+  });
+  document.getElementById('revivalHelpBtn').addEventListener('click', () => {
+    window.open('https://jyumon.alternative-life-japan.com', '_blank', 'noopener,noreferrer');
   });
   document.getElementById('revivalModalCloseBtn').addEventListener('click', () => {
     document.getElementById('revivalModalOverlay').classList.remove('show');
