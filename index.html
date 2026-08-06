@@ -6198,6 +6198,7 @@
           <div class="value" id="fortuneMayaKinLine">-</div>
           <div class="value maya-signature" id="fortuneMayaSeal">-</div>
           <div class="sub" id="fortuneMayaSub">-</div>
+          <div class="sub" id="fortuneMayaKinBirthday">-</div>
         </div>
       </div>
 
@@ -6552,6 +6553,18 @@
     </div>
   </a>
 
+  <!-- 完全成果報酬型コンサルティングへのリンク -->
+  <a class="card promo-card" href="https://seikahosyuconsul.alternative-life-japan.com" target="_blank" rel="noopener noreferrer">
+    <p class="section-title">🌟 成果が出なければ、報酬はいただきません。<br>個人事業主から中小企業まで</p>
+    <div class="promo-inner">
+      <div class="promo-emoji">📈</div>
+      <div class="promo-text">
+        <div class="promo-main">完全成果報酬型コンサル</div>
+      </div>
+      <div class="promo-arrow">›</div>
+    </div>
+  </a>
+
   <a class="card promo-card" href="https://fqt.alternative-life-japan.com/" target="_blank" rel="noopener noreferrer">
     <p class="section-title">🌟 FQTの世界をもっと知る</p>
     <div class="promo-inner">
@@ -6569,6 +6582,9 @@
 
   <!-- ❓ ヘルプ・FAQボタン -->
   <button class="faq-open-btn" id="faqOpenBtn" type="button">❓　ヘルプ・よくある質問</button>
+
+  <!-- 📖 このアプリについて（外部の解説サイトへのリンク） -->
+  <a class="faq-open-btn" id="aboutAppLink" href="https://fqtcounterkaisetsu.alternative-life-japan.com" target="_blank" rel="noopener noreferrer" style="display:block; text-align:center; text-decoration:none;">📖　このアプリについて</a>
 
   <!-- 🚀 チュートリアルをもう一度見るボタン -->
   <button class="faq-open-btn" id="tutorialReopenBtn" type="button">🚀　チュートリアルを見る</button>
@@ -7592,6 +7608,23 @@ function calcMayaKin(birth){
   return { kin, seal, tone, wavespell, galacticSignature };
 }
 
+// ----- 🎉 今年のKINバースデー -----
+// マヤ暦（ツォルキン）は260日周期、実際の1年は365日のため、
+// 「誕生KINと同じ番号が巡ってくる日」は実際の誕生日とは別の日になり、年ごとに少しずつ早まっていく。
+// その「今年の日付」を、今年1年間を1日ずつ調べて求める（同じ年に2回巡ってくることもある）。
+function calcKinBirthdaysThisYear(birthKin, year){
+  const results = [];
+  const start = new Date(year, 0, 1);
+  const end = new Date(year, 11, 31);
+  for (let d = new Date(start); d <= end; d.setDate(d.getDate() + 1)){
+    const { kin } = calcMayaKin(d);
+    if (kin === birthKin){
+      results.push(new Date(d));
+    }
+  }
+  return results;
+}
+
 // ----- 黒KIN（Galactic Activation Portal）判定 -----
 // 260あるKINのうち52個が「黒KIN」と呼ばれる特別な日で、ツォルキン表では黒いマスで示される。
 // エネルギーが強く出るとされる日。角KIN（KIN1・20・241・260）もこの52個に含まれる。
@@ -8593,6 +8626,17 @@ function renderFortune(birth, today){
     `銀河の署名：「${maya.galacticSignature}」`;
   document.getElementById('fortuneMayaSub').textContent = maya.seal.desc;
 
+  // 🎉 今年のKINバースデー（誕生KINと同じ番号が巡ってくる、今年の日付）
+  const currentYear = today.getFullYear();
+  const kinBirthdays = calcKinBirthdaysThisYear(maya.kin, currentYear);
+  const fmtKinDate = (d) => `${d.getMonth() + 1}月${d.getDate()}日`;
+  if (kinBirthdays.length > 0){
+    document.getElementById('fortuneMayaKinBirthday').textContent =
+      `🎉 今年のKINバースデー：${kinBirthdays.map(fmtKinDate).join('・')}`;
+  } else {
+    document.getElementById('fortuneMayaKinBirthday').textContent = '';
+  }
+
   // 干支・六十干支
   const kanshi = calcKanshi(birth);
   document.getElementById('fortuneKanshi').textContent = `${kanshi.kanshi}（${kanshi.animalLabel}）`;
@@ -9123,7 +9167,7 @@ document.getElementById('videoModalOverlay').addEventListener('click', (e) => {
     URL.revokeObjectURL(link.href);
 
     const status = document.getElementById('revivalStatus');
-    status.textContent = '呪文をダウンロードしました。大切に保管してください。';
+    status.innerHTML = '呪文をダウンロードします。<br>⚠️ これで完了ではありません。画面下(または右上)に出る保存通知をタップし、「ファイル」アプリの「ダウンロード」フォルダに保存されているか、必ずご確認ください。';
     status.className = 'revival-status ok';
   });
 
@@ -11925,11 +11969,11 @@ window.fqtConfirm = function(message, onConfirm){
     { id: 'triple_light',      emoji: '🌸', name: 'トリプルライト',       desc: '図鑑登録数33種類',                 type: 'discovered', target: 33 },
     { id: 'star_collector',    emoji: '🚀', name: 'スターコレクター',     desc: '図鑑登録数68種類',                 type: 'discovered', target: 68 },
     { id: 'galaxy_collector',  emoji: '🌍', name: 'ギャラクシーコレクター', desc: '図鑑登録数130種類',              type: 'discovered', target: 130 },
-    { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13匹発見',              type: 'legend',      target: 13 },
-    { id: 'legend_king',       emoji: '👑', name: 'レジェンドキング',     desc: '★★★★★レアを33匹発見',              type: 'legend',      target: 33 },
     { id: 'galaxy_master',     emoji: '🌌', name: 'ギャラクシーマスター', desc: '図鑑登録数333種類',                type: 'discovered', target: 333 },
     { id: 'half_complete',     emoji: '💎', name: 'ハーフコンプリート',   desc: '図鑑登録数650種類',                type: 'discovered', target: 650 },
     { id: 'universe_master',   emoji: '🌌', name: 'ユニバースマスター',   desc: '図鑑登録数680種類',                type: 'discovered', target: 680 },
+    { id: 'legend_hunter',     emoji: '👑', name: 'レジェンドハンター',   desc: '★★★★★レアを13匹発見',              type: 'legend',      target: 13 },
+    { id: 'legend_king',       emoji: '👑', name: 'レジェンドキング',     desc: '★★★★★レアを33匹発見',              type: 'legend',      target: 33 },
     { id: 'rainbow_complete',  emoji: '🌈', name: 'レインボーコンプリート', desc: '全68色を1匹以上ずつ発見する',    type: 'rainbow',    target: 68 },
     { id: 'multiverse_master', emoji: '🌌✨', name: 'マルチバースマスター', desc: '図鑑登録数1300種類',              type: 'discovered', target: 1300 }
   ];
