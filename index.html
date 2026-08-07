@@ -6658,13 +6658,13 @@
     // 「あとで」を押してから、次に案内を出してよくなるまでの日数
     const LATER_COOLDOWN_DAYS = 3;
     // 何回目の訪問から表示してよいか（1回目＝初回訪問では出さない）
-    const MIN_VISIT_COUNT_TO_SHOW = 2;
+    const MIN_VISIT_COUNT_TO_SHOW = 1;
     // ページ読み込みから何ミリ秒後に表示するか（訪問直後の押し付け感を避けるための間）
     const SHOW_DELAY_MS = 4000;
 
     // ----- 🌌 ホーム画面追加を促すメッセージ（13種類・配列管理） -----
     const pwaMessages = [
-      '🌏ホーム画面に追加して毎回そこから立ち上げればご利用の端末にかかわらず、復活の呪文のダウンロードができます🚀',
+      '🌏ホーム画面に追加して、毎回そこから立ち上げて<span class="nowrap-word">『復活の呪文』</span>を使えるようにしておきましょう。',
       '🌌もうホーム画面に追加して、あなた専用の<span class="nowrap-word">宇宙カウンター</span>を持っていますか？✨',
       '🐾もうホーム画面に追加しましたか？毎日変わる宇宙どうぶつに会いに行こう🚀',
       '🌏あなたは今日、地球に来て何日目？すぐ確認できるようにホーム画面に追加✨',
@@ -6758,16 +6758,18 @@
     function pickPwaMessage(){
       const today = getTodayDateStringForPwaMessage();
       let lastDate = null;
-      let lastIndex = -1;
+      let rawLastIndex = null;
       try{
         lastDate = window.localStorage.getItem(KEY_LAST_MESSAGE_DATE);
-        lastIndex = Number(window.localStorage.getItem(KEY_LAST_MESSAGE_INDEX));
+        rawLastIndex = window.localStorage.getItem(KEY_LAST_MESSAGE_INDEX); // 未保存なら null のまま（Number()で0にしない）
       } catch(e){}
+      const lastIndex = rawLastIndex === null ? null : Number(rawLastIndex);
 
       // 今日まだ選んでいなければ、番号を1つ進める（前日と同じにならない＝順番通り）
-      let nextIndex = (lastDate === today && !isNaN(lastIndex))
+      // 初回（lastIndexがまだ存在しない）は0番目＝配列の最初のメッセージから始める
+      let nextIndex = (lastDate === today && lastIndex !== null && !isNaN(lastIndex))
         ? lastIndex
-        : (((isNaN(lastIndex) ? -1 : lastIndex) + 1) % pwaMessages.length);
+        : (lastIndex === null || isNaN(lastIndex) ? 0 : (lastIndex + 1) % pwaMessages.length);
 
       try{
         window.localStorage.setItem(KEY_LAST_MESSAGE_INDEX, String(nextIndex));
