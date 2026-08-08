@@ -11294,6 +11294,8 @@ window.fqtConfirm = function(message, onConfirm){
   //    すでに図鑑に保存済みのデータにも自動で反映させる（再発見しなくてよいようにするため）
   (function migrateSignatureCreatureData(){
     let changed = false;
+    const keysToRemove = [];
+    const entriesToAdd = {};
     Object.keys(dexData.discovered).forEach(id => {
       const animal = dexData.discovered[id];
       if (!animal || !animal.signatureKey) return;
@@ -11315,11 +11317,20 @@ window.fqtConfirm = function(message, onConfirm){
       }
       // 🎨 人氣者の配色を後から見直した際、すでに図鑑登録済みの見た目（parts）も
       //    最新の配色に合わせて更新する（=すでに出会ったユーザーにも新しい色を反映する）
+      //    ⚠️ 図鑑のキー（animalId）は見た目（parts）から算出されるため、見た目を書き換えたら
+      //    キーの方も同じように付け替えないと「再会したのにNEW扱いになる」不具合が起きる
       if (animal.parts && latest.parts && JSON.stringify(animal.parts) !== JSON.stringify(latest.parts)){
         animal.parts = latest.parts;
         changed = true;
+        const newId = buildAnimalId(latest.parts);
+        if (newId !== id){
+          keysToRemove.push(id);
+          entriesToAdd[newId] = animal;
+        }
       }
     });
+    keysToRemove.forEach(id => { delete dexData.discovered[id]; });
+    Object.keys(entriesToAdd).forEach(id => { dexData.discovered[id] = entriesToAdd[id]; });
     if (changed) saveDexData(dexData);
   })();
 
