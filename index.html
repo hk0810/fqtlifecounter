@@ -14031,7 +14031,14 @@ window.fqtConfirm = function(message, onConfirm){
     }
     if (isBirthdayToday()){
       // 鳴き声＋スクロール演出と重ならないよう、それが終わるまで表示を待つ
-      window.__fqtWaitForVoiceScroll(showBirthdayCelebration);
+      // ページ読み込み直後など、待機の仕組み自体がまだ用意されていない場合は
+      // そのまま通常通り表示する（フォールバック。これがないと、まだ関数が
+      // 定義される前にこのタイミングで呼ばれた場合にエラーで処理が止まってしまう）
+      if (typeof window.__fqtWaitForVoiceScroll === 'function'){
+        window.__fqtWaitForVoiceScroll(showBirthdayCelebration);
+      } else {
+        showBirthdayCelebration();
+      }
     }
   }
   document.addEventListener('fqtCalculatePressed', checkAndShowBirthdayIfNeeded);
@@ -14621,7 +14628,12 @@ window.fqtConfirm = function(message, onConfirm){
     const milestone = checkMilestoneToday();
     if (milestone){
       // 鳴き声＋スクロール演出と重ならないよう、それが終わるまで表示を待つ
-      window.__fqtWaitForVoiceScroll(() => showMilestoneCelebration(milestone));
+      // （まだ関数が定義される前に呼ばれた場合のフォールバックも用意する）
+      if (typeof window.__fqtWaitForVoiceScroll === 'function'){
+        window.__fqtWaitForVoiceScroll(() => showMilestoneCelebration(milestone));
+      } else {
+        showMilestoneCelebration(milestone);
+      }
     }
   }
 
@@ -14866,8 +14878,23 @@ window.fqtConfirm = function(message, onConfirm){
   });
 
   // ----- 起動：今日のワークを決定して表示する -----
-  pickTodayWorkIfNeeded();
-  renderDailyWork();
+  // ※ 何らかの理由で保存データが壊れていても、機能が止まったままにならないよう、
+  //   エラーが起きた場合はデータをリセットしてから再度組み立て直す
+  try{
+    pickTodayWorkIfNeeded();
+    renderDailyWork();
+  } catch(e){
+    try{
+      workData = {
+        cycleHistory: [], completedIndices: [], lastShownDate: null,
+        todayWorkIndex: null, todayCompleted: false, log: []
+      };
+      pickTodayWorkIfNeeded();
+      renderDailyWork();
+    } catch(e2){
+      // それでも失敗する場合は、これ以上は何もしない（他の機能への影響を防ぐ）
+    }
+  }
 
   // 「1年前の今日」機能などが、ワーク番号からテキストを引けるよう公開する
   window.__fqtDailyWorks = WORKS;
