@@ -5244,6 +5244,70 @@
   </div>
 </div>
 
+<!-- 🀄 四柱推命 説明モーダル -->
+<div class="dex-modal-overlay" id="fourPillarsInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="fourPillarsInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🀄 四柱推命ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      四柱推命は、生まれた年・月・日・時をそれぞれ干支（十干十二支）に置き換えて占う、東洋の代表的な運命学です。本来は生まれた時刻も使う「時柱」まで含めた4本の柱で占いますが、このアプリでは出生時刻を使わずに算出できる「年柱・月柱・日柱」の3本で簡易的にお伝えしています。
+    </p>
+
+    <p class="bio-info-text">
+      年柱は「立春」を境目に切り替わり、月柱も「節気」の切り替わりを境目にしています。日柱は、生まれた日そのものの干支です。この3つの組み合わせから、生まれ持った性格や才能の傾向を読み解きます。
+    </p>
+  </div>
+</div>
+
+<!-- ⛩️ 天中殺 説明モーダル -->
+<div class="dex-modal-overlay" id="tenchusatsuInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="tenchusatsuInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">⛩️ 天中殺（空亡）ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      干支は「十干10種×十二支12種」の組み合わせでできていますが、10と12は数が合わないため、60種類をひと巡りする途中で、必ず十二支が2つだけ余ってしまいます。この余った十二支にあたる期間が「天中殺」（算命学での呼び方。四柱推命では「空亡」と呼びます）です。
+    </p>
+
+    <p class="bio-info-text">
+      ここでは、生まれた日の干支から求める「日柱天中殺」という、最も一般的な方式で算出しています。天中殺の期間は、占いの世界では「天の後押しが弱まる、自分自身と向き合う時期」とされることが多いですが、悪い意味だけでなく、力を抜いて過ごすのに向いている時期、という捉え方もできます。
+    </p>
+  </div>
+</div>
+
+<!-- 🌟 算命学 説明モーダル -->
+<div class="dex-modal-overlay" id="sanmeigakuInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="sanmeigakuInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌟 算命学の「中心星」ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      算命学は、生まれた日の干（日干）を「自分自身」とみなし、生年月日から求めたほかの干との関係性から、10種類の「十大主星」のどれかを導き出す占術です。本来は出生時刻や「蔵干」という細かい要素まで使って5つの星を配置した「人体星図」を作りますが、このアプリでは出生時刻を使わずに算出できる、生まれた日の干（日干）と生まれた月の干（月干）の関係から、中心的な性格を表す星を1つだけ簡易的にお伝えしています。
+    </p>
+
+    <p class="bio-info-text">
+      2つの干の「五行（木・火・土・金・水）」と「陰陽」の関係性を照らし合わせることで、貫索星・石門星・鳳閣星・調舒星・禄存星・司禄星・車騎星・牽牛星・龍高星・玉堂星のうち、どれか1つが決まります。
+    </p>
+  </div>
+</div>
+
+<!-- 🌙 宿曜占星術 説明モーダル -->
+<div class="dex-modal-overlay" id="shukuyouInfoModalOverlay">
+  <div class="dex-modal">
+    <button class="badge-modal-close" id="shukuyouInfoModalCloseBtn" type="button">✕</button>
+    <p class="badge-modal-title">🌙 宿曜占星術（本命宿）ってどう決まるの？</p>
+
+    <p class="bio-info-text">
+      宿曜占星術は、インド占星術をルーツに、平安時代に空海が日本に伝えたとされる占術です。月が地球を1周する道すじを27等分し、生まれた瞬間に月がどの位置にあったかによって「27宿」のどれかが決まります。西洋占星術が太陽の位置を見るのに対し、宿曜占星術は月の位置を見るのが特徴です。
+    </p>
+
+    <p class="bio-info-text">
+      本命宿は、性格や相性を読み解く占いとして知られています。なお、月の動きは天文計算がやや複雑なため、生まれた日が宿の境目ぎりぎりだった場合、実際とは隣の宿になる可能性がある点はご了承ください。
+    </p>
+  </div>
+</div>
+
 <!-- 📋 バージョン履歴モーダル -->
 <div class="dex-modal-overlay" id="versionHistoryModalOverlay">
   <div class="dex-modal">
@@ -6399,6 +6463,40 @@
         <div class="fortune-text">
           <div class="label">今日は何の日</div>
           <div class="value" id="fortuneAnniversary">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🀄</div>
+        <div class="fortune-text">
+          <div class="label">四柱推命（年柱・月柱・日柱）　<button class="bio-info-btn" id="fourPillarsInfoBtn" type="button" aria-label="四柱推命とは">？</button></div>
+          <div class="value" id="fortuneFourPillars">-</div>
+          <div class="sub" id="fortuneFourPillarsSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">⛩️</div>
+        <div class="fortune-text">
+          <div class="label">天中殺（空亡）　<button class="bio-info-btn" id="tenchusatsuInfoBtn" type="button" aria-label="天中殺とは">？</button></div>
+          <div class="value" id="fortuneTenchusatsu">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🌟</div>
+        <div class="fortune-text">
+          <div class="label">算命学（中心星）　<button class="bio-info-btn" id="sanmeigakuInfoBtn" type="button" aria-label="算命学の中心星とは">？</button></div>
+          <div class="value" id="fortuneSanmeigaku">-</div>
+          <div class="sub" id="fortuneSanmeigakuSub">-</div>
+        </div>
+      </div>
+
+      <div class="fortune-row">
+        <div class="ic">🌙</div>
+        <div class="fortune-text">
+          <div class="label">宿曜占星術（本命宿）　<button class="bio-info-btn" id="shukuyouInfoBtn" type="button" aria-label="宿曜占星術とは">？</button></div>
+          <div class="value" id="fortuneShukuyou">-</div>
         </div>
       </div>
     </div>
@@ -8361,6 +8459,144 @@ function kanshiToString(index){
   return JIKKAN[index % 10] + JUNISHI_ARR[index % 12];
 }
 
+/* ==========================================================
+   🀄 四柱推命（年柱・月柱・日柱）
+   ※ 出生時刻を使わない簡易鑑定（時柱は含まない）
+   ========================================================== */
+
+// ----- 年柱：年の干支は「立春」を境目に切り替わる（1984年=甲子を起点にする） -----
+function calcYearPillarIndex(date, sekkiIndex){
+  const sekkiName = SEKKI_NAMES[sekkiIndex];
+  // 小寒・大寒（1月）は、その年の立春がまだ来ていないので「前年」の干支を使う
+  let astroYear = date.getFullYear();
+  if (sekkiName === '小寒' || sekkiName === '大寒'){
+    astroYear -= 1;
+  }
+  return ((astroYear - 1984) % 60 + 60) % 60; // 1984年 = 甲子（0番目）
+}
+
+// ----- 月柱：節月（節気の切り替わりを基準にした月）の十二支 × 年干から求める五虎遁 -----
+const SETSU_GETSU_ORDER = ['寅', '卯', '辰', '巳', '午', '未', '申', '酉', '戌', '亥', '子', '丑'];
+function calcMonthPillarIndex(sekkiIndex, yearPillarIndex){
+  const monthBranchChar = calcSetsuGetsu(sekkiIndex); // 既存の「一粒万倍日」等で使っている節月判定を再利用
+  const monthOffset = SETSU_GETSU_ORDER.indexOf(monthBranchChar); // 寅=0 〜 丑=11
+  const yearStemIndex = yearPillarIndex % 10;
+  // 五虎遁の法則：年干が甲・己なら寅月の月干は丙、乙・庚なら戊、丙・辛なら庚、丁・壬なら壬、戊・癸なら甲
+  const firstMonthStem = ((yearStemIndex % 5) * 2 + 2) % 10;
+  const monthStemIndex = (firstMonthStem + monthOffset) % 10;
+  const monthBranchIndex = JUNISHI_ARR.indexOf(monthBranchChar);
+  // 干支インデックス（0〜59）を、天干・地支の剰余が一致するように逆算する
+  for (let i = 0; i < 60; i++){
+    if (i % 10 === monthStemIndex && i % 12 === monthBranchIndex) return i;
+  }
+  return 0;
+}
+
+function calcFourPillars(date){
+  const sekki = calcSekkiAndKou(date);
+  const yearPillarIndex = calcYearPillarIndex(date, sekki.sekkiIndex);
+  const monthPillarIndex = calcMonthPillarIndex(sekki.sekkiIndex, yearPillarIndex);
+  const dayPillarIndex = calcKanshiIndex(date);
+  return {
+    year: { index: yearPillarIndex, text: kanshiToString(yearPillarIndex) },
+    month: { index: monthPillarIndex, text: kanshiToString(monthPillarIndex) },
+    day: { index: dayPillarIndex, text: kanshiToString(dayPillarIndex) }
+  };
+}
+
+/* ==========================================================
+   ⛩️ 天中殺（空亡）
+   60干支は「十干10種×十二支12種」の組み合わせのため、10日（10年）ひと続き
+   の「旬」ごとに、必ず十二支が2つだけ余る。この余った2つの十二支の期間が
+   天中殺（算命学の呼び方）＝空亡（四柱推命の呼び方）となる。
+   ここでは最も一般的な「日柱天中殺（日の干支から求める天中殺）」を採用する。
+   ========================================================== */
+const TENCHUSATSU_TYPES = [
+  { branches: [10, 11], name: '戌亥天中殺' }, // 甲子旬（0〜9）
+  { branches: [8, 9],   name: '申酉天中殺' }, // 甲戌旬（10〜19）
+  { branches: [6, 7],   name: '午未天中殺' }, // 甲申旬（20〜29）
+  { branches: [4, 5],   name: '辰巳天中殺' }, // 甲午旬（30〜39）
+  { branches: [2, 3],   name: '寅卯天中殺' }, // 甲辰旬（40〜49）
+  { branches: [0, 1],   name: '子丑天中殺' }  // 甲寅旬（50〜59）
+];
+function calcTenchusatsu(dayPillarIndex){
+  const junIndex = Math.floor(dayPillarIndex / 10); // 0〜5（どの「旬」に属するか）
+  return TENCHUSATSU_TYPES[junIndex];
+}
+
+/* ==========================================================
+   🌟 算命学（簡易版・十大主星）
+   ※ 本格的な算命学は「人体星図」として5つの星を配置しますが、
+     出生時刻や蔵干（地支に内包する干）が必要になるため、
+     ここでは出生時刻なしでも算出できる「日干×月干」の関係から、
+     中心的な性格を表す1つの星（中心星）だけを簡易的に算出します。
+   ========================================================== */
+// 十干の五行（0=木,1=火,2=土,3=金,4=水）と陰陽（0=陽,1=陰）
+const JIKKAN_GOGYOU = [0, 0, 1, 1, 2, 2, 3, 3, 4, 4]; // 甲乙=木 丙丁=火 戊己=土 庚辛=金 壬癸=水
+const JIKKAN_INYOU = [0, 1, 0, 1, 0, 1, 0, 1, 0, 1];  // 甲丙戊庚壬=陽 乙丁己辛癸=陰
+const JUDAISHUSEI_NAMES = [
+  '貫索星', '石門星',  // 日干と同じ五行（同陽陰＝貫索、異陽陰＝石門）
+  '鳳閣星', '調舒星',  // 日干が生み出す五行（同陽陰＝鳳閣、異陽陰＝調舒）
+  '禄存星', '司禄星',  // 日干が剋する五行（同陽陰＝禄存、異陽陰＝司禄）
+  '車騎星', '牽牛星',  // 日干を剋する五行（同陽陰＝車騎、異陽陰＝牽牛）
+  '龍高星', '玉堂星'   // 日干を生み出す五行（同陽陰＝龍高、異陽陰＝玉堂）
+];
+function calcJudaishusei(dayStemIndex, otherStemIndex){
+  const dayGogyou = JIKKAN_GOGYOU[dayStemIndex];
+  const otherGogyou = JIKKAN_GOGYOU[otherStemIndex];
+  const sameInyou = JIKKAN_INYOU[dayStemIndex] === JIKKAN_INYOU[otherStemIndex];
+  // 五行の相生順：木→火→土→金→水→（木に戻る）
+  let relation;
+  if (otherGogyou === dayGogyou) relation = 0;               // 同じ五行
+  else if (otherGogyou === (dayGogyou + 1) % 5) relation = 1; // 日干が生む五行（木は火を生む、など）
+  else if (otherGogyou === (dayGogyou + 2) % 5) relation = 2; // 日干が剋す五行
+  else if (otherGogyou === (dayGogyou + 3) % 5) relation = 3; // 日干を剋す五行（自分が剋される）
+  else relation = 4;                                          // 日干を生む五行
+  const idx = relation * 2 + (sameInyou ? 0 : 1);
+  return JUDAISHUSEI_NAMES[idx];
+}
+
+/* ==========================================================
+   🌙 宿曜占星術（27宿）
+   ※ 出生時の「月の黄経」を27等分して求める本命宿。
+     出生時刻を使わない簡易計算（近似式）のため、宿の境界ぎりぎりの
+     生まれの方は、実際とは隣の宿になる可能性があります。
+   ========================================================== */
+const SHUKUYOU_NAMES = [
+  '昴宿', '畢宿', '觜宿', '参宿', '井宿', '鬼宿', '柳宿', '星宿', '張宿',
+  '翼宿', '軫宿', '角宿', '亢宿', '氐宿', '房宿', '心宿', '尾宿', '箕宿',
+  '斗宿', '女宿', '虚宿', '危宿', '室宿', '壁宿', '奎宿', '婁宿', '胃宿'
+];
+// 月の黄経（視黄経）を天文学的な近似式で計算する（主要な摂動項のみを使った簡易計算）
+function calcMoonLongitude(date){
+  const jd = toJulianDay(date);
+  const T = (jd - 2451545.0) / 36525;
+  const Lp = 218.3164477 + 481267.88123421 * T; // 月の平均黄経
+  const D  = 297.8501921 + 445267.1114034 * T;  // 平均離角（太陽との角度差）
+  const M  = 357.5291092 + 35999.0502909 * T;   // 太陽の平均近点角
+  const Mp = 134.9633964 + 477198.8675055 * T;  // 月の平均近点角
+  const F  = 93.2720950 + 483202.0175233 * T;   // 月の平均離角（黄道からの引数）
+  const toRad = (deg) => (deg * Math.PI / 180);
+
+  // 主要な摂動項（度）。細かい項は省略した簡易版。
+  let correction = 0;
+  correction += 6.288774 * Math.sin(toRad(Mp));
+  correction += 1.274027 * Math.sin(toRad(2 * D - Mp));
+  correction += 0.658314 * Math.sin(toRad(2 * D));
+  correction += 0.213618 * Math.sin(toRad(2 * Mp));
+  correction -= 0.185116 * Math.sin(toRad(M));
+  correction -= 0.114332 * Math.sin(toRad(2 * F));
+
+  let longitude = (Lp + correction) % 360;
+  if (longitude < 0) longitude += 360;
+  return longitude;
+}
+function calcShukuyou(date){
+  const longitude = calcMoonLongitude(date);
+  const index = Math.floor(longitude / (360 / 27)) % 27;
+  return SHUKUYOU_NAMES[index];
+}
+
 // 節月（立春・啓蟄など「節気」の切り替わりを基準にした暦月）を十二支で求める
 // sekkiIndexはSEKKI_NAMESのインデックス（0〜23）。奇数＝節気、偶数＝中気。
 const SETSU_GETSU_JUNISHI = { 21: '寅', 23: '卯', 1: '辰', 3: '巳', 5: '午', 7: '未', 9: '申', 11: '酉', 13: '戌', 15: '亥', 17: '子', 19: '丑' };
@@ -8808,6 +9044,28 @@ function renderFortune(birth, today){
   } else {
     anniversaryRow.style.display = 'none';
   }
+
+  // 🀄 四柱推命（年柱・月柱・日柱）
+  const fourPillars = calcFourPillars(birth);
+  document.getElementById('fortuneFourPillars').textContent =
+    `年柱：${fourPillars.year.text}　月柱：${fourPillars.month.text}　日柱：${fourPillars.day.text}`;
+  document.getElementById('fortuneFourPillarsSub').textContent =
+    `日干「${fourPillars.day.text[0]}」が、あなたの中心的な気質を表します`;
+
+  // ⛩️ 天中殺（空亡）
+  const tenchusatsu = calcTenchusatsu(fourPillars.day.index);
+  document.getElementById('fortuneTenchusatsu').textContent = tenchusatsu.name;
+
+  // 🌟 算命学（簡易版・中心星）
+  const dayStemIndex = fourPillars.day.index % 10;
+  const monthStemIndex = fourPillars.month.index % 10;
+  const centralStar = calcJudaishusei(dayStemIndex, monthStemIndex);
+  document.getElementById('fortuneSanmeigaku').textContent = centralStar;
+  document.getElementById('fortuneSanmeigakuSub').textContent =
+    `日干「${JIKKAN[dayStemIndex]}」×月干「${JIKKAN[monthStemIndex]}」の関係から算出`;
+
+  // 🌙 宿曜占星術（本命宿）
+  document.getElementById('fortuneShukuyou').textContent = calcShukuyou(birth);
 
   // 🎉 本日吉日バナー
   const kichijitsuList = calcKichijitsu(today, sekki.sekkiIndex);
@@ -9924,6 +10182,54 @@ document.getElementById('jankenInfoModalCloseBtn').addEventListener('click', () 
 document.getElementById('jankenInfoModalOverlay').addEventListener('click', (e) => {
   if (e.target === document.getElementById('jankenInfoModalOverlay')){
     document.getElementById('jankenInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('fourPillarsInfoBtn').addEventListener('click', () => {
+  document.getElementById('fourPillarsInfoModalOverlay').classList.add('show');
+});
+document.getElementById('fourPillarsInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('fourPillarsInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('fourPillarsInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('fourPillarsInfoModalOverlay')){
+    document.getElementById('fourPillarsInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('tenchusatsuInfoBtn').addEventListener('click', () => {
+  document.getElementById('tenchusatsuInfoModalOverlay').classList.add('show');
+});
+document.getElementById('tenchusatsuInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('tenchusatsuInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('tenchusatsuInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('tenchusatsuInfoModalOverlay')){
+    document.getElementById('tenchusatsuInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('sanmeigakuInfoBtn').addEventListener('click', () => {
+  document.getElementById('sanmeigakuInfoModalOverlay').classList.add('show');
+});
+document.getElementById('sanmeigakuInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('sanmeigakuInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('sanmeigakuInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('sanmeigakuInfoModalOverlay')){
+    document.getElementById('sanmeigakuInfoModalOverlay').classList.remove('show');
+  }
+});
+
+document.getElementById('shukuyouInfoBtn').addEventListener('click', () => {
+  document.getElementById('shukuyouInfoModalOverlay').classList.add('show');
+});
+document.getElementById('shukuyouInfoModalCloseBtn').addEventListener('click', () => {
+  document.getElementById('shukuyouInfoModalOverlay').classList.remove('show');
+});
+document.getElementById('shukuyouInfoModalOverlay').addEventListener('click', (e) => {
+  if (e.target === document.getElementById('shukuyouInfoModalOverlay')){
+    document.getElementById('shukuyouInfoModalOverlay').classList.remove('show');
   }
 });
 
