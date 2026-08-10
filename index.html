@@ -6707,7 +6707,7 @@
       <div class="promo-emoji">🌈</div>
       <div class="promo-text">
         <div class="promo-sub">出会えていない学校があるだけ</div>
-        <div class="promo-main">JOYオルタナティブ<br>フリースクール</div>
+        <div class="promo-main" style="font-size:13px; white-space:nowrap;">JOYオルタナティブフリースクール</div>
       </div>
       <div class="promo-arrow">›</div>
     </div>
@@ -13752,10 +13752,17 @@ window.fqtConfirm = function(message, onConfirm){
     }
 
     // 今日の日付をまだ記録していなければ履歴へ追加する（同日重複カウント防止）
+    // ※ 複数のタブを同時に開いていた場合などに備え、保存の直前に最新データを
+    //   読み直してからチェックする（ページ読み込み時点の古いコピーだけで
+    //   判定すると、タブ間の競合で二重に記録されてしまうことがあるため）
     const today = getTodayDateStringForBirthday();
-    if (birthdayData.history.indexOf(today) === -1){
-      birthdayData.history.push(today);
-      saveBirthdayData(birthdayData);
+    const latestBirthdayData = loadBirthdayData();
+    if (latestBirthdayData.history.indexOf(today) === -1){
+      latestBirthdayData.history.push(today);
+      saveBirthdayData(latestBirthdayData);
+      birthdayData = latestBirthdayData; // メモリ上の参照も最新の状態に合わせる
+    } else {
+      birthdayData = latestBirthdayData; // 既に記録済みでも、最新の状態には合わせておく
     }
     checkBirthdayAchievements();
 
