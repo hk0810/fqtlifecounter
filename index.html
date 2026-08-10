@@ -8504,6 +8504,23 @@ function calcFourPillars(date){
   };
 }
 
+// ----- 時柱：生まれた時刻から求める（五鼠遁の法則：日干により子の刻の干が決まる） -----
+// 子の刻(23〜1時)を0として、2時間ごとに1つずつ十二支が進む
+function calcHourPillarIndex(hour, minute, dayPillarIndex){
+  // 23時台は「その日の子の刻」ではなく「翌日の子の刻」の扱いになる占術もあるが、
+  // ここでは分かりやすさを優先し、23時〜0時59分をまとめて「子の刻（0番目）」として扱う
+  const totalMinutes = (hour % 24) * 60 + minute;
+  const hourBranchIndex = Math.floor(((totalMinutes + 60) % 1440) / 120); // 23:00始まりで2時間ごとに区切る
+  const dayStemIndex = dayPillarIndex % 10;
+  // 五鼠遁の法則：日干が甲・己なら子の刻の干は甲、乙・庚なら丙、丙・辛なら戊、丁・壬なら庚、戊・癸なら壬
+  const firstHourStem = ((dayStemIndex % 5) * 2) % 10;
+  const hourStemIndex = (firstHourStem + hourBranchIndex) % 10;
+  for (let i = 0; i < 60; i++){
+    if (i % 10 === hourStemIndex && i % 12 === hourBranchIndex) return i;
+  }
+  return 0;
+}
+
 /* ==========================================================
    ⛩️ 天中殺（空亡）
    60干支は「十干10種×十二支12種」の組み合わせのため、10日（10年）ひと続き
@@ -9045,12 +9062,19 @@ function renderFortune(birth, today){
     anniversaryRow.style.display = 'none';
   }
 
-  // 🀄 四柱推命（年柱・月柱・日柱）
+  // 🀄 四柱推命（年柱・月柱・日柱・時柱）
   const fourPillars = calcFourPillars(birth);
-  document.getElementById('fortuneFourPillars').textContent =
-    `年柱：${fourPillars.year.text}　月柱：${fourPillars.month.text}　日柱：${fourPillars.day.text}`;
+  const hasBirthTime = birthTimeInput.value !== '';
+  let fourPillarsText = `年柱：${fourPillars.year.text}　月柱：${fourPillars.month.text}　日柱：${fourPillars.day.text}`;
+  if (hasBirthTime){
+    const hourPillarIndex = calcHourPillarIndex(birth.getHours(), birth.getMinutes(), fourPillars.day.index);
+    fourPillarsText += `　時柱：${kanshiToString(hourPillarIndex)}`;
+  }
+  document.getElementById('fortuneFourPillars').textContent = fourPillarsText;
   document.getElementById('fortuneFourPillarsSub').textContent =
-    `日干「${fourPillars.day.text[0]}」が、あなたの中心的な気質を表します`;
+    hasBirthTime
+      ? `日干「${fourPillars.day.text[0]}」が、あなたの中心的な気質を表します`
+      : `日干「${fourPillars.day.text[0]}」が、あなたの中心的な気質を表します（生まれた時刻を入力すると、時柱も表示されます）`;
 
   // ⛩️ 天中殺（空亡）
   const tenchusatsu = calcTenchusatsu(fourPillars.day.index);
